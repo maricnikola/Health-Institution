@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ZdravoCorp.Core.Room.Repository;
+namespace ZdravoCorp.Core.Rooms.Repository;
 
 public class RoomRepository
 {

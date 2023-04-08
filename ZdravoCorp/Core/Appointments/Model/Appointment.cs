@@ -1,0 +1,22 @@
+using System;
+using ZdravoCorp.Core.TimeSlots;
+using ZdravoCorp.Core.User;
+using ZdravoCorp.Core.MedicalRecords.Model;
+using ZdravoCorp.Core.Rooms;
+
+namespace ZdravoCorp.Core.Appointments.Model;
+
+
+public class Appointment                    
+{
+    public int Id { get; set; }
+    public TimeSlot Time { get; set; }
+    public Doctor doctor { get; set; }
+    public MedicalRecord medicalRecord { get; set; }
+    public String Anamnesis { get; set; }
+    public Room room { get; set; }
+
+
+
+
+}

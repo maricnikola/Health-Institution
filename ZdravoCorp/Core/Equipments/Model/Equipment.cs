@@ -1,6 +1,6 @@
 using System;
 
-namespace ZdravoCorp.Core.Equipment.Model;
+namespace ZdravoCorp.Core.Equipments.Model;
 
 public class Equipment
 {
