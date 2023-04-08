@@ -1,11 +1,9 @@
-namespace ZdravoCorp.Core.Room;
+namespace ZdravoCorp.Core.Rooms;
 
 public class Room
 {
     public int Id { get; set; }
     public RoomType Type { get; set; }
-    
-    
     
 }
 

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 
-namespace ZdravoCorp.Core.Equipment.Repository;
+namespace ZdravoCorp.Core.Equipments.Repository;
 
 public class EquipmentRepository
 {
-    private List<Model.Equipment> Equipments;
+    private List<Model.Equipment> equipments;
     private const string _fileName = "";
 
     public void SaveToFile()
@@ -15,6 +15,6 @@ public class EquipmentRepository
 
     public void Add(Model.Equipment newEquipment)
     {
-        Equipments.Add(newEquipment);
+        equipments.Add(newEquipment);
     }
 }
