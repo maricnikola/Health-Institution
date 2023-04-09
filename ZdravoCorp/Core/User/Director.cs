@@ -1,6 +1,6 @@
 namespace ZdravoCorp.Core.User;
 
-public class Director
+public class Director : User
 {
     
 }

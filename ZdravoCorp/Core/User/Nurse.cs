@@ -1,6 +1,6 @@
 namespace ZdravoCorp.Core.User;
 
-public class Nurse
+public class Nurse : User
 {
     
 }
