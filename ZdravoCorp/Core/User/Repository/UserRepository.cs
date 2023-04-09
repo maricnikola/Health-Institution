@@ -8,7 +8,7 @@ namespace ZdravoCorp.Core.User.Repository;
 
 public class UserRepository
 {
-    private String _fileName = "users.json";
+    private String _fileName = "C:\\Users\\Aleksa\\Desktop\\usi-2023-group-3-team-11\\ZdravoCorp\\Core\\User\\Repository\\users.json";
     public List<User> Users;
     
     private JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
@@ -19,9 +19,13 @@ public class UserRepository
     public UserRepository(List<User> us)
     {
         this.Users = us;
-        this.LoadFromFile();
+        //this.LoadFromFile();
     }
 
+    public UserRepository()
+    {
+        LoadFromFile();
+    }
 
     public void LoadFromFile()
     {
