@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.RightsManagement;
 using System.Text.Json;
 using ZdravoCorp.Core.Appointments.Model;
 using ZdravoCorp.Core.Equipments.Model;
 using ZdravoCorp.Core.MedicalRecords.Model;
 using ZdravoCorp.Core.Operations.Model;
+using ZdravoCorp.Core.TimeSlots;
 using ZdravoCorp.Core.User;
 
 namespace ZdravoCorp.Core.Schedule.Repository;
@@ -20,7 +22,6 @@ public class ScheduleRepository
     private String _fileNameAppointments = "Repository\\appointments.json";
     private String _fileNameOperations = "Repository\\operations.json";
     private List<Appointment> Appointments { get; set; }
-    private List<MedicalRecord> MedicalRecords { get; set; }  
     private List<Operation> Operations { get; set; }
 
     public List<Appointment> GetPatientAppointments(Patient patient)
@@ -62,6 +63,34 @@ public class ScheduleRepository
         return doctorOperations;
     }
 
+    public bool isDoctorAvailable(TimeSlot timeslot, Doctor doctor)
+    {
+        List<Appointment> appointments = GetDoctorAppointments(doctor);
+        List<Operation> operations = GetDoctorOperations(doctor);
+        return checkAviaibility(appointments, operations, timeslot);
+    }
+
+    public bool isPatientAvailable(TimeSlot timeslot, Patient patient)
+    {
+        List<Appointment> appointments = GetPatientAppointments(patient);
+        List<Operation> operations = GetPatientOperations(patient);
+        return checkAviaibility(appointments, operations, timeslot);
+    }
+
+    public bool checkAviaibility(List<Appointment> appointments, List<Operation> operations, TimeSlot timeslot)
+    {
+        foreach (var appointment in appointments)
+        {
+            if (!appointment.Time.overlap(timeslot))
+                return false;
+        }
+        foreach (var operation in operations)
+        {
+            if (!operation.Time.overlap(timeslot))
+                return false;
+        }
+        return true;
+    }
 
     public void LoadApointments()
     {

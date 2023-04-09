@@ -13,7 +13,9 @@ public partial class LoginDialog : Window
     private void Button_OnClick(object sender, RoutedEventArgs e)
     {
         DialogResult = true;
-        //LoadFunctions.LoadUsers();
+        LoadFunctions.LoadUsers();
+
+
         Close();
     }
 }
