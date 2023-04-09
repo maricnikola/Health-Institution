@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using ZdravoCorp.Core.Loader;
 
 namespace ZdravoCorp.View;
 
@@ -11,7 +12,8 @@ public partial class LoginDialog : Window
 
     private void Button_OnClick(object sender, RoutedEventArgs e)
     {
-        this.DialogResult = true;
-        this.Close();
+        DialogResult = true;
+        //LoadFunctions.LoadUsers();
+        Close();
     }
 }
