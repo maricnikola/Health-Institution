@@ -1,4 +1,7 @@
+using System.IO;
 using System.Windows;
+using System;
+using System.Text.Json.Serialization;
 
 namespace ZdravoCorp.Core.User;
 
@@ -23,8 +26,25 @@ public class User
         LastName = lastName;
         UserState = State.NotBlocked;
     }
+    [JsonConstructor]
+    public User(string password, int id, string email, string firstName, string lastName, string type,string userState)
+    {
+        _password = password;
+        Id = id;
+        Email = email;
+        FirstName = firstName;
+        LastName = lastName;
+        State state;
+        Enum.TryParse(userState, out state);
+        UserState = state;
+        UserType tp;
+        Enum.TryParse(type, out tp);
+        Type = tp;
+    }
+    
+    
 
-    protected dynamic GetUserForSerialization()
+    public dynamic GetUserForSerialization()
     {
         return new
         {
@@ -33,7 +53,7 @@ public class User
             password = _password,
             firstname = FirstName,
             lastname = LastName,
-            status = UserState.ToString()
+            userState = UserState.ToString()
         };
     }
 

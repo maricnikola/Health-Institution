@@ -9,7 +9,7 @@ namespace ZdravoCorp.Core.User.Repository;
 
 public class UserRepository
 {
-    private String _fileName = "C:\\Users\\danilo.c\\RiderProjects\\usi-2023-group-3-team-11\\ZdravoCorp\\Core\\User\\users.json";
+    private String _fileName = "C:\\Users\\Aleksa\\Desktop\\usi-2023-group-3-team-11\\ZdravoCorp\\Core\\User\\users.json";
     //private String _passwordsFileName = "C:\\Users\\danilo.c\\RiderProjects\\usi-2023-group-3-team-11\\ZdravoCorp\\Core\\User\\passwords.json";
     
     public List<User> Users;
@@ -43,26 +43,27 @@ public class UserRepository
     
     
     // TODO change name and make serialization and deserialization work
-    private List<dynamic> PrepareForSerialization()
+    private List<dynamic> AdjustForSerialization()
     {
-        List<dynamic> reducedDoctors = new List<dynamic>();
-        foreach (Doctor doctor in this.Doctors)
+        List<dynamic> usersForFile = new List<dynamic>();
+        foreach (User user in this.Users)
         {
-            reducedDoctors.Add(user.G);
+            usersForFile.Add(user.GetUserForSerialization());
         }
-        return reducedDoctors;
+        return usersForFile;
     }
     public void LoadFromFile()
     {
-
         string text = File.ReadAllText(_fileName);
         var users = JsonSerializer.Deserialize<List<User>>(text);
+
         users.ForEach(user => Users.Add(user));
     }
 
     public void SaveToFile()
     {
-        var users = JsonSerializer.Serialize(this.Users, _serializerOptions);
+        var usersForFile = AdjustForSerialization();
+        var users = JsonSerializer.Serialize(usersForFile, _serializerOptions);
         File.WriteAllText(this._fileName, users);
     }
 

@@ -1,0 +1,34 @@
+[
+  {
+    "type": "Nurse",
+    "email": "a",
+    "password": "12",
+    "firstname": "Miso",
+    "lastname": "Misic",
+    "status": "BlockedBySystem"
+  },
+  {
+    "type": "Doctor",
+    "email": "adfada",
+    "password": "adadad",
+    "firstname": "Miso",
+    "lastname": "Misic",
+    "status": "BlockedBySystem"
+  },
+  {
+    "type": "Doctor",
+    "email": "adfada",
+    "password": "adadad",
+    "firstname": "Miso",
+    "lastname": "Misic",
+    "status": "BlockedBySystem"
+  },
+  {
+    "type": "Doctor",
+    "email": "adfada",
+    "password": "adadad",
+    "firstname": "Miso",
+    "lastname": "Misic",
+    "status": "BlockedBySystem"
+  }
+]
