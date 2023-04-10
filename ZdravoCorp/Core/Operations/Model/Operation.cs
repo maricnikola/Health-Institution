@@ -16,6 +16,17 @@ public class Operation
     public TimeSlot Time { get; set; }
     public Doctor doctor { get; set; }
     public MedicalRecord medicalRecord { get; set; }
-    public Room room { get; set; }
-    public List<Equipment> equipment { get; set; }
+    public Room? room { get; set; }
+    public List<Equipment>? equipment { get; set; }
+    public bool IsCanceled;
+    public Operation(int id, TimeSlot time, Doctor doctor, MedicalRecord medicalRecord)
+    {
+        Id = id;
+        Time = time;
+        doctor = doctor;
+        medicalRecord = medicalRecord;
+        room = null;
+        equipment = null;
+        IsCanceled = false; 
+    }
 }

@@ -29,7 +29,7 @@ public class ScheduleRepository
         List<Appointment> patientAppointments = new List<Appointment>();   
         foreach(Appointment appointment in Appointments)
         {
-            if(appointment.medicalRecord.user == patient) patientAppointments.Add(appointment);
+            if(appointment.MedicalRecord.user == patient) patientAppointments.Add(appointment);
         }
         return patientAppointments;
     }
@@ -48,7 +48,7 @@ public class ScheduleRepository
         List<Appointment> doctorAppointments = new List<Appointment>();
         foreach(Appointment appointment in Appointments)
         {
-            if(appointment.doctor == doctor) doctorAppointments.Add(appointment);
+            if(appointment.Doctor == doctor) doctorAppointments.Add(appointment);
         }
         return doctorAppointments;
     }
@@ -67,26 +67,26 @@ public class ScheduleRepository
     {
         List<Appointment> appointments = GetDoctorAppointments(doctor);
         List<Operation> operations = GetDoctorOperations(doctor);
-        return checkAviaibility(appointments, operations, timeslot);
+        return checkAvailability(appointments, operations, timeslot);
     }
 
     public bool isPatientAvailable(TimeSlot timeslot, Patient patient)
     {
         List<Appointment> appointments = GetPatientAppointments(patient);
         List<Operation> operations = GetPatientOperations(patient);
-        return checkAviaibility(appointments, operations, timeslot);
+        return checkAvailability(appointments, operations, timeslot);
     }
 
-    public bool checkAviaibility(List<Appointment> appointments, List<Operation> operations, TimeSlot timeslot)
+    public bool checkAvailability(List<Appointment> appointments, List<Operation> operations, TimeSlot timeslot)
     {
         foreach (var appointment in appointments)
         {
-            if (!appointment.Time.overlap(timeslot))
+            if (!appointment.Time.overlap(timeslot) && !appointment.IsCanceled)
                 return false;
         }
         foreach (var operation in operations)
         {
-            if (!operation.Time.overlap(timeslot))
+            if (!operation.Time.overlap(timeslot) && !operation.IsCanceled)
                 return false;
         }
         return true;
@@ -118,6 +118,37 @@ public class ScheduleRepository
     {
         var users = JsonSerializer.Serialize(this.Operations, _serializerOptions);
         File.WriteAllText(this._fileNameOperations, users);
+    }
+
+    public void CreateAppointment(TimeSlot time, Doctor doctor, MedicalRecord medicalRecord)
+    {
+        if (isDoctorAvailable(time,doctor) && isPatientAvailable(time, medicalRecord.user))
+        {
+            Appointment appointment = new Appointment(0, time, doctor, medicalRecord);
+            Appointments.Add(appointment);
+            SaveAppointments();
+        }
+    }
+    public void CreateOperation(TimeSlot time, Doctor doctor, MedicalRecord medicalRecord)
+    {
+        if (isDoctorAvailable(time, doctor) && isPatientAvailable(time, medicalRecord.user))
+        {
+            Operation operation = new Operation(0, time, doctor, medicalRecord);
+            Operations.Add(operation);
+            SaveOperations();
+        }
+    }
+
+    public void CancelAppointment(Appointment appointment)
+    {
+        bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now)<24;
+        if (Appointments.Contains(appointment) && isOnTime)
+        {
+            int index = Appointments.IndexOf(appointment);
+            appointment.IsCanceled = true;
+            Appointments[index] = appointment;
+            SaveAppointments();
+        }
     }
 
 }

@@ -16,5 +16,10 @@ namespace ZdravoCorp.Core.TimeSlots
         {
             return start > time.end || end < time.start;    
         }
+
+        public int GetTimeBeforeStart(DateTime time)
+        {
+            return (start - time).Hours;
+        }
     }
 }
