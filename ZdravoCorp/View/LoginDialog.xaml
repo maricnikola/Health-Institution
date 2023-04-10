@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:ZdravoCorp.View"
         mc:Ignorable="d"
-        Title="LoginDialog" Height="370" Width="400">
+        Title="Login" Height="370" Width="400">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -16,7 +16,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Label Grid.Column="0" FontFamily="Ubuntu" FontSize="20" Margin="0, 20, 0, 0" HorizontalAlignment="Center">LOGIN INTO YOUR ACCOUNT</Label>
+        <Label  FontFamily="Arial" FontSize="20" Margin="0, 20, 0, 0" HorizontalAlignment="Center">LOGIN INTO YOUR ACCOUNT</Label>
         <Label Grid.Row="1" Margin="20, 30, 0, 0">Email</Label>
         <TextBox Grid.Row="2" Margin="0, 1, 0 ,0 " Width="350" Height="30" FontSize="18" Name="EmailBox" Text="{Binding Path = Email, Mode = OneWayToSource, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         

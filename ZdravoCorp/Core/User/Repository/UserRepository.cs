@@ -9,9 +9,12 @@ namespace ZdravoCorp.Core.User.Repository;
 
 public class UserRepository
 {
-    private String _fileName = @"..\\users.json";
+    private String _fileName = "C:\\Users\\danilo.c\\RiderProjects\\usi-2023-group-3-team-11\\ZdravoCorp\\Core\\User\\users.json";
+    //private String _passwordsFileName = "C:\\Users\\danilo.c\\RiderProjects\\usi-2023-group-3-team-11\\ZdravoCorp\\Core\\User\\passwords.json";
+    
     public List<User> Users;
     
+    private Dictionary<string, string> Passwords;
 
     private JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
     {
@@ -26,9 +29,29 @@ public class UserRepository
 
     public UserRepository()
     {
-        LoadFromFile();
+        Users = new List<User>();
+        //Passwords = new Dictionary<string, string>();
+        
+        //LoadFromFile();
+       // LoadPasswordsFromFile();
     }
 
+    public void AddUser(User user)
+    {
+        Users.Add(user);
+    }
+    
+    
+    // TODO change name and make serialization and deserialization work
+    private List<dynamic> PrepareForSerialization()
+    {
+        List<dynamic> reducedDoctors = new List<dynamic>();
+        foreach (Doctor doctor in this.Doctors)
+        {
+            reducedDoctors.Add(user.G);
+        }
+        return reducedDoctors;
+    }
     public void LoadFromFile()
     {
 
@@ -43,6 +66,13 @@ public class UserRepository
         File.WriteAllText(this._fileName, users);
     }
 
+    /*public void LoadPasswordsFromFile()
+    {
+        string text = File.ReadAllText(_passwordsFileName);
+        var passwords = JsonSerializer.Deserialize<Dictionary<string, string>>(text);
+        Passwords = new Dictionary<string, string>(passwords);
+    }*/
+
     public User? GetUserByEmail(string email)
     {
         return Users.FirstOrDefault(user => user.Email == email);
@@ -53,12 +83,7 @@ public class UserRepository
         return Users.Exists(user => user.Email == email);
     }
 
-    public bool ValidatePassword(string email, string password)
-    {
-        
-        //TODO add validation for password and email 
-        return true;
-    }
+
     
     
     

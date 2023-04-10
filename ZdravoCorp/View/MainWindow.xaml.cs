@@ -24,7 +24,6 @@ namespace ZdravoCorp
         public MainWindow()
         {
             InitializeComponent();
-            LoadFunctions.LoadUsers();
 
         }
     }

@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using ZdravoCorp.Core.Loader;
+using ZdravoCorp.Core.User.Repository;
 using ZdravoCorp.View;
 
 namespace ZdravoCorp
@@ -18,8 +20,17 @@ namespace ZdravoCorp
         {
             //Disable shutdown when the dialog closes
             Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            //Load functions for repositories
+            UserRepository userRepository = new UserRepository();
+            LoadFunctions.LoadUsers(userRepository);
 
-            var dialog = new LoginDialog();
+
+
+
+
+
+            //___________________________
+            var dialog = new LoginDialog(userRepository);
 
             if (dialog.ShowDialog() == true)
             {
