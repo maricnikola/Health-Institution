@@ -1,0 +1,26 @@
+﻿<Window x:Class="ZdravoCorp.View.AppointmentTableView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ZdravoCorp.View"
+        mc:Ignorable="d"
+        Title="AppointmentTableView" Height="450" Width="800">
+    <DockPanel>
+        <ToolBar DockPanel.Dock="Top">
+            <Button Click="Button_Click_Add">Create</Button>
+            <Button Click="Button_Click_Update">Change</Button>
+            <Button Click="Button_Click_Delete">Cancel</Button>
+        </ToolBar>
+        <DataGrid Grid.Row="1" x:Name="DataGridAppointments" ItemsSource="{Binding Appointments, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedAppointments, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single"
+                  IsReadOnly="True" AutoGenerateColumns="False" Width="600" Height="325">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Doctor" Width="200" Binding="{Binding Doctor.FullName}"/>
+                <DataGridTextColumn Header="Patient" Width="200" Binding="{Binding MedicalRecord.Patient.FullName}" />
+                <DataGridTextColumn Header="Date" Width="200" Binding="{Binding Time.start}" />
+  
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

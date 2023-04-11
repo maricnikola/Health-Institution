@@ -1,0 +1,14 @@
+﻿<Window x:Class="ZdravoCorp.View.DoctorFrame"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ZdravoCorp.View"
+        mc:Ignorable="d"
+        Title="DoctorFrame" Height="450" Width="800">
+    <StackPanel>
+        <ToolBar DockPanel.Dock="Top">
+            <Button Click="Button_Click_Show">Show appointment</Button>
+        </ToolBar>
+    </StackPanel>
+</Window>
