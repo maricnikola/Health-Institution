@@ -8,55 +8,34 @@ namespace ZdravoCorp.Core.User;
 public class User
 {
     [JsonConverter(typeof(JsonStringEnumConverter))] public UserType Type { get; set; }
-    [JsonPropertyName("id")] public int Id { get; set; }
     [JsonPropertyName("email")] public string Email { get; set; }
-    [JsonPropertyName("firstname")] public string FirstName { get; set; }
-    [JsonPropertyName("lastname")] public string LastName { get; set; }
+    [JsonPropertyName("password")] public string? Password { private get;  set; }
     [JsonConverter(typeof(JsonStringEnumConverter))] public State UserState { get; set; }
-    [JsonPropertyName("password")] public string Password { private get;  set; }
-
-
-
-    public User(string password, int id, string email, string firstName, string lastName)
-    {
-        Password = password;
-        Id = id;
-        Email = email;
-        FirstName = firstName;
-        LastName = lastName;
-        UserState = State.NotBlocked;
-    }
+    
 
     [JsonConstructor]
-    public User(string password, int id, string email, string firstName, string lastName, UserType type, State userState)
+    public User(string? password, string email, UserType type, State userState)
     {
         Password = password;
-        Id = id;
         Email = email;
-        FirstName = firstName;
-        LastName = lastName;
         UserState = userState;
         Type = type;
-
-        /*State state;
-        Enum.TryParse(userState, out state);
-        UserState = state;
-        UserType tp;
-        Enum.TryParse(type, out tp);
-        Type = tp;*/
     }
-
+    
+    public User(string email, UserType type, State userState)
+    {
+        Email = email;
+        UserState = userState;
+    }
+    
 
     public dynamic GetUserForSerialization()
     {
         return new
         {
-            id = Id,
             type = Type.ToString(),
             email = Email,
             password = Password,
-            firstname = FirstName,
-            lastname = LastName,
             userstate = UserState.ToString()
         };
     }

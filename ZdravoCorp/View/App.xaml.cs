@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using ZdravoCorp.Core.Loader;
+using ZdravoCorp.Core.User;
 using ZdravoCorp.Core.User.Repository;
 using ZdravoCorp.View;
 
@@ -22,7 +23,10 @@ namespace ZdravoCorp
             Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             //Load functions for repositories
             UserRepository userRepository = new UserRepository();
-
+            //DirectorRepository directorRepository = new DirectorRepository();
+            PatientRepository patientRepository = new PatientRepository();
+            NurseRepository nurseRepository = new NurseRepository();
+            DoctorRepository doctorRepository = new DoctorRepository();
 
 
 
@@ -30,7 +34,7 @@ namespace ZdravoCorp
 
             //___________________________
             var dialog = new LoginDialog(userRepository);
-
+            
             if (dialog.ShowDialog() == true)
             {
                 var mainWindow = new MainWindow();

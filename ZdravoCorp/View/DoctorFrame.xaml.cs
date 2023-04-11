@@ -28,7 +28,7 @@ namespace ZdravoCorp.View
         public DoctorFrame(User user)
         {
 
-            _doctor = _controller.GetDoctorById(user.Id);
+            _doctor = _controller.GetDoctorByEmail(user.Email);
             InitializeComponent();
         }
 

@@ -1,1 +1,34 @@
-[{"id":12,"type":"Nurse","email":"a","password":"12","firstname":"Miso","lastname":"Misic","userstate":"BlockedBySystem"},{"id":122,"type":"Doctor","email":"adfada","password":"adadad","firstname":"Miso","lastname":"Misic","userstate":"BlockedBySystem"},{"id":123,"type":"Doctor","email":"adfada","password":"adadad","firstname":"Miso","lastname":"Misic","userstate":"BlockedBySystem"},{"id":124,"type":"Doctor","email":"adfada","password":"adadad","firstname":"Miso","lastname":"Misic","userstate":"BlockedBySystem"}]
+[
+  {
+    "type": "Director",
+    "email": "pero.peric@gmail.com",
+    "password": "pero78",
+    "userstate": "NotBlocked"
+  },
+  {
+    "type": "Doctor",
+    "email": "savo.oroz@gmail.com",
+    "password": "savo67",
+    "userstate": "NotBlocked"
+  },
+  {
+    "type": "Nurse",
+    "email": "eva.ras@gmail.com",
+    "password": "eva44",
+    "userstate": "NotBlocked"
+  },
+  {
+    "type": "Patient",
+    "email": "sreten.pejovic@gmail.com",
+    "password": "pejo78",
+    "userstate": "NotBlocked"
+  },
+  {
+    "type": "Patient",
+    "email": "marko.stojanovic@gmail.com",
+    "password": "koks33",
+    "userstate": "NotBlocked"
+  }
+  
+  
+]

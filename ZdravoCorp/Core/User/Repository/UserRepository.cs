@@ -33,14 +33,9 @@ public class UserRepository
         _users.Add(user);
     }
     
-    private List<dynamic> AdjustForSerialization()
+    private List<dynamic> ReduceForSerialization()
     {
-        List<dynamic> usersForFile = new List<dynamic>();
-        foreach (User user in this._users)
-        {
-            usersForFile.Add(user.GetUserForSerialization());
-        }
-        return usersForFile;
+        return this._users.Select(user => user.GetUserForSerialization()).ToList();
     }
     public void LoadFromFile()
     {
@@ -52,7 +47,7 @@ public class UserRepository
 
     public void SaveToFile()
     {
-        var usersForFile = AdjustForSerialization();
+        var usersForFile = ReduceForSerialization();
         var users = JsonSerializer.Serialize(usersForFile, _serializerOptions);
         File.WriteAllText(this._fileName, users);
     }

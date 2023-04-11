@@ -11,35 +11,36 @@ namespace ZdravoCorp.Core.User.Repository;
 
 public class DoctorRepository
 {
-    private JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
-    {
 
+    private List<Doctor> _doctors;
+    private readonly string _fileName = @".\..\..\..\Data\doctors.json";
+    
+    
+    private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
+    {
+        PropertyNameCaseInsensitive = true,
     };
-    public List<Doctor> Doctors;
+    
 
-    public String _fileName;
-
-    public void SaveDoctors()
+    public void SaveToFile()
     {
-        var doctors = JsonSerializer.Serialize(this.Doctors, _serializerOptions);
+        var doctors = JsonSerializer.Serialize(this._doctors, _serializerOptions);
         File.WriteAllText(this._fileName, doctors);
     }
-    public void LoadDoctors()
+    public void LoadFromFile()
     {
-        string text = File.ReadAllText(_fileName);
+        var text = File.ReadAllText(_fileName);
         var doctors = JsonSerializer.Deserialize<List<Doctor>>(text);
-        doctors.ForEach(doctor => Doctors.Add(doctor));
+        doctors.ForEach(doctor => _doctors.Add(doctor));
     }
-    public Doctor GetDoctorById(int id)
+    public Doctor? GetDoctorByEmail(string email)
     {
-        foreach(Doctor doctor in Doctors)
-        {
-            if (doctor.Id == id)
-            {
-                return doctor;
-            }
-        }
-        return null;
+        return _doctors.FirstOrDefault(doctor => doctor.Email == email);
+    }
+    
+    private List<dynamic> ReduceForSerialization()
+    {
+        return this._doctors.Select(user => user.GetDoctorForSerialization()).ToList();
     }
     
 }

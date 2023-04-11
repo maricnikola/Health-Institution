@@ -57,7 +57,6 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
     private void LoginButton_OnClick(object sender, RoutedEventArgs e)
     {
         MessageBox.Show("email: " + Email + "   password: " + Password, "Test", MessageBoxButton.OK);
-        _userRepository.SaveToFile();
         var user = GetLoggedUser();
         if (user==null)
             return;
