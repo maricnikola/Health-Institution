@@ -9,8 +9,8 @@ namespace ZdravoCorp.Core.User.Repository;
 
 public class UserRepository
 {
-    private String _fileName = "C:\\Users\\Aleksa\\Desktop\\usi-2023-group-3-team-11\\ZdravoCorp\\Core\\User\\users.json";
-    //private String _passwordsFileName = "C:\\Users\\danilo.c\\RiderProjects\\usi-2023-group-3-team-11\\ZdravoCorp\\Core\\User\\passwords.json";
+    //private String _fileName = "C:\\Users\\Aleksa\\Desktop\\usi-2023-group-3-team-11\\ZdravoCorp\\Core\\User\\users.json";
+    private String _fileName = "C:\\Users\\danilo.c\\RiderProjects\\usi-2023-group-3-team-11\\ZdravoCorp\\Core\\User\\users.json";
     
     public List<User> Users;
     

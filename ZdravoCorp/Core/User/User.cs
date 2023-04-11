@@ -7,14 +7,13 @@ namespace ZdravoCorp.Core.User;
 
 public class User
 {
-    public UserType Type { get; set; }
-    public int Id { get; set; }
-    public string Email { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public State UserState { get; set; }
-    
-    private readonly string? _password; 
+    [JsonPropertyName("type")] public UserType Type { get; set; }
+    [JsonPropertyName("id")] public int Id { get; set; }
+    [JsonPropertyName("email")] public string Email { get; set; }
+    [JsonPropertyName("firstname")] public string FirstName { get; set; }
+    [JsonPropertyName("lastname")] public string LastName { get; set; }
+    [JsonPropertyName("status")] public State UserState { get; set; }
+    [JsonPropertyName("password")] private string? _password;
 
 
     public User(string password, int id, string email, string firstName, string lastName)
@@ -26,8 +25,9 @@ public class User
         LastName = lastName;
         UserState = State.NotBlocked;
     }
+
     [JsonConstructor]
-    public User(string password, int id, string email, string firstName, string lastName, string type,string userState)
+    public User(string password, int id, string email, string firstName, string lastName, string type, string status)
     {
         _password = password;
         Id = id;
@@ -35,14 +35,13 @@ public class User
         FirstName = firstName;
         LastName = lastName;
         State state;
-        Enum.TryParse(userState, out state);
+        Enum.TryParse(status, out state);
         UserState = state;
         UserType tp;
         Enum.TryParse(type, out tp);
         Type = tp;
     }
-    
-    
+
 
     public dynamic GetUserForSerialization()
     {
@@ -53,7 +52,7 @@ public class User
             password = _password,
             firstname = FirstName,
             lastname = LastName,
-            userState = UserState.ToString()
+            status = UserState.ToString()
         };
     }
 
