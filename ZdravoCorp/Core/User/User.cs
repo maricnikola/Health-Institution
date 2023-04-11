@@ -7,18 +7,19 @@ namespace ZdravoCorp.Core.User;
 
 public class User
 {
-    [JsonPropertyName("type")] public UserType Type { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))] public UserType Type { get; set; }
     [JsonPropertyName("id")] public int Id { get; set; }
     [JsonPropertyName("email")] public string Email { get; set; }
     [JsonPropertyName("firstname")] public string FirstName { get; set; }
     [JsonPropertyName("lastname")] public string LastName { get; set; }
-    [JsonPropertyName("status")] public State UserState { get; set; }
-    [JsonPropertyName("password")] private string? _password;
+    [JsonConverter(typeof(JsonStringEnumConverter))] public State UserState { get; set; }
+    [JsonPropertyName("password")] public string Password { private get;  set; }
+
 
 
     public User(string password, int id, string email, string firstName, string lastName)
     {
-        _password = password;
+        Password = password;
         Id = id;
         Email = email;
         FirstName = firstName;
@@ -27,19 +28,22 @@ public class User
     }
 
     [JsonConstructor]
-    public User(string password, int id, string email, string firstName, string lastName, string type, string status)
+    public User(string password, int id, string email, string firstName, string lastName, UserType type, State userState)
     {
-        _password = password;
+        Password = password;
         Id = id;
         Email = email;
         FirstName = firstName;
         LastName = lastName;
-        State state;
-        Enum.TryParse(status, out state);
+        UserState = userState;
+        Type = type;
+
+        /*State state;
+        Enum.TryParse(userState, out state);
         UserState = state;
         UserType tp;
         Enum.TryParse(type, out tp);
-        Type = tp;
+        Type = tp;*/
     }
 
 
@@ -47,21 +51,22 @@ public class User
     {
         return new
         {
+            id = Id,
             type = Type.ToString(),
             email = Email,
-            password = _password,
+            password = Password,
             firstname = FirstName,
             lastname = LastName,
-            status = UserState.ToString()
+            userstate = UserState.ToString()
         };
     }
 
     public bool ValidatePassword(string password)
     {
-        return _password == password;
+        return Password == password;
     }
 
-    protected User()
+    public User()
     {
     }
 

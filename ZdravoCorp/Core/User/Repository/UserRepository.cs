@@ -9,44 +9,34 @@ namespace ZdravoCorp.Core.User.Repository;
 
 public class UserRepository
 {
-    //private String _fileName = "C:\\Users\\Aleksa\\Desktop\\usi-2023-group-3-team-11\\ZdravoCorp\\Core\\User\\users.json";
-    private String _fileName = "C:\\Users\\danilo.c\\RiderProjects\\usi-2023-group-3-team-11\\ZdravoCorp\\Core\\User\\users.json";
-    
-    public List<User> Users;
-    
-    private Dictionary<string, string> Passwords;
-
-    private JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
+    private readonly string _fileName = @".\..\..\..\Data\users.json";
+    private List<User> _users;
+    private readonly JsonSerializerOptions  _serializerOptions = new JsonSerializerOptions
     {
-
+        PropertyNameCaseInsensitive = true
     };
     
     public UserRepository(List<User> us)
     {
-        this.Users = us;
+        this._users = us;
         //this.LoadFromFile();
     }
 
     public UserRepository()
     {
-        Users = new List<User>();
-        //Passwords = new Dictionary<string, string>();
-        
-        //LoadFromFile();
-       // LoadPasswordsFromFile();
+        _users = new List<User>();
+        LoadFromFile();
     }
 
     public void AddUser(User user)
     {
-        Users.Add(user);
+        _users.Add(user);
     }
     
-    
-    // TODO change name and make serialization and deserialization work
     private List<dynamic> AdjustForSerialization()
     {
         List<dynamic> usersForFile = new List<dynamic>();
-        foreach (User user in this.Users)
+        foreach (User user in this._users)
         {
             usersForFile.Add(user.GetUserForSerialization());
         }
@@ -55,9 +45,9 @@ public class UserRepository
     public void LoadFromFile()
     {
         string text = File.ReadAllText(_fileName);
-        var users = JsonSerializer.Deserialize<List<User>>(text);
+        var users = JsonSerializer.Deserialize<List<User>>(text, _serializerOptions);
 
-        users.ForEach(user => Users.Add(user));
+        users.ForEach(user => _users.Add(user));
     }
 
     public void SaveToFile()
@@ -67,21 +57,14 @@ public class UserRepository
         File.WriteAllText(this._fileName, users);
     }
 
-    /*public void LoadPasswordsFromFile()
-    {
-        string text = File.ReadAllText(_passwordsFileName);
-        var passwords = JsonSerializer.Deserialize<Dictionary<string, string>>(text);
-        Passwords = new Dictionary<string, string>(passwords);
-    }*/
-
     public User? GetUserByEmail(string email)
     {
-        return Users.FirstOrDefault(user => user.Email == email);
+        return _users.FirstOrDefault(user => user.Email == email);
     }
 
     public bool ValidateEmail(string email)
     {
-        return Users.Exists(user => user.Email == email);
+        return _users.Exists(user => user.Email == email);
     }
 
 

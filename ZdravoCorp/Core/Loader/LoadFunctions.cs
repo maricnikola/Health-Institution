@@ -5,7 +5,7 @@ namespace ZdravoCorp.Core.Loader;
 using ZdravoCorp.Core.User;
 public class LoadFunctions
 {
-    public static void LoadUsers(UserRepository userRepository)
+    /*public static void LoadUsers(UserRepository userRepository)
     {
         User u1 = new User("12",1, "a", "Miso", "Misic","Nurse", "blocked");
         User u2 = new User("adadad", 1, "adfada", "Miso", "Misic", "Doctor", "blocked");
@@ -16,5 +16,5 @@ public class LoadFunctions
         userRepository.AddUser(u2);
         userRepository.AddUser(u3);
         userRepository.AddUser(u4);
-    }
+    }*/
 }

@@ -22,9 +22,7 @@ namespace ZdravoCorp
             Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             //Load functions for repositories
             UserRepository userRepository = new UserRepository();
-            //LoadFunctions.LoadUsers(userRepository);
-            userRepository.LoadFromFile();
-            //userRepository.SaveToFile();
+
 
 
 
