@@ -33,7 +33,7 @@ namespace ZdravoCorp
 
 
             //___________________________
-            var dialog = new LoginDialog(userRepository);
+            var dialog = new LoginDialog(userRepository,doctorRepository);
             
             if (dialog.ShowDialog() == true)
             {

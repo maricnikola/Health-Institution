@@ -25,9 +25,9 @@ namespace ZdravoCorp.View
         public Doctor _doctor;
         public DoctorRepository _controller;
 
-        public DoctorFrame(User user)
+        public DoctorFrame(User user,DoctorRepository doctorRepository)
         {
-
+            _controller = doctorRepository;
             _doctor = _controller.GetDoctorByEmail(user.Email);
             InitializeComponent();
         }

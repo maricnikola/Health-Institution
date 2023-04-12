@@ -12,6 +12,12 @@ namespace ZdravoCorp.Core.TimeSlots
         public DateTime start { get; set; }
         public DateTime end { get; set; }
 
+        public TimeSlot(DateTime start, DateTime end)
+        {
+            this.start = start;
+            this.end = end;
+        }
+
         public bool overlap(TimeSlot time)
         {
             return start > time.end || end < time.start;    

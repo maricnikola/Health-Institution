@@ -14,6 +14,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
     private string? _email;
     private string? _password;
     private UserRepository _userRepository;
+    private DoctorRepository _doctorRepository;
 
     
     public string Email
@@ -47,9 +48,10 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             }
         }
     }
-    public LoginDialog(UserRepository userRepository)
+    public LoginDialog(UserRepository userRepository, DoctorRepository doctorRepository)
     {
         _userRepository = userRepository;
+        _doctorRepository = doctorRepository;
         InitializeComponent();
         DataContext = this;
     }
@@ -86,6 +88,8 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     //start doctor view
                     MessageBox.Show("Doctor", "UserType", MessageBoxButton.OK);
                     Close();
+                    var doctorWindow = new DoctorFrame(user,_doctorRepository);
+                    doctorWindow.Show();
                     break;
 
         }

@@ -14,6 +14,13 @@ public class MedicalRecord
     {
         return;
     }
+    public MedicalRecord(Patient user, int height, int weight)
+    {
+        user = user;
+        height = height;
+        weight = weight;
+        deseaseHistory = new List<string>();
+    }
     public MedicalRecord(Patient user, int height, int weight, List<string> deseaseHistory)
     {
         user = user;

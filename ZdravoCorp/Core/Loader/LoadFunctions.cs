@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using ZdravoCorp.Core.Appointments.Entities;
+using ZdravoCorp.Core.MedicalRecords.Model;
+using ZdravoCorp.Core.Schedule.Repository;
+using ZdravoCorp.Core.TimeSlots;
 using ZdravoCorp.Core.User.Repository;
 
 namespace ZdravoCorp.Core.Loader;
@@ -17,4 +22,25 @@ public class LoadFunctions
         userRepository.AddUser(u3);
         userRepository.AddUser(u4);
     }*/
+    public static void LoadAppointments(ScheduleRepository schedule)
+    {
+        Random random = new Random();
+        TimeSlot time = new TimeSlot(new DateTime(2023, 4, 10, 9, 0, 0), new DateTime(2023, 4, 10, 9, 15, 0));
+        Patient p = new Patient("sreten.pejovic@gmail.com", "Seten", "Pejovic");
+        MedicalRecord mr = new MedicalRecord(p, 175, 72);
+        Doctor d = new Doctor("savo.oroz@gmail.com", "Savo", "Oroz", Doctor.SpecializationType.Surgeon);
+        int id = random.Next(0,100000);
+        Appointment appointment = new Appointment(id, time, d, mr);
+
+        TimeSlot time1 = new TimeSlot(new DateTime(2023, 3, 10, 6, 0, 0), new DateTime(2023, 3, 10, 6, 15, 0));
+        Patient p1 = new Patient("sreten.pejovic@gmail.com", "Sreten", "Pejovic");
+        MedicalRecord mr1 = new MedicalRecord(p, 175, 72);
+        Doctor d1 = new Doctor("savo.oroz@gmail.com", "Savo", "Oroz", Doctor.SpecializationType.Surgeon);
+        int id1 = random.Next(0, 100000);
+        Appointment appointment1 = new Appointment(id1, time1, d1, mr1);
+
+        schedule.AddAppointment(appointment);
+        schedule.AddAppointment(appointment1);
+
+    }
 }

@@ -12,7 +12,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ZdravoCorp.Core.Appointments.Entities;
 using ZdravoCorp.Core.Appointments.Model;
+using ZdravoCorp.Core.Loader;
 using ZdravoCorp.Core.Schedule.Repository;
 using ZdravoCorp.Core.User;
 
@@ -25,14 +27,19 @@ namespace ZdravoCorp.View
     {
 
         public ScheduleRepository _controller;
-        public ObservableCollection<Appointment> Appointments { get; set; }
+        //public ObservableCollection<Appointment> Appointments { get; set; }
+        public AppointmentModel model;
         public Appointment SelectedAppointment { get; set; }
 
         public AppointmentTableView(Doctor doctor)
         {
+            _controller = new ScheduleRepository();
+            LoadFunctions.LoadAppointments(_controller);
+            //_controller.SaveAppointments();
             DataContext = this;
             InitializeComponent();
-            Appointments = new ObservableCollection<Appointment>(_controller.GetDoctorAppointments(doctor));
+            model = new AppointmentModel("aaa");
+            //Appointments = new ObservableCollection<Appointment>(_controller.GetDoctorAppointments(doctor));
 
         }
 

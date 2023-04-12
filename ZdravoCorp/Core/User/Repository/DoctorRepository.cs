@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using ZdravoCorp.Core.Appointments.Model;
+using ZdravoCorp.Core.Appointments.Entities;
 
 namespace ZdravoCorp.Core.User.Repository;
 
@@ -20,7 +20,12 @@ public class DoctorRepository
     {
         PropertyNameCaseInsensitive = true,
     };
-    
+
+    public DoctorRepository()
+    {
+        _doctors = new List<Doctor>();
+        LoadFromFile();
+    }
 
     public void SaveToFile()
     {

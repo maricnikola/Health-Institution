@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.RightsManagement;
 using System.Text.Json;
-using ZdravoCorp.Core.Appointments.Model;
+using ZdravoCorp.Core.Appointments.Entities;
 using ZdravoCorp.Core.Equipments.Model;
 using ZdravoCorp.Core.MedicalRecords.Model;
 using ZdravoCorp.Core.Operations.Model;
@@ -19,17 +19,34 @@ public class ScheduleRepository
 
     };
 
-    private String _fileNameAppointments = "Repository\\appointments.json";
-    private String _fileNameOperations = "Repository\\operations.json";
+    private String _fileNameAppointments = @".\..\..\..\Data\appointments.json";
+    private String _fileNameOperations = @".\..\..\..\Data\operations.json";
     private List<Appointment> Appointments { get; set; }
     private List<Operation> Operations { get; set; }
+
+    public ScheduleRepository()
+    {
+        Appointments = new List<Appointment>();
+        Operations = new List<Operation>();
+    }
+
+    //public ScheduleRepository()
+    //{
+    //    LoadAppointments();
+    //    Operations = new List<Operation>();
+    //}
+
+    public void AddAppointment(Appointment appointment)
+    {
+        Appointments.Add(appointment);
+    }
 
     public List<Appointment> GetPatientAppointments(Patient patient)
     {
         List<Appointment> patientAppointments = new List<Appointment>();   
         foreach(Appointment appointment in Appointments)
         {
-            if(appointment.MedicalRecord.user == patient) patientAppointments.Add(appointment);
+            if(appointment.MedicalRecord.user.Email == patient.Email) patientAppointments.Add(appointment);
         }
         return patientAppointments;
     }
@@ -38,7 +55,7 @@ public class ScheduleRepository
         List<Operation> patientOperations = new List<Operation>();
         foreach(Operation operation in Operations)
         {
-            if (operation.medicalRecord.user == patient) patientOperations.Add(operation);
+            if (operation.medicalRecord.user.Email == patient.Email) patientOperations.Add(operation);
         }
         return patientOperations;
     }
@@ -48,7 +65,7 @@ public class ScheduleRepository
         List<Appointment> doctorAppointments = new List<Appointment>();
         foreach(Appointment appointment in Appointments)
         {
-            if(appointment.Doctor == doctor) doctorAppointments.Add(appointment);
+            if(appointment.Doctor.Email == doctor.Email) doctorAppointments.Add(appointment);
         }
         return doctorAppointments;
     }
@@ -58,7 +75,7 @@ public class ScheduleRepository
         List<Operation> doctorOperations = new List<Operation>();
         foreach (Operation operation in Operations)
         {
-            if (operation.doctor == doctor) doctorOperations.Add(operation);
+            if (operation.doctor.Email == doctor.Email) doctorOperations.Add(operation);
         }
         return doctorOperations;
     }
@@ -92,7 +109,7 @@ public class ScheduleRepository
         return true;
     }
 
-    public void LoadApointments()
+    public void LoadAppointments()
     {
         string text = File.ReadAllText(_fileNameAppointments);
         var appointments = JsonSerializer.Deserialize<List<Appointment>>(text);
