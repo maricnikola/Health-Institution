@@ -4,8 +4,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using ZdravoCorp.Core.Loader;
-using ZdravoCorp.Core.User;
-using ZdravoCorp.Core.User.Repository;
+using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Repositories.User;
 
 namespace ZdravoCorp.View;
 

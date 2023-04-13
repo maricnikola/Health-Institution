@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using ZdravoCorp.Core.Appointments.Entities;
-using ZdravoCorp.Core.MedicalRecords.Model;
-using ZdravoCorp.Core.Schedule.Repository;
+using ZdravoCorp.Core.Models.Appointment;
+using ZdravoCorp.Core.Models.MedicalRecord;
+using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.TimeSlots;
-using ZdravoCorp.Core.User.Repository;
 
 namespace ZdravoCorp.Core.Loader;
-using ZdravoCorp.Core.User;
+
 public class LoadFunctions
 {
     /*public static void LoadUsers(UserRepository userRepository)

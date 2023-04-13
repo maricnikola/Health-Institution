@@ -6,8 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using ZdravoCorp.Core.Loader;
-using ZdravoCorp.Core.User;
-using ZdravoCorp.Core.User.Repository;
+using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.View;
 
 namespace ZdravoCorp
@@ -37,10 +36,10 @@ namespace ZdravoCorp
             
             if (dialog.ShowDialog() == true)
             {
-                var mainWindow = new MainWindow();
+                /*var mainWindow = new MainWindow();
                 Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
                 Current.MainWindow = mainWindow;
-                mainWindow.Show();
+                mainWindow.Show();*/
             }
             else
             {
