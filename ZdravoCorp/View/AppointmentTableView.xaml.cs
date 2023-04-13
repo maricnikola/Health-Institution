@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,11 +13,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using ZdravoCorp.Core.Appointments.Entities;
-using ZdravoCorp.Core.Appointments.Model;
 using ZdravoCorp.Core.Loader;
-using ZdravoCorp.Core.Schedule.Repository;
-using ZdravoCorp.Core.User;
+using ZdravoCorp.Core.Models.Appointment;
+using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Repositories.Schedule;
+using ZdravoCorp.Core.ViewModels;
 
 namespace ZdravoCorp.View
 {
@@ -25,21 +26,16 @@ namespace ZdravoCorp.View
     /// </summary>
     public partial class AppointmentTableView : Window
     {
-
-        public ScheduleRepository _controller;
-        //public ObservableCollection<Appointment> Appointments { get; set; }
-        public AppointmentModel model;
-        public Appointment SelectedAppointment { get; set; }
-
+        private ScheduleRepository _controller;
         public AppointmentTableView(Doctor doctor)
         {
             _controller = new ScheduleRepository();
             LoadFunctions.LoadAppointments(_controller);
-            //_controller.SaveAppointments();
-            DataContext = this;
+            List<Appointment> appointments = _controller.GetDoctorAppointments(doctor);
+            AppointmentTableViewModel VM = new AppointmentTableViewModel(appointments);
+
+            DataContext = VM;
             InitializeComponent();
-            model = new AppointmentModel("aaa");
-            //Appointments = new ObservableCollection<Appointment>(_controller.GetDoctorAppointments(doctor));
 
         }
 
