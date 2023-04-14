@@ -88,8 +88,6 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     //start doctor view
                     MessageBox.Show("Doctor", "UserType", MessageBoxButton.OK);
                     Close();
-                    var doctorWindow = new DoctorFrame(user,_doctorRepository);
-                    doctorWindow.Show();
                     break;
 
         }
