@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using ZdravoCorp.Core.Repositories.Room;
 
 namespace ZdravoCorp.Core.Models.Inventory;
 
@@ -12,14 +13,22 @@ public class InventoryItem
     [JsonPropertyName("equipment_id")] public int EquipmentId { get; } 
     [JsonPropertyName("room_id")] public int RoomId { get; } 
     
-    [JsonConstructor]
+    
     public InventoryItem(int id, int quantity, Room.Room room, Equipment.Equipment equipment)
     {
         Id = id;
         Quantity = quantity;
         Room = room;
         Equipment = equipment;
-        EquipmentId = Equipment.Id;
-        RoomId = Room.Id;
+        EquipmentId = equipment.Id;
+        RoomId = room.Id;
+    }
+    [JsonConstructor]
+    public InventoryItem(int id, int quantity, int roomid,int equipmentid)
+    {
+        Id = id;
+        Quantity = quantity;
+        EquipmentId = equipmentid;
+        RoomId = roomid;
     }
 }
