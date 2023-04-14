@@ -9,7 +9,7 @@ namespace ZdravoCorp.Core.Repositories.User;
 public class DoctorRepository
 {
 
-    private List<Doctor> _doctors;
+    public readonly List<Doctor> _doctors;
     private readonly string _fileName = @".\..\..\..\Data\doctors.json";
     
     

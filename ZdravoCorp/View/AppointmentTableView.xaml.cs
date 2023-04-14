@@ -27,6 +27,17 @@ namespace ZdravoCorp.View
     public partial class AppointmentTableView : Window
     {
         private ScheduleRepository _controller;
+
+        public AppointmentTableView(Patient patient)
+        {
+            _controller = new ScheduleRepository();
+            LoadFunctions.LoadAppointments(_controller);
+            List<Appointment> appointments = _controller.GetPatientAppointments(patient);
+            AppointmentTableViewModel VM = new AppointmentTableViewModel(appointments);
+
+            DataContext = VM;
+            InitializeComponent();
+        }
         public AppointmentTableView(Doctor doctor)
         {
             _controller = new ScheduleRepository();

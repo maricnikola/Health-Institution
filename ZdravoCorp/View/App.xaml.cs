@@ -23,7 +23,7 @@ namespace ZdravoCorp
         private void ApplicationStart(object sender, StartupEventArgs e)
         {
             //Disable shutdown when the dialog closes
-            //Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
             //Load functions for repositories
             UserRepository userRepository = new UserRepository();
             DirectorRepository directorRepository = new DirectorRepository();
@@ -35,12 +35,16 @@ namespace ZdravoCorp
             InventoryRepository inventoryRepository = new InventoryRepository(roomRepository, equipmentRepository);
 
 
+            //var window = new LoginDialog(userRepository,doctorRepository,patientRepository);
+            var window = new MakeAppointmentView(doctorRepository);
 
-            var window = new DirectorWindow() {DataContext = new DirectorViewModel()};
             window.Show();
+            //var window = new DirectorWindow() {DataContext = new DirectorViewModel()};
+            //window.Show();
+
             //___________________________
-           // var dialog = new LoginDialog(userRepository,doctorRepository);
-            
+            // var dialog = new LoginDialog(userRepository,doctorRepository);
+
             /*if (dialog.ShowDialog() == true)
             {
                 /*var mainWindow = new MainWindow();

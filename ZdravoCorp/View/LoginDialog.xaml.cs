@@ -6,6 +6,7 @@ using System.Windows;
 using ZdravoCorp.Core.Loader;
 using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.Repositories.User;
+using ZdravoCorp.Core.ViewModels;
 
 namespace ZdravoCorp.View;
 
@@ -15,6 +16,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
     private string? _password;
     private UserRepository _userRepository;
     private DoctorRepository _doctorRepository;
+    private PatientRepository _patientRepository;
 
     
     public string Email
@@ -48,10 +50,11 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             }
         }
     }
-    public LoginDialog(UserRepository userRepository, DoctorRepository doctorRepository)
+    public LoginDialog(UserRepository userRepository, DoctorRepository doctorRepository, PatientRepository patientRepository)
     {
         _userRepository = userRepository;
         _doctorRepository = doctorRepository;
+        _patientRepository = patientRepository;
         InitializeComponent();
         DataContext = this;
     }
@@ -62,7 +65,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
         var user = GetLoggedUser();
         if (user==null)
             return;
-        DialogResult = true;
+        //DialogResult = true;
 
  
              
@@ -78,6 +81,9 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     //start patient view
                     MessageBox.Show("Patient", "UserType", MessageBoxButton.OK);
                     Close();
+                    //var patientWindow = new PatientFrame(user, _patientRepository);
+                    var patientWindow = new MakeAppointmentView(_doctorRepository);
+                    patientWindow.Show();
                     break;
                 case User.UserType.Nurse:
                     //start nurse view
@@ -93,6 +99,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     break;
 
         }
+        
         
         
     }
