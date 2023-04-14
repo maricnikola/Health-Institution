@@ -1,18 +1,34 @@
 using System;
+using System.Text.Json.Serialization;
 
 namespace ZdravoCorp.Core.Models.Equipment;
 
 public class Equipment
 {
-    public String Name { get; set; }
+    [JsonPropertyName("Id")]
+    public int Id { get; set; }
+    [JsonPropertyName("Name")]
+    public string Name { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public EquipmentType Type { get; set; }
-    public int Quantity { get; set; }
+    //public int Quantity { get; set; }
+
+
+    [JsonConstructor]
+    public Equipment(int id, string name, EquipmentType type)
+    {
+        Id = id;
+        Name = name;
+        Type = type;
+    }
+    
+    
+    public enum EquipmentType
+    {
+        Operation,
+        Examination,
+        Room,
+        Hallway
+    }
 }
 
-public enum EquipmentType
-{
-    Operation,
-    Appointment,
-    Room,
-    Hallway
-}

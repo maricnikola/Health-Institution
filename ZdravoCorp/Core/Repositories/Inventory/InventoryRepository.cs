@@ -1,46 +1,78 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using ZdravoCorp.Core.Models.Equipment;
 using ZdravoCorp.Core.Models.Inventory;
 using ZdravoCorp.Core.Models.Room;
+using ZdravoCorp.Core.Repositories.Equipment;
+using ZdravoCorp.Core.Repositories.Room;
 
 namespace ZdravoCorp.Core.Repositories.Inventory;
 
 public class InventoryRepository
 {
-    private List<InventoryItem> inventory { get; set; }
-    private string _fileName = "";
+    private RoomRepository _roomRepository;
+    private EquipmentRepository _equipmentRepository;
+    private List<InventoryItem> _inventory { get; set; }
+    private string _fileName = @".\..\..\..\Data\inventory.json";
+
+    private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
+    {
+        PropertyNameCaseInsensitive = true
+    };
 
     public void AddItem(InventoryItem newInventoryItem)
     {
-        inventory.Add(newInventoryItem);
+        _inventory.Add(newInventoryItem);
     }
-    public void LoadFromFile()
+
+    public InventoryRepository(RoomRepository roomRepository, EquipmentRepository equipmentRepository)
     {
-        
+        _roomRepository = roomRepository;
+        _equipmentRepository = equipmentRepository;
+        _inventory = new List<InventoryItem>();
+        LoadFromFile();
+        SaveToFile();
     }
+
 
     public List<InventoryItem> FilterByRoomType(RoomType roomType)
     {
-        return inventory.Where(item => item.Room.Type == roomType).ToList();
+        return _inventory.Where(item => item.Room.Type == roomType).ToList();
     }
 
-    public List<InventoryItem> FilterRoomByEquipmentType(EquipmentType equipmentType)
+    public List<InventoryItem> FilterRoomByEquipmentType(Models.Equipment.Equipment.EquipmentType equipmentType)
     {
-        return inventory.Where(item => item.Equipment.Type == equipmentType).ToList();
+        return _inventory.Where(item => item.Equipment.Type == equipmentType).ToList();
     }
 
     public List<InventoryItem> FilterByQuantity(int quantity)
     {
-        return inventory.Where(item => item.Quantity <= quantity).ToList();
+        return _inventory.Where(item => item.Quantity <= quantity).ToList();
     }
 
     public List<InventoryItem> Search(string inputText)
     {
-        return inventory.Where(item => item.Equipment.ToString().Contains(inputText)).ToList();
+        return _inventory.Where(item => item.Equipment.ToString().Contains(inputText)).ToList();
     }
-    public List<InventoryItem> GetAll()
+
+    public void SaveToFile()
     {
-        return inventory;
+        _inventory.Add(new InventoryItem(33, 3, _roomRepository.GetById(220), _equipmentRepository.GetById(13)));
+        _inventory.Add(new InventoryItem(34, 1, _roomRepository.GetById(220), _equipmentRepository.GetById(14)));
+        _inventory.Add(new InventoryItem(35, 2, _roomRepository.GetById(233), _equipmentRepository.GetById(13)));
+        var inventory = JsonSerializer.Serialize(_inventory, _serializerOptions);
+
+        File.WriteAllText(this._fileName, inventory);
+    }
+
+    public void LoadFromFile()
+    {
+        var text = File.ReadAllText(_fileName);
+        if (text == "")
+            return;
+        var inventory = JsonSerializer.Deserialize<List<InventoryItem>>(text);
+        inventory.ForEach(inventory => _inventory.Add(inventory));
     }
 }

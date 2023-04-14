@@ -6,6 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using ZdravoCorp.Core.Loader;
+using ZdravoCorp.Core.Repositories.Equipment;
+using ZdravoCorp.Core.Repositories.Inventory;
+using ZdravoCorp.Core.Repositories.Room;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.View;
 
@@ -22,11 +25,13 @@ namespace ZdravoCorp
             Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             //Load functions for repositories
             UserRepository userRepository = new UserRepository();
-            //DirectorRepository directorRepository = new DirectorRepository();
+            DirectorRepository directorRepository = new DirectorRepository();
             PatientRepository patientRepository = new PatientRepository();
             NurseRepository nurseRepository = new NurseRepository();
             DoctorRepository doctorRepository = new DoctorRepository();
-
+            EquipmentRepository equipmentRepository = new EquipmentRepository();
+            RoomRepository roomRepository = new RoomRepository();
+            InventoryRepository inventoryRepository = new InventoryRepository(roomRepository, equipmentRepository);
 
 
 

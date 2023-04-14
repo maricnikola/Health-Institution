@@ -44,5 +44,19 @@ public class DoctorRepository
     {
         return this._doctors.Select(user => user.GetDoctorForSerialization()).ToList();
     }
-    
+
+    public string FileName()
+    {
+        return _fileName;
+    }
+
+    public IEnumerable<object> Repository()
+    {
+        return _doctors;
+    }
+
+    public void Add(object obj)
+    {
+       _doctors.Add((Doctor) obj);
+    }
 }
