@@ -8,7 +8,7 @@
         Title="MakeAppointment" Height="450" Width="800">
     <Grid>
         <ComboBox SelectedItem="{Binding DoctorName, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AllDoctors}" HorizontalAlignment="Left" Margin="155,129,0,0" VerticalAlignment="Top" Width="337" Height="40"/>
-        <Label x:Name="___No_Name_" Content="Create Appointment" HorizontalAlignment="Left" Margin="51,29,0,0" VerticalAlignment="Top" FontSize="48"/>
+        <Label x:Name="_" Content="Create Appointment" HorizontalAlignment="Left" Margin="51,29,0,0" VerticalAlignment="Top" FontSize="48"/>
         <Label Content="Doctor : " HorizontalAlignment="Left" Margin="27,129,0,0" VerticalAlignment="Top" FontSize="22"/>
         <DatePicker SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="155,217,0,0" VerticalAlignment="Top" Height="114" Width="134"/>
         <Label Content="Datum : " HorizontalAlignment="Left" Margin="27,217,0,0" VerticalAlignment="Top" FontSize="24"/>

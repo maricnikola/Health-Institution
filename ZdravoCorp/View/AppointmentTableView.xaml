@@ -10,7 +10,7 @@
         <ToolBar DockPanel.Dock="Top">
             <Button Command="{Binding NewAppointmentCommand}">Create</Button>
             <Button Command="{Binding ChangeAppointmentCommand}">Change</Button>
-            <Button >Cancel</Button>
+            <Button>Cancel</Button>
         </ToolBar>
         <DataGrid Grid.Row="1" x:Name="DataGridAppointments" ItemsSource="{Binding Appointments, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding SelectedAppointment, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single"

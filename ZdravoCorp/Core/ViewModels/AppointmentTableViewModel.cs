@@ -43,10 +43,11 @@ public class AppointmentTableViewModel: ViewModelBase
 
     private void ChangeAppointmentCom()
     {
-        AppointmentViewModel sel = SelectedAppointment;
-        if (sel != null)
+        AppointmentViewModel selectedAppointment = SelectedAppointment;
+        if (selectedAppointment != null)
         {
-
+            var window = new ChangeAppointmentView(selectedAppointment,_doctorRepository, _controller, Appointments, _patient);
+            window.Show();
         }
         else
             MessageBox.Show("None selected", "Error", MessageBoxButton.OK);
@@ -59,5 +60,7 @@ public class AppointmentTableViewModel: ViewModelBase
         var window = new MakeAppointmentView(_doctorRepository, _controller, Appointments, _patient);
         window.Show();
     }
+
+    
     
 }

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
+using System.Windows;
 using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.Operation;
 using ZdravoCorp.Core.Models.User;
@@ -36,6 +38,17 @@ public class ScheduleRepository
     public void AddAppointment(Appointment appointment)
     {
         Appointments.Add(appointment);
+    }
+
+    public Appointment GetAppointmentById(int id)
+    {
+        foreach (Appointment appointment in Appointments)
+        {
+            if (appointment.Id==id) 
+                return appointment;
+        }
+
+        return null;
     }
 
     public List<Appointment> GetPatientAppointments(Patient patient)
@@ -158,6 +171,34 @@ public class ScheduleRepository
         }
     }
 
+    public Appointment? ChangeAppointment(int id,TimeSlot time, Doctor doctor, Models.MedicalRecord.MedicalRecord medicalRecord)
+    {
+        if (time.start > DateTime.Now)
+        {
+            Appointment appointment = new Appointment(id, time, doctor, medicalRecord);
+            if (IsAppointmentInList(appointment))
+            {
+                MessageBox.Show("Nothing is changed", "Error", MessageBoxButton.OK);
+                return null;
+            }
+            else
+            {
+                Appointment toGo = GetAppointmentById(id);
+                Appointments.Remove(GetAppointmentById(id));
+                if (isDoctorAvailable(time, doctor) && isPatientAvailable(time, medicalRecord.user))
+                {
+                    Appointments.Add(appointment);
+                    SaveAppointments();
+                    return appointment;
+                }
+                Appointments.Add(toGo);
+                return null;
+            }
+
+        }
+        return null;
+    }
+
     public void CancelAppointment(Appointment appointment)
     {
         bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now)<24;
@@ -168,6 +209,12 @@ public class ScheduleRepository
             Appointments[index] = appointment;
             SaveAppointments();
         }
+    }
+
+    public bool IsAppointmentInList(Appointment appointment)
+    {
+        //return (from t in Appointments where t.Id == appointment.Id where t.Doctor.Email == appointment.Doctor.Email where t.MedicalRecord.user.Email == appointment.MedicalRecord.user.Email select t).Any(t => t.Time.start == appointment.Time.start && t.Time.end == appointment.Time.end);
+        return Appointments.Any(ap => ap.MedicalRecord.user.Email == appointment.MedicalRecord.user.Email && ap.Doctor.Email == appointment.Doctor.Email && ap.Time.start==appointment.Time.start && ap.Time.end==appointment.Time.end);
     }
 
 }
