@@ -12,6 +12,7 @@ using ZdravoCorp.Core.Repositories.Room;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels;
 using ZdravoCorp.View;
+using ZdravoCorp.View.DoctorView;
 
 namespace ZdravoCorp
 {
@@ -23,7 +24,7 @@ namespace ZdravoCorp
         private void ApplicationStart(object sender, StartupEventArgs e)
         {
             //Disable shutdown when the dialog closes
-            //Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
             //Load functions for repositories
             UserRepository userRepository = new UserRepository();
             DirectorRepository directorRepository = new DirectorRepository();
@@ -36,7 +37,10 @@ namespace ZdravoCorp
 
 
 
-            var window = new DirectorWindow() {DataContext = new DirectorViewModel()};
+            //var window = new DirectorWindow() {DataContext = new DirectorViewModel()};
+            //window.Show();
+
+            var window = new AddAppointmentView(patientRepository) ;
             window.Show();
             //___________________________
            // var dialog = new LoginDialog(userRepository,doctorRepository);

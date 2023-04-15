@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ZdravoCorp.Core.Repositories.User;
+using ZdravoCorp.Core.ViewModels;
 
 namespace ZdravoCorp.View.DoctorView
 {
@@ -19,9 +21,13 @@ namespace ZdravoCorp.View.DoctorView
     /// </summary>
     public partial class AddAppointmentView : Window
     {
-        public AddAppointmentView()
+        public AddAppointmentView(PatientRepository patient)
         {
+            var make = new AddAppointmentViewModel(patient.Patients);
+            DataContext = make;
             InitializeComponent();
         }
+
+       
     }
 }

@@ -15,24 +15,26 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Margin=" 0 20 0 0">
 
-            <DatePicker SelectedDate="{Binding StartDate}"/>
+            <DatePicker SelectedDate="{Binding StartDate,UpdateSourceTrigger=PropertyChanged}"/>
 
         </Grid>
 
         <Grid Grid.Row="1" Margin=" 0 20 0 0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width =" auto"/>
+                <ColumnDefinition Width =" 100"/>
+                <ColumnDefinition Width ="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
                 <Label Content="Enter the time"/>
             </Grid>
-
-            <Grid Grid.Row="1">
-
-                <TextBox Text="{Binding StartTime}"/>
+            <Grid Grid.Column="1" Margin="10 0 20 0">
+                <TextBox Text="{Binding StartTimeHours,UpdateSourceTrigger=PropertyChanged}" Margin="60,0,-70,0" RenderTransformOrigin="0.5,0.477"/>
             </Grid>
+            <Grid Grid.Column="2" Margin="20 0 0 0">
+                <TextBox Text="{Binding StartTimeMinutes,UpdateSourceTrigger=PropertyChanged}"  Margin="75,0,-75,0"/>
+            </Grid>
+
         </Grid>
         <Grid Grid.Row="2" Margin=" 0 20 0 0">
             <Grid.RowDefinitions>
@@ -44,7 +46,7 @@
                 <Label Content="Select patient"/>
             </Grid>
             <Grid Grid.Row="1">
-                <ComboBox SelectedItem="{Binding Username}"/>
+                <ComboBox ItemsSource="{Binding Patients}" SelectedItem="{Binding Username,UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </Grid>
 

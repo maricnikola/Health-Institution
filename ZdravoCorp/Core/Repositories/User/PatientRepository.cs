@@ -10,6 +10,7 @@ public class PatientRepository
 {
         
     private List<Patient> _patients;
+    public List<Patient> Patients => _patients;
     private readonly string _fileName = @".\..\..\..\Data\patients.json";
     
     
