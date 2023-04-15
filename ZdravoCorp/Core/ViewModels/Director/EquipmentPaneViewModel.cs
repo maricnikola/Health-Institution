@@ -34,7 +34,7 @@ public class EquipmentPaneViewModel : ViewModelBase
         set
         {
             _searchText = value;
-            UpdateTableFromSearch();
+            UpdateTable();
             OnPropertyChanged("Search");
         }
     }
@@ -45,7 +45,7 @@ public class EquipmentPaneViewModel : ViewModelBase
         set
         {
             _selectedRoomType = value;
-            UpdateTableFromRoomType();
+            UpdateTable();
             OnPropertyChanged("SelectedRoomType");
         }
     }
@@ -56,7 +56,7 @@ public class EquipmentPaneViewModel : ViewModelBase
         set
         {
             _selectedEquipmentType = value;
-            UpdateTableFromEquipmentType();
+            UpdateTable();
             OnPropertyChanged("SelectedEquipmentType");
         }
     }
@@ -67,58 +67,67 @@ public class EquipmentPaneViewModel : ViewModelBase
         set
         {
             _selectedQuantity = value;
-            UpdateTableFromQuantity();
+            UpdateTable();
             OnPropertyChanged("SelectedQuantity");
         }
     }
 
-    private void UpdateTableFromSearch()
+    private void UpdateTable()
+    {
+        _filteredInventory = _allInventory;
+        var f1 = _filteredInventory.Intersect(UpdateTableFromSearch());
+        var f2 =f1.Intersect(UpdateTableFromEquipmentType());
+        var f3 =f2.Intersect(UpdateTableFromRoomType());
+        var f4 = f3.Intersect(UpdateTableFromQuantity());
+
+        Inventory = f4;
+    }
+    private ObservableCollection<InventoryViewModel> UpdateTableFromSearch()
     {
         if (_searchText != "")
         {
-           _filteredInventory= new ObservableCollection<InventoryViewModel>(_inventory.Intersect(Search(_searchText)));
-            Inventory = _filteredInventory;
+           return new ObservableCollection<InventoryViewModel>(Search(_searchText));
+            
         }
         else
         {
             
-            Inventory = _allInventory;
+            return _allInventory;
         }
     }    
-    private void UpdateTableFromRoomType()
+    private  IEnumerable<InventoryViewModel> UpdateTableFromRoomType()
     {
         if (_selectedRoomType != "None")
         {
-           _filteredInventory= new ObservableCollection<InventoryViewModel>(_inventory.Intersect(FilterByRoomType(_selectedRoomType)));
-            Inventory = _filteredInventory;
+           return new ObservableCollection<InventoryViewModel>(FilterByRoomType(_selectedRoomType));
+            
         }
         else
         {
-            Inventory = _allInventory;
+            return _allInventory;
         }
     }   
-    private void UpdateTableFromEquipmentType()
+    private  ObservableCollection<InventoryViewModel> UpdateTableFromEquipmentType()
     {
         if (_selectedEquipmentType != "None")
         {
-           _filteredInventory= new ObservableCollection<InventoryViewModel>(_inventory.Intersect(FilterRoomByEquipmentType(_selectedEquipmentType)));
-            Inventory = _filteredInventory;
+          return new ObservableCollection<InventoryViewModel>(FilterRoomByEquipmentType(_selectedEquipmentType));
         }
         else
         {
-            Inventory = _allInventory;
+           return _allInventory;
         }
     }   
-    private void UpdateTableFromQuantity()
+    private  ObservableCollection<InventoryViewModel> UpdateTableFromQuantity()
     {
         if (_selectedQuantity != "None")
         {
-           _filteredInventory= new ObservableCollection<InventoryViewModel>(_inventory.Intersect(FilterByQuantity(_selectedQuantity)));
-            Inventory = _filteredInventory;
+           return new ObservableCollection<InventoryViewModel>(FilterByQuantity(_selectedQuantity));
+            
         }
         else
         {
-            Inventory = _allInventory;
+           return _allInventory;
         }
     }
     
