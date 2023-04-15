@@ -82,7 +82,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     MessageBox.Show("Patient", "UserType", MessageBoxButton.OK);
                     Close();
                     //var patientWindow = new PatientFrame(user, _patientRepository);
-                    var patientWindow = new MakeAppointmentView(_doctorRepository);
+                    var patientWindow = new PatientFrame(user,_patientRepository,_doctorRepository);
                     patientWindow.Show();
                     break;
                 case User.UserType.Nurse:

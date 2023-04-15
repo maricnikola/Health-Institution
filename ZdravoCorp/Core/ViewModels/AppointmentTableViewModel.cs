@@ -12,9 +12,11 @@ public class AppointmentTableViewModel: ViewModelBase
 
     public IEnumerable<AppointmentViewModel> Appointments => _appointments;
     public Appointment SelectedAppointment { get; set; }
+    private ScheduleRepository _controller;
 
-    public AppointmentTableViewModel(List<Appointment> appointments)
+    public AppointmentTableViewModel(List<Appointment> appointments, ScheduleRepository scheduleRepository)
     {
+        _controller = scheduleRepository;
         _appointments = new ObservableCollection<AppointmentViewModel>();
         foreach (var appointment in appointments)
         {
@@ -22,4 +24,4 @@ public class AppointmentTableViewModel: ViewModelBase
         }    
     }
     
-    }
+}

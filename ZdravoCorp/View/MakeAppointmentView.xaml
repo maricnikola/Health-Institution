@@ -16,7 +16,7 @@
         <Label Content="Tacno vreme : " HorizontalAlignment="Left" Margin="352,217,0,0" VerticalAlignment="Top" FontSize="24"/>
         <Label Content=":" HorizontalAlignment="Left" Margin="545,222,0,0" VerticalAlignment="Top" FontSize="20"/>
         <Button Command="{Binding CreateAppointmentCommand}" Content="Create" HorizontalAlignment="Left" Margin="222,355,0,0" VerticalAlignment="Top" Height="48" Width="129" FontSize="16"/>
-        <Button Content="Cancel" HorizontalAlignment="Left" Margin="418,355,0,0" VerticalAlignment="Top" FontSize="20" Height="48" Width="116"/>
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="418,355,0,0" VerticalAlignment="Top" FontSize="20" Height="48" Width="116" Click="Button_Click"/>
         <TextBox Text="{Binding Minutes, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="32" Margin="562,227,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" RenderTransformOrigin="0.476,0.568" TextChanged="TextBox_TextChanged" FontSize="18"/>
 
     </Grid>

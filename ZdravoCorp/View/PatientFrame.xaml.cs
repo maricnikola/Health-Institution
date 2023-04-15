@@ -21,10 +21,12 @@ namespace ZdravoCorp.View
     /// </summary>
     public partial class PatientFrame : Window
     {
-        public Patient _patient;
-        public PatientRepository _controller;
-        public PatientFrame(User user, PatientRepository patientRepository)
+        private Patient _patient;
+        private PatientRepository _controller;
+        private DoctorRepository _doctorRepository;
+        public PatientFrame(User user, PatientRepository patientRepository, DoctorRepository dr)
         {
+            _doctorRepository = dr;
             _controller = patientRepository;
             _patient = _controller.GetPatientByEmail(user.Email);
             InitializeComponent();
@@ -32,7 +34,7 @@ namespace ZdravoCorp.View
 
         private void Button_Click_Show(object sender, RoutedEventArgs e)
         {
-            AppointmentTableView appointmentTable = new AppointmentTableView(_patient);
+            AppointmentTableView appointmentTable = new AppointmentTableView(_patient,_doctorRepository);
             appointmentTable.Show();
         }
     }

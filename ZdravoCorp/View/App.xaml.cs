@@ -35,8 +35,8 @@ namespace ZdravoCorp
             InventoryRepository inventoryRepository = new InventoryRepository(roomRepository, equipmentRepository);
 
 
-            //var window = new LoginDialog(userRepository,doctorRepository,patientRepository);
-            var window = new MakeAppointmentView(doctorRepository);
+            var window = new LoginDialog(userRepository,doctorRepository,patientRepository);
+            //var window = new MakeAppointmentView(doctorRepository);
 
             window.Show();
             //var window = new DirectorWindow() {DataContext = new DirectorViewModel()};

@@ -17,6 +17,7 @@ using ZdravoCorp.Core.Loader;
 using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.Repositories.Schedule;
+using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels;
 
 namespace ZdravoCorp.View
@@ -27,28 +28,36 @@ namespace ZdravoCorp.View
     public partial class AppointmentTableView : Window
     {
         private ScheduleRepository _controller;
+        private DoctorRepository _doctorRepository;
 
-        public AppointmentTableView(Patient patient)
+        public AppointmentTableView(Patient patient,DoctorRepository dr)
         {
+            _doctorRepository = dr;
             _controller = new ScheduleRepository();
             LoadFunctions.LoadAppointments(_controller);
             List<Appointment> appointments = _controller.GetPatientAppointments(patient);
-            AppointmentTableViewModel VM = new AppointmentTableViewModel(appointments);
+            AppointmentTableViewModel VM = new AppointmentTableViewModel(appointments, _controller);
 
             DataContext = VM;
             InitializeComponent();
         }
-        public AppointmentTableView(Doctor doctor)
+
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            _controller = new ScheduleRepository();
-            LoadFunctions.LoadAppointments(_controller);
-            List<Appointment> appointments = _controller.GetDoctorAppointments(doctor);
-            AppointmentTableViewModel VM = new AppointmentTableViewModel(appointments);
-
-            DataContext = VM;
-            InitializeComponent();
-
+            var window = new MakeAppointmentView(_doctorRepository);
+            window.Show();
         }
+        //public AppointmentTableView(Doctor doctor)
+        //{
+        //    _controller = new ScheduleRepository();
+        //    LoadFunctions.LoadAppointments(_controller);
+        //    List<Appointment> appointments = _controller.GetDoctorAppointments(doctor);
+        //    AppointmentTableViewModel VM = new AppointmentTableViewModel(appointments);
+
+        //    DataContext = VM;
+        //    InitializeComponent();
+
+        //}
 
     }
 }
