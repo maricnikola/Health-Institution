@@ -33,10 +33,23 @@ public class InventoryRepository
         _equipmentRepository = equipmentRepository;
         _inventory = new List<InventoryItem>();
         LoadFromFile();
+        LoadRoomsAndEquipment();
         SaveToFile();
     }
 
+    public List<InventoryItem> GetAll()
+    {
+        return _inventory;
+    }
 
+    public void LoadRoomsAndEquipment()
+    {
+        foreach (var inventoryItem in _inventory)
+        {
+            inventoryItem.Room = _roomRepository.GetById(inventoryItem.RoomId);
+            inventoryItem.Equipment = _equipmentRepository.GetById(inventoryItem.EquipmentId);
+        }
+    }
     public List<InventoryItem> FilterByRoomType(RoomType roomType)
     {
         return _inventory.Where(item => item.Room.Type == roomType).ToList();

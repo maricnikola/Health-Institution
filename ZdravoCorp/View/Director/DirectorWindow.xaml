@@ -9,7 +9,7 @@
         Title="DirectorWindow" Height="600" Width="920"
         Background="#29262e">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type viewModel:EquipmentViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:EquipmentPaneViewModel}">
             <view:EquipmentView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:DynamicEquipmentViewModel}">
