@@ -134,14 +134,19 @@ public class ScheduleRepository
         File.WriteAllText(this._fileNameOperations, users);
     }
 
-    public void CreateAppointment(TimeSlot time, Doctor doctor, Models.MedicalRecord.MedicalRecord medicalRecord)
+    public Appointment? CreateAppointment(TimeSlot time, Doctor doctor, Models.MedicalRecord.MedicalRecord medicalRecord)
     {
-        if (isDoctorAvailable(time,doctor) && isPatientAvailable(time, medicalRecord.user))
+        if (isDoctorAvailable(time,doctor) && isPatientAvailable(time, medicalRecord.user) && time.start>DateTime.Now)
         {
-            Appointment appointment = new Appointment(0, time, doctor, medicalRecord);
+            Random random = new Random();
+            int id = random.Next(0, 100000);
+            Appointment appointment = new Appointment(id, time, doctor, medicalRecord);
             Appointments.Add(appointment);
             SaveAppointments();
+            return appointment;
         }
+
+        return null;
     }
     public void CreateOperation(TimeSlot time, Doctor doctor, Models.MedicalRecord.MedicalRecord medicalRecord)
     {

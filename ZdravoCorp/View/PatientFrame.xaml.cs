@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 
 namespace ZdravoCorp.View
@@ -24,8 +25,10 @@ namespace ZdravoCorp.View
         private Patient _patient;
         private PatientRepository _controller;
         private DoctorRepository _doctorRepository;
-        public PatientFrame(User user, PatientRepository patientRepository, DoctorRepository dr)
+        private ScheduleRepository _scheduleRepository;
+        public PatientFrame(User user, PatientRepository patientRepository, DoctorRepository dr, ScheduleRepository sr)
         {
+            _scheduleRepository = sr;
             _doctorRepository = dr;
             _controller = patientRepository;
             _patient = _controller.GetPatientByEmail(user.Email);
@@ -34,7 +37,7 @@ namespace ZdravoCorp.View
 
         private void Button_Click_Show(object sender, RoutedEventArgs e)
         {
-            AppointmentTableView appointmentTable = new AppointmentTableView(_patient,_doctorRepository);
+            AppointmentTableView appointmentTable = new AppointmentTableView(_patient,_doctorRepository, _scheduleRepository);
             appointmentTable.Show();
         }
     }

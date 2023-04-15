@@ -9,6 +9,7 @@ using ZdravoCorp.Core.Loader;
 using ZdravoCorp.Core.Repositories.Equipment;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Room;
+using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels;
 using ZdravoCorp.View;
@@ -23,7 +24,7 @@ namespace ZdravoCorp
         private void ApplicationStart(object sender, StartupEventArgs e)
         {
             //Disable shutdown when the dialog closes
-            Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
+            Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             //Load functions for repositories
             UserRepository userRepository = new UserRepository();
             DirectorRepository directorRepository = new DirectorRepository();
@@ -33,30 +34,26 @@ namespace ZdravoCorp
             EquipmentRepository equipmentRepository = new EquipmentRepository();
             RoomRepository roomRepository = new RoomRepository();
             InventoryRepository inventoryRepository = new InventoryRepository(roomRepository, equipmentRepository);
+            ScheduleRepository scheduleRepository = new ScheduleRepository();
+            LoadFunctions.LoadAppointments(scheduleRepository);
 
 
-            var window = new LoginDialog(userRepository,doctorRepository,patientRepository);
-            //var window = new MakeAppointmentView(doctorRepository);
-
-            window.Show();
-            //var window = new DirectorWindow() {DataContext = new DirectorViewModel()};
-            //window.Show();
 
             //___________________________
-            // var dialog = new LoginDialog(userRepository,doctorRepository);
-
-            /*if (dialog.ShowDialog() == true)
+            var dialog = new LoginDialog(userRepository,patientRepository,doctorRepository,scheduleRepository);
+            
+            if (dialog.ShowDialog() == true)
             {
-                /*var mainWindow = new MainWindow();
+               
                 Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
-                Current.MainWindow = mainWindow;
-                mainWindow.Show();#1#
+                dialog.Close();
+                if (Current.MainWindow != null) Current.MainWindow.Show();
             }
             else
             {
                 MessageBox.Show("Invalid login.", "Error", MessageBoxButton.OK);
                 Current.Shutdown(-1);
-            }*/
+            }
         }
     }
 }

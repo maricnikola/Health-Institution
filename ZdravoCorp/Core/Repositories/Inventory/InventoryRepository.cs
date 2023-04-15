@@ -59,9 +59,6 @@ public class InventoryRepository
 
     public void SaveToFile()
     {
-        _inventory.Add(new InventoryItem(33, 3, _roomRepository.GetById(220), _equipmentRepository.GetById(13)));
-        _inventory.Add(new InventoryItem(34, 1, _roomRepository.GetById(220), _equipmentRepository.GetById(14)));
-        _inventory.Add(new InventoryItem(35, 2, _roomRepository.GetById(233), _equipmentRepository.GetById(13)));
         var inventory = JsonSerializer.Serialize(_inventory, _serializerOptions);
 
         File.WriteAllText(this._fileName, inventory);

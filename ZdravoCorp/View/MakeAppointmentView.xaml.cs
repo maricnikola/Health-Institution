@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels;
 
@@ -22,9 +25,9 @@ namespace ZdravoCorp.View
     public partial class MakeAppointmentView : Window
     {
         //private DoctorRepository _doctorRepository;
-        public MakeAppointmentView(DoctorRepository drRepository)
+        public MakeAppointmentView(DoctorRepository drRepository, ScheduleRepository scheduleRepository,ObservableCollection<AppointmentViewModel> Appointments, Patient patient)
         {
-            MakeAppointmentViewModel MAV = new MakeAppointmentViewModel(drRepository._doctors);
+            MakeAppointmentViewModel MAV = new MakeAppointmentViewModel(drRepository._doctors, scheduleRepository, Appointments, drRepository, patient);
             DataContext = MAV;
             InitializeComponent();
         }
