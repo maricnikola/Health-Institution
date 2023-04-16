@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json.Serialization;
 
 namespace ZdravoCorp.Core.Models.User;
@@ -43,5 +44,23 @@ public class Doctor
         Neurologist,
         Urologist,
         Anesthesiologist
+    }
+
+    protected bool Equals(Doctor other)
+    {
+        return Email == other.Email && FirstName == other.FirstName && LastName == other.LastName && Specialization == other.Specialization;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((Doctor)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Email, FirstName, LastName, (int)Specialization);
     }
 }

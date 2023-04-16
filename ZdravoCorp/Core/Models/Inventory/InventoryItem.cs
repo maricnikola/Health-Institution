@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json.Serialization;
 using ZdravoCorp.Core.Repositories.Room;
 
@@ -30,5 +31,24 @@ public class InventoryItem
         Quantity = quantity;
         EquipmentId = equipmentid;
         RoomId = roomid;
+        
+    }
+
+    protected bool Equals(InventoryItem other)
+    {
+        return Id == other.Id && Quantity == other.Quantity && Equals(Room, other.Room) && Equals(Equipment, other.Equipment) && EquipmentId == other.EquipmentId && RoomId == other.RoomId;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((InventoryItem)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Id, Quantity, Room, Equipment, EquipmentId, RoomId);
     }
 }

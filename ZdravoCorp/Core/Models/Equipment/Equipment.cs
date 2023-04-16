@@ -30,5 +30,23 @@ public class Equipment
         Room,
         Hallway
     }
+
+    protected bool Equals(Equipment other)
+    {
+        return Id == other.Id && Name == other.Name && Type == other.Type;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((Equipment)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Id, Name, (int)Type);
+    }
 }
 

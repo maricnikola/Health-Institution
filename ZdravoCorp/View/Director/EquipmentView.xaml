@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="ZdravoCorp.View.EquipmentView"
+﻿<UserControl x:Class="ZdravoCorp.View.Director.EquipmentView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:viewmodels="clr-namespace:ZdravoCorp.Core.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:EquipmentPaneViewModel}"
+             xmlns:viewmodels="clr-namespace:ZdravoCorp.Core.ViewModels.Director" d:DataContext="{d:DesignInstance Type=viewmodels:EquipmentPaneViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="700"
              Background="#29262e">
@@ -15,7 +15,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Margin="0,20, 0, 0" HorizontalAlignment="Center" Orientation="Horizontal">
-            <TextBox Grid.Column="1" Text="{Binding Path = SearchBox , Mode = OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Width="180" Height="40" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="5"
+            <TextBox Text="{Binding Path = SearchBox , Mode = OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Width="180" Height="40" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="5"
                      ></TextBox>
             <Grid>
                 <Grid.RowDefinitions>
@@ -43,7 +43,7 @@
                 </ComboBox>
             </Grid>
             
-            <CheckBox Content="StockRoom" Foreground="White" Margin="10,32,10, 10"></CheckBox>
+            <CheckBox IsChecked="{Binding Path=IsWarehouseChecked, UpdateSourceTrigger=PropertyChanged}" Content="StockRoom" Foreground="White" Margin="10,32,10, 10"></CheckBox>
         </StackPanel>
         <DataGrid Grid.Row="1" Margin="30"></DataGrid>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Inventory, UpdateSourceTrigger=PropertyChanged}"

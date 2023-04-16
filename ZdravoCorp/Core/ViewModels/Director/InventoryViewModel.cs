@@ -1,6 +1,6 @@
 ﻿using ZdravoCorp.Core.Models.Inventory;
 
-namespace ZdravoCorp.Core.ViewModels;
+namespace ZdravoCorp.Core.ViewModels.Director;
 
 public class InventoryViewModel : ViewModelBase
 {

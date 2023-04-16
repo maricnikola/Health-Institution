@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using ZdravoCorp.Core.Models.Equipment;
 using ZdravoCorp.Core.Models.Room;
 using ZdravoCorp.Core.Repositories.Inventory;
-using ZdravoCorp.View;
 
-namespace ZdravoCorp.Core.ViewModels;
+namespace ZdravoCorp.Core.ViewModels.Director;
 
 public class EquipmentPaneViewModel : ViewModelBase
 {
@@ -23,10 +21,25 @@ public class EquipmentPaneViewModel : ViewModelBase
     private string _selectedRoomType = "None";
     private string _selectedEquipmentType = "None";
     private string _selectedQuantity = "None";
+    private bool _warehouseChecked = false;
 
     public EquipmentPaneViewModel()
     {
         
+    }
+
+    public bool IsWarehouseChecked
+    {
+        get
+        {
+            return _warehouseChecked;
+        }
+        set
+        {
+            _warehouseChecked = value;
+            UpdateTable();
+            OnPropertyChanged("IsWarehouseChecked");
+        }
     }
     public string SearchBox
     {
@@ -75,7 +88,8 @@ public class EquipmentPaneViewModel : ViewModelBase
     private void UpdateTable()
     {
         _filteredInventory = _allInventory;
-        var f1 = _filteredInventory.Intersect(UpdateTableFromSearch());
+        var wh = _filteredInventory.Intersect(UpdateTableFromWarehouseChecked());
+        var f1 = wh.Intersect(UpdateTableFromSearch());
         var f2 =f1.Intersect(UpdateTableFromEquipmentType());
         var f3 =f2.Intersect(UpdateTableFromRoomType());
         var f4 = f3.Intersect(UpdateTableFromQuantity());
@@ -131,11 +145,28 @@ public class EquipmentPaneViewModel : ViewModelBase
         }
     }
     
+    private  ObservableCollection<InventoryViewModel> UpdateTableFromWarehouseChecked()
+    {
+        if (_warehouseChecked == false)
+        {
+            return new ObservableCollection<InventoryViewModel>(FilterFromWarehouse());
+            
+        }
+        else
+        {
+            return _allInventory;
+        }
+    }
+    
     
     
     public IEnumerable<InventoryViewModel> Search(string inputText)
     {
         return _allInventory.Where(item => item.ToString().Contains(inputText));
+    }
+    public IEnumerable<InventoryViewModel> FilterFromWarehouse()
+    {
+        return _allInventory.Where(item => item.RoomType != RoomType.StockRoom.ToString());
     }
     
     public IEnumerable<InventoryViewModel> FilterByRoomType(string roomType)

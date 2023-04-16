@@ -8,6 +8,8 @@ using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels;
+using ZdravoCorp.Core.ViewModels.Director;
+using ZdravoCorp.View.Director;
 
 namespace ZdravoCorp.View;
 
