@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Repositories.User;
 
 namespace ZdravoCorp.Core.ViewModels;
 
@@ -16,9 +17,12 @@ public class AddAppointmentViewModel: ViewModelBase
 	private ObservableCollection<String> _patientsFullname { get; }
 	public IEnumerable<String> Patients => _patientsFullname;
 
-	public AddAppointmentViewModel(List<Patient> patients )
+	public AddAppointmentViewModel()
 	{
-		_patientsFullname = new ObservableCollection<string>();
+		PatientRepository _controller = new PatientRepository();
+		List<Patient> patients = _controller.Patients;
+
+        _patientsFullname = new ObservableCollection<string>();
 		foreach(Patient p in patients)
 		{
 			_patientsFullname.Add(p.FullName);

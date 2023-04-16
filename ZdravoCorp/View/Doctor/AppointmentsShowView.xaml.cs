@@ -11,6 +11,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ZdravoCorp.Core.Loader;
+using ZdravoCorp.Core.Models.Appointment;
+using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Repositories.Schedule;
+using ZdravoCorp.Core.Repositories.User;
+using ZdravoCorp.Core.ViewModels;
 
 namespace ZdravoCorp.View.DoctorView
 {
@@ -19,8 +25,16 @@ namespace ZdravoCorp.View.DoctorView
     /// </summary>
     public partial class AppointmentsShowView : Window
     {
+        private ScheduleRepository _controller;
+        
+        
         public AppointmentsShowView()
         {
+            //LoadFunctions.LoadAppointments(_controller);
+            //List<Appointment> appointments = _controller.GetDoctorAppointments(doctor);
+            //var make = new AppointmentShowViewModel(appointments);
+            //DataContext = make;
+
             InitializeComponent();
         }
     }

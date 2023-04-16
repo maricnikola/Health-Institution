@@ -11,22 +11,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using ZdravoCorp.Core.Repositories.User;
-using ZdravoCorp.Core.ViewModels;
 
-namespace ZdravoCorp.View.DoctorView
+namespace ZdravoCorp.View
 {
     /// <summary>
-    /// Interaction logic for AddAppointmentView.xaml
+    /// Interaction logic for DoctorWindow.xaml
     /// </summary>
-    public partial class AddAppointmentView : Window
+    public partial class DoctorWindow : Window
     {
-        public AddAppointmentView()
+        public DoctorWindow()
         {
-            
             InitializeComponent();
         }
-
-       
     }
 }

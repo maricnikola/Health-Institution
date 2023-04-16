@@ -5,10 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ZdravoCorp.Core.Commands;
+using ZdravoCorp.Core.Loader;
 using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.MedicalRecord;
 using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Repositories.Schedule;
+using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.TimeSlots;
+using ZdravoCorp.View.DoctorView;
 
 namespace ZdravoCorp.Core.ViewModels;
 
@@ -18,22 +23,37 @@ public class AppointmentShowViewModel: ViewModelBase
 
     public IEnumerable<AppointmentViewModel> Appointments => _appointments;
     public ICommand ChangeAppointmentCommand { get; }
+    public ICommand AddAppointmentCommand { get; }
     public ICommand CancelAppointmentCommand { get; }
     public ICommand SearchAppointmentCommand { get; }
+    public ICommand ViewMedicalRecordCommand { get; }
 
-    AppointmentShowViewModel()
+    public AppointmentShowViewModel(User user)
     {
 
-        string datumString = "2023-04-14";
-        DateTime datum;
+        ScheduleRepository _controller = new ScheduleRepository();
 
-        // Koristeći metodu Parse klase DateTime
-        datum = DateTime.Parse(datumString);
-        DateTime datum2;
-        datum2 = DateTime.Parse(datumString);
+        DoctorRepository doctoRepository = new DoctorRepository();
+        Doctor doctor = doctoRepository.GetDoctorByEmail(user.Email);
+        LoadFunctions.LoadAppointments(_controller);
+
+        List<Appointment> appointments = _controller.GetDoctorAppointments(doctor);
+
         _appointments = new ObservableCollection<AppointmentViewModel>();
-        _appointments.Add(new AppointmentViewModel(new Appointment(123, new TimeSlot(datum, datum2), new Doctor("afa@gmail.com", "Nikola", "Maric", Doctor.SpecializationType.Psychologist), new MedicalRecord(new Patient("jasdfj@afa", "Aleksa", "perovic"), 123, 122))));
+        foreach(Appointment appointment in appointments)
+        {
+            _appointments.Add(new AppointmentViewModel(appointment));
+        }
 
+        AddAppointmentCommand = new DelegateCommand(o => OpenAddDialog());
+
+        
+    }
+
+    public void OpenAddDialog()
+    {
+        var addAp = new AddAppointmentView() { DataContext =new  AddAppointmentViewModel()};
+        addAp.Show();
     }
 
 
