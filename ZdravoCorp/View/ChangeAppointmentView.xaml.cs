@@ -27,7 +27,7 @@ namespace ZdravoCorp.View
     {
         public ChangeAppointmentView(AppointmentViewModel appointmentViewModel, DoctorRepository drRepository, ScheduleRepository scheduleRepository, ObservableCollection<AppointmentViewModel> Appointments, Patient patient)
         {
-            ChangeAppointmentViewModel CAVM = new ChangeAppointmentViewModel(appointmentViewModel ,drRepository._doctors, scheduleRepository, Appointments, drRepository, patient);
+            ChangeAppointmentViewModel CAVM = new ChangeAppointmentViewModel(appointmentViewModel ,drRepository.GetAll(), scheduleRepository, Appointments, drRepository, patient);
             DataContext = CAVM;
             InitializeComponent();
         }

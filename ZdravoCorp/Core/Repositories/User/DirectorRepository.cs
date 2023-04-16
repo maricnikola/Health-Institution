@@ -1,12 +1,17 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Text.Json;
+using ZdravoCorp.Core.Exceptions;
 using ZdravoCorp.Core.Models.User;
 
 namespace ZdravoCorp.Core.Repositories.User;
 
 public class DirectorRepository
 {
-    public Director _director { get; set; }
+    private Director? _director;
+
+    public Director? Director => _director;
     private readonly string _fileName = @".\..\..\..\Data\directors.json";
     
     
@@ -17,6 +22,11 @@ public class DirectorRepository
 
     public DirectorRepository()
     {
+        LoadFromFile();
+    } 
+    public DirectorRepository(Director director)
+    {
+        _director = director;
         LoadFromFile();
     }
     
@@ -29,7 +39,16 @@ public class DirectorRepository
     public void LoadFromFile()
     {
         var text = File.ReadAllText(_fileName);
-        _director = JsonSerializer.Deserialize<Director>(text);
+        if (text == "")
+            throw new EmptyFileException("File is empty!");
+        try
+        {
+            _director = JsonSerializer.Deserialize<Director>(text);
+        }
+        catch (JsonException e)
+        {
+            Trace.WriteLine(e);
+        }
     }
     
 

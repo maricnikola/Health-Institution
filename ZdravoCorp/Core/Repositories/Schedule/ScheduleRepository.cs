@@ -21,9 +21,9 @@ public class ScheduleRepository
 
     private String _fileNameAppointments = @".\..\..\..\Data\appointments.json";
     private String _fileNameOperations = @".\..\..\..\Data\operations.json";
-    private CounterDictionary _counterDictionary;
     private List<Appointment> Appointments { get; set; }
     private List<Operation> Operations { get; set; }
+    private CounterDictionary _counterDictionary;
 
     public ScheduleRepository()
     {
@@ -52,6 +52,16 @@ public class ScheduleRepository
         }
 
         return null;
+    }
+
+    public void AddOperation(Operation operation)
+    {
+        Operations.Add(operation);
+    }
+
+    public Operation? GetOperationById(int id)
+    {
+        return Operations.FirstOrDefault(op => op.Id == id);
     }
 
     public List<Appointment> GetPatientAppointments(Patient patient)

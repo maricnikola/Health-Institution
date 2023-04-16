@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using ZdravoCorp.Core.Exceptions;
 using ZdravoCorp.Core.Models.User;
 
 namespace ZdravoCorp.Core.Repositories.User;
@@ -9,7 +12,7 @@ namespace ZdravoCorp.Core.Repositories.User;
 public class DoctorRepository
 {
 
-    public readonly List<Doctor> _doctors;
+    private readonly List<Doctor> _doctors;
     private readonly string _fileName = @".\..\..\..\Data\doctors.json";
     
     
@@ -26,14 +29,34 @@ public class DoctorRepository
 
     public void SaveToFile()
     {
+        if (_doctors.Count == 0)
+        {
+            Trace.WriteLine($"Repository is empty! {this.GetType()}");
+            return;
+        }
         var doctors = JsonSerializer.Serialize(this._doctors, _serializerOptions);
         File.WriteAllText(this._fileName, doctors);
     }
     public void LoadFromFile()
     {
         var text = File.ReadAllText(_fileName);
-        var doctors = JsonSerializer.Deserialize<List<Doctor>>(text);
-        doctors.ForEach(doctor => _doctors.Add(doctor));
+        if (text == "")
+        {
+            throw new EmptyFileException("File is empty!");
+        }
+
+        try
+        {
+
+            var doctors = JsonSerializer.Deserialize<List<Doctor>>(text);
+            doctors?.ForEach(doctor => _doctors.Add(doctor));
+
+        }
+        catch (JsonException e)
+        {
+            Trace.WriteLine(e);
+
+        }
     }
     public Doctor? GetDoctorByEmail(string email)
     {
@@ -55,8 +78,13 @@ public class DoctorRepository
         return _doctors;
     }
 
-    public void Add(object obj)
+    public void Add(object? obj)
     {
        _doctors.Add((Doctor) obj);
+    }
+
+    public List<Doctor> GetAll()
+    {
+        return _doctors;
     }
 }

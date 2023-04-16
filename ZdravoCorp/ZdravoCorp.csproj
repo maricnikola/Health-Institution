@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\Exceptions\" />
     <Folder Include="Core\Models\" />
+    <Folder Include="Test\" />
   </ItemGroup>
 
   <ItemGroup>

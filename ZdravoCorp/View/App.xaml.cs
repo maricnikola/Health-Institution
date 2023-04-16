@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using ZdravoCorp.Core.Loader;
 using ZdravoCorp.Core.Repositories.Equipment;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Room;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
-using ZdravoCorp.Core.ViewModels;
-using ZdravoCorp.View;
 
-namespace ZdravoCorp
+namespace ZdravoCorp.View
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -40,7 +32,7 @@ namespace ZdravoCorp
 
 
             //___________________________
-            var dialog = new LoginDialog(userRepository,patientRepository,doctorRepository,scheduleRepository);
+            var dialog = new LoginDialog(userRepository, patientRepository, doctorRepository, scheduleRepository, inventoryRepository);
             
             if (dialog.ShowDialog() == true)
             {

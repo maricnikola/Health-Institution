@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using ZdravoCorp.Core.Exceptions;
 using ZdravoCorp.Core.Models.Room;
 
 namespace ZdravoCorp.Core.Repositories.Room;
@@ -9,7 +12,7 @@ namespace ZdravoCorp.Core.Repositories.Room;
 public class RoomRepository
 {
     private readonly string _fileName = @".\..\..\..\Data\rooms.json";
-    private List<Models.Room.Room> _rooms { get; set; }
+    private readonly List<Models.Room.Room> _rooms;
 
     private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
     {
@@ -30,14 +33,26 @@ public class RoomRepository
     {
         var text = File.ReadAllText(_fileName);
         if (text == "")
-            return;
-        var rooms = JsonSerializer.Deserialize<List<Models.Room.Room>>(text);
-        rooms.ForEach(room => _rooms.Add(room));
+            throw new EmptyFileException("File is empty!");
+        try
+        {
+
+            var rooms = JsonSerializer.Deserialize<List<Models.Room.Room>>(text);
+            rooms?.ForEach(room => _rooms.Add(room));
+        }
+        catch (JsonException e)
+        {
+            Trace.WriteLine(e);
+        }
     }
     
     public void SaveToFile()
     {
-       
+        if (_rooms.Count == 0)
+        {
+            Trace.WriteLine($"Repository is empty! {this.GetType()}");
+            return;
+        }
         var rooms= JsonSerializer.Serialize(_rooms, _serializerOptions);
         File.WriteAllText(this._fileName, rooms);
     }

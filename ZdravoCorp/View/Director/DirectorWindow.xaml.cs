@@ -1,7 +1,6 @@
 ﻿using System.Windows;
-using ZdravoCorp.Core.ViewModels;
 
-namespace ZdravoCorp.View;
+namespace ZdravoCorp.View.Director;
 
 public partial class DirectorWindow : Window
 {
