@@ -10,7 +10,7 @@ namespace ZdravoCorp.Core.Counters;
 public class Counter
 {
     [JsonPropertyName("cancelations")] public List<DateTime> Cancelations;
-    [JsonPropertyName("changes")] public List<DateTime> News;
+    [JsonPropertyName("news")] public List<DateTime> News;
 
     public Counter()
     {

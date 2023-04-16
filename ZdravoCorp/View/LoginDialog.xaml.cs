@@ -78,6 +78,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     break;
                 case User.UserType.Patient:
                     //start patient view
+                    User.State state = user.UserState;
                     Application.Current.MainWindow = new PatientFrame(user, _patientRepository, _doctorRepository, _scheduleRepository);
                     break;
                 case User.UserType.Nurse:
