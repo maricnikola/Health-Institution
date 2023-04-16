@@ -12,7 +12,9 @@ using ZdravoCorp.Core.ViewModels;
 using ZdravoCorp.Core.ViewModels.Director;
 using ZdravoCorp.View.Director;
 using ZdravoCorp.Core.ViewModels.Director;
+using ZdravoCorp.Core.ViewModels.Patient;
 using ZdravoCorp.View.Director;
+using ZdravoCorp.View.Patient;
 
 namespace ZdravoCorp.View;
 
@@ -86,6 +88,9 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                 case User.UserType.Patient:
                     //start patient view
                     User.State state = user.UserState;
+                    Patient patient = _patientRepository.GetPatientByEmail(user.Email);
+                    Application.Current.MainWindow = new PatientWindow() { DataContext = new PatientViewModel(_scheduleRepository.GetPatientAppointments(patient),_scheduleRepository,_doctorRepository,patient) };
+
                     Application.Current.MainWindow = new PatientFrame(user, _patientRepository, _doctorRepository, _scheduleRepository);
                     break;
                 case User.UserType.Nurse:

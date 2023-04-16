@@ -13,6 +13,7 @@ using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.TimeSlots;
+using ZdravoCorp.Core.Models.User;
 
 namespace ZdravoCorp.Core.ViewModels;
 

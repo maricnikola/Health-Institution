@@ -12,7 +12,7 @@ using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.TimeSlots;
 using ZdravoCorp.View;
 
-namespace ZdravoCorp.Core.ViewModels;
+namespace ZdravoCorp.Core.ViewModels.Patient;
 
 public class AppointmentTableViewModel: ViewModelBase
 {
@@ -22,13 +22,13 @@ public class AppointmentTableViewModel: ViewModelBase
     public AppointmentViewModel SelectedAppointment { get; set; }
     private ScheduleRepository _controller;
     private DoctorRepository _doctorRepository;
-    private Patient _patient;
+    private Models.User.Patient _patient;
 
     public ICommand NewAppointmentCommand { get; set; }
     public ICommand ChangeAppointmentCommand { get; set; }
     public ICommand CancelAppointmentCommand { get; set; }
 
-    public AppointmentTableViewModel(List<Appointment> appointments, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, Patient patient)
+    public AppointmentTableViewModel(List<Appointment> appointments, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, Models.User.Patient patient)
     {
         _patient = patient;
         _controller = scheduleRepository;

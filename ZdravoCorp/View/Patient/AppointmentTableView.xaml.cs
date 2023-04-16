@@ -21,19 +21,20 @@ using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.TimeSlots;
 using ZdravoCorp.Core.ViewModels;
+using ZdravoCorp.Core.ViewModels.Patient;
 
-namespace ZdravoCorp.View
+namespace ZdravoCorp.View.Patient
 {
     /// <summary>
     /// Interaction logic for AppointmentTableView.xaml
     /// </summary>
     public partial class AppointmentTableView : Window
     {
-        private Patient _patient;
+        private Core.Models.User.Patient _patient;
         private ScheduleRepository _controller;
         private DoctorRepository _doctorRepository;
 
-        public AppointmentTableView(Patient patient,DoctorRepository dr, ScheduleRepository sr)
+        public AppointmentTableView(Core.Models.User.Patient patient,DoctorRepository dr, ScheduleRepository sr)
         {
             _patient = patient;
             _doctorRepository = dr;

@@ -36,7 +36,13 @@ public class CounterDictionary
             }
         }
         else
-            AllCounters[email].Cancelations = new List<DateTime> { date };
+        {
+            Counter c = new Counter();
+            c.Cancelations = new List<DateTime> { date };
+            AllCounters.Add(email, c);
+        }
+            
+            //AllCounters[email].Cancelations =
         SaveToFile();
     }
     public void AddNews(string email, DateTime date)
