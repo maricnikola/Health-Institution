@@ -1,0 +1,33 @@
+[
+  {
+    "Id": 13,
+    "Name": "Stolica",
+    "Type": "Room"
+  },
+  {
+    "Id": 14,
+    "Name": "Sto",
+    "Type": "Room"
+  },
+  {
+    "Id": 15,
+    "Name": "Krevet",
+    "Type": "Room"
+  },
+  {
+    "Id": 16,
+    "Name": "Orman",
+    "Type": "Room"
+  },
+  {
+    "Id": 17,
+    "Name": "Operacioni sto",
+    "Type": "Operation"
+  },
+  {
+    "Id": 18,
+    "Name": "Lampa",
+    "Type": "Examination"
+  }
+ 
+]

@@ -24,4 +24,6 @@ public class Operation
         equipment = null;
         IsCanceled = false; 
     }
+    
+    
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json.Serialization;
 
 namespace ZdravoCorp.Core.Models.User;
@@ -59,5 +60,23 @@ public class User
         Doctor,
         Patient,
         Nurse
+    }
+
+    protected bool Equals(User other)
+    {
+        return Type == other.Type && Email == other.Email && Password == other.Password && UserState == other.UserState;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((User)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine((int)Type, Email, Password, (int)UserState);
     }
 }

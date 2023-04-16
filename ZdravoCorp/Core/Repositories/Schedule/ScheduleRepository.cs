@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.Operation;
@@ -36,6 +37,16 @@ public class ScheduleRepository
     public void AddAppointment(Appointment appointment)
     {
         Appointments.Add(appointment);
+    }
+
+    public void AddOperation(Operation operation)
+    {
+        Operations.Add(operation);
+    }
+
+    public Operation? GetOperationById(int id)
+    {
+        return Operations.FirstOrDefault(op => op.Id == id);
     }
 
     public List<Appointment> GetPatientAppointments(Patient patient)

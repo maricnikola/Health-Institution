@@ -5,7 +5,11 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using ZdravoCorp.Core.Loader;
 using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.User;
+using ZdravoCorp.Core.ViewModels;
+using ZdravoCorp.Core.ViewModels.Director;
+using ZdravoCorp.View.Director;
 
 namespace ZdravoCorp.View;
 
@@ -15,7 +19,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
     private string? _password;
     private UserRepository _userRepository;
     private DoctorRepository _doctorRepository;
-
+    private InventoryRepository _inventoryRepository;
     
     public string Email
     {
@@ -48,17 +52,17 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             }
         }
     }
-    public LoginDialog(UserRepository userRepository, DoctorRepository doctorRepository)
+    public LoginDialog(UserRepository userRepository, DoctorRepository doctorRepository, InventoryRepository inventoryRepository)
     {
         _userRepository = userRepository;
         _doctorRepository = doctorRepository;
+        _inventoryRepository = inventoryRepository;
         InitializeComponent();
         DataContext = this;
     }
 
     private void LoginButton_OnClick(object sender, RoutedEventArgs e)
     {
-        MessageBox.Show("email: " + Email + "   password: " + Password, "Test", MessageBoxButton.OK);
         var user = GetLoggedUser();
         if (user==null)
             return;
@@ -70,26 +74,19 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
         {
                 case User.UserType.Director:
                     //start director view
-                    MessageBox.Show("Director", "UserType", MessageBoxButton.OK);
-
-                    Close();
+                    Application.Current.MainWindow = new DirectorWindow() {DataContext = new DirectorViewModel(_inventoryRepository)};;
                     break;
                 case User.UserType.Patient:
                     //start patient view
-                    MessageBox.Show("Patient", "UserType", MessageBoxButton.OK);
-                    Close();
+                    //Application.Current.MainWindow = new PatientWindow(){DataContext = new PatientViewModel()};;
                     break;
                 case User.UserType.Nurse:
                     //start nurse view
-                    MessageBox.Show("Nurse", "UserType", MessageBoxButton.OK);
-                    Close();
+                    //Application.Current.MainWindow = new NurseWindow(){DataContext = new NurseViewModel()};;
                     break;
                 case User.UserType.Doctor:
                     //start doctor view
-                    MessageBox.Show("Doctor", "UserType", MessageBoxButton.OK);
-                    Close();
-                    var doctorWindow = new DoctorFrame(user,_doctorRepository);
-                    doctorWindow.Show();
+                    Application.Current.MainWindow = new DoctorFrame(user,_doctorRepository);
                     break;
 
         }

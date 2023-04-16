@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using ZdravoCorp.Core.Loader;
+﻿using System.Windows;
+using ZdravoCorp.Core.Repositories.Equipment;
+using ZdravoCorp.Core.Repositories.Inventory;
+using ZdravoCorp.Core.Repositories.Room;
 using ZdravoCorp.Core.Repositories.User;
-using ZdravoCorp.View;
 
-namespace ZdravoCorp
+namespace ZdravoCorp.View
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -22,24 +17,26 @@ namespace ZdravoCorp
             Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             //Load functions for repositories
             UserRepository userRepository = new UserRepository();
-            //DirectorRepository directorRepository = new DirectorRepository();
+            DirectorRepository directorRepository = new DirectorRepository();
             PatientRepository patientRepository = new PatientRepository();
             NurseRepository nurseRepository = new NurseRepository();
             DoctorRepository doctorRepository = new DoctorRepository();
-
+            EquipmentRepository equipmentRepository = new EquipmentRepository();
+            RoomRepository roomRepository = new RoomRepository();
+            InventoryRepository inventoryRepository = new InventoryRepository(roomRepository, equipmentRepository);
 
 
 
 
             //___________________________
-            var dialog = new LoginDialog(userRepository,doctorRepository);
+            var dialog = new LoginDialog(userRepository,doctorRepository, inventoryRepository);
             
             if (dialog.ShowDialog() == true)
             {
-                /*var mainWindow = new MainWindow();
+               
                 Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
-                Current.MainWindow = mainWindow;
-                mainWindow.Show();*/
+                dialog.Close();
+                if (Current.MainWindow != null) Current.MainWindow.Show();
             }
             else
             {
