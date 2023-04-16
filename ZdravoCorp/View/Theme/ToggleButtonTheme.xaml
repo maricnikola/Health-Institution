@@ -6,7 +6,7 @@
               <Setter.Value>
                    <ControlTemplate TargetType="RadioButton">
                         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{TemplateBinding Background}">
-                             <TextBlock Text="{TemplateBinding Property=Content}" VerticalAlignment="Center" Padding="50"></TextBlock>
+                             <TextBlock Text="{TemplateBinding Property=Content}" VerticalAlignment="Center" Padding="30"></TextBlock>
                         </Grid>
                    </ControlTemplate>
               </Setter.Value>

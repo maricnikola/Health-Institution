@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Core\Models\" />
+    <Folder Include="Core\ViewModels\DoctorViewModel\" />
     <Folder Include="Test\" />
   </ItemGroup>
 
@@ -39,6 +40,11 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\Director\EquipmentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\Patient\ChangeAppointmentView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>

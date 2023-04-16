@@ -5,7 +5,7 @@ using ZdravoCorp.Core.Models.Equipment;
 using ZdravoCorp.Core.Models.Room;
 using ZdravoCorp.Core.Repositories.Inventory;
 
-namespace ZdravoCorp.Core.ViewModels.Director;
+namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
 public class EquipmentPaneViewModel : ViewModelBase
 {

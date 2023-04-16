@@ -78,7 +78,7 @@ public class ScheduleRepository
         List<Operation> patientOperations = new List<Operation>();
         foreach(Operation operation in Operations)
         {
-            if (operation.medicalRecord.user.Email == patient.Email) patientOperations.Add(operation);
+            if (operation.MedicalRecord.user.Email == patient.Email) patientOperations.Add(operation);
         }
         return patientOperations;
     }
@@ -98,7 +98,7 @@ public class ScheduleRepository
         List<Operation> doctorOperations = new List<Operation>();
         foreach (Operation operation in Operations)
         {
-            if (operation.doctor.Email == doctor.Email) doctorOperations.Add(operation);
+            if (operation.Doctor.Email == doctor.Email) doctorOperations.Add(operation);
         }
         return doctorOperations;
     }

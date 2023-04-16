@@ -3,18 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using ZdravoCorp.Core.Loader;
 using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels;
-using ZdravoCorp.Core.ViewModels.Director;
+using ZdravoCorp.Core.ViewModels.DirectorViewModel;
+using ZdravoCorp.Core.ViewModels.PatientViewModel;
 using ZdravoCorp.View.Director;
-using ZdravoCorp.Core.ViewModels.Director;
-using ZdravoCorp.Core.ViewModels.Patient;
 using ZdravoCorp.View.Director;
-using ZdravoCorp.View.Patient;
+using ZdravoCorp.View.PatientV;
 
 namespace ZdravoCorp.View;
 
@@ -89,9 +87,8 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     //start patient view
                     User.State state = user.UserState;
                     Patient patient = _patientRepository.GetPatientByEmail(user.Email);
-                    Application.Current.MainWindow = new PatientWindow() { DataContext = new PatientViewModel(_scheduleRepository.GetPatientAppointments(patient),_scheduleRepository,_doctorRepository,patient) };
+                    Application.Current.MainWindow = new PatientWindow() { DataContext = new PatientViewModel() };
 
-                    Application.Current.MainWindow = new PatientFrame(user, _patientRepository, _doctorRepository, _scheduleRepository);
                     break;
                 case User.UserType.Nurse:
                     //start nurse view

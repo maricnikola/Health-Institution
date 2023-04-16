@@ -35,7 +35,7 @@ namespace ZdravoCorp.View
 
         private void Button_Click_Show(object sender, RoutedEventArgs e)
         {
-            //AppointmentTableView appointmentTable = new AppointmentTableView(_doctor);
+            //AppointmentTabdleView appointmentTable = new AppointmentTabdleView(_doctor);
             //appointmentTable.Show();
         }
     }

@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Appointment;
-using ZdravoCorp.Core.Models.MedicalRecord;
 using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
-using ZdravoCorp.Core.TimeSlots;
 using ZdravoCorp.View;
+using ZdravoCorp.View.PatientV;
 
-namespace ZdravoCorp.Core.ViewModels.Patient;
+namespace ZdravoCorp.Core.ViewModels.PatientViewModel;
 
 public class AppointmentTableViewModel: ViewModelBase
 {
@@ -22,12 +20,16 @@ public class AppointmentTableViewModel: ViewModelBase
     public AppointmentViewModel SelectedAppointment { get; set; }
     private ScheduleRepository _controller;
     private DoctorRepository _doctorRepository;
-    private Models.User.Patient _patient;
+    private Patient _patient;
 
     public ICommand NewAppointmentCommand { get; set; }
     public ICommand ChangeAppointmentCommand { get; set; }
     public ICommand CancelAppointmentCommand { get; set; }
 
+    public AppointmentTableViewModel()
+    {
+        
+    }
     public AppointmentTableViewModel(List<Appointment> appointments, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, Models.User.Patient patient)
     {
         _patient = patient;
