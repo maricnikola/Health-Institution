@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Windows;
+using ZdravoCorp.Core.Counters;
 using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.Operation;
 using ZdravoCorp.Core.Models.User;
@@ -20,6 +21,7 @@ public class ScheduleRepository
 
     private String _fileNameAppointments = @".\..\..\..\Data\appointments.json";
     private String _fileNameOperations = @".\..\..\..\Data\operations.json";
+    private CounterDictionary _counterDictionary;
     private List<Appointment> Appointments { get; set; }
     private List<Operation> Operations { get; set; }
 
@@ -27,6 +29,7 @@ public class ScheduleRepository
     {
         Appointments = new List<Appointment>();
         Operations = new List<Operation>();
+        _counterDictionary = new CounterDictionary();
     }
 
     //public ScheduleRepository()
@@ -56,7 +59,7 @@ public class ScheduleRepository
         List<Appointment> patientAppointments = new List<Appointment>();   
         foreach(Appointment appointment in Appointments)
         {
-            if(appointment.MedicalRecord.user.Email == patient.Email) patientAppointments.Add(appointment);
+            if(appointment.MedicalRecord.user.Email == patient.Email && !appointment.IsCanceled) patientAppointments.Add(appointment);
         }
         return patientAppointments;
     }
@@ -156,6 +159,7 @@ public class ScheduleRepository
             Appointment appointment = new Appointment(id, time, doctor, medicalRecord);
             Appointments.Add(appointment);
             SaveAppointments();
+            _counterDictionary.AddNews(appointment.MedicalRecord.user.Email, DateTime.Now);
             return appointment;
         }
 
@@ -189,6 +193,7 @@ public class ScheduleRepository
                 {
                     Appointments.Add(appointment);
                     SaveAppointments();
+                    _counterDictionary.AddCancelation(appointment.MedicalRecord.user.Email, DateTime.Now);
                     return appointment;
                 }
                 Appointments.Add(toGo);
@@ -202,11 +207,12 @@ public class ScheduleRepository
     public void CancelAppointment(Appointment appointment)
     {
         bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now)<24;
-        if (Appointments.Contains(appointment) && isOnTime)
+        if (IsAppointmentInList(appointment) && isOnTime)
         {
             int index = Appointments.IndexOf(appointment);
             appointment.IsCanceled = true;
             Appointments[index] = appointment;
+            _counterDictionary.AddCancelation(appointment.MedicalRecord.user.Email, DateTime.Now);
             SaveAppointments();
         }
     }

@@ -26,6 +26,7 @@ public class AppointmentTableViewModel: ViewModelBase
 
     public ICommand NewAppointmentCommand { get; set; }
     public ICommand ChangeAppointmentCommand { get; set; }
+    public ICommand CancelAppointmentCommand { get; set; }
 
     public AppointmentTableViewModel(List<Appointment> appointments, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, Patient patient)
     {
@@ -38,10 +39,11 @@ public class AppointmentTableViewModel: ViewModelBase
             _appointments.Add(new AppointmentViewModel(appointment));
         }
         NewAppointmentCommand = new DelegateCommand(o => NewAppointment());
-        ChangeAppointmentCommand = new DelegateCommand(o=>ChangeAppointmentCom());
+        ChangeAppointmentCommand = new DelegateCommand(o=>ChangeAppointmentComm());
+        CancelAppointmentCommand = new DelegateCommand(o => CancelAppointmentComm());
     }
 
-    private void ChangeAppointmentCom()
+    private void ChangeAppointmentComm()
     {
         AppointmentViewModel selectedAppointment = SelectedAppointment;
         if (selectedAppointment != null)
@@ -51,8 +53,6 @@ public class AppointmentTableViewModel: ViewModelBase
         }
         else
             MessageBox.Show("None selected", "Error", MessageBoxButton.OK);
-
-
     }
 
     public void NewAppointment()
@@ -61,6 +61,30 @@ public class AppointmentTableViewModel: ViewModelBase
         window.Show();
     }
 
-    
-    
+    public void CancelAppointmentComm()
+    {
+        AppointmentViewModel selectedAppointment = SelectedAppointment;
+        if (selectedAppointment != null)
+        {
+            Appointment appointment = _controller.GetAppointmentById(selectedAppointment.Id);
+            _controller.CancelAppointment(appointment);
+            Appointments.Remove(GetById(selectedAppointment.Id, Appointments));
+        }
+        else
+            MessageBox.Show("None selected", "Error", MessageBoxButton.OK);
+    }
+
+    public AppointmentViewModel GetById(int id, ObservableCollection<AppointmentViewModel> Appointments)
+    {
+        foreach (var appointmentViewModel in Appointments)
+        {
+            if (appointmentViewModel.Id == id)
+            {
+                return appointmentViewModel;
+            }
+        }
+        return null;
+    }
+
+
 }
