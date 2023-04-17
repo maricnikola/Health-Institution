@@ -7,7 +7,7 @@
                     <Border CornerRadius="10" Background="#353340" Width="180" Height="40">
                     <Grid>
                         <Rectangle StrokeThickness="1"/>
-                             <TextBox Margin="1" Text="{TemplateBinding Text}" BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Padding="4" Foreground="GhostWhite" x:Name="Search" ></TextBox>
+                             <TextBox Margin="1"  BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Padding="4" Foreground="GhostWhite" x:Name="Search" ></TextBox>
                             <TextBlock IsHitTestVisible="False" Text="Search" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10, 0, 0, 0" FontSize="12" Foreground="DarkGray" Grid.Column="0">
                                 <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">

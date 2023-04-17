@@ -5,11 +5,8 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using ZdravoCorp.Core.Loader;
 using ZdravoCorp.Core.Models.User;
-using ZdravoCorp.Core.Repositories.MedicalRecord;
-using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels;
-using ZdravoCorp.View.DoctorView;
 
 namespace ZdravoCorp.View;
 
@@ -19,6 +16,8 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
     private string? _password;
     private UserRepository _userRepository;
     private DoctorRepository _doctorRepository;
+    private InventoryRepository _inventoryRepository;
+    
     private PatientRepository _patientRepository;
     private ScheduleRepository _scheduleRepository;
     
@@ -58,6 +57,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
         _patientRepository = patientRepository;
         _userRepository = userRepository;
         _doctorRepository = doctorRepository;
+        _inventoryRepository = inventoryRepository;
         _scheduleRepository = scheduleRepository;
         InitializeComponent();
         DataContext = this;
@@ -76,7 +76,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
         {
                 case User.UserType.Director:
                     //start director view
-                    Application.Current.MainWindow = new DirectorWindow() {DataContext = new DirectorViewModel()};;
+                    Application.Current.MainWindow = new DirectorWindow() {DataContext = new DirectorViewModel(_inventoryRepository)};;
                     break;
                 case User.UserType.Patient:
                     //start patient view

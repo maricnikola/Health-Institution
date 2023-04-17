@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json.Serialization;
 
 namespace ZdravoCorp.Core.Models.User;
@@ -27,5 +28,23 @@ public class Patient
             firstname = FirstName,
             lastname = LastName,
         };
+    }
+
+    protected bool Equals(Patient other)
+    {
+        return Email == other.Email && FirstName == other.FirstName && LastName == other.LastName;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((Patient)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Email, FirstName, LastName);
     }
 }

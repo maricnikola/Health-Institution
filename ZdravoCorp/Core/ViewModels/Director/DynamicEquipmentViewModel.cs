@@ -1,4 +1,4 @@
-﻿namespace ZdravoCorp.Core.ViewModels;
+﻿namespace ZdravoCorp.Core.ViewModels.Director;
 
 public class DynamicEquipmentViewModel
 {

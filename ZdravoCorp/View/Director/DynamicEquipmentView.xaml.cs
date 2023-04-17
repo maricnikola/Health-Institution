@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace ZdravoCorp.View;
+namespace ZdravoCorp.View.Director;
 
 public partial class DynamicEquipmentView : UserControl
 {

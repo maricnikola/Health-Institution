@@ -43,15 +43,14 @@ public class ScheduleRepository
         Appointments.Add(appointment);
     }
 
-    public Appointment GetAppointmentById(int id)
+    public void AddOperation(Operation operation)
     {
-        foreach (Appointment appointment in Appointments)
-        {
-            if (appointment.Id==id) 
-                return appointment;
-        }
+        Operations.Add(operation);
+    }
 
-        return null;
+    public Operation? GetOperationById(int id)
+    {
+        return Operations.FirstOrDefault(op => op.Id == id);
     }
 
     public List<Appointment> GetPatientAppointments(Patient patient)
