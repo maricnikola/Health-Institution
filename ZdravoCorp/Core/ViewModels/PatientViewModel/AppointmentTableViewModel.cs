@@ -30,8 +30,8 @@ public class AppointmentTableViewModel: ViewModelBase
     {
         
     }
-    public AppointmentTableViewModel(List<Appointment> appointments, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, Models.User.Patient patient)
-    {
+    public AppointmentTableViewModel(List<Appointment> appointments, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, Patient patient)
+    {  
         _patient = patient;
         _controller = scheduleRepository;
         _appointments = new ObservableCollection<AppointmentViewModel>();

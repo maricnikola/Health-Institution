@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Schedule;
@@ -87,7 +88,8 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     //start patient view
                     User.State state = user.UserState;
                     Patient patient = _patientRepository.GetPatientByEmail(user.Email);
-                    Application.Current.MainWindow = new PatientWindow() { DataContext = new PatientViewModel() };
+                    List<Appointment> appointments = _scheduleRepository.GetPatientAppointments(patient);
+                    Application.Current.MainWindow = new PatientWindow() { DataContext = new PatientViewModel(appointments,_scheduleRepository,_doctorRepository, patient) };
 
                     break;
                 case User.UserType.Nurse:
