@@ -15,6 +15,7 @@ using ZdravoCorp.Core.ViewModels.PatientViewModel;
 using ZdravoCorp.View.Director;
 using ZdravoCorp.View.Director;
 using ZdravoCorp.View.PatientV;
+using ZdravoCorp.View.DoctorView;
 
 namespace ZdravoCorp.View;
 
@@ -59,7 +60,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             }
         }
     }
-    public LoginDialog(UserRepository userRepository, PatientRepository patientRepository ,DoctorRepository doctorRepository, ScheduleRepository scheduleRepository, InventoryRepository inventoryRepository)
+    public LoginDialog(UserRepository userRepository, PatientRepository patientRepository ,DoctorRepository doctorRepository, ScheduleRepository scheduleRepository,InventoryRepository inventoryRepository)
     {
         _patientRepository = patientRepository;
         _userRepository = userRepository;
@@ -110,8 +111,8 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     //Application.Current.MainWindow = new NurseWindow(){DataContext = new NurseViewModel()};;
                     break;
                 case User.UserType.Doctor:
-                    //start doctor view
-                    Application.Current.MainWindow = new DoctorFrame(user,_doctorRepository);
+                //start doctor view
+                    Application.Current.MainWindow = new AppointmentsShowView() { DataContext = new AppointmentShowViewModel(user,_scheduleRepository,_doctorRepository,_patientRepository)};
                     break;
 
         }

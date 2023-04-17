@@ -21,9 +21,9 @@ public class ScheduleRepository
 
     private String _fileNameAppointments = @".\..\..\..\Data\appointments.json";
     private String _fileNameOperations = @".\..\..\..\Data\operations.json";
+    private CounterDictionary _counterDictionary;
     private List<Appointment> Appointments { get; set; }
     private List<Operation> Operations { get; set; }
-    private CounterDictionary _counterDictionary;
 
     public ScheduleRepository()
     {
@@ -43,17 +43,6 @@ public class ScheduleRepository
         Appointments.Add(appointment);
     }
 
-    public Appointment GetAppointmentById(int id)
-    {
-        foreach (Appointment appointment in Appointments)
-        {
-            if (appointment.Id==id) 
-                return appointment;
-        }
-
-        return null;
-    }
-
     public void AddOperation(Operation operation)
     {
         Operations.Add(operation);
@@ -62,6 +51,11 @@ public class ScheduleRepository
     public Operation? GetOperationById(int id)
     {
         return Operations.FirstOrDefault(op => op.Id == id);
+    }
+
+    public Appointment GetAppointmentById(int id)
+    {
+        return Appointments.FirstOrDefault(ap => ap.Id == id);
     }
 
     public List<Appointment> GetPatientAppointments(Patient patient)
@@ -233,4 +227,21 @@ public class ScheduleRepository
         return Appointments.Any(ap => ap.MedicalRecord.user.Email == appointment.MedicalRecord.user.Email && ap.Doctor.Email == appointment.Doctor.Email && ap.Time.start==appointment.Time.start && ap.Time.end==appointment.Time.end);
     }
 
+
+
+    public List<Appointment> GetAppointmentsForShow(DateTime date)
+    {
+        List<Appointment> showAppointments = new List<Appointment>();
+        foreach(Appointment appointment in Appointments)
+        {
+            if (IsForShow(appointment, date)) showAppointments.Add(appointment);
+        }
+        return showAppointments;
+    }
+
+    public bool IsForShow(Appointment appointment,DateTime date)
+    {
+        DateTime dateEnd = date.AddDays(3);
+        return (appointment.Time.start > date && appointment.Time.start < dateEnd);
+    }
 }
