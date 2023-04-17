@@ -1,7 +1,9 @@
 ﻿using System.Windows;
+using ZdravoCorp.Core.Loader;
 using ZdravoCorp.Core.Repositories.Equipment;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Room;
+using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 
 namespace ZdravoCorp.View
@@ -24,12 +26,16 @@ namespace ZdravoCorp.View
             EquipmentRepository equipmentRepository = new EquipmentRepository();
             RoomRepository roomRepository = new RoomRepository();
             InventoryRepository inventoryRepository = new InventoryRepository(roomRepository, equipmentRepository);
+            ScheduleRepository scheduleRepository = new ScheduleRepository();
+            LoadFunctions.LoadAppointments(scheduleRepository);
 
 
+            //var window = new DirectorWindow() {DataContext = new DirectorViewModel()};
+            //window.Show();
 
 
             //___________________________
-            var dialog = new LoginDialog(userRepository,doctorRepository, inventoryRepository);
+            var dialog = new LoginDialog(userRepository,patientRepository,doctorRepository,scheduleRepository, inventoryRepository);
             
             if (dialog.ShowDialog() == true)
             {

@@ -25,14 +25,14 @@ public class LoadFunctions
     public static void LoadAppointments(ScheduleRepository schedule)
     {
         Random random = new Random();
-        TimeSlot time = new TimeSlot(new DateTime(2023, 4, 10, 9, 0, 0), new DateTime(2023, 4, 10, 9, 15, 0));
+        TimeSlot time = new TimeSlot(new DateTime(2023, 10, 10, 9, 0, 0), new DateTime(2023, 10, 10, 9, 15, 0));
         Patient p = new Patient("sreten.pejovic@gmail.com", "Seten", "Pejovic");
         MedicalRecord mr = new MedicalRecord(p, 175, 72);
         Doctor d = new Doctor("savo.oroz@gmail.com", "Savo", "Oroz", Doctor.SpecializationType.Surgeon);
         int id = random.Next(0,100000);
         Appointment appointment = new Appointment(id, time, d, mr);
 
-        TimeSlot time1 = new TimeSlot(new DateTime(2023, 3, 10, 6, 0, 0), new DateTime(2023, 3, 10, 6, 15, 0));
+        TimeSlot time1 = new TimeSlot(new DateTime(2023, 11, 10, 6, 0, 0), new DateTime(2023, 11, 10, 6, 15, 0));
         Patient p1 = new Patient("sreten.pejovic@gmail.com", "Sreten", "Pejovic");
         MedicalRecord mr1 = new MedicalRecord(p, 175, 72);
         Doctor d1 = new Doctor("savo.oroz@gmail.com", "Savo", "Oroz", Doctor.SpecializationType.Surgeon);

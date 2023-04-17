@@ -15,8 +15,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ZdravoCorp.Core.Loader;
 using ZdravoCorp.Core.Models.Appointment;
+using ZdravoCorp.Core.Models.MedicalRecord;
 using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.Repositories.Schedule;
+using ZdravoCorp.Core.Repositories.User;
+using ZdravoCorp.Core.TimeSlots;
 using ZdravoCorp.Core.ViewModels;
 
 namespace ZdravoCorp.View
@@ -26,18 +29,45 @@ namespace ZdravoCorp.View
     /// </summary>
     public partial class AppointmentTableView : Window
     {
+        private Patient _patient;
         private ScheduleRepository _controller;
-        public AppointmentTableView(Doctor doctor)
+        private DoctorRepository _doctorRepository;
+
+        public AppointmentTableView(Patient patient,DoctorRepository dr, ScheduleRepository sr)
         {
-            _controller = new ScheduleRepository();
-            LoadFunctions.LoadAppointments(_controller);
-            List<Appointment> appointments = _controller.GetDoctorAppointments(doctor);
-            AppointmentTableViewModel VM = new AppointmentTableViewModel(appointments);
+            _patient = patient;
+            _doctorRepository = dr;
+            _controller = sr;
+            //_controller = new ScheduleRepository();
+            //LoadFunctions.LoadAppointments(_controller);
+            List<Appointment> appointments = _controller.GetPatientAppointments(_patient);
+            AppointmentTableViewModel VM = new AppointmentTableViewModel(appointments, _controller, _doctorRepository, _patient);
 
             DataContext = VM;
             InitializeComponent();
-
         }
+
+
+        //private void Update()
+        //{
+        //    List<Appointment> appointments = _controller.GetPatientAppointments(_patient);
+        //    AppointmentTableViewModel VM = new AppointmentTableViewModel(appointments, _controller);
+
+        //    DataContext = VM;
+        //}
+
+
+        //public AppointmentTableView(Doctor doctor)
+        //{
+        //    _controller = new ScheduleRepository();
+        //    LoadFunctions.LoadAppointments(_controller);
+        //    List<Appointment> appointments = _controller.GetDoctorAppointments(doctor);
+        //    AppointmentTableViewModel VM = new AppointmentTableViewModel(appointments);
+
+        //    DataContext = VM;
+        //    InitializeComponent();
+
+        //}
 
     }
 }

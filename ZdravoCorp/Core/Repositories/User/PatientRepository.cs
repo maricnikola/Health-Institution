@@ -14,6 +14,7 @@ public class PatientRepository
         
     private readonly List<Patient> _patients;
     private readonly string _fileName = @".\..\..\..\Data\patients.json";
+    public List<Patient> Patients => _patients;
     
     
     private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions

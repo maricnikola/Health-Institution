@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Windows;
+using ZdravoCorp.Core.Counters;
 using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.Operation;
 using ZdravoCorp.Core.Models.User;
@@ -19,6 +21,7 @@ public class ScheduleRepository
 
     private String _fileNameAppointments = @".\..\..\..\Data\appointments.json";
     private String _fileNameOperations = @".\..\..\..\Data\operations.json";
+    private CounterDictionary _counterDictionary;
     private List<Appointment> Appointments { get; set; }
     private List<Operation> Operations { get; set; }
 
@@ -26,6 +29,7 @@ public class ScheduleRepository
     {
         Appointments = new List<Appointment>();
         Operations = new List<Operation>();
+        _counterDictionary = new CounterDictionary();
     }
 
     //public ScheduleRepository()
@@ -49,12 +53,17 @@ public class ScheduleRepository
         return Operations.FirstOrDefault(op => op.Id == id);
     }
 
+    public Appointment GetAppointmentById(int id)
+    {
+        return Appointments.FirstOrDefault(ap => ap.Id == id);
+    }
+
     public List<Appointment> GetPatientAppointments(Patient patient)
     {
         List<Appointment> patientAppointments = new List<Appointment>();   
         foreach(Appointment appointment in Appointments)
         {
-            if(appointment.MedicalRecord.user.Email == patient.Email) patientAppointments.Add(appointment);
+            if(appointment.MedicalRecord.user.Email == patient.Email && !appointment.IsCanceled) patientAppointments.Add(appointment);
         }
         return patientAppointments;
     }
@@ -145,14 +154,20 @@ public class ScheduleRepository
         File.WriteAllText(this._fileNameOperations, users);
     }
 
-    public void CreateAppointment(TimeSlot time, Doctor doctor, Models.MedicalRecord.MedicalRecord medicalRecord)
+    public Appointment? CreateAppointment(TimeSlot time, Doctor doctor, Models.MedicalRecord.MedicalRecord medicalRecord)
     {
-        if (isDoctorAvailable(time,doctor) && isPatientAvailable(time, medicalRecord.user))
+        if (isDoctorAvailable(time,doctor) && isPatientAvailable(time, medicalRecord.user) && time.start>DateTime.Now)
         {
-            Appointment appointment = new Appointment(0, time, doctor, medicalRecord);
+            Random random = new Random();
+            int id = random.Next(0, 100000);
+            Appointment appointment = new Appointment(id, time, doctor, medicalRecord);
             Appointments.Add(appointment);
             SaveAppointments();
+            _counterDictionary.AddNews(appointment.MedicalRecord.user.Email, DateTime.Now);
+            return appointment;
         }
+
+        return null;
     }
     public void CreateOperation(TimeSlot time, Doctor doctor, Models.MedicalRecord.MedicalRecord medicalRecord)
     {
@@ -164,16 +179,67 @@ public class ScheduleRepository
         }
     }
 
+    public Appointment? ChangeAppointment(int id,TimeSlot time, Doctor doctor, Models.MedicalRecord.MedicalRecord medicalRecord)
+    {
+        if (time.start > DateTime.Now)
+        {
+            Appointment appointment = new Appointment(id, time, doctor, medicalRecord);
+            if (IsAppointmentInList(appointment))
+            {
+                MessageBox.Show("Nothing is changed", "Error", MessageBoxButton.OK);
+                return null;
+            }
+            else
+            {
+                Appointment toGo = GetAppointmentById(id);
+                Appointments.Remove(GetAppointmentById(id));
+                if (isDoctorAvailable(time, doctor) && isPatientAvailable(time, medicalRecord.user))
+                {
+                    Appointments.Add(appointment);
+                    SaveAppointments();
+                    //_counterDictionary.AddCancelation(appointment.MedicalRecord.user.Email, DateTime.Now);
+                    return appointment;
+                }
+                Appointments.Add(toGo);
+                return null;
+            }
+
+        }
+        return null;
+    }
+
     public void CancelAppointment(Appointment appointment)
     {
         bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now)<24;
-        if (Appointments.Contains(appointment) && isOnTime)
+        if (IsAppointmentInList(appointment) && isOnTime)
         {
             int index = Appointments.IndexOf(appointment);
             appointment.IsCanceled = true;
             Appointments[index] = appointment;
+            _counterDictionary.AddCancelation(appointment.MedicalRecord.user.Email, DateTime.Now);
             SaveAppointments();
         }
     }
 
+    public bool IsAppointmentInList(Appointment appointment)
+    {
+        //return (from t in Appointments where t.Id == appointment.Id where t.Doctor.Email == appointment.Doctor.Email where t.MedicalRecord.user.Email == appointment.MedicalRecord.user.Email select t).Any(t => t.Time.start == appointment.Time.start && t.Time.end == appointment.Time.end);
+        return Appointments.Any(ap => ap.MedicalRecord.user.Email == appointment.MedicalRecord.user.Email && ap.Doctor.Email == appointment.Doctor.Email && ap.Time.start==appointment.Time.start && ap.Time.end==appointment.Time.end);
+    }
+
+    public List<Appointment> GetAppointmentsForShow(DateTime date)
+    {
+        List<Appointment> showAppointments = new List<Appointment>();
+        foreach(Appointment appointment in Appointments)
+        {
+            if (IsForShow(appointment, date)) showAppointments.Add(appointment);
+        }
+        return showAppointments;
+    }
+
+    public bool IsForShow(Appointment appointment,DateTime date)
+    {
+        DateTime dateEnd = date.AddDays(3);
+        return (appointment.Time.start > date && appointment.Time.start < dateEnd);
+    }
 }

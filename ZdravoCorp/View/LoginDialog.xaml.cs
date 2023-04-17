@@ -6,10 +6,12 @@ using System.Windows;
 using ZdravoCorp.Core.Loader;
 using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.Repositories.Inventory;
+using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels;
 using ZdravoCorp.Core.ViewModels.Director;
 using ZdravoCorp.View.Director;
+using ZdravoCorp.View.DoctorView;
 
 namespace ZdravoCorp.View;
 
@@ -20,6 +22,9 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
     private UserRepository _userRepository;
     private DoctorRepository _doctorRepository;
     private InventoryRepository _inventoryRepository;
+    
+    private PatientRepository _patientRepository;
+    private ScheduleRepository _scheduleRepository;
     
     public string Email
     {
@@ -52,11 +57,13 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             }
         }
     }
-    public LoginDialog(UserRepository userRepository, DoctorRepository doctorRepository, InventoryRepository inventoryRepository)
+    public LoginDialog(UserRepository userRepository, PatientRepository patientRepository ,DoctorRepository doctorRepository, ScheduleRepository scheduleRepository,InventoryRepository inventoryRepository)
     {
+        _patientRepository = patientRepository;
         _userRepository = userRepository;
         _doctorRepository = doctorRepository;
         _inventoryRepository = inventoryRepository;
+        _scheduleRepository = scheduleRepository;
         InitializeComponent();
         DataContext = this;
     }
@@ -78,15 +85,15 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     break;
                 case User.UserType.Patient:
                     //start patient view
-                    //Application.Current.MainWindow = new PatientWindow(){DataContext = new PatientViewModel()};;
+                    Application.Current.MainWindow = new PatientFrame(user, _patientRepository, _doctorRepository, _scheduleRepository);
                     break;
                 case User.UserType.Nurse:
                     //start nurse view
                     //Application.Current.MainWindow = new NurseWindow(){DataContext = new NurseViewModel()};;
                     break;
                 case User.UserType.Doctor:
-                    //start doctor view
-                    Application.Current.MainWindow = new DoctorFrame(user,_doctorRepository);
+                //start doctor view
+                    Application.Current.MainWindow = new AppointmentsShowView() { DataContext = new AppointmentShowViewModel(user,_scheduleRepository,_doctorRepository,_patientRepository)};
                     break;
 
         }
