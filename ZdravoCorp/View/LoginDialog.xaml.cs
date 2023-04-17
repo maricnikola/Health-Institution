@@ -93,7 +93,9 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     CounterDictionary counterDictionary = new CounterDictionary();
                     if (counterDictionary.IsForBlock(user.Email))
                     {
+                        
                         MessageBox.Show("You are blocked", "Error", MessageBoxButton.OK);
+                        DialogResult = false;
                     }
                     else
                         Application.Current.MainWindow = new PatientWindow()
