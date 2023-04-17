@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using ZdravoCorp.Core.Loader;
 using ZdravoCorp.Core.Repositories.Equipment;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Room;
@@ -34,7 +35,7 @@ namespace ZdravoCorp.View
 
 
             //___________________________
-            var dialog = new LoginDialog(userRepository,doctorRepository, inventoryRepository);
+            var dialog = new LoginDialog(userRepository,patientRepository,doctorRepository,scheduleRepository, inventoryRepository);
             
             if (dialog.ShowDialog() == true)
             {

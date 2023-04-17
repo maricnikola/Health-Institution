@@ -53,6 +53,11 @@ public class ScheduleRepository
         return Operations.FirstOrDefault(op => op.Id == id);
     }
 
+    public Appointment GetAppointmentById(int id)
+    {
+        return Appointments.FirstOrDefault(ap => ap.Id == id);
+    }
+
     public List<Appointment> GetPatientAppointments(Patient patient)
     {
         List<Appointment> patientAppointments = new List<Appointment>();   
@@ -192,7 +197,7 @@ public class ScheduleRepository
                 {
                     Appointments.Add(appointment);
                     SaveAppointments();
-                    _counterDictionary.AddCancelation(appointment.MedicalRecord.user.Email, DateTime.Now);
+                    //_counterDictionary.AddCancelation(appointment.MedicalRecord.user.Email, DateTime.Now);
                     return appointment;
                 }
                 Appointments.Add(toGo);

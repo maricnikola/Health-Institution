@@ -4,14 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZdravoCorp.View.DoctorView"
-        xmlns:viewModel = "clr-namespace:ZdravoCorp.Core.ViewModels"
-        xmlns:view = "clr-namespace:ZdravoCorp.View"
+        xmlns:viewModel = "clr-namespace:ZdravoCorp.Core.ViewModels.Director"
+        xmlns:view = "clr-namespace:ZdravoCorp.View.Director"
         mc:Ignorable="d"
         Title="DirectorWindow" Height="600" Width="920"
         Background="#29262e">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type viewModel:AppointmentShowViewModel}">
-            <view:DrChangeAppointmentView/>
+        <DataTemplate DataType="{x:Type viewModel:DirectorViewModel}">
+            <view:DynamicEquipmentView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:DynamicEquipmentViewModel}">
             <view:DynamicEquipmentView/>

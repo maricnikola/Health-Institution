@@ -5,8 +5,13 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using ZdravoCorp.Core.Loader;
 using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Repositories.Inventory;
+using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels;
+using ZdravoCorp.Core.ViewModels.Director;
+using ZdravoCorp.View.Director;
+using ZdravoCorp.View.DoctorView;
 
 namespace ZdravoCorp.View;
 
@@ -52,7 +57,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             }
         }
     }
-    public LoginDialog(UserRepository userRepository, PatientRepository patientRepository ,DoctorRepository doctorRepository, ScheduleRepository scheduleRepository)
+    public LoginDialog(UserRepository userRepository, PatientRepository patientRepository ,DoctorRepository doctorRepository, ScheduleRepository scheduleRepository,InventoryRepository inventoryRepository)
     {
         _patientRepository = patientRepository;
         _userRepository = userRepository;

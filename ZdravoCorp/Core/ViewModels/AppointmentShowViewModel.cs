@@ -81,7 +81,7 @@ public class AppointmentShowViewModel : ViewModelBase
         {
             string patientMail = appointment.PatientMail;
             Patient patient = _patientRepository.GetPatientByEmail(patientMail);
-            var changeAp = new DrChangeAppointmentView() { DataContext = new DrChangeAppointmentViewModel(SelectedAppointments,_scheduleRepository, _doctorRepository, _appointments, _patientRepository, _doctor,patient) };
+            var changeAp = new DrChangeAppointmentView() { DataContext = new DrChangeAppointmentViewModel(SelectedAppointments,_scheduleRepository, _doctorRepository, _appointments, _patientRepository, _doctor,patient,appointment) };
             changeAp.Show();
 
         }

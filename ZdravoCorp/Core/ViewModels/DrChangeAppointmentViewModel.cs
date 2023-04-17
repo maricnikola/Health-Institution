@@ -25,13 +25,14 @@ namespace ZdravoCorp.Core.ViewModels
         private Doctor _dr;
         private Patient _patient;
         private AppointmentViewModel _appointmentModel;
+        
 
-        public DrChangeAppointmentViewModel(AppointmentViewModel appointmentModel, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, ObservableCollection<AppointmentViewModel> appointment, PatientRepository patientRepository, Doctor doctor,Patient patient)
+        public DrChangeAppointmentViewModel(AppointmentViewModel appointmentModel, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, ObservableCollection<AppointmentViewModel> appointment, PatientRepository patientRepository, Doctor doctor,Patient patient,AppointmentViewModel appointmentSelected)
         {
             _dr = doctor;
             _appointmentModel = appointmentModel;
             _patient = patient;
-
+            _appointmentModel = appointmentSelected;
             _scheduleRepository = scheduleRepository;
             _patientRepository = patientRepository;
             PatientRepository _controller = new PatientRepository();
@@ -115,9 +116,15 @@ namespace ZdravoCorp.Core.ViewModels
 
                 MedicalRecord medicalRecord = new MedicalRecord(_patient);
 
+                
                 Appointment appointment = _scheduleRepository.ChangeAppointment(_appointmentModel.Id,time, _dr, medicalRecord);
+
+
                 if (appointment != null)
+                {
+                    Appointments.Remove(_appointmentModel);
                     Appointments.Add(new AppointmentViewModel(appointment));
+                }
                 else
                 {
                     MessageBox.Show("Invalid Appointment", "Error", MessageBoxButton.OK);
