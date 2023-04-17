@@ -78,7 +78,7 @@ namespace ZdravoCorp.Core.ViewModels
             }
             set
             {
-                ChangeHours = value;
+                _changeHours = value;
                 OnPropertyChanged(nameof(ChangeHours));
             }
         }
