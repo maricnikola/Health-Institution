@@ -229,16 +229,17 @@ public class ScheduleRepository
 
     public List<Appointment> GetAppointmentsForShow(DateTime date)
     {
-        DateTime dateEnd = date.AddDays(3);
         List<Appointment> showAppointments = new List<Appointment>();
         foreach(Appointment appointment in Appointments)
         {
-            if(appointment.Time.start > date && appointment.Time.start < dateEnd)
-            {
-                showAppointments.Add(appointment);
-            }
+            if (IsForShow(appointment, date)) showAppointments.Add(appointment);
         }
         return showAppointments;
     }
 
+    public bool IsForShow(Appointment appointment,DateTime date)
+    {
+        DateTime dateEnd = date.AddDays(3);
+        return (appointment.Time.start > date && appointment.Time.start < dateEnd);
+    }
 }

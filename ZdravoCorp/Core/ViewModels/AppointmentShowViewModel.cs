@@ -54,10 +54,11 @@ public class AppointmentShowViewModel : ViewModelBase
         _medicalRecordRepository = new MedicalRecordRepository(appointments);
 
         _appointments = new ObservableCollection<AppointmentViewModel>();
-        foreach (Appointment appointment in appointments)
-        {
-            _appointments.Add(new AppointmentViewModel(appointment));
-        }
+
+        //foreach (Appointment appointment in appointments)
+        //{
+        //    _appointments.Add(new AppointmentViewModel(appointment));
+        //}
 
         AddAppointmentCommand = new DelegateCommand(o => OpenAddDialog());
         ChangeAppointmentCommand = new DelegateCommand(o => OpenChangeDialog());
@@ -70,7 +71,7 @@ public class AppointmentShowViewModel : ViewModelBase
 
     public void OpenAddDialog()
     {
-        var addAp = new AddAppointmentView() { DataContext = new AddAppointmentViewModel(_scheduleRepository,_doctorRepository,_appointments,_patientRepository,_doctor,_medicalRecordRepository) };
+        var addAp = new AddAppointmentView() { DataContext = new AddAppointmentViewModel(_scheduleRepository,_doctorRepository,_appointments,_patientRepository,_doctor,_medicalRecordRepository,_dateAppointment) };
         addAp.Show();
     }
 
@@ -81,7 +82,7 @@ public class AppointmentShowViewModel : ViewModelBase
         {
             string patientMail = appointment.PatientMail;
             Patient patient = _patientRepository.GetPatientByEmail(patientMail);
-            var changeAp = new DrChangeAppointmentView() { DataContext = new DrChangeAppointmentViewModel(SelectedAppointments,_scheduleRepository, _doctorRepository, _appointments, _patientRepository, _doctor,patient,appointment) };
+            var changeAp = new DrChangeAppointmentView() { DataContext = new DrChangeAppointmentViewModel(SelectedAppointments,_scheduleRepository, _doctorRepository, _appointments, _patientRepository, _doctor,patient,appointment,_dateAppointment) };
             changeAp.Show();
 
         }
@@ -133,15 +134,13 @@ public class AppointmentShowViewModel : ViewModelBase
 
     public void SearchAppointments()
     {
-        Appointments.Clear();
-        List<Appointment> appointments = _scheduleRepository.GetDoctorAppointments(_doctor);
-
         List<Appointment> showAppointments =  _scheduleRepository.GetAppointmentsForShow(_dateAppointment);
         Appointments.Clear();
-        foreach(Appointment appointment in showAppointments)
+        foreach (Appointment appointment in showAppointments) 
         {
             Appointments.Add(new AppointmentViewModel(appointment));
         }
+        
     }
 
     public void ShowMedicalRecord()

@@ -25,9 +25,10 @@ namespace ZdravoCorp.Core.ViewModels
         private Doctor _dr;
         private Patient _patient;
         private AppointmentViewModel _appointmentModel;
+        private DateTime _date;
         
 
-        public DrChangeAppointmentViewModel(AppointmentViewModel appointmentModel, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, ObservableCollection<AppointmentViewModel> appointment, PatientRepository patientRepository, Doctor doctor,Patient patient,AppointmentViewModel appointmentSelected)
+        public DrChangeAppointmentViewModel(AppointmentViewModel appointmentModel, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, ObservableCollection<AppointmentViewModel> appointment, PatientRepository patientRepository, Doctor doctor,Patient patient,AppointmentViewModel appointmentSelected,DateTime date)
         {
             _dr = doctor;
             _appointmentModel = appointmentModel;
@@ -35,6 +36,7 @@ namespace ZdravoCorp.Core.ViewModels
             _appointmentModel = appointmentSelected;
             _scheduleRepository = scheduleRepository;
             _patientRepository = patientRepository;
+            _date = date;
             PatientRepository _controller = new PatientRepository();
             List<Patient> patients = _controller.Patients;
 
@@ -122,8 +124,16 @@ namespace ZdravoCorp.Core.ViewModels
 
                 if (appointment != null)
                 {
-                    Appointments.Remove(_appointmentModel);
-                    Appointments.Add(new AppointmentViewModel(appointment));
+                    if (_scheduleRepository.IsForShow(appointment, _date))
+                    {
+                        Appointments.Remove(_appointmentModel);
+                        Appointments.Add(new AppointmentViewModel(appointment));
+
+                    }
+                    else
+                    {
+                        Appointments.Remove(_appointmentModel);
+                    }
                 }
                 else
                 {
