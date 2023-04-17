@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ZdravoCorp.Core.Counters;
 
@@ -17,12 +19,12 @@ public class CounterDictionary
         //WriteIndented = true
         PropertyNameCaseInsensitive = true
     };
-    public Dictionary<string, Counter> AllCounters;
+    public Dictionary<string, Counter>? AllCounters;
 
     public CounterDictionary()
     {
         AllCounters = new Dictionary<string, Counter>();
-        //LoadFromFile();
+        LoadFromFile();
     }
 
     public void AddCancelation(string email, DateTime date)
@@ -84,14 +86,18 @@ public class CounterDictionary
     public void LoadFromFile()
     {
         string text = File.ReadAllText(_fileName);
-        var users = JsonSerializer.Deserialize<Dictionary<string,Counter>>(text, _serializerOptions);
+        if (text == "")
+        {
+            return;
+        }
+        Dictionary<string, Counter>? users = JsonConvert.DeserializeObject<Dictionary<string, Counter>>(text);
 
         AllCounters = users;
     }
 
     public void SaveToFile()
     {
-        var counters = JsonSerializer.Serialize(this.AllCounters, _serializerOptions);
+        var counters = JsonConvert.SerializeObject(AllCounters, Formatting.Indented);
         File.WriteAllText(this._fileName, counters);
     }
 
