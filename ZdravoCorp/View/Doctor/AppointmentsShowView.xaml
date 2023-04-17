@@ -19,7 +19,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0" Margin="10 0 100 0">
-                        <DatePicker />
+                        <DatePicker SelectedDate="{Binding DateAppointment}" />
                     </Grid>
                     <Grid Grid.Column="1">
                         <Button Command="{Binding SearchAppointmentCommand}" Width="100" Margin="300 0 0 0" Content="Search"/>

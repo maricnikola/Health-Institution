@@ -6,31 +6,63 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using ZdravoCorp.Core.Commands;
+using ZdravoCorp.Core.Models.Appointment;
+using ZdravoCorp.Core.Models.MedicalRecord;
 using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Repositories.MedicalRecord;
+using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
+using ZdravoCorp.Core.TimeSlots;
+using ZdravoCorp.View;
 
 namespace ZdravoCorp.Core.ViewModels;
 
 public class AddAppointmentViewModel: ViewModelBase
 {
-	private String _username;
 	private ObservableCollection<String> _patientsFullname { get; }
-	public IEnumerable<String> Patients => _patientsFullname;
+    private ScheduleRepository _scheduleRepository;
+    public IEnumerable<String> Patients => _patientsFullname;
+	private PatientRepository _patientRepository;
+	private Doctor _dr;
+	private MedicalRecordRepository _medicalRepository;
 
-	public AddAppointmentViewModel()
+
+    public AddAppointmentViewModel(ScheduleRepository scheduleRepository,DoctorRepository doctorRepository,ObservableCollection<AppointmentViewModel> appointment,PatientRepository patientRepository,Doctor doctor,MedicalRecordRepository medicalRepository)
 	{
+		_dr = doctor;
+		_medicalRepository = medicalRepository;
+       
+        _scheduleRepository = scheduleRepository;
+		_patientRepository = patientRepository;
 		PatientRepository _controller = new PatientRepository();
 		List<Patient> patients = _controller.Patients;
 
         _patientsFullname = new ObservableCollection<string>();
 		foreach(Patient p in patients)
 		{
-			_patientsFullname.Add(p.FullName);
+			_patientsFullname.Add(p.FullName + "-" +p.Email);
 		}
+		AddCommand = new DelegateCommand(o => DrCreateAppointment(appointment));
 	}
 
 
-	private DateTime _startDate;
+	private string _username;
+				
+	public string Username
+	{
+		get
+		{
+			return _username;
+		}
+		set
+		{
+			_username = value;
+			OnPropertyChanged(nameof(Username));
+		}
+	}
+
+	private DateTime _startDate = DateTime.Now + TimeSpan.FromHours(1);
 	public DateTime StartDate
 	{
 		get
@@ -75,5 +107,42 @@ public class AddAppointmentViewModel: ViewModelBase
 
 	public ICommand AddCommand{ get;  }	
 	public ICommand CancelCommand { get; }
-	
+
+
+    public void DrCreateAppointment(ObservableCollection<AppointmentViewModel> Appointments)
+    {
+        try
+        {
+            int hours = StartTimeHours;
+            int minutes = StartTimeMinutes;
+            DateTime d = StartDate;
+            String dm = Username;
+
+            DateTime start = new DateTime(d.Year, d.Month, d.Day, hours, minutes, 0);
+            DateTime end = start.AddMinutes(15);
+            TimeSlot time = new TimeSlot(start, end);
+
+            string[] tokens = dm.Split("-");
+			string mail = tokens[1];
+			Patient patient = _patientRepository.GetPatientByEmail(mail);
+
+            MedicalRecord medicalRecord = new MedicalRecord(patient);
+
+            Appointment appointment = _scheduleRepository.CreateAppointment(time, _dr, medicalRecord);
+            if (appointment != null)
+			{
+                Appointments.Add(new AppointmentViewModel(appointment));
+				_medicalRepository.AddRecord(appointment.MedicalRecord);
+			}
+            else
+            {
+                MessageBox.Show("Invalid Appointment", "Error", MessageBoxButton.OK);
+            }
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show("Invalid Appointment", "Error", MessageBoxButton.OK);
+        }
+    }
+
 }

@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ZdravoCorp.View.DoctorView
+namespace ZdravoCorp.View
 {
     /// <summary>
     /// Interaction logic for MedicalRecordView.xaml
@@ -22,6 +22,11 @@ namespace ZdravoCorp.View.DoctorView
         public MedicalRecordView()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

@@ -8,17 +8,18 @@
         Title="AppointmentTableView" Height="450" Width="800">
     <DockPanel>
         <ToolBar DockPanel.Dock="Top">
-            <Button>Create</Button>
-            <Button >Change</Button>
-            <Button >Cancel</Button>
+            <Button Command="{Binding NewAppointmentCommand}">Create</Button>
+            <Button Command="{Binding ChangeAppointmentCommand}">Change</Button>
+            <Button Command="{Binding CancelAppointmentCommand}">Cancel</Button>
         </ToolBar>
         <DataGrid Grid.Row="1" x:Name="DataGridAppointments" ItemsSource="{Binding Appointments, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding SelectedAppointments, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single"
+                  SelectedItem="{Binding SelectedAppointment, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single"
                   IsReadOnly="True" AutoGenerateColumns="False" Width="600" Height="325">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Doctor" Width="200"  x:Name="name" Binding="{Binding DoctorName}"/>
-                <DataGridTextColumn Header="Patient" Width="200" Binding="{Binding PatientName}" />
-                <DataGridTextColumn Header="Date" Width="200" Binding="{Binding Date}" />
+                <DataGridTextColumn Header="Doctor" Width="180"  x:Name="name" Binding="{Binding DoctorName}"/>
+                <DataGridTextColumn Header="Patient" Width="180" Binding="{Binding PatientName}" />
+                <DataGridTextColumn Header="Date" Width="180" Binding="{Binding Date}" />
+                <DataGridTextColumn Header="ID" Width="190" Binding="{Binding Id}" />
   
             </DataGrid.Columns>
         </DataGrid>

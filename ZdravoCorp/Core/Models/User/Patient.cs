@@ -8,7 +8,7 @@ public class Patient
     [JsonPropertyName("firstname")] public string FirstName { get; set; }
     [JsonPropertyName("lastname")] public string LastName { get; set; }
     
-    public string FullName => string.Format("Patient: {0} {1}", FirstName, LastName);
+    public string FullName => string.Format("{0} {1}", FirstName, LastName);
 
     [JsonConstructor]
     public Patient(string email, string firstName, string lastName)

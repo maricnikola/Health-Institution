@@ -9,14 +9,18 @@ public class AppointmentViewModel : ViewModelBase
 {
     private readonly Appointment _appointment;
 
+    public int Id => _appointment.Id;
     public string DoctorName => _appointment.Doctor.FullName;
     public string PatientName => _appointment.MedicalRecord.user.FullName;
     public DateTime Date => _appointment.Time.start;
+    public string PatientMail => _appointment.MedicalRecord.user.Email;
+
 
     public AppointmentViewModel(Appointment appointment)
     {
         _appointment = appointment;
     }
+
 
 
 }
