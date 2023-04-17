@@ -42,6 +42,10 @@
   {
     "Id": 999,
     "Type": "StockRoom"
+  },
+  {
+    "Id": 888,
+    "Type" : "WaitingRoom"
   }
   
 ]

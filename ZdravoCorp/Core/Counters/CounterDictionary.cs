@@ -5,22 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ZdravoCorp.Core.Counters;
+
 
 public class CounterDictionary
 {
     private readonly string _fileName = @".\..\..\..\Data\counters.json";
     private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
     {
+        //WriteIndented = true
         PropertyNameCaseInsensitive = true
     };
-    public Dictionary<string, Counter> AllCounters;
+    public Dictionary<string, Counter>? AllCounters;
 
     public CounterDictionary()
     {
         AllCounters = new Dictionary<string, Counter>();
-        //LoadFromFile();
+        LoadFromFile();
     }
 
     public void AddCancelation(string email, DateTime date)
@@ -36,7 +40,13 @@ public class CounterDictionary
             }
         }
         else
-            AllCounters[email].Cancelations = new List<DateTime> { date };
+        {
+            Counter c = new Counter();
+            c.Cancelations = new List<DateTime> { date };
+            AllCounters.Add(email, c);
+        }
+            
+            //AllCounters[email].Cancelations =
         SaveToFile();
     }
     public void AddNews(string email, DateTime date)
@@ -63,22 +73,32 @@ public class CounterDictionary
 
     public bool IsForBlock(string email)
     {
-        return AllCounters[email].Cancelations.Count >= 5 || AllCounters[email].News.Count>=8;
+        try
+        {
+            return AllCounters[email].Cancelations.Count >= 5 || AllCounters[email].News.Count>=8;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
     }
 
     public void LoadFromFile()
     {
         string text = File.ReadAllText(_fileName);
-        var users = JsonSerializer.Deserialize<Dictionary<string,Counter>>(text, _serializerOptions);
+        if (text == "")
+        {
+            return;
+        }
+        Dictionary<string, Counter>? users = JsonConvert.DeserializeObject<Dictionary<string, Counter>>(text);
 
         AllCounters = users;
     }
 
     public void SaveToFile()
     {
-        var users = JsonSerializer.Serialize(AllCounters, _serializerOptions);
-        File.WriteAllText(this._fileName, users);
+        var counters = JsonConvert.SerializeObject(AllCounters, Formatting.Indented);
+        File.WriteAllText(this._fileName, counters);
     }
-
 
 }

@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Core\Models\" />
-    <Folder Include="Test\" />
+    <Folder Include="Core\ViewModels\DoctorViewModel\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +43,15 @@
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="View\Patient\ChangeAppointmentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 </Project>

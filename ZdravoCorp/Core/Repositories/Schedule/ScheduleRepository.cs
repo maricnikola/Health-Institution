@@ -72,7 +72,7 @@ public class ScheduleRepository
         List<Operation> patientOperations = new List<Operation>();
         foreach(Operation operation in Operations)
         {
-            if (operation.medicalRecord.user.Email == patient.Email) patientOperations.Add(operation);
+            if (operation.MedicalRecord.user.Email == patient.Email) patientOperations.Add(operation);
         }
         return patientOperations;
     }
@@ -92,7 +92,7 @@ public class ScheduleRepository
         List<Operation> doctorOperations = new List<Operation>();
         foreach (Operation operation in Operations)
         {
-            if (operation.doctor.Email == doctor.Email) doctorOperations.Add(operation);
+            if (operation.Doctor.Email == doctor.Email) doctorOperations.Add(operation);
         }
         return doctorOperations;
     }
@@ -197,7 +197,7 @@ public class ScheduleRepository
                 {
                     Appointments.Add(appointment);
                     SaveAppointments();
-                    //_counterDictionary.AddCancelation(appointment.MedicalRecord.user.Email, DateTime.Now);
+                    _counterDictionary.AddCancelation(appointment.MedicalRecord.user.Email, DateTime.Now);
                     return appointment;
                 }
                 Appointments.Add(toGo);
@@ -210,7 +210,7 @@ public class ScheduleRepository
 
     public void CancelAppointment(Appointment appointment)
     {
-        bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now)<24;
+        bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now)>24;
         if (IsAppointmentInList(appointment) && isOnTime)
         {
             int index = Appointments.IndexOf(appointment);
@@ -226,6 +226,8 @@ public class ScheduleRepository
         //return (from t in Appointments where t.Id == appointment.Id where t.Doctor.Email == appointment.Doctor.Email where t.MedicalRecord.user.Email == appointment.MedicalRecord.user.Email select t).Any(t => t.Time.start == appointment.Time.start && t.Time.end == appointment.Time.end);
         return Appointments.Any(ap => ap.MedicalRecord.user.Email == appointment.MedicalRecord.user.Email && ap.Doctor.Email == appointment.Doctor.Email && ap.Time.start==appointment.Time.start && ap.Time.end==appointment.Time.end);
     }
+
+
 
     public List<Appointment> GetAppointmentsForShow(DateTime date)
     {

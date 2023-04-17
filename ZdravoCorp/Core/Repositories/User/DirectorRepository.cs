@@ -47,6 +47,7 @@ public class DirectorRepository
         }
         catch (JsonException e)
         {
+            
             Trace.WriteLine(e);
         }
     }

@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using ZdravoCorp.Core.Loader;
+using ZdravoCorp.Core.Counters;
+using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels;
-using ZdravoCorp.Core.ViewModels.Director;
+using ZdravoCorp.Core.ViewModels.DirectorViewModel;
+using ZdravoCorp.Core.ViewModels.PatientViewModel;
 using ZdravoCorp.View.Director;
+using ZdravoCorp.View.Director;
+using ZdravoCorp.View.PatientV;
 using ZdravoCorp.View.DoctorView;
 
 namespace ZdravoCorp.View;
@@ -19,12 +23,11 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
 {
     private string? _email;
     private string? _password;
-    private UserRepository _userRepository;
-    private DoctorRepository _doctorRepository;
-    private InventoryRepository _inventoryRepository;
-    
-    private PatientRepository _patientRepository;
-    private ScheduleRepository _scheduleRepository;
+    private readonly UserRepository _userRepository;
+    private readonly DoctorRepository _doctorRepository;
+    private readonly InventoryRepository _inventoryRepository;
+    private readonly PatientRepository _patientRepository;
+    private readonly ScheduleRepository _scheduleRepository;
     
     public string Email
     {
@@ -62,8 +65,8 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
         _patientRepository = patientRepository;
         _userRepository = userRepository;
         _doctorRepository = doctorRepository;
-        _inventoryRepository = inventoryRepository;
         _scheduleRepository = scheduleRepository;
+        _inventoryRepository = inventoryRepository;
         InitializeComponent();
         DataContext = this;
     }
@@ -85,7 +88,23 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     break;
                 case User.UserType.Patient:
                     //start patient view
-                    Application.Current.MainWindow = new PatientFrame(user, _patientRepository, _doctorRepository, _scheduleRepository);
+                    User.State state = user.UserState;
+                    Patient patient = _patientRepository.GetPatientByEmail(user.Email);
+                    List<Appointment> appointments = _scheduleRepository.GetPatientAppointments(patient);
+                    CounterDictionary counterDictionary = new CounterDictionary();
+                    if (counterDictionary.IsForBlock(user.Email))
+                    {
+                        
+                        MessageBox.Show("You are blocked", "Error", MessageBoxButton.OK);
+                        DialogResult = false;
+                    }
+                    else
+                        Application.Current.MainWindow = new PatientWindow()
+                        {
+                            DataContext = new PatientViewModel(appointments, _scheduleRepository, _doctorRepository,
+                                patient)
+                        };
+
                     break;
                 case User.UserType.Nurse:
                     //start nurse view

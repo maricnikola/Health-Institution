@@ -2,7 +2,7 @@
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Repositories.Inventory;
 
-namespace ZdravoCorp.Core.ViewModels.Director;
+namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
 public class DirectorViewModel : ViewModelBase
 

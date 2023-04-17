@@ -8,7 +8,7 @@
                     <Grid>
                         <Rectangle StrokeThickness="1"/>
                              <TextBox Margin="1"  BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Padding="4" Foreground="GhostWhite" x:Name="Search" ></TextBox>
-                            <TextBlock IsHitTestVisible="False" Text="Search" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10, 0, 0, 0" FontSize="12" Foreground="DarkGray" Grid.Column="0">
+                            <TextBlock IsHitTestVisible="False" Text="Search" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5, 0, 0, 0" FontSize="12" Foreground="DarkGray" Grid.Column="0">
                                 <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">
                                         <Style.Triggers>

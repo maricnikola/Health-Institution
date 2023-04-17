@@ -27,7 +27,7 @@ namespace ZdravoCorp.View
         //private DoctorRepository _doctorRepository;
         public MakeAppointmentView(DoctorRepository drRepository, ScheduleRepository scheduleRepository,ObservableCollection<AppointmentViewModel> Appointments, Patient patient)
         {
-            MakeAppointmentViewModel MAV = new MakeAppointmentViewModel(drRepository.Doctors, scheduleRepository, Appointments, drRepository, patient);
+            MakeAppointmentViewModel MAV = new MakeAppointmentViewModel(drRepository.GetAll(), scheduleRepository, Appointments, drRepository, patient);
             DataContext = MAV;
             InitializeComponent();
         }

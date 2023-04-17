@@ -9,19 +9,21 @@ public class Operation
 {
     public int Id { get; set; }
     public TimeSlot Time { get; set; }
-    public Doctor doctor { get; set; }
-    public MedicalRecord.MedicalRecord medicalRecord { get; set; }
-    public Room.Room? room { get; set; }
-    public List<Equipment.Equipment>? equipment { get; set; }
-    public bool IsCanceled;
+    public Doctor Doctor { get; set; }
+    public MedicalRecord.MedicalRecord MedicalRecord { get; set; }
+    public Room.Room? Room { get; set; }
+    public List<Equipment.Equipment>? Equipment { get; set; }
+    public readonly bool IsCanceled;
     public Operation(int id, TimeSlot time, Doctor doctor, MedicalRecord.MedicalRecord medicalRecord)
     {
         Id = id;
         Time = time;
-        doctor = doctor;
-        medicalRecord = medicalRecord;
-        room = null;
-        equipment = null;
+        Doctor = doctor;
+        MedicalRecord = medicalRecord;
+        Doctor = doctor;
+        MedicalRecord = medicalRecord;
+        Room = null;
+        Equipment = null;
         IsCanceled = false; 
     }
     

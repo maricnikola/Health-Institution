@@ -30,12 +30,9 @@ namespace ZdravoCorp.View
             LoadFunctions.LoadAppointments(scheduleRepository);
 
 
-            //var window = new DirectorWindow() {DataContext = new DirectorViewModel()};
-            //window.Show();
-
 
             //___________________________
-            var dialog = new LoginDialog(userRepository,patientRepository,doctorRepository,scheduleRepository, inventoryRepository);
+            var dialog = new LoginDialog(userRepository, patientRepository, doctorRepository, scheduleRepository, inventoryRepository);
             
             if (dialog.ShowDialog() == true)
             {

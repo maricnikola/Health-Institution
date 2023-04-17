@@ -83,4 +83,9 @@ public class DoctorRepository
     {
        _doctors.Add((Doctor) obj);
     }
+
+    public List<Doctor> GetAll()
+    {
+        return _doctors;
+    }
 }
