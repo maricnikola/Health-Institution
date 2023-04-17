@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -50,8 +51,16 @@ public class AppointmentTableViewModel: ViewModelBase
         AppointmentViewModel selectedAppointment = SelectedAppointment;
         if (selectedAppointment != null)
         {
-            var window = new ChangeAppointmentView(selectedAppointment,_doctorRepository, _controller, Appointments, _patient);
-            window.Show();
+            Appointment appointment = _controller.GetAppointmentById(selectedAppointment.Id);
+            bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now) > 24;
+            if (isOnTime)
+            {
+                var window = new ChangeAppointmentView(selectedAppointment, _doctorRepository, _controller,
+                    Appointments, _patient);
+                window.Show();
+            }
+            else
+                MessageBox.Show("You are too late", "Error", MessageBoxButton.OK);
         }
         else
             MessageBox.Show("None selected", "Error", MessageBoxButton.OK);
@@ -69,8 +78,13 @@ public class AppointmentTableViewModel: ViewModelBase
         if (selectedAppointment != null)
         {
             Appointment appointment = _controller.GetAppointmentById(selectedAppointment.Id);
-            _controller.CancelAppointment(appointment);
-            Appointments.Remove(GetById(selectedAppointment.Id, Appointments));
+            bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now) > 24;
+            if (isOnTime)
+            {
+                _controller.CancelAppointment(appointment);
+                Appointments.Remove(GetById(selectedAppointment.Id, Appointments));
+            }else
+                MessageBox.Show("You are too late", "Error", MessageBoxButton.OK);
         }
         else
             MessageBox.Show("None selected", "Error", MessageBoxButton.OK);

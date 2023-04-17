@@ -25,7 +25,7 @@ namespace ZdravoCorp.Core.TimeSlots
 
         public int GetTimeBeforeStart(DateTime time)
         {
-            return (start - time).Hours;
+            return (start - time).Days*24 + (start-time).Hours;
         }
     }
 }

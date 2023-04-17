@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using ZdravoCorp.Core.Counters;
 using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.Repositories.Inventory;
@@ -89,7 +90,17 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     User.State state = user.UserState;
                     Patient patient = _patientRepository.GetPatientByEmail(user.Email);
                     List<Appointment> appointments = _scheduleRepository.GetPatientAppointments(patient);
-                    Application.Current.MainWindow = new PatientWindow() { DataContext = new PatientViewModel(appointments,_scheduleRepository,_doctorRepository, patient) };
+                    CounterDictionary counterDictionary = new CounterDictionary();
+                    if (counterDictionary.IsForBlock(user.Email))
+                    {
+                        MessageBox.Show("Invalid Password", "Error", MessageBoxButton.OK);
+                    }
+                    else
+                        Application.Current.MainWindow = new PatientWindow()
+                        {
+                            DataContext = new PatientViewModel(appointments, _scheduleRepository, _doctorRepository,
+                                patient)
+                        };
 
                     break;
                 case User.UserType.Nurse:

@@ -8,11 +8,13 @@ using System.Threading.Tasks;
 
 namespace ZdravoCorp.Core.Counters;
 
+
 public class CounterDictionary
 {
     private readonly string _fileName = @".\..\..\..\Data\counters.json";
     private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
     {
+        //WriteIndented = true
         PropertyNameCaseInsensitive = true
     };
     public Dictionary<string, Counter> AllCounters;
@@ -69,7 +71,14 @@ public class CounterDictionary
 
     public bool IsForBlock(string email)
     {
-        return AllCounters[email].Cancelations.Count >= 5 || AllCounters[email].News.Count>=8;
+        try
+        {
+            return AllCounters[email].Cancelations.Count >= 5 || AllCounters[email].News.Count>=8;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
     }
 
     public void LoadFromFile()
@@ -82,9 +91,8 @@ public class CounterDictionary
 
     public void SaveToFile()
     {
-        var users = JsonSerializer.Serialize(AllCounters, _serializerOptions);
-        File.WriteAllText(this._fileName, users);
+        var counters = JsonSerializer.Serialize(this.AllCounters, _serializerOptions);
+        File.WriteAllText(this._fileName, counters);
     }
-
 
 }

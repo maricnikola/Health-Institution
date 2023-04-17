@@ -216,7 +216,7 @@ public class ScheduleRepository
 
     public void CancelAppointment(Appointment appointment)
     {
-        bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now)<24;
+        bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now)>24;
         if (IsAppointmentInList(appointment) && isOnTime)
         {
             int index = Appointments.IndexOf(appointment);
