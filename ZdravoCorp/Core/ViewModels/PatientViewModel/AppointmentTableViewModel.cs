@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
@@ -10,6 +12,7 @@ using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.View;
 using ZdravoCorp.View.PatientV;
+using ZdravoCorp.View.PatientView;
 
 namespace ZdravoCorp.Core.ViewModels.PatientViewModel;
 
@@ -26,6 +29,7 @@ public class AppointmentTableViewModel: ViewModelBase
     public ICommand NewAppointmentCommand { get; set; }
     public ICommand ChangeAppointmentCommand { get; set; }
     public ICommand CancelAppointmentCommand { get; set; }
+    public ICommand RecommendAppointmentCommand { get; set; }
 
     public AppointmentTableViewModel()
     {
@@ -44,6 +48,7 @@ public class AppointmentTableViewModel: ViewModelBase
         NewAppointmentCommand = new DelegateCommand(o => NewAppointment());
         ChangeAppointmentCommand = new DelegateCommand(o=>ChangeAppointmentComm());
         CancelAppointmentCommand = new DelegateCommand(o => CancelAppointmentComm());
+        RecommendAppointmentCommand = new DelegateCommand(o => RecommendAppointmentComm());
     }
 
     private void ChangeAppointmentComm()
@@ -60,8 +65,6 @@ public class AppointmentTableViewModel: ViewModelBase
                     DataContext = new ChangeAppointmentViewModel(selectedAppointment, _doctorRepository.GetAll(),
                         _controller, Appointments,_doctorRepository, _patient)
                 };
-             //   var window = new ChangeAppointmentView(selectedAppointment, _doctorRepository, _controller,
-               //     Appointments, _patient);
                 window.Show();
             }
             else
@@ -98,6 +101,12 @@ public class AppointmentTableViewModel: ViewModelBase
         }
         else
             MessageBox.Show("None selected", "Error", MessageBoxButton.OK);
+    }
+
+    public void RecommendAppointmentComm()
+    {
+        var window = new AdvancedMakeAppointmentView() { DataContext = new AdvancedMakeAppointmentViewModel() };
+        window.Show();
     }
 
     public AppointmentViewModel GetById(int id, ObservableCollection<AppointmentViewModel> Appointments)
