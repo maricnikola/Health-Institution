@@ -55,8 +55,13 @@ public class AppointmentTableViewModel: ViewModelBase
             bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now) > 24;
             if (isOnTime)
             {
-                var window = new ChangeAppointmentView(selectedAppointment, _doctorRepository, _controller,
-                    Appointments, _patient);
+                var window = new ChangeAppointmentView()
+                {
+                    DataContext = new ChangeAppointmentViewModel(selectedAppointment, _doctorRepository.GetAll(),
+                        _controller, Appointments,_doctorRepository, _patient)
+                };
+             //   var window = new ChangeAppointmentView(selectedAppointment, _doctorRepository, _controller,
+               //     Appointments, _patient);
                 window.Show();
             }
             else
@@ -68,7 +73,12 @@ public class AppointmentTableViewModel: ViewModelBase
 
     public void NewAppointment()
     {
-        var window = new MakeAppointmentView(_doctorRepository, _controller, Appointments, _patient);
+        var window = new MakeAppointmentView()
+        {
+            DataContext = new MakeAppointmentViewModel(_doctorRepository.GetAll(), _controller, Appointments,
+                _doctorRepository, _patient)
+        };
+        //var window = new MakeAppointmentView(_doctorRepository, _controller, Appointments, _patient);
         window.Show();
     }
 
