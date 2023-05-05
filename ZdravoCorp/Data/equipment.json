@@ -2,32 +2,72 @@
   {
     "Id": 13,
     "Name": "Stolica",
-    "Type": "Room"
+    "Type": "Room",
+    "IsDynamic" : false
   },
   {
     "Id": 14,
     "Name": "Sto",
-    "Type": "Room"
+    "Type": "Room",
+    "IsDynamic" : false
   },
   {
     "Id": 15,
     "Name": "Krevet",
-    "Type": "Room"
+    "Type": "Room",
+    "IsDynamic" : false
   },
   {
     "Id": 16,
     "Name": "Orman",
-    "Type": "Room"
+    "Type": "Room",
+    "IsDynamic" : false
   },
   {
     "Id": 17,
     "Name": "Operacioni sto",
-    "Type": "Operation"
+    "Type": "Operation",
+    "IsDynamic" : false
   },
   {
     "Id": 18,
     "Name": "Lampa",
     "Type": "Examination"
+  },
+  {
+    "Id": 50,
+    "Name": "Gaza",
+    "Type": "Operation",
+    "IsDynamic" : true
+  },
+  {
+    "Id": 51,
+    "Name": "Kopca",
+    "Type": "Operation",
+    "IsDynamic" : true
+  },
+  {
+    "Id": 52,
+    "Name": "Hanzaplast",
+    "Type": "Examination",
+    "IsDynamic" : true
+  },
+  {
+    "Id": 53,
+    "Name": "Injekcija",
+    "Type": "Examination",
+    "IsDynamic" : true
+  },
+  {
+    "Id": 54,
+    "Name": "Papir",
+    "Type": "Examination",
+    "IsDynamic" : true
+  },
+  {
+    "Id": 55,
+    "Name": "Olovka",
+    "Type": "Examination",
+    "IsDynamic" : true
   }
- 
 ]

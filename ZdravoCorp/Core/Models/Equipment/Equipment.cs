@@ -11,15 +11,17 @@ public class Equipment
     public string Name { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public EquipmentType Type { get; set; }
-    //public int Quantity { get; set; }
+    [JsonPropertyName("IsDynamic")]
+    public bool IsDynamic { get; set; }
 
 
     [JsonConstructor]
-    public Equipment(int id, string name, EquipmentType type)
+    public Equipment(int id, string name, EquipmentType type, bool isDynamic)
     {
         Id = id;
         Name = name;
         Type = type;
+        IsDynamic = isDynamic;
     }
     
     

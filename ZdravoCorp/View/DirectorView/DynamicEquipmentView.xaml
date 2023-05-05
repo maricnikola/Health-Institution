@@ -3,9 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:directorViewModel="clr-namespace:ZdravoCorp.Core.ViewModels.DirectorViewModel"
+             d:DataContext="{d:DesignInstance Type=directorViewModel:DynamicEquipmentViewModel}"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="700"
+             Background="#29262e">
     <Grid>
-       <TextBox Text="Window2"></TextBox>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Content="Order dynamic equipment" FontSize="24" Foreground="WhiteSmoke" HorizontalAlignment="Center"></Label>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding DynamicInventory, UpdateSourceTrigger=PropertyChanged}"
+                  SelectionMode="Single"
+                  AutoGenerateColumns="False" Margin="30">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" IsReadOnly="True" Width="100" x:Name="Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Quantity" IsReadOnly="True" Binding="{Binding Quantity}" />
+                <DataGridTemplateColumn Header="Check">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Order Quantity"  Binding="{Binding OrderQuantity}" Width="150"  />
+  
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Grid.Row="2" Content="Make Order" Width="100" Padding="4" Margin="20"></Button>
     </Grid>
 </UserControl>

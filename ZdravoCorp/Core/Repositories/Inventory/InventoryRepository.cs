@@ -39,9 +39,19 @@ public class InventoryRepository
         LoadRoomsAndEquipment();
     }
 
+    public List<InventoryItem> GetNonDynamic()
+    {
+        return _inventory.Where(item => item.Equipment.IsDynamic == false).ToList();
+    }
+    
     public List<InventoryItem> GetAll()
     {
         return _inventory;
+    }
+
+    public List<InventoryItem> GetDynamic()
+    {
+        return _inventory.Where(item => item.Equipment.IsDynamic).ToList();
     }
 
     public void LoadRoomsAndEquipment()

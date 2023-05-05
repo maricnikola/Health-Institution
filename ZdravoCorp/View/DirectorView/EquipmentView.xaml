@@ -13,7 +13,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
-            <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Margin="0,20, 0, 0" HorizontalAlignment="Center" Orientation="Horizontal">
             <TextBox Text="{Binding Path = SearchBox , Mode = OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Width="180" Height="40" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="5"
@@ -46,7 +45,6 @@
             
             <CheckBox IsChecked="{Binding Path=IsWarehouseChecked, UpdateSourceTrigger=PropertyChanged}" Content="StockRoom" Foreground="White" Margin="10,32,10, 10"></CheckBox>
         </StackPanel>
-        <DataGrid Grid.Row="1" Margin="30"></DataGrid>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Inventory, UpdateSourceTrigger=PropertyChanged}"
                   SelectionMode="Single"
                   IsReadOnly="True" AutoGenerateColumns="False" Margin="30">

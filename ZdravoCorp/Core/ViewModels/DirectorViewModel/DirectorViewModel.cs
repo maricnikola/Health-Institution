@@ -42,6 +42,6 @@ public class DirectorViewModel : ViewModelBase
 
     public void LoadDynamicEquipment()
     {
-        CurrentView = new DynamicEquipmentViewModel();
+        CurrentView = new DynamicEquipmentViewModel(_inventoryRepository);
     }
 }
