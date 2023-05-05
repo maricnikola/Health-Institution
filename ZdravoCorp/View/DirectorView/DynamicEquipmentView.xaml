@@ -32,6 +32,6 @@
   
             </DataGrid.Columns>
         </DataGrid>
-        <Button Grid.Row="2" Content="Make Order" Width="100" Padding="4" Margin="20"></Button>
+        <Button Grid.Row="2" Content="Make Order" Width="100" Padding="4" Margin="20" Command="{Binding CreateOrder}"></Button>
     </Grid>
 </UserControl>
