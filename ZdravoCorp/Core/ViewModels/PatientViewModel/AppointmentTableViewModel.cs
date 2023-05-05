@@ -62,7 +62,7 @@ public class AppointmentTableViewModel: ViewModelBase
             {
                 var window = new ChangeAppointmentView()
                 {
-                    DataContext = new ChangeAppointmentViewModel(selectedAppointment, _doctorRepository.GetAll(),
+                    DataContext = new ChangeAppointmentViewModel(selectedAppointment,
                         _controller, Appointments,_doctorRepository, _patient)
                 };
                 window.Show();
@@ -78,7 +78,7 @@ public class AppointmentTableViewModel: ViewModelBase
     {
         var window = new MakeAppointmentView()
         {
-            DataContext = new MakeAppointmentViewModel(_doctorRepository.GetAll(), _controller, Appointments,
+            DataContext = new MakeAppointmentViewModel(_controller, Appointments,
                 _doctorRepository, _patient)
         };
         //var window = new MakeAppointmentView(_doctorRepository, _controller, Appointments, _patient);
@@ -105,7 +105,7 @@ public class AppointmentTableViewModel: ViewModelBase
 
     public void RecommendAppointmentComm()
     {
-        var window = new AdvancedMakeAppointmentView() { DataContext = new AdvancedMakeAppointmentViewModel() };
+        var window = new AdvancedMakeAppointmentView() { DataContext = new AdvancedMakeAppointmentViewModel(_doctorRepository) };
         window.Show();
     }
 

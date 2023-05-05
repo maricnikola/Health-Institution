@@ -82,13 +82,14 @@ public class ChangeAppointmentViewModel : ViewModelBase
     }
 
 
-    public ChangeAppointmentViewModel(AppointmentViewModel appointmentViewModel ,List<Doctor> doctors, ScheduleRepository scheduleRepository, ObservableCollection<AppointmentViewModel> Appointments, DoctorRepository doctorRepository, Patient patient)
+    public ChangeAppointmentViewModel(AppointmentViewModel appointmentViewModel , ScheduleRepository scheduleRepository, ObservableCollection<AppointmentViewModel> Appointments, DoctorRepository doctorRepository, Patient patient)
     {
         _doctorRepository = doctorRepository;
         _scheduleRepository = scheduleRepository;
         _patient = patient;
         _appointmentViewModel = appointmentViewModel;
         _doctors = new ObservableCollection<String>();
+        List<Doctor> doctors = doctorRepository.GetAll();
         foreach (var doctor in doctors)
         {
             _doctors.Add(doctor.FullName + "-" + doctor.Email);

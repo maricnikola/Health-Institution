@@ -14,9 +14,7 @@ using System.Windows.Shapes;
 
 namespace ZdravoCorp.View.PatientView
 {
-    /// <summary>
-    /// Interaction logic for AdvancedMakeAppointmentView.xaml
-    /// </summary>
+    
     public partial class AdvancedMakeAppointmentView : Window
     {
         public AdvancedMakeAppointmentView()
