@@ -6,8 +6,10 @@ using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Equipment;
 using ZdravoCorp.Core.Models.Order;
+using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Order;
 using ZdravoCorp.Core.Utilities;
+using ZdravoCorp.Core.Utilities.CronJobs;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
@@ -19,10 +21,12 @@ public class DEquipmentOrderConfirmViewModel
     public ICommand ConfirmOrder { get; }
     public ICommand CancelOrder { get; }
     private OrderRepository _orderRepository;
+    private InventoryRepository _inventoryRepository;
     public event EventHandler OnRequestClose;
-    public DEquipmentOrderConfirmViewModel(IEnumerable<DynamicInventoryViewModel> selectedForOrder, OrderRepository orderRepository)
+    public DEquipmentOrderConfirmViewModel(IEnumerable<DynamicInventoryViewModel> selectedForOrder, OrderRepository orderRepository, InventoryRepository inventoryRepository)
     {
         _orderRepository = orderRepository;
+        _inventoryRepository = inventoryRepository;
         SelectedForOrder = selectedForOrder;
         ConfirmOrder = new DelegateCommand(o => Confirm());
         CancelOrder = new DelegateCommand(o => Cancel());
@@ -37,9 +41,13 @@ public class DEquipmentOrderConfirmViewModel
         Dictionary<int, int> order = new Dictionary<int, int>();
         foreach (var item in SelectedForOrder)
         {
-            order.Add(item.Id, item.OrderQuantity);
+            order.Add(item.EquipmentId, item.OrderQuantity);
         }
-        _orderRepository.AddOrder(new Order(IDGenerator.GetId(), order, DateTime.Now, DateTime.Now.AddDays(1)));
+
+        Order newOrder = new Order(IDGenerator.GetId(), order, DateTime.Now, DateTime.Now.AddMinutes(1),
+            Order.OrderStatus.Pending);
+        _orderRepository.AddOrder(newOrder);
+        JobScheduler.DEquipmentTaskScheduler(newOrder,_inventoryRepository );
         OnRequestClose(this, new EventArgs());
     }
 }

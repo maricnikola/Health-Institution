@@ -34,6 +34,16 @@ public class InventoryItem
         
     }
 
+    public InventoryItem(InventoryItem other)
+    {
+        Id = other.Id;
+        Quantity = other.Quantity;
+        Room = other.Room;
+        Equipment = other.Equipment;
+        EquipmentId = other.EquipmentId;
+        RoomId = other.RoomId;
+    }
+
     protected bool Equals(InventoryItem other)
     {
         return Id == other.Id && Quantity == other.Quantity && Equals(Room, other.Room) && Equals(Equipment, other.Equipment) && EquipmentId == other.EquipmentId && RoomId == other.RoomId;

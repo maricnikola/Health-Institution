@@ -25,9 +25,23 @@ public class InventoryRepository
         PropertyNameCaseInsensitive = true
     };
 
+    public EventHandler OnRequestUpdate;
+
     public void AddItem(InventoryItem newInventoryItem)
     {
-        _inventory.Add(newInventoryItem);
+        var index = _inventory.FindIndex(item =>
+            item.EquipmentId == newInventoryItem.EquipmentId && item.RoomId == newInventoryItem.RoomId);
+        if (index != -1)
+        {
+            var oldQuantity = _inventory.ElementAt(index).Quantity;
+            _inventory.RemoveAt(index);
+            newInventoryItem.Quantity += oldQuantity;
+            _inventory.Add(newInventoryItem);
+        }
+        else
+        {
+            _inventory.Add(newInventoryItem);
+        }
     }
 
     public InventoryRepository(RoomRepository roomRepository, EquipmentRepository equipmentRepository)
@@ -43,7 +57,7 @@ public class InventoryRepository
     {
         return _inventory.Where(item => item.Equipment.IsDynamic == false).ToList();
     }
-    
+
     public List<InventoryItem> GetAll()
     {
         return _inventory;
@@ -51,17 +65,39 @@ public class InventoryRepository
 
     public List<InventoryItem> GetDynamic()
     {
-        return _inventory.Where(item => item.Equipment.IsDynamic).ToList();
+        var dynamicEquipment = new List<InventoryItem>();
+        foreach (var inventoryItem in _inventory)
+        {
+            if (inventoryItem.Equipment.IsDynamic)
+            {
+                var index = dynamicEquipment.FindIndex(item =>
+                    item.EquipmentId == inventoryItem.EquipmentId);
+                if (index != -1)
+                {
+                    dynamicEquipment.ElementAt(index).Quantity += inventoryItem.Quantity;
+                }
+                else
+                {
+                    var itemCopy = new InventoryItem(inventoryItem);
+                    dynamicEquipment.Add(itemCopy);
+                }
+            }
+        }
+
+        return dynamicEquipment;
     }
 
     public void LoadRoomsAndEquipment()
     {
         foreach (var inventoryItem in _inventory)
         {
-            inventoryItem.Room = _roomRepository.GetById(inventoryItem.RoomId);
-            inventoryItem.Equipment = _equipmentRepository.GetById(inventoryItem.EquipmentId);
+            if (inventoryItem.Room == null)
+                inventoryItem.Room = _roomRepository.GetById(inventoryItem.RoomId);
+            if (inventoryItem.Equipment == null)
+                inventoryItem.Equipment = _equipmentRepository.GetById(inventoryItem.EquipmentId);
         }
     }
+
     public List<InventoryItem> FilterByRoomType(RoomType roomType)
     {
         return _inventory.Where(item => item.Room != null && item.Room.Type == roomType).ToList();
@@ -79,7 +115,8 @@ public class InventoryRepository
 
     public List<InventoryItem> Search(string inputText)
     {
-        return _inventory.Where(item => item.Equipment != null && item.Equipment.ToString().Contains(inputText)).ToList();
+        return _inventory.Where(item => item.Equipment != null && item.Equipment.ToString().Contains(inputText))
+            .ToList();
     }
 
     public void SaveToFile()
@@ -89,8 +126,9 @@ public class InventoryRepository
             Trace.WriteLine($"Repository is empty! {this.GetType()}");
             return;
         }
+
         var inventory = JsonSerializer.Serialize(_inventory, _serializerOptions);
-        
+
         File.WriteAllText(this._fileName, inventory);
     }
 

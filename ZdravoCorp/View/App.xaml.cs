@@ -7,6 +7,7 @@ using ZdravoCorp.Core.Repositories.Room;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.Utilities;
+using ZdravoCorp.Core.Utilities.CronJobs;
 
 namespace ZdravoCorp.View
 {
@@ -21,6 +22,7 @@ namespace ZdravoCorp.View
             Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             //Load functions for repositories
             IDGenerator idg = new IDGenerator();
+            JobScheduler scheduler = new JobScheduler();
             UserRepository userRepository = new UserRepository();
             DirectorRepository directorRepository = new DirectorRepository();
             PatientRepository patientRepository = new PatientRepository();

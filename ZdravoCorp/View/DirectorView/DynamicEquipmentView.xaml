@@ -17,7 +17,7 @@
         <Label Content="Order dynamic equipment" FontSize="24" Foreground="WhiteSmoke" HorizontalAlignment="Center"></Label>
         <DataGrid Grid.Row="1" ItemsSource="{Binding DynamicInventory, UpdateSourceTrigger=PropertyChanged}"
                   SelectionMode="Single"
-                  AutoGenerateColumns="False" Margin="30">
+                  AutoGenerateColumns="False" Margin="30" Name="DynamicEq">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" IsReadOnly="True" Width="100" x:Name="Name" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Quantity" IsReadOnly="True" Binding="{Binding Quantity}" />

@@ -47,7 +47,7 @@
         </StackPanel>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Inventory, UpdateSourceTrigger=PropertyChanged}"
                   SelectionMode="Single"
-                  IsReadOnly="True" AutoGenerateColumns="False" Margin="30">
+                  IsReadOnly="True" AutoGenerateColumns="False" Margin="30" Name="EquipmentV">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Width="100" x:Name="Name" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Room"  Binding="{Binding Room}" />

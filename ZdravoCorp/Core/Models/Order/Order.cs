@@ -10,12 +10,20 @@ public class Order
     public Dictionary<int, int> Items { get; set; }
     public DateTime OrderTime { get; set; }
     public DateTime ArrivalTime { get; set; }
+    
+    public OrderStatus Status { get; set; }
 
-    public Order(int id, Dictionary<int, int> items, DateTime orderTime, DateTime arrivalTime)
+    public Order(int id, Dictionary<int, int> items, DateTime orderTime, DateTime arrivalTime, OrderStatus status)
     {
         Id = id;
         Items = items;
         OrderTime = orderTime;
         ArrivalTime = arrivalTime;
+        Status = status;
+    }
+
+    public enum OrderStatus
+    {
+        Pending, Completed
     }
 }
