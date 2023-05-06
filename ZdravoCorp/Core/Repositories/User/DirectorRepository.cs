@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
+using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Exceptions;
 using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.User;
 
-public class DirectorRepository
+public class DirectorRepository : ISerializable
 {
     private Director? _director;
 
@@ -15,43 +18,33 @@ public class DirectorRepository
     private readonly string _fileName = @".\..\..\..\Data\directors.json";
     
     
-    private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
-    {
-        PropertyNameCaseInsensitive = true
-    };
 
     public DirectorRepository()
     {
-        LoadFromFile();
+        Serializer.Load(this);
     } 
     public DirectorRepository(Director director)
     {
         _director = director;
-        LoadFromFile();
-    }
-    
-    public void SaveToFile()
-    {
-        var director = JsonSerializer.Serialize(_director, _serializerOptions);
-        
-        File.WriteAllText(this._fileName, director);
-    }
-    public void LoadFromFile()
-    {
-        var text = File.ReadAllText(_fileName);
-        if (text == "")
-            throw new EmptyFileException("File is empty!");
-        try
-        {
-            _director = JsonSerializer.Deserialize<Director>(text);
-        }
-        catch (JsonException e)
-        {
-            
-            Trace.WriteLine(e);
-        }
+        Serializer.Load(this);
     }
     
 
 
+    public string FileName()
+    {
+        return _fileName;
+    }
+
+    public IEnumerable<object>? GetList()
+    {
+        var list = new List<object>();
+        if (_director != null) list.Add(_director);
+        return list;
+    }
+
+    public void Import(JToken token)
+    {
+        _director = token.ToObject<Director>();
+    }
 }

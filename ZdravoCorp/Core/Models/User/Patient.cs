@@ -1,14 +1,16 @@
 using System;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+
 
 namespace ZdravoCorp.Core.Models.User;
 
 public class Patient
 {
-    [JsonPropertyName("email")] public  string Email { get; set; }
-    [JsonPropertyName("firstname")] public string FirstName { get; set; }
-    [JsonPropertyName("lastname")] public string LastName { get; set; }
+    public  string Email { get; set; }
+     public string FirstName { get; set; }
+     public string LastName { get; set; }
     
+     [JsonIgnore]
     public string FullName => string.Format("{0} {1}", FirstName, LastName);
 
     [JsonConstructor]
@@ -19,16 +21,7 @@ public class Patient
         LastName = lastName;
     }
 
-
-    public dynamic GetPatientForSerialization()
-    {
-        return new
-        {
-            email = Email,
-            firstname = FirstName,
-            lastname = LastName,
-        };
-    }
+    
 
     protected bool Equals(Patient other)
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace ZdravoCorp.Core.Models.Order;
 
@@ -12,7 +13,7 @@ public class Order
     public DateTime ArrivalTime { get; set; }
     
     public OrderStatus Status { get; set; }
-
+    [JsonConstructor]
     public Order(int id, Dictionary<int, int> items, DateTime orderTime, DateTime arrivalTime, OrderStatus status)
     {
         Id = id;

@@ -1,17 +1,13 @@
 using System;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace ZdravoCorp.Core.Models.Equipment;
 
 public class Equipment
 {
-    [JsonPropertyName("Id")]
     public int Id { get; set; }
-    [JsonPropertyName("Name")]
     public string Name { get; set; }
-    [JsonConverter(typeof(JsonStringEnumConverter))]
     public EquipmentType Type { get; set; }
-    [JsonPropertyName("IsDynamic")]
     public bool IsDynamic { get; set; }
 
 
