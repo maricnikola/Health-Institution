@@ -5,8 +5,10 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using ZdravoCorp.Core.Counters;
 using ZdravoCorp.Core.Models.Appointment;
+using ZdravoCorp.Core.Models.Order;
 using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.Repositories.Inventory;
+using ZdravoCorp.Core.Repositories.Order;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels;
@@ -28,6 +30,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
     private readonly InventoryRepository _inventoryRepository;
     private readonly PatientRepository _patientRepository;
     private readonly ScheduleRepository _scheduleRepository;
+    private readonly OrderRepository _orderRepository;
     
     public string Email
     {
@@ -60,13 +63,14 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             }
         }
     }
-    public LoginDialog(UserRepository userRepository, PatientRepository patientRepository ,DoctorRepository doctorRepository, ScheduleRepository scheduleRepository,InventoryRepository inventoryRepository)
+    public LoginDialog(UserRepository userRepository, PatientRepository patientRepository ,DoctorRepository doctorRepository, ScheduleRepository scheduleRepository,InventoryRepository inventoryRepository, OrderRepository orderRepository)
     {
         _patientRepository = patientRepository;
         _userRepository = userRepository;
         _doctorRepository = doctorRepository;
         _scheduleRepository = scheduleRepository;
         _inventoryRepository = inventoryRepository;
+        _orderRepository = orderRepository;
         InitializeComponent();
         DataContext = this;
     }
@@ -84,7 +88,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
         {
                 case User.UserType.Director:
                     //start director view
-                    Application.Current.MainWindow = new DirectorWindow() {DataContext = new DirectorViewModel(_inventoryRepository)};;
+                    Application.Current.MainWindow = new DirectorWindow() {DataContext = new DirectorViewModel(_inventoryRepository, _orderRepository)};;
                     break;
                 case User.UserType.Patient:
                     //start patient view

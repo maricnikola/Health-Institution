@@ -13,7 +13,8 @@
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding SelectedForOrder, UpdateSourceTrigger=PropertyChanged}"
                   SelectionMode="Single"
-                  IsReadOnly="True" AutoGenerateColumns="False" Margin="10" BorderThickness="0"  HeadersVisibility="None" GridLinesVisibility="None">
+                  IsReadOnly="True" AutoGenerateColumns="False" Margin="10" BorderThickness="0"
+                  HeadersVisibility="None" GridLinesVisibility="None">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Item" Width="100"  Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Quantity"  Binding="{Binding OrderQuantity}" />
@@ -21,8 +22,8 @@
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="10" Orientation="Horizontal">
-            <Button Padding="5" Margin="20,0" Content="Cancel"></Button>
-            <Button  Padding="5" Margin="20,0" Content="Confirm"></Button>
+            <Button Padding="5" Margin="20,0" Content="Cancel" Command="{Binding CancelOrder}"></Button>
+            <Button  Padding="5" Margin="20,0" Content="Confirm" Command="{Binding ConfirmOrder}"></Button>
         </StackPanel>
     </Grid>
 </Window>
