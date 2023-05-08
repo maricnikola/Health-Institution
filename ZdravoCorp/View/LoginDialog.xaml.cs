@@ -90,7 +90,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     //start patient view
                     User.State state = user.UserState;
                     Patient patient = _patientRepository.GetPatientByEmail(user.Email);
-                    List<Appointment> appointments = _scheduleRepository.GetPatientAppointments(patient);
+                    List<Appointment> appointments = _scheduleRepository.GetPatientAppointments(patient.Email);
                     CounterDictionary counterDictionary = new CounterDictionary();
                     if (counterDictionary.IsForBlock(user.Email))
                     {

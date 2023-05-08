@@ -7,13 +7,16 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
+using ZdravoCorp.Core.TimeSlots;
 
 namespace ZdravoCorp.Core.ViewModels.PatientViewModel;
 
 public class AdvancedMakeAppointmentViewModel : ViewModelBase
 {
     private DoctorRepository _doctorRepository;
+    private ScheduleRepository _scheduleRepository;
 
     private readonly ObservableCollection<String> _doctors;
     public IEnumerable<String> AllDoctors => _doctors;
@@ -121,8 +124,9 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
 
 
 
-    public AdvancedMakeAppointmentViewModel(DoctorRepository doctorRepository)
+    public AdvancedMakeAppointmentViewModel(DoctorRepository doctorRepository, ScheduleRepository scheduleRepository)
     {
+        _scheduleRepository = scheduleRepository;
         _doctorRepository = doctorRepository;
         _doctors = new ObservableCollection<String>();
         PossibleMinutes = new[] { 00, 15, 30, 45 };
@@ -145,11 +149,20 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
         var endMins = EndMinutes;
         var startHours = StartHours;
         var endHours = EndHours;
-        DateTime date = Date;
+        DateTime lastDate = Date;
+        DateTime lasDate = new DateTime(lastDate.Year, lastDate.Month, lastDate.Day, 23, 59, 0);
+        DateTime today = DateTime.Now;
         string priority = Priority;
+        //now ovde za start
+        DateTime startTime = new DateTime(today.Year, today.Month, today.Day, startHours, startMins, 0);
+        DateTime endTime = new DateTime(today.Year, today.Month, today.Day, endHours, endMins, 0);
+        TimeSlot wantedTimeSlot = new TimeSlot(startTime, endTime);
 
-        DateTime startDate = new DateTime(date.Year, date.Month, date.Day, startHours, startMins, 0);
-        DateTime endDate = new DateTime(date.Year, date.Month, date.Day, endHours, endMins, 0);
+        string[] tokens = doc.Split("-");
+        string mail = tokens[1];
+        Doctor? doctor = _doctorRepository.GetDoctorByEmail(mail);
+
+        _scheduleRepository.FindAppointmentsByDoctorPriority(mail, wantedTimeSlot, lastDate);
 
     }
 }

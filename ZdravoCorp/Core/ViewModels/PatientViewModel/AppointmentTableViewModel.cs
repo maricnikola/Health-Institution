@@ -105,7 +105,7 @@ public class AppointmentTableViewModel: ViewModelBase
 
     public void RecommendAppointmentComm()
     {
-        var window = new AdvancedMakeAppointmentView() { DataContext = new AdvancedMakeAppointmentViewModel(_doctorRepository) };
+        var window = new AdvancedMakeAppointmentView() { DataContext = new AdvancedMakeAppointmentViewModel(_doctorRepository, _controller) };
         window.Show();
     }
 
