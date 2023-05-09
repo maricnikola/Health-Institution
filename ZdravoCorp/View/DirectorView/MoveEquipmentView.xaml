@@ -23,13 +23,14 @@
             <Label  VerticalContentAlignment="Center" Foreground="White" Margin="20,0,0,0">Search:</Label>
             <TextBox Text="{Binding Path = SearchBox , Mode = OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Width="180" Height="40" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="3,0,0,0"
             ></TextBox>
-            <Button Content="Move" Height="30" Width="100" Margin="300, 0, 20, 0"></Button>
+            <Button Content="Move" Height="30" Width="100" Margin="300, 0, 20, 0" Command="{Binding MoveSelectedInventoryItem}"></Button>
             
         </StackPanel>
         <Label Grid.Row="1" Foreground="WhiteSmoke" Margin="10,0,0,0">Available Equipment:</Label>
-        <DataGrid Grid.Row="2" ItemsSource="{Binding blabal, UpdateSourceTrigger=PropertyChanged}"
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Inventory, UpdateSourceTrigger=PropertyChanged}"
                   SelectionMode="Single"
-                  IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,0" Name="EquipmentV">
+                  IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,0" Name="EquipmentV"
+                  SelectedItem="{Binding SelectedInventoryItemVm, Mode=TwoWay}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Width="100" x:Name="Name" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Room"  Binding="{Binding Room}" />
@@ -42,7 +43,7 @@
 
         <Label Grid.Row="3" Foreground="WhiteSmoke" Margin="10,0,0,0">Transfers:</Label>
         
-        <DataGrid Grid.Row="4" ItemsSource="{Binding Inventory, UpdateSourceTrigger=PropertyChanged}"
+        <DataGrid Grid.Row="4" ItemsSource="{Binding Transfers, UpdateSourceTrigger=PropertyChanged}"
                   SelectionMode="Single"
                   IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,10" Name="EquipmentTransfers">
             <DataGrid.Columns>

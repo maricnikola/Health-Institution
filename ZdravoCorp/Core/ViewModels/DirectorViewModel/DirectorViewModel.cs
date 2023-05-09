@@ -59,6 +59,6 @@ public class DirectorViewModel : ViewModelBase
     
     public void MoveEquipmentView()
     {
-        CurrentView = new MoveEquipmentViewModel();
+        CurrentView = new MoveEquipmentViewModel(_inventoryRepository);
     }
 }
