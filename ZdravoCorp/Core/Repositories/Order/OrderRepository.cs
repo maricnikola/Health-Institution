@@ -8,7 +8,7 @@ public class OrderRepository : ISerializable
 {
     private List<Models.Orders.Order>? _orders;
     private readonly string _fileName = @".\..\..\..\Data\orders.json";
-    
+
     public OrderRepository()
     {
         _orders = new List<Models.Orders.Order>();
@@ -36,6 +36,6 @@ public class OrderRepository : ISerializable
 
     public void Import(JToken token)
     {
-        _orders = token.ToObject < List<Models.Orders.Order>>();
+        _orders = token.ToObject<List<Models.Orders.Order>>();
     }
 }

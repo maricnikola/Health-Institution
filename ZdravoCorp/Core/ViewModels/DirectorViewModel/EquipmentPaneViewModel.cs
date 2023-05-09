@@ -26,15 +26,11 @@ public class EquipmentPaneViewModel : ViewModelBase
 
     public EquipmentPaneViewModel()
     {
-        
     }
 
     public bool IsWarehouseChecked
     {
-        get
-        {
-            return _warehouseChecked;
-        }
+        get { return _warehouseChecked; }
         set
         {
             _warehouseChecked = value;
@@ -42,6 +38,7 @@ public class EquipmentPaneViewModel : ViewModelBase
             OnPropertyChanged("IsWarehouseChecked");
         }
     }
+
     public string SearchBox
     {
         get { return _searchText; }
@@ -74,7 +71,7 @@ public class EquipmentPaneViewModel : ViewModelBase
             OnPropertyChanged("SelectedEquipmentType");
         }
     }
-    
+
     public string SelectedQuantity
     {
         get { return _selectedQuantity; }
@@ -87,93 +84,91 @@ public class EquipmentPaneViewModel : ViewModelBase
     }
 
     private void UpdateTable()
-    {   
-        lock(_lock)
+    {
+        lock (_lock)
         {
             _filteredInventory = _allInventory;
             var wh = _filteredInventory.Intersect(UpdateTableFromWarehouseChecked());
             var f1 = wh.Intersect(UpdateTableFromSearch());
-            var f2 =f1.Intersect(UpdateTableFromEquipmentType());
-            var f3 =f2.Intersect(UpdateTableFromRoomType());
+            var f2 = f1.Intersect(UpdateTableFromEquipmentType());
+            var f3 = f2.Intersect(UpdateTableFromRoomType());
             var f4 = f3.Intersect(UpdateTableFromQuantity());
 
             Inventory = f4;
         }
-
     }
+
     private ObservableCollection<InventoryViewModel> UpdateTableFromSearch()
     {
         if (_searchText != "")
         {
-           return new ObservableCollection<InventoryViewModel>(Search(_searchText));
-            
+            return new ObservableCollection<InventoryViewModel>(Search(_searchText));
         }
         else
         {
-            
             return _allInventory;
         }
-    }    
-    private  IEnumerable<InventoryViewModel> UpdateTableFromRoomType()
+    }
+
+    private IEnumerable<InventoryViewModel> UpdateTableFromRoomType()
     {
         if (_selectedRoomType != "None")
         {
-           return new ObservableCollection<InventoryViewModel>(FilterByRoomType(_selectedRoomType));
-            
+            return new ObservableCollection<InventoryViewModel>(FilterByRoomType(_selectedRoomType));
         }
         else
         {
             return _allInventory;
         }
-    }   
-    private  ObservableCollection<InventoryViewModel> UpdateTableFromEquipmentType()
+    }
+
+    private ObservableCollection<InventoryViewModel> UpdateTableFromEquipmentType()
     {
         if (_selectedEquipmentType != "None")
         {
-          return new ObservableCollection<InventoryViewModel>(FilterRoomByEquipmentType(_selectedEquipmentType));
+            return new ObservableCollection<InventoryViewModel>(FilterRoomByEquipmentType(_selectedEquipmentType));
         }
         else
         {
-           return _allInventory;
+            return _allInventory;
         }
-    }   
-    private  ObservableCollection<InventoryViewModel> UpdateTableFromQuantity()
+    }
+
+    private ObservableCollection<InventoryViewModel> UpdateTableFromQuantity()
     {
         if (_selectedQuantity != "None")
         {
-           return new ObservableCollection<InventoryViewModel>(FilterByQuantity(_selectedQuantity));
-            
+            return new ObservableCollection<InventoryViewModel>(FilterByQuantity(_selectedQuantity));
         }
         else
         {
-           return _allInventory;
+            return _allInventory;
         }
     }
-    
-    private  ObservableCollection<InventoryViewModel> UpdateTableFromWarehouseChecked()
+
+    private ObservableCollection<InventoryViewModel> UpdateTableFromWarehouseChecked()
     {
         if (_warehouseChecked == false)
         {
             return new ObservableCollection<InventoryViewModel>(FilterFromWarehouse());
-            
         }
         else
         {
             return _allInventory;
         }
     }
-    
-    
-    
+
+
     public IEnumerable<InventoryViewModel> Search(string inputText)
     {
         return _allInventory.Where(item => item.ToString().Contains(inputText));
     }
+
     public IEnumerable<InventoryViewModel> FilterFromWarehouse()
     {
         return _allInventory.Where(item => item.RoomType != RoomType.StockRoom.ToString());
     }
-    
+
     public IEnumerable<InventoryViewModel> FilterByRoomType(string roomType)
     {
         return _allInventory.Where(item => item.RoomType == roomType);
@@ -195,6 +190,7 @@ public class EquipmentPaneViewModel : ViewModelBase
         {
             return _allInventory.Where(item => item.Quantity < 10);
         }
+
         if (quantity == "10+")
         {
             return _allInventory.Where(item => item.Quantity >= 10);
@@ -202,7 +198,7 @@ public class EquipmentPaneViewModel : ViewModelBase
 
         return null;
     }
-    
+
     public ObservableCollection<string> Quantities
     {
         get { return _quantities; }
@@ -220,25 +216,20 @@ public class EquipmentPaneViewModel : ViewModelBase
 
     public IEnumerable<InventoryViewModel> Inventory
     {
-        get
-        {
-            return _inventory;
-            
-        }
+        get { return _inventory; }
         set
         {
-           
-            _inventory =new ObservableCollection<InventoryViewModel>(value);
+            _inventory = new ObservableCollection<InventoryViewModel>(value);
             OnPropertyChanged();
         }
     }
 
-    public EquipmentPaneViewModel(InventoryRepository inventoryRepository )
+    public EquipmentPaneViewModel(InventoryRepository inventoryRepository)
     {
         _lock = new object();
         _inventoryRepository = inventoryRepository;
-        
-        _inventoryRepository.OnRequestUpdate+= (s, e) => UpdateTable();
+
+        _inventoryRepository.OnRequestUpdate += (s, e) => UpdateTable();
         _allInventory = new ObservableCollection<InventoryViewModel>();
         foreach (var inventoryItem in _inventoryRepository.GetAll())
         {
@@ -252,7 +243,6 @@ public class EquipmentPaneViewModel : ViewModelBase
         _quantities = new ObservableCollection<string>();
         LoadComboBoxCollections();
     }
-
 
 
     public void LoadComboBoxCollections()

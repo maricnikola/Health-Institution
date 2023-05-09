@@ -8,6 +8,7 @@ using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Order;
+using ZdravoCorp.Core.Repositories.Room;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels;
@@ -30,6 +31,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
     private readonly PatientRepository _patientRepository;
     private readonly ScheduleRepository _scheduleRepository;
     private readonly OrderRepository _orderRepository;
+    private readonly RoomRepository _roomRepository;
     
     public string Email
     {
@@ -62,8 +64,9 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             }
         }
     }
-    public LoginDialog(UserRepository userRepository, PatientRepository patientRepository ,DoctorRepository doctorRepository, ScheduleRepository scheduleRepository,InventoryRepository inventoryRepository, OrderRepository orderRepository)
+    public LoginDialog(UserRepository userRepository, PatientRepository patientRepository ,DoctorRepository doctorRepository, ScheduleRepository scheduleRepository,InventoryRepository inventoryRepository, OrderRepository orderRepository, RoomRepository roomRepository)
     {
+        _roomRepository = roomRepository;
         _patientRepository = patientRepository;
         _userRepository = userRepository;
         _doctorRepository = doctorRepository;
@@ -87,7 +90,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
         {
                 case User.UserType.Director:
                     //start director view
-                    Application.Current.MainWindow = new DirectorWindow() {DataContext = new DirectorViewModel(_inventoryRepository, _orderRepository)};;
+                    Application.Current.MainWindow = new DirectorWindow() {DataContext = new DirectorViewModel(_inventoryRepository, _orderRepository, _roomRepository)};;
                     break;
                 case User.UserType.Patient:
                     //start patient view

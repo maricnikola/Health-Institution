@@ -2,6 +2,7 @@
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Order;
+using ZdravoCorp.Core.Repositories.Room;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
@@ -9,6 +10,7 @@ public class DirectorViewModel : ViewModelBase
 
 {
     private InventoryRepository _inventoryRepository;
+    private RoomRepository _roomRepository;
     private OrderRepository _orderRepository;
     private object _currentView;
 
@@ -16,14 +18,11 @@ public class DirectorViewModel : ViewModelBase
     public ICommand ViewDynamicEquipmentCommand { get; private set; }
     public ICommand MoveDynamicEquipmentCommand { get; private set; }
     public ICommand MoveEquipmentCommand { get; private set; }
-    
-    
+
+
     public object CurrentView
     {
-        get
-        {
-            return _currentView;
-        }
+        get { return _currentView; }
         set
         {
             _currentView = value;
@@ -31,12 +30,13 @@ public class DirectorViewModel : ViewModelBase
         }
     }
 
-    public DirectorViewModel(InventoryRepository inventoryRepository, OrderRepository orderRepository)
+    public DirectorViewModel(InventoryRepository inventoryRepository, OrderRepository orderRepository, RoomRepository roomRepository)
     {
         _inventoryRepository = inventoryRepository;
         _orderRepository = orderRepository;
-       ViewEquipmentCommand = new DelegateCommand(o => EquipmentView());
-       MoveEquipmentCommand = new DelegateCommand(o => MoveEquipmentView());
+        _roomRepository = roomRepository;
+        ViewEquipmentCommand = new DelegateCommand(o => EquipmentView());
+        MoveEquipmentCommand = new DelegateCommand(o => MoveEquipmentView());
         ViewDynamicEquipmentCommand = new DelegateCommand(o => DynamicEquipmentView());
         MoveDynamicEquipmentCommand = new DelegateCommand(o => MoveDynamicEquipmentView());
         _currentView = new EquipmentPaneViewModel(_inventoryRepository);
@@ -51,14 +51,14 @@ public class DirectorViewModel : ViewModelBase
     {
         CurrentView = new DEquipmentPaneViewModel(_inventoryRepository, _orderRepository);
     }
-    
+
     public void MoveDynamicEquipmentView()
     {
         CurrentView = new MoveDEquipmentViewModel();
     }
-    
+
     public void MoveEquipmentView()
     {
-        CurrentView = new MoveEquipmentViewModel(_inventoryRepository);
+        CurrentView = new MoveEquipmentViewModel(_inventoryRepository, _roomRepository);
     }
 }

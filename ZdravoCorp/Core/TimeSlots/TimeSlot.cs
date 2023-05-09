@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ZdravoCorp.Core.TimeSlots
 {
-    public class TimeSlot                 //will be some functions for time
+    public class TimeSlot //will be some functions for time
     {
         public DateTime start { get; set; }
         public DateTime end { get; set; }
@@ -20,12 +20,12 @@ namespace ZdravoCorp.Core.TimeSlots
 
         public bool overlap(TimeSlot time)
         {
-            return start > time.end || end < time.start;    
+            return start > time.end || end < time.start;
         }
 
         public int GetTimeBeforeStart(DateTime time)
         {
-            return (start - time).Days*24 + (start-time).Hours;
+            return (start - time).Days * 24 + (start - time).Hours;
         }
     }
 }

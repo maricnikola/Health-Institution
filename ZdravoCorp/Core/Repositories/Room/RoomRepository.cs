@@ -13,18 +13,23 @@ namespace ZdravoCorp.Core.Repositories.Room;
 public class RoomRepository : ISerializable
 {
     private readonly string _fileName = @".\..\..\..\Data\rooms.json";
-    private  List<Models.Rooms.Room>? _rooms;
-    
+    private List<Models.Rooms.Room>? _rooms;
+
 
     public RoomRepository()
     {
         _rooms = new List<Models.Rooms.Room>();
         Serializer.Load(this);
     }
-    
+
     public void Add(Models.Rooms.Room newRoom)
     {
         _rooms.Add(newRoom);
+    }
+
+    public IEnumerable<Models.Rooms.Room> GetAllExcept(int roomId)
+    {
+        return _rooms.Where(room => room.Id != roomId);
     }
 
 

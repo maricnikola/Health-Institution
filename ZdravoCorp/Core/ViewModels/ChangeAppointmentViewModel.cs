@@ -29,51 +29,46 @@ public class ChangeAppointmentViewModel : ViewModelBase
     public int Inx;
 
     private string _doctorName;
+
     public string DoctorName
     {
-        get
-        {
-            return _doctorName;
-        }
+        get { return _doctorName; }
         set
         {
             _doctorName = value;
             OnPropertyChanged(nameof(DoctorName));
         }
     }
+
     private DateTime _date = DateTime.Now + TimeSpan.FromHours(1);
+
     public DateTime Date
     {
-        get
-        {
-            return _date;
-        }
+        get { return _date; }
         set
         {
             _date = value;
             OnPropertyChanged(nameof(Date));
         }
     }
+
     private int _hours = 00;
+
     public int Hours
     {
-        get
-        {
-            return _hours;
-        }
+        get { return _hours; }
         set
         {
             _hours = value;
             OnPropertyChanged(nameof(Hours));
         }
     }
+
     private int _minutes = 00;
+
     public int Minutes
     {
-        get
-        {
-            return _minutes;
-        }
+        get { return _minutes; }
         set
         {
             _minutes = value;
@@ -82,7 +77,9 @@ public class ChangeAppointmentViewModel : ViewModelBase
     }
 
 
-    public ChangeAppointmentViewModel(AppointmentViewModel appointmentViewModel ,List<Doctor> doctors, ScheduleRepository scheduleRepository, ObservableCollection<AppointmentViewModel> Appointments, DoctorRepository doctorRepository, Patient patient)
+    public ChangeAppointmentViewModel(AppointmentViewModel appointmentViewModel, List<Doctor> doctors,
+        ScheduleRepository scheduleRepository, ObservableCollection<AppointmentViewModel> Appointments,
+        DoctorRepository doctorRepository, Patient patient)
     {
         _doctorRepository = doctorRepository;
         _scheduleRepository = scheduleRepository;
@@ -101,7 +98,6 @@ public class ChangeAppointmentViewModel : ViewModelBase
         _minutes = _appointmentViewModel.Date.Minute;
 
         ChangeAppointmentCommand = new DelegateCommand(o => ChangeAppointmentComm(Appointments));
-
     }
 
     public void ChangeAppointmentComm(ObservableCollection<AppointmentViewModel> Appointments)
@@ -123,12 +119,12 @@ public class ChangeAppointmentViewModel : ViewModelBase
 
             MedicalRecord medicalRecord = new MedicalRecord(_patient);
 
-            Appointment appointment = _scheduleRepository.ChangeAppointment(_appointmentViewModel.Id, time, doctor, medicalRecord);
+            Appointment appointment =
+                _scheduleRepository.ChangeAppointment(_appointmentViewModel.Id, time, doctor, medicalRecord);
             if (appointment != null)
             {
                 Appointments.Remove(GetById(appointment.Id, Appointments));
                 Appointments.Add(new AppointmentViewModel(appointment));
-
             }
             else
             {
@@ -150,6 +146,7 @@ public class ChangeAppointmentViewModel : ViewModelBase
                 return appointmentViewModel;
             }
         }
+
         return null;
     }
 }

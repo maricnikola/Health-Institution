@@ -5,54 +5,65 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Equipment;
+using ZdravoCorp.Core.Models.Inventory;
 using ZdravoCorp.Core.Models.Orders;
+using ZdravoCorp.Core.Models.Rooms;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Order;
+using ZdravoCorp.Core.Repositories.Room;
 using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.Core.Utilities.CronJobs;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
-public class EquipmentTransferWindowViewModel
+public class EquipmentTransferWindowViewModel : ViewModelBase
 
 {
-    public IEnumerable<DynamicInventoryViewModel> SelectedForOrder { get; }
-    public ICommand ConfirmOrder { get; }
-    public ICommand CancelOrder { get; }
-    private OrderRepository _orderRepository;
+    
+    public ICommand ConfirmTransfer { get; }
+    public ICommand CancelTransfer { get; }
+
+    private RoomRepository _roomRepository;
     private InventoryRepository _inventoryRepository;
-    //private ObservableCollection<> _rooms;
+    private ObservableCollection<RoomViewModel> _rooms;
+
+    public IEnumerable<RoomViewModel> Rooms
+    {
+        get
+        {
+            return _rooms;
+        }
+        set
+        {
+            _rooms = new ObservableCollection<RoomViewModel>(value);
+            OnPropertyChanged();
+        }
+    }
     public event EventHandler OnRequestClose;
     public int InventoryItemId { get; set; }
-    public EquipmentTransferWindowViewModel(IEnumerable<DynamicInventoryViewModel> selectedForOrder, OrderRepository orderRepository, InventoryRepository inventoryRepository)
+    
+
+    public EquipmentTransferWindowViewModel(int inventoryItemId, RoomRepository roomRepository, InventoryRepository inventoryRepository)
     {
-        _orderRepository = orderRepository;
+        _roomRepository = roomRepository;
         _inventoryRepository = inventoryRepository;
-        SelectedForOrder = selectedForOrder;
-        ConfirmOrder = new DelegateCommand(o => Confirm());
-        CancelOrder = new DelegateCommand(o => Cancel());
+        InventoryItemId = inventoryItemId;
+        InventoryItem inventoryItem = _inventoryRepository.GetInventoryById(inventoryItemId);
+        ConfirmTransfer = new DelegateCommand(o => Confirm());
+        CancelTransfer = new DelegateCommand(o => Cancel());
+        foreach (var room in _roomRepository.GetAllExcept(inventoryItem.RoomId))
+        {
+            _rooms.Add(new RoomViewModel(room));
+        }
     }
 
-    public EquipmentTransferWindowViewModel(int inventoryItemId)
-    {
-        InventoryItemId = inventoryItemId;
-    }
     private void Cancel()
     {
         OnRequestClose(this, new EventArgs());
     }
+
     private void Confirm()
     {
-        Dictionary<int, int> order = new Dictionary<int, int>();
-        foreach (var item in SelectedForOrder)
-        {
-            order.Add(item.EquipmentId, item.OrderQuantity);
-        }
-
-        Order newOrder = new Order(IDGenerator.GetId(), order, DateTime.Now, DateTime.Now.AddMinutes(1),
-            Order.OrderStatus.Pending);
-        _orderRepository.AddOrder(newOrder);
-        JobScheduler.DEquipmentTaskScheduler(newOrder,_inventoryRepository );
         OnRequestClose(this, new EventArgs());
     }
 }

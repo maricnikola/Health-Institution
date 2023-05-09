@@ -14,6 +14,7 @@ public class Operation
     public Room? Room { get; set; }
     public List<Equipment.Equipment>? Equipment { get; set; }
     public readonly bool IsCanceled;
+
     public Operation(int id, TimeSlot time, Doctor doctor, MedicalRecord.MedicalRecord medicalRecord)
     {
         Id = id;
@@ -24,8 +25,6 @@ public class Operation
         MedicalRecord = medicalRecord;
         Room = null;
         Equipment = null;
-        IsCanceled = false; 
+        IsCanceled = false;
     }
-    
-    
 }

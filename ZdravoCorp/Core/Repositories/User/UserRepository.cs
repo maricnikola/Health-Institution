@@ -13,9 +13,9 @@ namespace ZdravoCorp.Core.Repositories.User;
 public class UserRepository : ISerializable
 {
     private readonly string _fileName = @".\..\..\..\Data\users.json";
-    private  List<Models.Users.User> _users;
+    private List<Models.Users.User> _users;
 
-    
+
     public UserRepository(List<Models.Users.User> us)
     {
         this._users = us;
@@ -32,10 +32,6 @@ public class UserRepository : ISerializable
     {
         _users.Add(user);
     }
-    
-
-
-
 
 
     public Models.Users.User? GetUserByEmail(string email)

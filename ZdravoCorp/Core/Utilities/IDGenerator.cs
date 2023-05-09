@@ -11,7 +11,7 @@ public class IDGenerator
 {
     private static int _currentId;
     private static readonly string _fileName = @".\..\..\..\Data\idg.json";
-    
+
     public int CurrentId { get; set; }
 
     public IDGenerator()
@@ -19,12 +19,10 @@ public class IDGenerator
         _currentId = LoadFromFile();
     }
 
-    public static void  SaveToFile()
+    public static void SaveToFile()
     {
-       
-        
         var id = JsonSerializer.Serialize(_currentId);
-        
+
         File.WriteAllText(_fileName, id);
     }
 

@@ -29,7 +29,7 @@ public class LoadFunctions
         Patient p = new Patient("sreten.pejovic@gmail.com", "Seten", "Pejovic");
         MedicalRecord mr = new MedicalRecord(p, 175, 72);
         Doctor d = new Doctor("savo.oroz@gmail.com", "Savo", "Oroz", Doctor.SpecializationType.Surgeon);
-        int id = random.Next(0,100000);
+        int id = random.Next(0, 100000);
         Appointment appointment = new Appointment(id, time, d, mr);
 
         TimeSlot time1 = new TimeSlot(new DateTime(2023, 11, 10, 6, 0, 0), new DateTime(2023, 11, 10, 6, 15, 0));
@@ -65,8 +65,5 @@ public class LoadFunctions
         schedule.AddAppointment(appointment2);
         schedule.AddAppointment(appointment3);
         schedule.AddAppointment(appointment4);
-
-
-
     }
 }

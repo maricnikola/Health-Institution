@@ -14,12 +14,10 @@ namespace ZdravoCorp.Core.Repositories.User;
 
 public class DoctorRepository : ISerializable
 {
-
-    private  List<Doctor>? _doctors;
+    private List<Doctor>? _doctors;
     private readonly string _fileName = @".\..\..\..\Data\doctors.json";
     public List<Doctor>? Doctors => _doctors;
-    
-    
+
 
     public DoctorRepository()
     {
@@ -45,13 +43,11 @@ public class DoctorRepository : ISerializable
 
     public IEnumerable<object>? GetList()
     {
-       return _doctors;
+        return _doctors;
     }
 
     public void Import(JToken token)
     {
         _doctors = token.ToObject<List<Doctor>>();
     }
-
-
 }

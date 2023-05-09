@@ -7,7 +7,7 @@ namespace ZdravoCorp.Core.Utilities;
 public interface ISerializable
 {
     public string FileName();
-    
+
     public IEnumerable<object>? GetList();
     public void Import(JToken token);
 }

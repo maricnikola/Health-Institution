@@ -10,15 +10,16 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ZdravoCorp.Core.Counters;
 
-
 public class CounterDictionary
 {
     private readonly string _fileName = @".\..\..\..\Data\counters.json";
+
     private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
     {
         //WriteIndented = true
         PropertyNameCaseInsensitive = true
     };
+
     public Dictionary<string, Counter>? AllCounters;
 
     public CounterDictionary()
@@ -45,10 +46,11 @@ public class CounterDictionary
             c.Cancelations = new List<DateTime> { date };
             AllCounters.Add(email, c);
         }
-            
-            //AllCounters[email].Cancelations =
+
+        //AllCounters[email].Cancelations =
         SaveToFile();
     }
+
     public void AddNews(string email, DateTime date)
     {
         if (AllCounters.ContainsKey(email))
@@ -68,6 +70,7 @@ public class CounterDictionary
             c.News = new List<DateTime> { date };
             AllCounters.Add(email, c);
         }
+
         SaveToFile();
     }
 
@@ -75,7 +78,7 @@ public class CounterDictionary
     {
         try
         {
-            return AllCounters[email].Cancelations.Count >= 5 || AllCounters[email].News.Count>=8;
+            return AllCounters[email].Cancelations.Count >= 5 || AllCounters[email].News.Count >= 8;
         }
         catch (Exception e)
         {
@@ -90,6 +93,7 @@ public class CounterDictionary
         {
             return;
         }
+
         Dictionary<string, Counter>? users = JsonConvert.DeserializeObject<Dictionary<string, Counter>>(text);
 
         AllCounters = users;
@@ -100,5 +104,4 @@ public class CounterDictionary
         var counters = JsonConvert.SerializeObject(AllCounters, Formatting.Indented);
         File.WriteAllText(this._fileName, counters);
     }
-
 }

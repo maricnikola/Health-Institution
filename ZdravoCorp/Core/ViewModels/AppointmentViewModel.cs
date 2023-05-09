@@ -19,7 +19,4 @@ public class AppointmentViewModel : ViewModelBase
     {
         _appointment = appointment;
     }
-
-
-
 }

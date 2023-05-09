@@ -23,7 +23,9 @@ public class DEquipmentOrderConfirmViewModel
     private OrderRepository _orderRepository;
     private InventoryRepository _inventoryRepository;
     public event EventHandler OnRequestClose;
-    public DEquipmentOrderConfirmViewModel(IEnumerable<DynamicInventoryViewModel> selectedForOrder, OrderRepository orderRepository, InventoryRepository inventoryRepository)
+
+    public DEquipmentOrderConfirmViewModel(IEnumerable<DynamicInventoryViewModel> selectedForOrder,
+        OrderRepository orderRepository, InventoryRepository inventoryRepository)
     {
         _orderRepository = orderRepository;
         _inventoryRepository = inventoryRepository;
@@ -36,6 +38,7 @@ public class DEquipmentOrderConfirmViewModel
     {
         OnRequestClose(this, new EventArgs());
     }
+
     private void Confirm()
     {
         Dictionary<int, int> order = new Dictionary<int, int>();
@@ -47,7 +50,7 @@ public class DEquipmentOrderConfirmViewModel
         Order newOrder = new Order(IDGenerator.GetId(), order, DateTime.Now, DateTime.Now.AddMinutes(1),
             Order.OrderStatus.Pending);
         _orderRepository.AddOrder(newOrder);
-        JobScheduler.DEquipmentTaskScheduler(newOrder,_inventoryRepository );
+        JobScheduler.DEquipmentTaskScheduler(newOrder, _inventoryRepository);
         OnRequestClose(this, new EventArgs());
     }
 }

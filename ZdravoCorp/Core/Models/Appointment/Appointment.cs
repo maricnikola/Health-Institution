@@ -6,8 +6,7 @@ using ZdravoCorp.Core.TimeSlots;
 
 namespace ZdravoCorp.Core.Models.Appointment;
 
-
-public class Appointment                    
+public class Appointment
 {
     [JsonPropertyName("Id")] public int Id { get; set; }
     [JsonPropertyName("Time")] public TimeSlot Time { get; set; }
@@ -28,6 +27,4 @@ public class Appointment
         Room = null;
         IsCanceled = false;
     }
-
-
 }

@@ -13,23 +13,24 @@ public class MedicalRecordRepository
     public MedicalRecordRepository(List<Appointment> appointments)
     {
         _records = new List<Models.MedicalRecord.MedicalRecord>();
-        foreach(Appointment ap in appointments)
+        foreach (Appointment ap in appointments)
         {
             Models.MedicalRecord.MedicalRecord mr = ap.MedicalRecord;
             _records.Add(mr);
         }
-            
     }
+
     public void AddRecord(Models.MedicalRecord.MedicalRecord? newMedicalRecord)
     {
         _records.Add(newMedicalRecord);
     }
+
     public Models.MedicalRecord.MedicalRecord? GetById(string id)
     {
         return _records.FirstOrDefault(record => record.user.Email == id);
     }
+
     public void RemoveById(int id)
     {
-
     }
 }

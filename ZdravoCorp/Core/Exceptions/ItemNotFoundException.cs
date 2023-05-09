@@ -3,7 +3,8 @@ using System.Runtime.Serialization;
 
 namespace ZdravoCorp.Core.Exceptions;
 
-public class ItemNotFoundException : Exception{
+public class ItemNotFoundException : Exception
+{
     public ItemNotFoundException()
     {
     }

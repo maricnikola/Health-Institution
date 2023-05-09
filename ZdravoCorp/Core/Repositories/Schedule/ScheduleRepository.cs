@@ -16,7 +16,6 @@ public class ScheduleRepository
 {
     private JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
     {
-
     };
 
     private String _fileNameAppointments = @".\..\..\..\Data\appointments.json";
@@ -60,30 +59,35 @@ public class ScheduleRepository
 
     public List<Appointment> GetPatientAppointments(Patient patient)
     {
-        List<Appointment> patientAppointments = new List<Appointment>();   
-        foreach(Appointment appointment in Appointments)
+        List<Appointment> patientAppointments = new List<Appointment>();
+        foreach (Appointment appointment in Appointments)
         {
-            if(appointment.MedicalRecord.user.Email == patient.Email && !appointment.IsCanceled) patientAppointments.Add(appointment);
+            if (appointment.MedicalRecord.user.Email == patient.Email && !appointment.IsCanceled)
+                patientAppointments.Add(appointment);
         }
+
         return patientAppointments;
     }
+
     public List<Operation> GetPatientOperations(Patient patient)
     {
         List<Operation> patientOperations = new List<Operation>();
-        foreach(Operation operation in Operations)
+        foreach (Operation operation in Operations)
         {
             if (operation.MedicalRecord.user.Email == patient.Email) patientOperations.Add(operation);
         }
+
         return patientOperations;
     }
-   
+
     public List<Appointment> GetDoctorAppointments(Doctor doctor)
     {
         List<Appointment> doctorAppointments = new List<Appointment>();
-        foreach(Appointment appointment in Appointments)
+        foreach (Appointment appointment in Appointments)
         {
-            if(appointment.Doctor.Email == doctor.Email) doctorAppointments.Add(appointment);
+            if (appointment.Doctor.Email == doctor.Email) doctorAppointments.Add(appointment);
         }
+
         return doctorAppointments;
     }
 
@@ -94,6 +98,7 @@ public class ScheduleRepository
         {
             if (operation.Doctor.Email == doctor.Email) doctorOperations.Add(operation);
         }
+
         return doctorOperations;
     }
 
@@ -118,11 +123,13 @@ public class ScheduleRepository
             if (!appointment.Time.overlap(timeslot) && !appointment.IsCanceled)
                 return false;
         }
+
         foreach (var operation in operations)
         {
             if (!operation.Time.overlap(timeslot) && !operation.IsCanceled)
                 return false;
         }
+
         return true;
     }
 
@@ -131,7 +138,6 @@ public class ScheduleRepository
         string text = File.ReadAllText(_fileNameAppointments);
         var appointments = JsonSerializer.Deserialize<List<Appointment>>(text);
         appointments.ForEach(appointment => Appointments.Add(appointment));
-
     }
 
     public void SaveAppointments()
@@ -145,7 +151,6 @@ public class ScheduleRepository
         string text = File.ReadAllText(_fileNameOperations);
         var operatons = JsonSerializer.Deserialize<List<Operation>>(text);
         Operations.ForEach(operations => Operations.Add(operations));
-
     }
 
     public void SaveOperations()
@@ -154,9 +159,11 @@ public class ScheduleRepository
         File.WriteAllText(this._fileNameOperations, users);
     }
 
-    public Appointment? CreateAppointment(TimeSlot time, Doctor doctor, Models.MedicalRecord.MedicalRecord medicalRecord)
+    public Appointment? CreateAppointment(TimeSlot time, Doctor doctor,
+        Models.MedicalRecord.MedicalRecord medicalRecord)
     {
-        if (isDoctorAvailable(time,doctor) && isPatientAvailable(time, medicalRecord.user) && time.start>DateTime.Now)
+        if (isDoctorAvailable(time, doctor) && isPatientAvailable(time, medicalRecord.user) &&
+            time.start > DateTime.Now)
         {
             Random random = new Random();
             int id = random.Next(0, 100000);
@@ -169,6 +176,7 @@ public class ScheduleRepository
 
         return null;
     }
+
     public void CreateOperation(TimeSlot time, Doctor doctor, Models.MedicalRecord.MedicalRecord medicalRecord)
     {
         if (isDoctorAvailable(time, doctor) && isPatientAvailable(time, medicalRecord.user))
@@ -179,7 +187,8 @@ public class ScheduleRepository
         }
     }
 
-    public Appointment? ChangeAppointment(int id,TimeSlot time, Doctor doctor, Models.MedicalRecord.MedicalRecord medicalRecord)
+    public Appointment? ChangeAppointment(int id, TimeSlot time, Doctor doctor,
+        Models.MedicalRecord.MedicalRecord medicalRecord)
     {
         if (time.start > DateTime.Now)
         {
@@ -200,17 +209,18 @@ public class ScheduleRepository
                     _counterDictionary.AddCancelation(appointment.MedicalRecord.user.Email, DateTime.Now);
                     return appointment;
                 }
+
                 Appointments.Add(toGo);
                 return null;
             }
-
         }
+
         return null;
     }
 
     public void CancelAppointment(Appointment appointment)
     {
-        bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now)>24;
+        bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now) > 24;
         if (IsAppointmentInList(appointment) && isOnTime)
         {
             int index = Appointments.IndexOf(appointment);
@@ -224,22 +234,25 @@ public class ScheduleRepository
     public bool IsAppointmentInList(Appointment appointment)
     {
         //return (from t in Appointments where t.Id == appointment.Id where t.Doctor.Email == appointment.Doctor.Email where t.MedicalRecord.user.Email == appointment.MedicalRecord.user.Email select t).Any(t => t.Time.start == appointment.Time.start && t.Time.end == appointment.Time.end);
-        return Appointments.Any(ap => ap.MedicalRecord.user.Email == appointment.MedicalRecord.user.Email && ap.Doctor.Email == appointment.Doctor.Email && ap.Time.start==appointment.Time.start && ap.Time.end==appointment.Time.end);
+        return Appointments.Any(ap =>
+            ap.MedicalRecord.user.Email == appointment.MedicalRecord.user.Email &&
+            ap.Doctor.Email == appointment.Doctor.Email && ap.Time.start == appointment.Time.start &&
+            ap.Time.end == appointment.Time.end);
     }
-
 
 
     public List<Appointment> GetAppointmentsForShow(DateTime date)
     {
         List<Appointment> showAppointments = new List<Appointment>();
-        foreach(Appointment appointment in Appointments)
+        foreach (Appointment appointment in Appointments)
         {
             if (IsForShow(appointment, date)) showAppointments.Add(appointment);
         }
+
         return showAppointments;
     }
 
-    public bool IsForShow(Appointment appointment,DateTime date)
+    public bool IsForShow(Appointment appointment, DateTime date)
     {
         DateTime dateEnd = date.AddDays(3);
         return (appointment.Time.start > date && appointment.Time.start < dateEnd);

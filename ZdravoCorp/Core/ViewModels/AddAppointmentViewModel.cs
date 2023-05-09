@@ -29,11 +29,13 @@ public class AddAppointmentViewModel : ViewModelBase
     private DateTime _date;
 
 
-    public AddAppointmentViewModel(ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, ObservableCollection<AppointmentViewModel> appointment, PatientRepository patientRepository, Doctor doctor, MedicalRecordRepository medicalRepository, DateTime date)
+    public AddAppointmentViewModel(ScheduleRepository scheduleRepository, DoctorRepository doctorRepository,
+        ObservableCollection<AppointmentViewModel> appointment, PatientRepository patientRepository, Doctor doctor,
+        MedicalRecordRepository medicalRepository, DateTime date)
     {
         _dr = doctor;
         _medicalRepository = medicalRepository;
-        _date = date;   
+        _date = date;
 
         _scheduleRepository = scheduleRepository;
         _patientRepository = patientRepository;
@@ -45,6 +47,7 @@ public class AddAppointmentViewModel : ViewModelBase
         {
             _patientsFullname.Add(p.FullName + "-" + p.Email);
         }
+
         AddCommand = new DelegateCommand(o => DrCreateAppointment(appointment, _date));
     }
 
@@ -53,10 +56,7 @@ public class AddAppointmentViewModel : ViewModelBase
 
     public string Username
     {
-        get
-        {
-            return _username;
-        }
+        get { return _username; }
         set
         {
             _username = value;
@@ -65,12 +65,10 @@ public class AddAppointmentViewModel : ViewModelBase
     }
 
     private DateTime _startDate = DateTime.Now + TimeSpan.FromHours(1);
+
     public DateTime StartDate
     {
-        get
-        {
-            return _startDate;
-        }
+        get { return _startDate; }
         set
         {
             _startDate = value;
@@ -79,25 +77,22 @@ public class AddAppointmentViewModel : ViewModelBase
     }
 
     private int _startTimeHours;
+
     public int StartTimeHours
     {
-        get
-        {
-            return _startTimeHours;
-        }
+        get { return _startTimeHours; }
         set
         {
             _startTimeHours = value;
             OnPropertyChanged(nameof(StartTimeHours));
         }
     }
+
     private int _startTimeMinutes;
+
     public int StartTimeMinutes
     {
-        get
-        {
-            return _startTimeMinutes;
-        }
+        get { return _startTimeMinutes; }
         set
         {
             _startTimeMinutes = value;
@@ -106,12 +101,11 @@ public class AddAppointmentViewModel : ViewModelBase
     }
 
 
-
     public ICommand AddCommand { get; }
     public ICommand CancelCommand { get; }
 
 
-    public void DrCreateAppointment(ObservableCollection<AppointmentViewModel> Appointments,DateTime date)
+    public void DrCreateAppointment(ObservableCollection<AppointmentViewModel> Appointments, DateTime date)
     {
         try
         {
@@ -150,5 +144,4 @@ public class AddAppointmentViewModel : ViewModelBase
             MessageBox.Show("Invalid Appointment", "Error", MessageBoxButton.OK);
         }
     }
-
 }

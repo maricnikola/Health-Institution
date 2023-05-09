@@ -6,16 +6,14 @@ namespace ZdravoCorp.Core.Models.Users;
 public class Doctor
 
 {
-
-     public string Email { get; set; }
-     public string FirstName { get; set; }
+    public string Email { get; set; }
+    public string FirstName { get; set; }
     public string LastName { get; set; }
 
-    
+
     public SpecializationType Specialization { get; set; }
-    
-    [JsonIgnore]
-    public string FullName => string.Format("Dr {0} {1}", FirstName, LastName);
+
+    [JsonIgnore] public string FullName => string.Format("Dr {0} {1}", FirstName, LastName);
 
     [JsonConstructor]
     public Doctor(string email, string firstName, string lastName, SpecializationType specialization)
@@ -25,8 +23,6 @@ public class Doctor
         LastName = lastName;
         Specialization = specialization;
     }
-
-
 
 
     public enum SpecializationType
@@ -40,7 +36,8 @@ public class Doctor
 
     protected bool Equals(Doctor other)
     {
-        return Email == other.Email && FirstName == other.FirstName && LastName == other.LastName && Specialization == other.Specialization;
+        return Email == other.Email && FirstName == other.FirstName && LastName == other.LastName &&
+               Specialization == other.Specialization;
     }
 
     public override bool Equals(object? obj)

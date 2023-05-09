@@ -13,11 +13,9 @@ namespace ZdravoCorp.Core.Repositories.User;
 
 public class NurseRepository : ISerializable
 {
-    
-    private  List<Nurse?> _nurses;
+    private List<Nurse?> _nurses;
     private readonly string _fileName = @".\..\..\..\Data\nurses.json";
-    
-    
+
 
     public NurseRepository()
     {
@@ -29,12 +27,11 @@ public class NurseRepository : ISerializable
     {
         _nurses.Add(nurse);
     }
+
     public Nurse? GetNurseByEmail(string email)
     {
         return _nurses.FirstOrDefault(nurse => nurse.Email == email);
     }
-    
-
 
 
     public string FileName()

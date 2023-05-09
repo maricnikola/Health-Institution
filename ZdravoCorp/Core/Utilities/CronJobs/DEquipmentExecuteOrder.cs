@@ -11,7 +11,7 @@ public class DEquipmentExecuteOrder : IJob
 {
     private Order _order;
     private InventoryRepository _inventoryRepository;
-    
+
     public Task Execute(IJobExecutionContext context)
     {
         JobDataMap dataMap = context.JobDetail.JobDataMap;
@@ -21,9 +21,10 @@ public class DEquipmentExecuteOrder : IJob
         {
             _inventoryRepository.AddItem(new InventoryItem(IDGenerator.GetId(), item.Value, 999, item.Key));
         }
+
         _inventoryRepository.LoadRoomsAndEquipment();
         _inventoryRepository.OnRequestUpdate(this, new EventArgs());
-        
+
         return Task.CompletedTask;
     }
 }

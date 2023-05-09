@@ -16,19 +16,18 @@ public class DirectorRepository : ISerializable
 
     public Director? Director => _director;
     private readonly string _fileName = @".\..\..\..\Data\directors.json";
-    
-    
+
 
     public DirectorRepository()
     {
         Serializer.Load(this);
-    } 
+    }
+
     public DirectorRepository(Director director)
     {
         _director = director;
         Serializer.Load(this);
     }
-    
 
 
     public string FileName()

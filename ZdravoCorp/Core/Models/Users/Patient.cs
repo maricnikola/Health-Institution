@@ -5,12 +5,11 @@ namespace ZdravoCorp.Core.Models.Users;
 
 public class Patient
 {
-    public  string Email { get; set; }
-     public string FirstName { get; set; }
-     public string LastName { get; set; }
-    
-     [JsonIgnore]
-    public string FullName => string.Format("{0} {1}", FirstName, LastName);
+    public string Email { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+
+    [JsonIgnore] public string FullName => string.Format("{0} {1}", FirstName, LastName);
 
     [JsonConstructor]
     public Patient(string email, string firstName, string lastName)
@@ -20,7 +19,6 @@ public class Patient
         LastName = lastName;
     }
 
-    
 
     protected bool Equals(Patient other)
     {

@@ -14,25 +14,22 @@ public class PatientViewModel : ViewModelBase
     private ScheduleRepository _scheduleRepository;
     private DoctorRepository _doctorRepository;
     private Patient _patient;
-    
-    
+
 
     public object CurrentView
     {
-        get
-        {
-            return _currentView;
-        }
+        get { return _currentView; }
         set
         {
             _currentView = value;
             OnPropertyChanged("CurrentView");
         }
     }
-    
-    public PatientViewModel(List<Appointment> appointments, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, Patient patient)
+
+    public PatientViewModel(List<Appointment> appointments, ScheduleRepository scheduleRepository,
+        DoctorRepository doctorRepository, Patient patient)
     {
-        _appointments=appointments;
+        _appointments = appointments;
         _scheduleRepository = scheduleRepository;
         _doctorRepository = doctorRepository;
         _patient = patient;

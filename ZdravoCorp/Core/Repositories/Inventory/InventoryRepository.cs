@@ -18,9 +18,8 @@ public class InventoryRepository : ISerializable
 {
     private readonly RoomRepository _roomRepository;
     private readonly EquipmentRepository _equipmentRepository;
-    private  List<InventoryItem>? _inventory;
+    private List<InventoryItem>? _inventory;
     private readonly string _fileName = @".\..\..\..\Data\inventory.json";
-
 
 
     public EventHandler OnRequestUpdate;
@@ -96,8 +95,7 @@ public class InventoryRepository : ISerializable
         }
     }
 
-   
-    
+
     public InventoryItem? GetInventoryById(int id)
     {
         return _inventory.FirstOrDefault(inv => inv.Id == id);

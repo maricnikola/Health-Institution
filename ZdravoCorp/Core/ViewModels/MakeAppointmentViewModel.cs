@@ -19,58 +19,53 @@ namespace ZdravoCorp.Core.ViewModels;
 public class MakeAppointmentViewModel : ViewModelBase
 {
     private readonly ObservableCollection<String> _doctors;
-    private ScheduleRepository _scheduleRepository;         
+    private ScheduleRepository _scheduleRepository;
     private DoctorRepository _doctorRepository;
     private Patient _patient;
     public IEnumerable<String> AllDoctors => _doctors;
     public ICommand CreateAppointmentCommand { get; set; }
 
     private string _doctorName;
+
     public string DoctorName
     {
-        get
-        {
-            return _doctorName;
-        }
+        get { return _doctorName; }
         set
         {
             _doctorName = value;
             OnPropertyChanged(nameof(DoctorName));
         }
     }
+
     private DateTime _date = DateTime.Now + TimeSpan.FromHours(1);
+
     public DateTime Date
     {
-        get
-        {
-            return _date;
-        }
+        get { return _date; }
         set
         {
             _date = value;
             OnPropertyChanged(nameof(Date));
         }
     }
+
     private int _hours = 00;
+
     public int Hours
     {
-        get
-        {
-            return _hours;
-        }
+        get { return _hours; }
         set
         {
             _hours = value;
             OnPropertyChanged(nameof(Hours));
         }
     }
+
     private int _minutes = 00;
+
     public int Minutes
     {
-        get
-        {
-            return _minutes;
-        }
+        get { return _minutes; }
         set
         {
             _minutes = value;
@@ -79,10 +74,11 @@ public class MakeAppointmentViewModel : ViewModelBase
     }
 
 
-    public MakeAppointmentViewModel(List<Doctor> doctors, ScheduleRepository scheduleRepository, ObservableCollection<AppointmentViewModel> Appointments, DoctorRepository doctorRepository, Patient patient)
+    public MakeAppointmentViewModel(List<Doctor> doctors, ScheduleRepository scheduleRepository,
+        ObservableCollection<AppointmentViewModel> Appointments, DoctorRepository doctorRepository, Patient patient)
     {
         _doctorRepository = doctorRepository;
-        _scheduleRepository= scheduleRepository;
+        _scheduleRepository = scheduleRepository;
         _patient = patient;
         _doctors = new ObservableCollection<String>();
         foreach (var doctor in doctors)
@@ -91,7 +87,6 @@ public class MakeAppointmentViewModel : ViewModelBase
         }
 
         CreateAppointmentCommand = new DelegateCommand(o => CreateAppointment(Appointments));
-
     }
 
     public void CreateAppointment(ObservableCollection<AppointmentViewModel> Appointments)
@@ -114,7 +109,7 @@ public class MakeAppointmentViewModel : ViewModelBase
             MedicalRecord medicalRecord = new MedicalRecord(_patient);
 
             Appointment appointment = _scheduleRepository.CreateAppointment(time, doctor, medicalRecord);
-            if (appointment!=null)
+            if (appointment != null)
                 Appointments.Add(new AppointmentViewModel(appointment));
             else
             {
@@ -126,5 +121,4 @@ public class MakeAppointmentViewModel : ViewModelBase
             MessageBox.Show("Invalid Appointment", "Error", MessageBoxButton.OK);
         }
     }
-
 }
