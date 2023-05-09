@@ -16,13 +16,13 @@ using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.TimeSlots;
 using ZdravoCorp.View;
 
-namespace ZdravoCorp.Core.ViewModels;
+namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
 public class AddAppointmentViewModel : ViewModelBase
 {
-    private ObservableCollection<String> _patientsFullname { get; }
+    private ObservableCollection<string> _patientsFullname { get; }
     private ScheduleRepository _scheduleRepository;
-    public IEnumerable<String> Patients => _patientsFullname;
+    public IEnumerable<string> Patients => _patientsFullname;
     private PatientRepository _patientRepository;
     private Doctor _dr;
     private MedicalRecordRepository _medicalRepository;
@@ -33,7 +33,7 @@ public class AddAppointmentViewModel : ViewModelBase
     {
         _dr = doctor;
         _medicalRepository = medicalRepository;
-        _date = date;   
+        _date = date;
 
         _scheduleRepository = scheduleRepository;
         _patientRepository = patientRepository;
@@ -111,14 +111,14 @@ public class AddAppointmentViewModel : ViewModelBase
     public ICommand CancelCommand { get; }
 
 
-    public void DrCreateAppointment(ObservableCollection<AppointmentViewModel> Appointments,DateTime date)
+    public void DrCreateAppointment(ObservableCollection<AppointmentViewModel> Appointments, DateTime date)
     {
         try
         {
             int hours = StartTimeHours;
             int minutes = StartTimeMinutes;
             DateTime d = StartDate;
-            String dm = Username;
+            string dm = Username;
 
             DateTime start = new DateTime(d.Year, d.Month, d.Day, hours, minutes, 0);
             DateTime end = start.AddMinutes(15);

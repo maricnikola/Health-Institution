@@ -9,23 +9,23 @@ using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
-namespace ZdravoCorp.Core.ViewModels;
+namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
-public class PatientTableViewModel :ViewModelBase  
+public class PatientTableViewModel : ViewModelBase
 {
     private ObservableCollection<PatientsViewModel> _patients;
     private ObservableCollection<PatientsViewModel> _Allpatients;
     private ObservableCollection<PatientsViewModel> _searchedPatients;
 
     private Doctor _doctor;
-   // public ObservableCollection<PatientsViewModel> Patients => _patients; 
+    // public ObservableCollection<PatientsViewModel> Patients => _patients; 
     private string _searchText = "";
 
     public PatientsViewModel SelectedPatient { get; set; }
     private PatientRepository _patientRepository;
     private DoctorRepository _doctorRepository;
 
-    public PatientTableViewModel(User user, DoctorRepository doctorRepository,PatientRepository patientRepository )
+    public PatientTableViewModel(User user, DoctorRepository doctorRepository, PatientRepository patientRepository)
     {
         _doctorRepository = doctorRepository;
         _doctor = _doctorRepository.GetDoctorByEmail(user.Email);
@@ -33,7 +33,7 @@ public class PatientTableViewModel :ViewModelBase
         List<Patient> patinets = _patientRepository.Patients;
 
         _Allpatients = new ObservableCollection<PatientsViewModel>();
-        foreach(Patient patient in patinets)
+        foreach (Patient patient in patinets)
         {
             _Allpatients.Add(new PatientsViewModel(patient));
         }
@@ -86,7 +86,7 @@ public class PatientTableViewModel :ViewModelBase
         return p;
     }
 
- 
+
 
     private void UpdateTable()
     {

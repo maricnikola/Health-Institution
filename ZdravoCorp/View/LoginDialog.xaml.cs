@@ -16,6 +16,7 @@ using ZdravoCorp.View.Director;
 using ZdravoCorp.View.Director;
 using ZdravoCorp.View.PatientV;
 using ZdravoCorp.View.DoctorView;
+using ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
 namespace ZdravoCorp.View;
 
@@ -112,7 +113,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     break;
                 case User.UserType.Doctor:
                 //start doctor view
-                    Application.Current.MainWindow = new DoctorWindow() { DataContext = new DoctorWindowViewModel(user,_scheduleRepository, _doctorRepository, _patientRepository) };
+                    Application.Current.MainWindow = new DoctorWindow() { DataContext = new DoctorViewModel(user,_scheduleRepository, _doctorRepository, _patientRepository) };
                     break;
 
         }

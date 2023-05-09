@@ -14,21 +14,21 @@ using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.TimeSlots;
 
-namespace ZdravoCorp.Core.ViewModels
+namespace ZdravoCorp.Core.ViewModels.DoctorViewModels
 {
-    class DrChangeAppointmentViewModel:ViewModelBase
+    class DrChangeAppointmentViewModel : ViewModelBase
     {
-        private ObservableCollection<String> _patientsFullname { get; }
+        private ObservableCollection<string> _patientsFullname { get; }
         private ScheduleRepository _scheduleRepository;
-        public IEnumerable<String> Patients => _patientsFullname;
+        public IEnumerable<string> Patients => _patientsFullname;
         private PatientRepository _patientRepository;
         private Doctor _dr;
         private Patient _patient;
         private AppointmentViewModel _appointmentModel;
         private DateTime _date;
-        
 
-        public DrChangeAppointmentViewModel(AppointmentViewModel appointmentModel, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, ObservableCollection<AppointmentViewModel> appointment, PatientRepository patientRepository, Doctor doctor,Patient patient,AppointmentViewModel appointmentSelected,DateTime date)
+
+        public DrChangeAppointmentViewModel(AppointmentViewModel appointmentModel, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, ObservableCollection<AppointmentViewModel> appointment, PatientRepository patientRepository, Doctor doctor, Patient patient, AppointmentViewModel appointmentSelected, DateTime date)
         {
             _dr = doctor;
             _appointmentModel = appointmentModel;
@@ -114,12 +114,12 @@ namespace ZdravoCorp.Core.ViewModels
                 TimeSlot time = new TimeSlot(start, end);
 
                 string patientName = _patient.FirstName;
-            
+
 
                 MedicalRecord medicalRecord = new MedicalRecord(_patient);
 
-                
-                Appointment appointment = _scheduleRepository.ChangeAppointment(_appointmentModel.Id,time, _dr, medicalRecord);
+
+                Appointment appointment = _scheduleRepository.ChangeAppointment(_appointmentModel.Id, time, _dr, medicalRecord);
 
 
                 if (appointment != null)

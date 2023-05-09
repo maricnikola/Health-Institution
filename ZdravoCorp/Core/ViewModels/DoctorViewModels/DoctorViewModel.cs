@@ -11,7 +11,7 @@ using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
-namespace ZdravoCorp.Core.ViewModels;
+namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
 public class DoctorViewModel : ViewModelBase
 {
@@ -47,16 +47,16 @@ public class DoctorViewModel : ViewModelBase
         _patientRepository = patientRepository;
         LoadAppointmentCommand = new DelegateCommand(o => LoadAppointments());
         LoadPatientsCommand = new DelegateCommand(o => LoadPatinets());
-        _currentView = new AppointmentShowViewModel(_user,_scheduleRepository,_doctorRepository,_patientRepository);
+        _currentView = new AppointmentShowViewModel(_user, _scheduleRepository, _doctorRepository, _patientRepository);
     }
 
     public void LoadAppointments()
     {
-        CurrentView = new AppointmentShowViewModel(_user, _scheduleRepository, _doctorRepository, _patientRepository); 
+        CurrentView = new AppointmentShowViewModel(_user, _scheduleRepository, _doctorRepository, _patientRepository);
     }
 
     public void LoadPatinets()
     {
-        CurrentView = new  PatientTableViewModel(_user, _doctorRepository, _patientRepository);
+        CurrentView = new PatientTableViewModel(_user, _doctorRepository, _patientRepository);
     }
 }
