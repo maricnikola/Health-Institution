@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Models.Users;
 
 namespace ZdravoCorp.Core.Models.MedicalRecord;
 

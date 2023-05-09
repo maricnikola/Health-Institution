@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Documents;
 using ZdravoCorp.Core.Models.Appointment;
-using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 

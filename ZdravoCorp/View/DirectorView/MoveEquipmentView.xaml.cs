@@ -2,9 +2,9 @@
 
 namespace ZdravoCorp.View.DirectorView;
 
-public partial class EquipmentView : UserControl
+public partial class MoveEquipmentView : UserControl
 {
-    public EquipmentView()
+    public MoveEquipmentView()
     {
         InitializeComponent();
     }

@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Data;
 using ZdravoCorp.Core.Models.Equipment;
-using ZdravoCorp.Core.Models.Room;
+using ZdravoCorp.Core.Models.Rooms;
 using ZdravoCorp.Core.Repositories.Inventory;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;

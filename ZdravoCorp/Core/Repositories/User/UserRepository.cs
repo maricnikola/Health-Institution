@@ -13,10 +13,10 @@ namespace ZdravoCorp.Core.Repositories.User;
 public class UserRepository : ISerializable
 {
     private readonly string _fileName = @".\..\..\..\Data\users.json";
-    private  List<Models.User.User> _users;
+    private  List<Models.Users.User> _users;
 
     
-    public UserRepository(List<Models.User.User> us)
+    public UserRepository(List<Models.Users.User> us)
     {
         this._users = us;
         //this.LoadFromFile();
@@ -24,11 +24,11 @@ public class UserRepository : ISerializable
 
     public UserRepository()
     {
-        _users = new List<Models.User.User>();
+        _users = new List<Models.Users.User>();
         Serializer.Load(this);
     }
 
-    public void AddUser(Models.User.User user)
+    public void AddUser(Models.Users.User user)
     {
         _users.Add(user);
     }
@@ -38,7 +38,7 @@ public class UserRepository : ISerializable
 
 
 
-    public Models.User.User? GetUserByEmail(string email)
+    public Models.Users.User? GetUserByEmail(string email)
     {
         return _users.FirstOrDefault(user => user.Email == email);
     }
@@ -61,6 +61,6 @@ public class UserRepository : ISerializable
 
     public void Import(JToken token)
     {
-        _users = token.ToObject<List<Models.User.User>>();
+        _users = token.ToObject<List<Models.Users.User>>();
     }
 }

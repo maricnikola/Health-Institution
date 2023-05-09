@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace ZdravoCorp.Core.Models.Order;
+namespace ZdravoCorp.Core.Models.Orders;
 
 public class Order
 {

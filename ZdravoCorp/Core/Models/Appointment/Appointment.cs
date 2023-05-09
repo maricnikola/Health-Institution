@@ -1,6 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
-using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Models.Rooms;
+using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.TimeSlots;
 
 namespace ZdravoCorp.Core.Models.Appointment;
@@ -13,7 +14,7 @@ public class Appointment
     [JsonPropertyName("Doctor")] public Doctor Doctor { get; set; }
     [JsonPropertyName("MedicalRecord")] public MedicalRecord.MedicalRecord MedicalRecord { get; set; }
     public String? Anamnesis { get; set; }
-    public Room.Room? Room { get; set; }
+    public Room? Room { get; set; }
     public bool IsCanceled;
 
     [JsonConstructor]

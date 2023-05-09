@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Windows.Documents;
 using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Exceptions;
-using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.User;

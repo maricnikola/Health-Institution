@@ -8,7 +8,6 @@ using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Exceptions;
 using ZdravoCorp.Core.Models.Equipment;
 using ZdravoCorp.Core.Models.Inventory;
-using ZdravoCorp.Core.Models.Room;
 using ZdravoCorp.Core.Repositories.Equipment;
 using ZdravoCorp.Core.Repositories.Room;
 using ZdravoCorp.Core.Utilities;

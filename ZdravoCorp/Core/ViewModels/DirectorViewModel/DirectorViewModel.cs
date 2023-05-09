@@ -12,8 +12,10 @@ public class DirectorViewModel : ViewModelBase
     private OrderRepository _orderRepository;
     private object _currentView;
 
-    public ICommand LoadEquipmentCommand { get; private set; }
-    public ICommand LoadDynamicEquipmentCommand { get; private set; }
+    public ICommand ViewEquipmentCommand { get; private set; }
+    public ICommand ViewDynamicEquipmentCommand { get; private set; }
+    public ICommand MoveDynamicEquipmentCommand { get; private set; }
+    public ICommand MoveEquipmentCommand { get; private set; }
     
     
     public object CurrentView
@@ -33,18 +35,30 @@ public class DirectorViewModel : ViewModelBase
     {
         _inventoryRepository = inventoryRepository;
         _orderRepository = orderRepository;
-        LoadEquipmentCommand = new DelegateCommand(o => LoadEquipment());
-        LoadDynamicEquipmentCommand = new DelegateCommand(o => LoadDynamicEquipment());
+       ViewEquipmentCommand = new DelegateCommand(o => EquipmentView());
+       MoveEquipmentCommand = new DelegateCommand(o => MoveEquipmentView());
+        ViewDynamicEquipmentCommand = new DelegateCommand(o => DynamicEquipmentView());
+        MoveDynamicEquipmentCommand = new DelegateCommand(o => MoveDynamicEquipmentView());
         _currentView = new EquipmentPaneViewModel(_inventoryRepository);
     }
 
-    public void LoadEquipment()
+    public void EquipmentView()
     {
         CurrentView = new EquipmentPaneViewModel(_inventoryRepository);
     }
 
-    public void LoadDynamicEquipment()
+    public void DynamicEquipmentView()
     {
         CurrentView = new DEquipmentPaneViewModel(_inventoryRepository, _orderRepository);
+    }
+    
+    public void MoveDynamicEquipmentView()
+    {
+        CurrentView = new MoveDEquipmentViewModel();
+    }
+    
+    public void MoveEquipmentView()
+    {
+        CurrentView = new MoveEquipmentViewModel();
     }
 }

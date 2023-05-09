@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using ZdravoCorp.Core.Models.User;
 
 namespace ZdravoCorp.Core.Utilities;
 

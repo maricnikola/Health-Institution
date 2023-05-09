@@ -1,7 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 
-namespace ZdravoCorp.Core.Models.Room;
+namespace ZdravoCorp.Core.Models.Rooms;
 
 public class Room
 {

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Quartz;
 using ZdravoCorp.Core.Models.Inventory;
-using ZdravoCorp.Core.Models.Order;
+using ZdravoCorp.Core.Models.Orders;
 using ZdravoCorp.Core.Repositories.Inventory;
 
 namespace ZdravoCorp.Core.Utilities.CronJobs;

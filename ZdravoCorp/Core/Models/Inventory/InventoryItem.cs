@@ -1,5 +1,6 @@
 using System;
 using Newtonsoft.Json;
+using ZdravoCorp.Core.Models.Rooms;
 using ZdravoCorp.Core.Repositories.Room;
 
 namespace ZdravoCorp.Core.Models.Inventory;
@@ -8,14 +9,14 @@ public class InventoryItem
 {
      public int Id { get; set; }
      public int Quantity { get; set; }
-    [JsonIgnore] public Room.Room? Room { get; set; }
+    [JsonIgnore] public Room? Room { get; set; }
     [JsonIgnore] public Equipment.Equipment? Equipment { get; set; }
 
      public int EquipmentId { get; } 
     public int RoomId { get; } 
     
     
-    public InventoryItem(int id, int quantity, Room.Room? room, Equipment.Equipment? equipment)
+    public InventoryItem(int id, int quantity, Room? room, Equipment.Equipment? equipment)
     {
         Id = id;
         Quantity = quantity;

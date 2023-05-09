@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using Quartz;
 using Quartz.Impl;
-using ZdravoCorp.Core.Models.Order;
+using ZdravoCorp.Core.Models.Orders;
 using ZdravoCorp.Core.Repositories.Inventory;
 
 namespace ZdravoCorp.Core.Utilities.CronJobs;
