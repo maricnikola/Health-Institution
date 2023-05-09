@@ -27,8 +27,8 @@
         </Grid.ColumnDefinitions>
         <TextBlock Text="Director" Foreground="White" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20, 0, 0, 0" ></TextBlock>
         <StackPanel Grid.Column="0" Grid.Row="1">
-            <RadioButton Content="Equipment" Height="50" Foreground="WhiteSmoke"  Style="{DynamicResource ToggleTheme}" Command="{Binding LoadEquipmentCommand}"></RadioButton>
-            <RadioButton Content="DEquipment" Height="50" Foreground="WhiteSmoke"  Style="{DynamicResource ToggleTheme}" Command="{Binding LoadDynamicEquipmentCommand}"></RadioButton>
+            <RadioButton Content="Equipment" Height="50" Foreground="WhiteSmoke"  Style="{DynamicResource ToggleTheme}" Command="{Binding LoadAppointmentCommand}"></RadioButton>
+            <RadioButton Content="DEquipment" Height="50" Foreground="WhiteSmoke"  Style="{DynamicResource ToggleTheme}" Command="{Binding LoadPatientsCommand}"></RadioButton>
 
         </StackPanel>
         <ContentControl Grid.RowSpan="2" Background="#29262e" Content="{Binding Path=CurrentView}" Grid.Row="0" Grid.Column="1" Margin="10" ></ContentControl>
