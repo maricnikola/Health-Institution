@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text.Json;
 using System.Windows;
 using ZdravoCorp.Core.Counters;
@@ -9,6 +10,8 @@ using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.Operation;
 using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.TimeSlots;
+using ZdravoCorp.Core.Models.MedicalRecord;
+using ZdravoCorp.View;
 
 namespace ZdravoCorp.Core.Repositories.Schedule;
 
@@ -261,12 +264,16 @@ public class ScheduleRepository
         return doctorsTimeSlots;
     }
 
-    private TimeSlot? FindFirstEmptyTimeSlotForDoctor(HashSet<TimeSlot?> doctorsTimeSlots, List<TimeSlot> allDays, string doctorsMail)
+    private TimeSlot? FindFirstEmptyTimeSlotForDoctor(HashSet<TimeSlot> doctorsTimeSlots, List<TimeSlot> allDays, string doctorsMail)
     {
         foreach (var day in allDays)
         {
-            if (day.start<DateTime.Now)
+            if (day.start < DateTime.Now)
+            {
+                if (day.end<DateTime.Now)
+                    continue;
                 day.start = GiveFirstDevisibleBy15(DateTime.Now);
+            }
             while (day.start!=day.end)
             {
                 var slotForAppointment = new TimeSlot(day.start, day.start.AddMinutes(15));
@@ -283,11 +290,62 @@ public class ScheduleRepository
         return null;
     }
 
-    public void FindAppointmentsByDoctorPriority(string doctorsMail, TimeSlot wantedTime, DateTime lastDate)
+    private TimeSlot? FindAvailableTimeslotsForOneDoctor(string doctorsMail, TimeSlot wantedTime, DateTime lastDate, List<TimeSlot>? alreadyUsed = null)
     {
-        List<TimeSlot> allDays = wantedTime.GiveSameTimeUntileSomeDay(lastDate);
+        if (alreadyUsed==null) alreadyUsed = new List<TimeSlot>();
+        var wantedTimeCopy = new TimeSlot(wantedTime.start, wantedTime.end);
+        List<TimeSlot> allDays = wantedTimeCopy.GiveSameTimeUntileSomeDay(lastDate);
         HashSet<TimeSlot> doctorsTimeSlots = FindOccupiedTimeSlotsForDoctor(doctorsMail, allDays);
-        TimeSlot availableTimeSlot = FindFirstEmptyTimeSlotForDoctor(doctorsTimeSlots, allDays, doctorsMail);
+        foreach (var used in alreadyUsed)
+        {
+            doctorsTimeSlots.Add(used);
+        }
+        TimeSlot? availableTimeSlot = FindFirstEmptyTimeSlotForDoctor(doctorsTimeSlots, allDays, doctorsMail);
+        return availableTimeSlot;
+    }
+
+    public List<Appointment> FindAppointmentsByDoctorPriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate, Models.MedicalRecord.MedicalRecord patient)
+    {
+        var availableTimeSlots = FindAvailableTimeSlotsByDoctorPriority(doctor, wantedTime, lastDate);
+        var posibleAppointments = new List<Appointment>();
+        
+        foreach (var slot in availableTimeSlots)
+        {
+            posibleAppointments.Add(new Appointment(1000, slot, doctor, patient));
+        }
+        return posibleAppointments;
+    }
+
+    private List<TimeSlot> FindAvailableTimeSlotsByDoctorPriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate)
+    {
+        var availableTimeSlots = new List<TimeSlot>();
+        TimeSlot? availableTimeSlot = FindAvailableTimeslotsForOneDoctor(doctor.Email, wantedTime, lastDate);
+        if (availableTimeSlot == null)
+        {
+            availableTimeSlots = GetNearesThreeSlots(doctor.Email, wantedTime, lastDate);
+        }
+        else
+            availableTimeSlots.Add(availableTimeSlot);
+
+        return availableTimeSlots;
+    }
+
+    private List<TimeSlot> GetNearesThreeSlots(string doctorsMail, TimeSlot wantedTime, DateTime lastDate)
+    {
+        var extension = new TimeSpan(2, 0, 0);
+        wantedTime = wantedTime.ExtendButStayOnSameDay(extension);
+        var nearestThreeSlots = new List<TimeSlot>();
+        while (nearestThreeSlots.Count != 3)
+        {
+            var availableTimeSlot = FindAvailableTimeslotsForOneDoctor(doctorsMail, wantedTime, lastDate, nearestThreeSlots);
+            if (availableTimeSlot == null)
+            {
+                lastDate = lastDate.AddDays(1);
+                continue;
+            }
+            nearestThreeSlots.Add(availableTimeSlot);
+        }
+        return nearestThreeSlots;
     }
 
 
