@@ -31,10 +31,10 @@ public class MedicalRecord
     }
     public MedicalRecord(Patient user, int height, int weight, List<string> deseaseHistory)
     {
-        user = user;
-        height = height;
-        weight = weight;
-        deseaseHistory = deseaseHistory;
+        this.user = user;
+        this.height = height;
+        this.weight = weight;
+        this.deseaseHistory = deseaseHistory;
     }
 
     public override string ToString()
