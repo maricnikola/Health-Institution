@@ -112,7 +112,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     break;
                 case User.UserType.Doctor:
                 //start doctor view
-                    Application.Current.MainWindow = new AppointmentsShowView() { DataContext = new AppointmentShowViewModel(user,_scheduleRepository,_doctorRepository,_patientRepository)};
+                    Application.Current.MainWindow = new PatientTableView() { DataContext = new PatientTableViewModel(user,_doctorRepository,_patientRepository) };
                     break;
 
         }
