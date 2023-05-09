@@ -5,13 +5,53 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:ZdravoCorp.View.DirectorView"
         mc:Ignorable="d"
-        Title="DEquipmentOrderConfirmView"  Width="300" Height="Auto" SizeToContent="Height" WindowStartupLocation="CenterOwner">
+        Title="DEquipmentOrderConfirmView"  Width="500" Height="Auto" SizeToContent="Height" WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-       <Label Content="{Binding InventoryItemId}"></Label>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel  Grid.Column="0">
+                <Label Content="Choose destination room:"></Label>
+                <DataGrid  ItemsSource="{Binding Rooms, UpdateSourceTrigger=PropertyChanged}"
+                           SelectionMode="Single"
+                           IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,0" Name="EquipmentV"
+                           SelectedItem="{Binding SelectedInventoryItemVm, Mode=TwoWay}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Room" Width="50" x:Name="Name" Binding="{Binding Room}"/>
+                        <DataGridTextColumn Header="Type"  Binding="{Binding Type}" />
+
+  
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+            <StackPanel VerticalAlignment="Center" Grid.Column="1">
+                <Label Content="Choose transfer date and time:"></Label>
+                <DatePicker Margin="10,0"></DatePicker>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <ComboBox Grid.Row="1"  Width="60"></ComboBox>
+                    <ComboBox Grid.Row="1" Grid.Column="1" Width="60"></ComboBox>
+                    <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Hours"></Label>
+                    <Label Grid.Column="1" Grid.Row="0" Content="Minutes" HorizontalContentAlignment="Center"></Label>
+                </Grid>
+
+               
+            </StackPanel>
+        </Grid>
+       
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="10" Orientation="Horizontal">
             <Button Padding="5" Margin="20,0" Content="Cancel" Command="{Binding CancelOrder}"></Button>
             <Button  Padding="5" Margin="20,0" Content="Confirm" Command="{Binding ConfirmOrder}"></Button>

@@ -16,12 +16,12 @@ namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 public class EquipmentTransferWindowViewModel
 
 {
-    //private ObservableCollection<DynamicInventoryViewModel> _selectedForOrder;
     public IEnumerable<DynamicInventoryViewModel> SelectedForOrder { get; }
     public ICommand ConfirmOrder { get; }
     public ICommand CancelOrder { get; }
     private OrderRepository _orderRepository;
     private InventoryRepository _inventoryRepository;
+    //private ObservableCollection<> _rooms;
     public event EventHandler OnRequestClose;
     public int InventoryItemId { get; set; }
     public EquipmentTransferWindowViewModel(IEnumerable<DynamicInventoryViewModel> selectedForOrder, OrderRepository orderRepository, InventoryRepository inventoryRepository)
