@@ -1,31 +1,30 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Quartz;
-using ZdravoCorp.Core.Models.Inventory;
-using ZdravoCorp.Core.Models.Orders;
+using ZdravoCorp.Core.Models.Transfers;
 using ZdravoCorp.Core.Repositories.Inventory;
+using ZdravoCorp.Core.Repositories.Transfers;
 
 namespace ZdravoCorp.Core.Utilities.CronJobs;
 
-public class DEquipmentExecuteOrder : IJob
+public class TransferRequestTask : IJob
 {
-    private Order _order;
+    private Transfer _transfer;
     private InventoryRepository _inventoryRepository;
-
+    private TransferRepository _transferRepository;
     public Task Execute(IJobExecutionContext context)
     {
         JobDataMap dataMap = context.JobDetail.JobDataMap;
-        _order = (Order)dataMap["order"];
+        _transfer = (Transfer)dataMap["transfer"];
         _inventoryRepository = (InventoryRepository)dataMap["invrepo"];
-        foreach (var item in _order.Items)
-        {
-            _inventoryRepository.AddItem(new InventoryItem(IDGenerator.GetId(), item.Value, 999, item.Key));
-        }
+        _transferRepository = (TransferRepository)dataMap["transrepo"];
+        _inventoryRepository.UpdateInventoryItem(_transfer);
 
-        _inventoryRepository.LoadRoomsAndEquipment();
+
+        _transferRepository.Remove(_transfer);
+        _transferRepository.OnRequestUpdate(this, new EventArgs());
         _inventoryRepository.OnRequestUpdate(this, new EventArgs());
         
-
         return Task.CompletedTask;
     }
 }

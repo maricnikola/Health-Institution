@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Models.Transfers;
 using ZdravoCorp.Core.Utilities;
@@ -10,6 +11,8 @@ public class TransferRepository : ISerializable
     private readonly string _fileName = @".\..\..\..\Data\transfers.json";
     private List<Transfer>? _transfers;
 
+    
+    public EventHandler OnRequestUpdate;
     public TransferRepository()
     {
         _transfers = new List<Transfer>();
@@ -24,6 +27,12 @@ public class TransferRepository : ISerializable
     public void Add(Transfer transfer)
     {
         _transfers.Add(transfer);
+    }
+
+    public void Remove(Transfer transfer)
+    {
+        _transfers.Remove(transfer);
+        Serializer.Save(this);
     }
     public string FileName()
     {

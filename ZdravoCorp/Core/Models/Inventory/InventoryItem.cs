@@ -13,7 +13,7 @@ public class InventoryItem
     [JsonIgnore] public Equipment.Equipment? Equipment { get; set; }
 
     public int EquipmentId { get; }
-    public int RoomId { get; }
+    public int RoomId { get; set; }
 
 
     public InventoryItem(int id, int quantity, Room? room, Equipment.Equipment? equipment)

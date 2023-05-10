@@ -114,9 +114,10 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
         DateTime when = new DateTime(tempDate.Year, tempDate.Month, tempDate.Day, (int)SelectedHour, (int)SelectedMinute, 0);
 
         Transfer newTransfer = new Transfer(IDGenerator.GetId(),_roomRepository.GetById(_sourceRoomId),
-            _roomRepository.GetById(SelectedRoom.Id), when, _quantity, InventoryItemId,_inventoryItem.Equipment.Name);
+            _roomRepository.GetById(SelectedRoom.Id), when, Quantity, InventoryItemId,_inventoryItem.Equipment.Name);
         _transferRepository.Add(newTransfer);
         Serializer.Save(_transferRepository);
+        JobScheduler.TransferRequestTaskScheduler(newTransfer, _inventoryRepository, _transferRepository);
         //_inventoryRepository.GetInventoryById(InventoryItemId).UpdateRoom(_roomRepository.GetById(SelectedRoom.Id));
         OnRequestUpdate(this, new EventArgs());
         OnRequestClose(this, new EventArgs());

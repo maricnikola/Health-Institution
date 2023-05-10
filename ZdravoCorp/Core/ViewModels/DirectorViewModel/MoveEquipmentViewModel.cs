@@ -56,10 +56,18 @@ public class MoveEquipmentViewModel : ViewModelBase
     }
 
 
-    private void UpdateTable()
+    private void UpdateTable(bool newAdded = false)
     {
+        
         lock (_lock)
         {
+            if (newAdded)
+            {
+                foreach (var inventoryItem in _inventoryRepository.GetNonDynamic())
+                {
+                    _allInventory.Add(new InventoryViewModel(inventoryItem));
+                }
+            }
             Inventory = UpdateTableFromSearch();
         }
     }
@@ -99,7 +107,8 @@ public class MoveEquipmentViewModel : ViewModelBase
         _roomRepository = roomRepository;
         _inventoryRepository = inventoryRepository;
         _transferRepository = transferRepository;
-        _inventoryRepository.OnRequestUpdate += (s, e) => UpdateTable();
+        _inventoryRepository.OnRequestUpdate += (s, e) => UpdateTable(true);
+        _transferRepository.OnRequestUpdate += (s, e) => UpdateTransfers();
         _allInventory = new ObservableCollection<InventoryViewModel>();
         _transfers = new ObservableCollection<TransferViewModel>();
         MoveSelectedInventoryItem = new DelegateCommand(o => MoveInventoryItem(), o => IsInventoryItemSelected());
@@ -118,10 +127,13 @@ public class MoveEquipmentViewModel : ViewModelBase
     {
         lock (_lock2)
         {
+            _transfers = new ObservableCollection<TransferViewModel>();
             foreach (var transfer in _transferRepository.GetAll())
             {
                 _transfers.Add(new TransferViewModel(transfer));
             }
+
+            Transfers = _transfers;
         }
     }
     private void MoveInventoryItem()
