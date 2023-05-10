@@ -2,9 +2,12 @@
 using ZdravoCorp.Core.Loader;
 using ZdravoCorp.Core.Repositories.Equipment;
 using ZdravoCorp.Core.Repositories.Inventory;
+using ZdravoCorp.Core.Repositories.Order;
 using ZdravoCorp.Core.Repositories.Room;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
+using ZdravoCorp.Core.Utilities;
+using ZdravoCorp.Core.Utilities.CronJobs;
 
 namespace ZdravoCorp.View
 {
@@ -18,6 +21,8 @@ namespace ZdravoCorp.View
             //Disable shutdown when the dialog closes
             Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             //Load functions for repositories
+            IDGenerator idg = new IDGenerator();
+            JobScheduler scheduler = new JobScheduler();
             UserRepository userRepository = new UserRepository();
             DirectorRepository directorRepository = new DirectorRepository();
             PatientRepository patientRepository = new PatientRepository();
@@ -27,12 +32,13 @@ namespace ZdravoCorp.View
             RoomRepository roomRepository = new RoomRepository();
             InventoryRepository inventoryRepository = new InventoryRepository(roomRepository, equipmentRepository);
             ScheduleRepository scheduleRepository = new ScheduleRepository();
+            OrderRepository orderRepository = new OrderRepository();
             LoadFunctions.LoadAppointments(scheduleRepository);
 
 
 
             //___________________________
-            var dialog = new LoginDialog(userRepository, patientRepository, doctorRepository, scheduleRepository, inventoryRepository);
+            var dialog = new LoginDialog(userRepository, patientRepository, doctorRepository, scheduleRepository, inventoryRepository, orderRepository);
             
             if (dialog.ShowDialog() == true)
             {

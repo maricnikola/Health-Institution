@@ -1,17 +1,16 @@
 using System;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace ZdravoCorp.Core.Models.User;
 
 public class Director
 {
-    [JsonPropertyName("email")] public new string Email { get; set; }
-    [JsonPropertyName("firstname")] public string FirstName { get; set; }
-    [JsonPropertyName("lastname")] public string LastName { get; set; }
-    
-    public string FullName => string.Format("Nurse {0} {1}", FirstName, LastName);
+    public string Email { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    [JsonIgnore] public string FullName => string.Format("Nurse {0} {1}", FirstName, LastName);
 
-    
+
     [JsonConstructor]
     public Director(string email, string firstName, string lastName)
     {
@@ -20,16 +19,6 @@ public class Director
         LastName = lastName;
     }
 
-
-    public dynamic GetDirectorForSerialization()
-    {
-        return new
-        {
-            email = Email,
-            firstname = FirstName,
-            lastname = LastName,
-        };
-    }
 
     protected bool Equals(Director other)
     {

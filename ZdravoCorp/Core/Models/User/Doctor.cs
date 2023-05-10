@@ -1,5 +1,5 @@
 using System;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace ZdravoCorp.Core.Models.User;
 
@@ -7,13 +7,14 @@ public class Doctor
 
 {
 
-    [JsonPropertyName("email")] public string Email { get; set; }
-    [JsonPropertyName("firstname")] public string FirstName { get; set; }
-    [JsonPropertyName("lastname")] public string LastName { get; set; }
+     public string Email { get; set; }
+     public string FirstName { get; set; }
+    public string LastName { get; set; }
 
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    
     public SpecializationType Specialization { get; set; }
-
+    
+    [JsonIgnore]
     public string FullName => string.Format("Dr {0} {1}", FirstName, LastName);
 
     [JsonConstructor]
@@ -26,16 +27,7 @@ public class Doctor
     }
 
 
-    public dynamic GetDoctorForSerialization()
-    {
-        return new
-        {
-            email = Email,
-            firstname = FirstName,
-            lastname = LastName,
-            specialization = Specialization
-        };
-    }
+
 
     public enum SpecializationType
     {

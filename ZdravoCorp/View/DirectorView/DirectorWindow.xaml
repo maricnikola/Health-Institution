@@ -12,7 +12,7 @@
         <DataTemplate DataType="{x:Type director:EquipmentPaneViewModel}">
             <director1:EquipmentView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type director:DynamicEquipmentViewModel}">
+        <DataTemplate DataType="{x:Type director:DEquipmentPaneViewModel}">
             <director1:DynamicEquipmentView/>
         </DataTemplate>
     </Window.Resources>

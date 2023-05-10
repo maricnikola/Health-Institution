@@ -4,74 +4,51 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Exceptions;
 using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.User;
 
-public class NurseRepository
+public class NurseRepository : ISerializable
 {
     
-    private readonly List<Nurse?> _nurses;
+    private  List<Nurse?> _nurses;
     private readonly string _fileName = @".\..\..\..\Data\nurses.json";
     
     
-    private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
-    {
-        PropertyNameCaseInsensitive = true
-    };
 
     public NurseRepository()
     {
         _nurses = new List<Nurse?>();
-        LoadFromFile();
+        Serializer.Load(this);
     }
 
     public void Add(Nurse? nurse)
     {
         _nurses.Add(nurse);
     }
-    public void SaveToFile()
-    {
-        if (_nurses.Count == 0)
-        {
-            Trace.WriteLine($"Repository is empty! {this.GetType()}");
-            return;
-        }
-        var usersForFile = ReduceForSerialization();
-        var nurses = JsonSerializer.Serialize(usersForFile, _serializerOptions);
-        File.WriteAllText(this._fileName, nurses);
-    }
-    public void LoadFromFile()
-    {
-        var text = File.ReadAllText(_fileName);
-        if (text == "")
-        {
-            throw new EmptyFileException("File is empty!");
-        }
-
-        try
-        {
-
-            List<Nurse?>? nurses = JsonSerializer.Deserialize<List<Nurse>>(text);
-            nurses?.ForEach(nurse => _nurses.Add(nurse));
-        }
-        catch (JsonException e)
-        {
-            Trace.WriteLine(e);
-            throw;
-        }
-    }
     public Nurse? GetNurseByEmail(string email)
     {
         return _nurses.FirstOrDefault(nurse => nurse.Email == email);
     }
     
-    private List<dynamic> ReduceForSerialization()
-    {
-        return this._nurses.Select(user => user.GetNurseForSerialization()).ToList();
-    }
-    
-    
 
+
+
+    public string FileName()
+    {
+        return _fileName;
+    }
+
+    public IEnumerable<object>? GetList()
+    {
+        return _nurses;
+    }
+
+    public void Import(JToken token)
+    {
+        _nurses = token.ToObject<List<Nurse>>();
+    }
 }

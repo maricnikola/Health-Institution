@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Data;
 using ZdravoCorp.Core.Models.Equipment;
 using ZdravoCorp.Core.Models.Room;
 using ZdravoCorp.Core.Repositories.Inventory;
@@ -16,7 +17,7 @@ public class EquipmentPaneViewModel : ViewModelBase
     private ObservableCollection<string> _roomTypes;
     private ObservableCollection<string> _equipmentTypes;
     private ObservableCollection<string> _quantities;
-
+    private object _lock;
     private string _searchText = "";
     private string _selectedRoomType = "None";
     private string _selectedEquipmentType = "None";
@@ -86,15 +87,19 @@ public class EquipmentPaneViewModel : ViewModelBase
     }
 
     private void UpdateTable()
-    {
-        _filteredInventory = _allInventory;
-        var wh = _filteredInventory.Intersect(UpdateTableFromWarehouseChecked());
-        var f1 = wh.Intersect(UpdateTableFromSearch());
-        var f2 =f1.Intersect(UpdateTableFromEquipmentType());
-        var f3 =f2.Intersect(UpdateTableFromRoomType());
-        var f4 = f3.Intersect(UpdateTableFromQuantity());
+    {   
+        lock(_lock)
+        {
+            _filteredInventory = _allInventory;
+            var wh = _filteredInventory.Intersect(UpdateTableFromWarehouseChecked());
+            var f1 = wh.Intersect(UpdateTableFromSearch());
+            var f2 =f1.Intersect(UpdateTableFromEquipmentType());
+            var f3 =f2.Intersect(UpdateTableFromRoomType());
+            var f4 = f3.Intersect(UpdateTableFromQuantity());
 
-        Inventory = f4;
+            Inventory = f4;
+        }
+
     }
     private ObservableCollection<InventoryViewModel> UpdateTableFromSearch()
     {
@@ -230,7 +235,10 @@ public class EquipmentPaneViewModel : ViewModelBase
 
     public EquipmentPaneViewModel(InventoryRepository inventoryRepository )
     {
+        _lock = new object();
         _inventoryRepository = inventoryRepository;
+        
+        _inventoryRepository.OnRequestUpdate+= (s, e) => UpdateTable();
         _allInventory = new ObservableCollection<InventoryViewModel>();
         foreach (var inventoryItem in _inventoryRepository.GetAll())
         {
@@ -238,12 +246,14 @@ public class EquipmentPaneViewModel : ViewModelBase
         }
 
         _inventory = _allInventory;
-
+        BindingOperations.EnableCollectionSynchronization(_inventory, _lock);
         _equipmentTypes = new ObservableCollection<string>();
         _roomTypes = new ObservableCollection<string>();
         _quantities = new ObservableCollection<string>();
         LoadComboBoxCollections();
     }
+
+
 
     public void LoadComboBoxCollections()
     {

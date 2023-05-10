@@ -4,69 +4,38 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Windows.Documents;
+using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Exceptions;
 using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.User;
 
-public class DoctorRepository
+public class DoctorRepository : ISerializable
 {
 
-    private readonly List<Doctor> _doctors;
+    private  List<Doctor>? _doctors;
     private readonly string _fileName = @".\..\..\..\Data\doctors.json";
-    public List<Doctor> Doctors => _doctors;
+    public List<Doctor>? Doctors => _doctors;
     
     
-    private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
-    {
-        PropertyNameCaseInsensitive = true,
-    };
 
     public DoctorRepository()
     {
         _doctors = new List<Doctor>();
-        LoadFromFile();
+        Serializer.Load(this);
     }
 
-    public void SaveToFile()
-    {
-        if (_doctors.Count == 0)
-        {
-            Trace.WriteLine($"Repository is empty! {this.GetType()}");
-            return;
-        }
-        var doctors = JsonSerializer.Serialize(this._doctors, _serializerOptions);
-        File.WriteAllText(this._fileName, doctors);
-    }
-    public void LoadFromFile()
-    {
-        var text = File.ReadAllText(_fileName);
-        if (text == "")
-        {
-            throw new EmptyFileException("File is empty!");
-        }
 
-        try
-        {
-
-            var doctors = JsonSerializer.Deserialize<List<Doctor>>(text);
-            doctors?.ForEach(doctor => _doctors.Add(doctor));
-
-        }
-        catch (JsonException e)
-        {
-            Trace.WriteLine(e);
-
-        }
-    }
     public Doctor? GetDoctorByEmail(string email)
     {
         return _doctors.FirstOrDefault(doctor => doctor.Email == email);
     }
-    
-    private List<dynamic> ReduceForSerialization()
+
+    public List<Doctor> GetAll()
     {
-        return this._doctors.Select(user => user.GetDoctorForSerialization()).ToList();
+        return _doctors;
     }
 
     public string FileName()
@@ -74,18 +43,15 @@ public class DoctorRepository
         return _fileName;
     }
 
-    public IEnumerable<object> Repository()
+    public IEnumerable<object>? GetList()
     {
-        return _doctors;
+       return _doctors;
     }
 
-    public void Add(object? obj)
+    public void Import(JToken token)
     {
-       _doctors.Add((Doctor) obj);
+        _doctors = token.ToObject<List<Doctor>>();
     }
 
-    public List<Doctor> GetAll()
-    {
-        return _doctors;
-    }
+
 }

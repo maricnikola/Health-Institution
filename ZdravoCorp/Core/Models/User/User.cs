@@ -1,14 +1,15 @@
 using System;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+
 
 namespace ZdravoCorp.Core.Models.User;
 
 public class User
 {
-    [JsonConverter(typeof(JsonStringEnumConverter))] public UserType Type { get; set; }
-    [JsonPropertyName("email")] public string Email { get; set; }
-    [JsonPropertyName("password")] public string? Password { private get;  set; }
-    [JsonConverter(typeof(JsonStringEnumConverter))] public State UserState { get; set; }
+     public UserType Type { get; set; }
+    public string Email { get; set; }
+    public string? Password { private get;  set; }
+   public State UserState { get; set; }
     
 
     [JsonConstructor]
@@ -27,16 +28,7 @@ public class User
     }
     
 
-    public dynamic GetUserForSerialization()
-    {
-        return new
-        {
-            type = Type.ToString(),
-            email = Email,
-            password = Password,
-            userstate = UserState.ToString()
-        };
-    }
+
 
     public bool ValidatePassword(string password)
     {
