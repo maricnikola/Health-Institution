@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.MedicalRecord;
+using ZdravoCorp.Core.Repositories.MedicalRecord;
 
 namespace ZdravoCorp.Core.ViewModels;
 
@@ -17,10 +18,12 @@ class MedicalRecordViewModel:ViewModelBase
     public int PatientWeight => _medicalRecord.weight;
     public string PatientName => _medicalRecord.user.FullName;
 	public string PatientDeseaseHistory => _medicalRecord.DiseaseHistoryToString();
+	private MedicalRecordRepository _medicalRecordRepository;
 	
 	public ICommand SaveCommand { get; }
-    public MedicalRecordViewModel(MedicalRecord medicalRecord)
+    public MedicalRecordViewModel(MedicalRecord medicalRecord,MedicalRecordRepository medicalRecordRepository)
     {
+		_medicalRecordRepository = medicalRecordRepository;
         _medicalRecord = medicalRecord;
 		_height = _medicalRecord.height;
 		_weight = _medicalRecord.weight;
@@ -78,7 +81,12 @@ class MedicalRecordViewModel:ViewModelBase
 			int height = Height;
 			int weight = Weight;
 			List<String> diseasHistory = DiseaseHistory.Trim().Split(",").ToList();
+			bool checkData = _medicalRecordRepository.CheckDataForChanges(weight,height,diseasHistory);
+			if (checkData)
+			{
+				_medicalRecordRepository.ChangeRecord(_medicalRecord.user.Email, height, weight, diseasHistory);
 
+			}else MessageBox.Show("Invalid Medical record", "Error", MessageBoxButton.OK);
         }
         catch (Exception)
         {

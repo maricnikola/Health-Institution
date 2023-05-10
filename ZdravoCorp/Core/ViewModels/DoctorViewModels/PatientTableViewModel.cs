@@ -125,7 +125,7 @@ public class PatientTableViewModel : ViewModelBase
             if (isExamined)
             {
             MedicalRecord medicalR = _medicalRecordRepository.GetById(patient.Email);
-            ChangeMedicalRecordView window = new ChangeMedicalRecordView() { DataContext = new MedicalRecordViewModel(medicalR) };
+            ChangeMedicalRecordView window = new ChangeMedicalRecordView() { DataContext = new MedicalRecordViewModel(medicalR,_medicalRecordRepository) };
                 window.Show();
             }
             else

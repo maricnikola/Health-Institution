@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZdravoCorp.View.DoctorView"
         mc:Ignorable="d"
-        Title="Medical record" Height="332" Width="314"
+        Title="Medical record" Height="332" Width="350"
         Background="#29262e">
     <Grid Margin="30,0,0,16">
         <Grid.RowDefinitions>

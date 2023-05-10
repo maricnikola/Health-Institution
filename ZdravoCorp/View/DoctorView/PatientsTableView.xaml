@@ -13,10 +13,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Text="{Binding Path = SearchBox , Mode = OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="80 20 0 0" Grid.Column="0"></TextBox>
-                <Button Command="{Binding ChangeMedicalRecordCommand}" Padding="4" Margin="40 20 0 0" Grid.Column="1" Content="Medical record"/>
+                <Label  Foreground="White" Margin="80 20 0 0" Content="Search" Grid.Column="0"/>
+                <TextBox Text="{Binding Path = SearchBox , Mode = OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="20 20 0 0" Grid.Column="1"></TextBox>
+                <Button Command="{Binding ChangeMedicalRecordCommand}" Padding="4" Margin="40 20 0 0" Grid.Column="2" Content="Medical record"/>
 
             </Grid>
 

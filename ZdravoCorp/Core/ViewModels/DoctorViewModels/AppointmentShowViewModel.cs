@@ -154,7 +154,7 @@ public class AppointmentShowViewModel : ViewModelBase
         if (appointment != null)
         {
             MedicalRecord medicalR = _medicalRecordRepository.GetById(appointment.PatientMail);
-            MedicalRecordView window = new MedicalRecordView() { DataContext = new MedicalRecordViewModel(medicalR) };
+            MedicalRecordView window = new MedicalRecordView() { DataContext = new MedicalRecordViewModel(medicalR,_medicalRecordRepository) };
             window.Show();
 
         }
