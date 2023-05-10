@@ -13,10 +13,14 @@ public class TransferRepository : ISerializable
     public TransferRepository()
     {
         _transfers = new List<Transfer>();
-        //Serializer.Load(this);
+        Serializer.Load(this);
         
     }
 
+    public List<Transfer> GetAll()
+    {
+        return _transfers;
+    }
     public void Add(Transfer transfer)
     {
         _transfers.Add(transfer);

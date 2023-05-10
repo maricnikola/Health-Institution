@@ -45,13 +45,13 @@
         
         <DataGrid Grid.Row="4" ItemsSource="{Binding Transfers, UpdateSourceTrigger=PropertyChanged}"
                   SelectionMode="Single"
-                  IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,10" Name="EquipmentTransfers">
+                  IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,10" Name="Transfers">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Width="100" x:Name="aa" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Room"  Binding="{Binding Room}" />
-                <DataGridTextColumn Header="Type"  Binding="{Binding Type}" />
-                <DataGridTextColumn Header="RoomType"  Binding="{Binding RoomType}" />
-                <DataGridTextColumn Header="Quantity"  Binding="{Binding Quantity}" />
+                <DataGridTextColumn Header="Item" Width="100"  Binding="{Binding Item}"/>
+                <DataGridTextColumn Header="From" Width="100" Binding="{Binding From}" />
+                <DataGridTextColumn Header="To"  Width="100" Binding="{Binding To}" />
+                <DataGridTextColumn Header="When" Width="150" Binding="{Binding When}" />
+                <DataGridTextColumn Header="Quantity" Width="100" Binding="{Binding Quantity}" />
   
             </DataGrid.Columns>
         </DataGrid>

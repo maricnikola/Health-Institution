@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -20,11 +21,28 @@ public class MoveEquipmentViewModel : ViewModelBase
     private RoomRepository _roomRepository;
     private ObservableCollection<InventoryViewModel> _inventory;
     private ObservableCollection<InventoryViewModel> _allInventory;
+    private ObservableCollection<TransferViewModel> _transfers;
     private object _lock;
+    private object _lock2;
     private string _searchText = "";
     public InventoryViewModel? SelectedInventoryItemVm { get; set; }
 
+    public IEnumerable<TransferViewModel> Transfers
+    {
+        get
+        {
+            return _transfers;
+        }
+        set
+        {
+            _transfers = new ObservableCollection<TransferViewModel>(value);
+            OnPropertyChanged();
+        }
+    }
+
     public ICommand MoveSelectedInventoryItem { get; }
+    
+    
 
     public string SearchBox
     {
@@ -77,11 +95,13 @@ public class MoveEquipmentViewModel : ViewModelBase
     public MoveEquipmentViewModel(InventoryRepository inventoryRepository, RoomRepository roomRepository, TransferRepository transferRepository)
     {
         _lock = new object();
+        _lock2 = new object();
         _roomRepository = roomRepository;
         _inventoryRepository = inventoryRepository;
         _transferRepository = transferRepository;
         _inventoryRepository.OnRequestUpdate += (s, e) => UpdateTable();
         _allInventory = new ObservableCollection<InventoryViewModel>();
+        _transfers = new ObservableCollection<TransferViewModel>();
         MoveSelectedInventoryItem = new DelegateCommand(o => MoveInventoryItem(), o => IsInventoryItemSelected());
         foreach (var inventoryItem in _inventoryRepository.GetNonDynamic())
         {
@@ -89,9 +109,21 @@ public class MoveEquipmentViewModel : ViewModelBase
         }
 
         _inventory = _allInventory;
+        UpdateTransfers();
         BindingOperations.EnableCollectionSynchronization(_inventory, _lock);
+        BindingOperations.EnableCollectionSynchronization(_transfers, _lock2);
     }
 
+    private void UpdateTransfers()
+    {
+        lock (_lock2)
+        {
+            foreach (var transfer in _transferRepository.GetAll())
+            {
+                _transfers.Add(new TransferViewModel(transfer));
+            }
+        }
+    }
     private void MoveInventoryItem()
     {
         var inventoryItemId = SelectedInventoryItemVm.Id;
@@ -100,6 +132,7 @@ public class MoveEquipmentViewModel : ViewModelBase
        
         var transferWindow = new EquipmentTransferWindowView()
             { DataContext = vm  };
+        vm.OnRequestUpdate += (s, e) => UpdateTransfers();
         vm.OnRequestClose +=  (s, e) => transferWindow.Close();
         transferWindow.Show();
     }

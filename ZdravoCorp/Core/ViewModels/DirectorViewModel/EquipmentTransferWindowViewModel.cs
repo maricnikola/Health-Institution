@@ -55,8 +55,10 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
         }
     }
     public event EventHandler OnRequestClose;
+    public event EventHandler OnRequestUpdate;
     public int InventoryItemId { get; set; }
     private int _sourceRoomId;
+    private InventoryItem _inventoryItem;
     
 
     public EquipmentTransferWindowViewModel(int inventoryItemId, int roomId, int quantity, RoomRepository roomRepository, InventoryRepository inventoryRepository, TransferRepository transferRepository)
@@ -70,10 +72,10 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
         _quantity = quantity;
         Quantity = 0;
         MaxQuantity = $"Quantity(max "+_quantity.ToString()+"):";
-        InventoryItem inventoryItem = _inventoryRepository.GetInventoryById(inventoryItemId);
+        _inventoryItem = _inventoryRepository.GetInventoryById(inventoryItemId);
         ConfirmTransfer = new DelegateCommand(o => Confirm(), o => CanConfirm());
         CancelTransfer = new DelegateCommand(o => Cancel());
-        foreach (var room in _roomRepository.GetAllExcept(inventoryItem.RoomId))
+        foreach (var room in _roomRepository.GetAllExcept(_inventoryItem.RoomId))
         {
             _rooms.Add(new RoomViewModel(room));
         }
@@ -98,7 +100,7 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
 
     private bool CanConfirm()
     {
-        return SelectedDate != null && SelectedHour != null && SelectedMinute != null && SelectedRoom != null && Quantity != 0;
+        return SelectedDate != null && SelectedHour != null && SelectedMinute != null && SelectedRoom != null && Quantity != 0 && Quantity < _quantity;
     }
 
     private void Cancel()
@@ -111,11 +113,12 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
         DateTime tempDate = (DateTime)SelectedDate;
         DateTime when = new DateTime(tempDate.Year, tempDate.Month, tempDate.Day, (int)SelectedHour, (int)SelectedMinute, 0);
 
-        Transfer newTransfer = new Transfer(_roomRepository.GetById(_sourceRoomId),
-            _roomRepository.GetById(SelectedRoom.Id), when, _quantity);
-        _transferRepository.Add(newTransfer);  
+        Transfer newTransfer = new Transfer(IDGenerator.GetId(),_roomRepository.GetById(_sourceRoomId),
+            _roomRepository.GetById(SelectedRoom.Id), when, _quantity, InventoryItemId,_inventoryItem.Equipment.Name);
+        _transferRepository.Add(newTransfer);
+        Serializer.Save(_transferRepository);
         //_inventoryRepository.GetInventoryById(InventoryItemId).UpdateRoom(_roomRepository.GetById(SelectedRoom.Id));
-        
+        OnRequestUpdate(this, new EventArgs());
         OnRequestClose(this, new EventArgs());
     }
 }

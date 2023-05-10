@@ -12,6 +12,7 @@ public class OrderRepository : ISerializable
     public OrderRepository()
     {
         _orders = new List<Models.Orders.Order>();
+            //Serializer.Load(this);
     }
 
     public void AddOrder(Models.Orders.Order order)
