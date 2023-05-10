@@ -11,6 +11,7 @@ using ZdravoCorp.Core.Models.Operation;
 using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.TimeSlots;
 using ZdravoCorp.Core.Models.MedicalRecord;
+using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.View;
 
 namespace ZdravoCorp.Core.Repositories.Schedule;
@@ -59,6 +60,11 @@ public class ScheduleRepository
     public Appointment GetAppointmentById(int id)
     {
         return Appointments.FirstOrDefault(ap => ap.Id == id);
+    }
+
+    public List<Appointment> GetAllAppointments()
+    {
+        return Appointments;
     }
 
     public List<Appointment> GetPatientAppointments(String patientMail)
@@ -306,23 +312,26 @@ public class ScheduleRepository
 
     public List<Appointment> FindAppointmentsByDoctorPriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate, Models.MedicalRecord.MedicalRecord patient)
     {
-        var availableTimeSlots = FindAvailableTimeSlotsByDoctorPriority(doctor, wantedTime, lastDate);
-        var posibleAppointments = new List<Appointment>();
-        
-        foreach (var slot in availableTimeSlots)
-        {
-            posibleAppointments.Add(new Appointment(1000, slot, doctor, patient));
-        }
-        return posibleAppointments;
+        var availableTimeSlots = FindAvailableTimeSlotsByDoctorPriority(doctor.Email, wantedTime, lastDate);
+        Random random = new Random();
+        return availableTimeSlots.Select(slot => new Appointment(random.Next(10000), slot, doctor, patient)).ToList();
     }
 
-    private List<TimeSlot> FindAvailableTimeSlotsByDoctorPriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate)
+    public List<Appointment> FindAppointmentsByTimePriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate,
+        Models.MedicalRecord.MedicalRecord patient, DoctorRepository doctorRepository)
+    {
+        var pairsTimeSlotDoctor = FindAvailableTimeSlotsByTimePriority(doctor, wantedTime, lastDate, doctorRepository);
+        Random random = new Random();
+        return pairsTimeSlotDoctor.Select(pair => new Appointment(random.Next(10000), pair.Item1, pair.Item2, patient)).ToList();
+    }
+
+    private List<TimeSlot> FindAvailableTimeSlotsByDoctorPriority(string doctorMail, TimeSlot wantedTime, DateTime lastDate)
     {
         var availableTimeSlots = new List<TimeSlot>();
-        TimeSlot? availableTimeSlot = FindAvailableTimeslotsForOneDoctor(doctor.Email, wantedTime, lastDate);
+        TimeSlot? availableTimeSlot = FindAvailableTimeslotsForOneDoctor(doctorMail, wantedTime, lastDate);
         if (availableTimeSlot == null)
         {
-            availableTimeSlots = GetNearesThreeSlots(doctor.Email, wantedTime, lastDate);
+            availableTimeSlots = GetNearestSlotsByDoctorPriority(3, doctorMail, wantedTime, lastDate);
         }
         else
             availableTimeSlots.Add(availableTimeSlot);
@@ -330,12 +339,12 @@ public class ScheduleRepository
         return availableTimeSlots;
     }
 
-    private List<TimeSlot> GetNearesThreeSlots(string doctorsMail, TimeSlot wantedTime, DateTime lastDate)
+    private List<TimeSlot> GetNearestSlotsByDoctorPriority(int howMany, string doctorsMail, TimeSlot wantedTime, DateTime lastDate)
     {
         var extension = new TimeSpan(2, 0, 0);
         wantedTime = wantedTime.ExtendButStayOnSameDay(extension);
         var nearestThreeSlots = new List<TimeSlot>();
-        while (nearestThreeSlots.Count != 3)
+        while (nearestThreeSlots.Count != howMany)
         {
             var availableTimeSlot = FindAvailableTimeslotsForOneDoctor(doctorsMail, wantedTime, lastDate, nearestThreeSlots);
             if (availableTimeSlot == null)
@@ -347,6 +356,65 @@ public class ScheduleRepository
         }
         return nearestThreeSlots;
     }
+
+    private List<Tuple<TimeSlot, Doctor>> FindAvailableTimeSlotsByTimePriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate, DoctorRepository doctorRepository)
+    {
+        var availablePairs = new List<Tuple<TimeSlot, Doctor>>();
+        TimeSlot? availableTimeSlot = FindAvailableTimeslotsForOneDoctor(doctor.Email, wantedTime, lastDate);
+        if (availableTimeSlot == null)
+        {
+            availablePairs = GetNearesThreeSlotsByTimePriority(doctor, wantedTime, lastDate, doctorRepository);
+        }
+        else
+            availablePairs.Add(new Tuple<TimeSlot, Doctor>(availableTimeSlot, doctor));
+
+
+        return availablePairs;
+    }
+
+    private List<Tuple<TimeSlot, Doctor>> GetNearesThreeSlotsByTimePriority(Doctor doctor,
+        TimeSlot wantedTime, DateTime lastDate, DoctorRepository doctorRepository)
+    {
+        var nearestThreeSlots = new List<Tuple<TimeSlot, Doctor>>();
+
+        foreach (var sameSpecDoctor in doctorRepository.GetAllWithCertainSpecialization(doctor.Specialization))
+        {
+            var finedSlots = new List<TimeSlot>();
+            for (var i = 0; i < 3; i++)
+            {
+                var availableTimeSlot = FindAvailableTimeslotsForOneDoctor(sameSpecDoctor.Email, wantedTime, lastDate, finedSlots);
+                if (availableTimeSlot == null)
+                    break;
+                finedSlots.Add(availableTimeSlot);
+                nearestThreeSlots.Add(new Tuple<TimeSlot, Doctor>(availableTimeSlot, sameSpecDoctor));
+                if (nearestThreeSlots.Count == 3)
+                    return nearestThreeSlots;
+            }
+        }
+
+        foreach (var anyDoctor in doctorRepository.GetAll())
+        {
+            if (anyDoctor.Specialization == doctor.Specialization) continue;
+            List<TimeSlot> finedSlots = new List<TimeSlot>();
+            for (var i = 0; i < 3; i++)
+            {
+                var availableTimeSlot = FindAvailableTimeslotsForOneDoctor(doctor.Email, wantedTime, lastDate, finedSlots);
+                if (availableTimeSlot == null)
+                    break;
+                finedSlots.Add(availableTimeSlot);
+                nearestThreeSlots.Add(new Tuple<TimeSlot, Doctor>(availableTimeSlot, anyDoctor));
+                if (nearestThreeSlots.Count == 3)
+                    return nearestThreeSlots;
+            }
+        }
+
+        int howManyLeftToFind = 3 - nearestThreeSlots.Count;
+        var slotsLeftToFind = GetNearestSlotsByDoctorPriority(howManyLeftToFind, doctor.Email, wantedTime, lastDate);
+        nearestThreeSlots.AddRange(slotsLeftToFind.Select(slot => new Tuple<TimeSlot, Doctor>(slot, doctor)));
+
+        return nearestThreeSlots;
+    }
+
 
 
     private DateTime GiveFirstDevisibleBy15(DateTime time)       //this should be somewhere else

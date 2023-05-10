@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.Json;
 using ZdravoCorp.Core.Exceptions;
 using ZdravoCorp.Core.Models.User;
+using static ZdravoCorp.Core.Models.User.Doctor;
 
 namespace ZdravoCorp.Core.Repositories.User;
 
@@ -63,6 +64,7 @@ public class DoctorRepository
     {
         return _doctors.FirstOrDefault(doctor => doctor.Email == email);
     }
+
     
     private List<dynamic> ReduceForSerialization()
     {
@@ -88,4 +90,16 @@ public class DoctorRepository
     {
         return _doctors;
     }
+
+    public List<Doctor> GetAllWithCertainSpecialization(SpecializationType specialization)
+    {
+        List<Doctor> wantedDoctors = new List<Doctor>();
+        foreach (var doctor in Doctors)
+        {
+            if (doctor.Specialization==specialization) 
+                wantedDoctors.Add(doctor);
+        }
+        return wantedDoctors;
+    }
+
 }
