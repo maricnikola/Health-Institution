@@ -6,12 +6,13 @@
       "end": "2023-10-10T09:15:00"
     },
     "Doctor": {
-      "email": "savo.oroz@gmail.com",
-      "firstname": "Savo",
-      "lastname": "Oroz",
-      "Specialization": "Surgeon",
-      "FullName": "Dr Savo Oroz"
+        "email": "savo.oroz@gmail.com",
+        "firstname": "Savo",
+        "lastname": "Oroz",
+        "Specialization": "Surgeon",
+        "FullName": "Dr Savo Oroz"
     },
+    //patient : patientemail
     "MedicalRecord": {
       "height": 175,
       "weight": 72,

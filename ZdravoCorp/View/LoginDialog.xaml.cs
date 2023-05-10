@@ -18,6 +18,7 @@ using ZdravoCorp.View.Director;
 using ZdravoCorp.View.Director;
 using ZdravoCorp.View.PatientV;
 using ZdravoCorp.View.DoctorView;
+using ZdravoCorp.Core.Repositories.MedicalRecord;
 
 namespace ZdravoCorp.View;
 
@@ -31,6 +32,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
     private readonly PatientRepository _patientRepository;
     private readonly ScheduleRepository _scheduleRepository;
     private readonly OrderRepository _orderRepository;
+    private readonly MedicalRecordRepository _medicalRecordRepository;
     
     public string Email
     {
@@ -63,7 +65,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             }
         }
     }
-    public LoginDialog(UserRepository userRepository, PatientRepository patientRepository ,DoctorRepository doctorRepository, ScheduleRepository scheduleRepository,InventoryRepository inventoryRepository, OrderRepository orderRepository)
+    public LoginDialog(UserRepository userRepository, PatientRepository patientRepository ,DoctorRepository doctorRepository, ScheduleRepository scheduleRepository,InventoryRepository inventoryRepository, OrderRepository orderRepository, MedicalRecordRepository medicalRecordRepository)
     {
         _patientRepository = patientRepository;
         _userRepository = userRepository;
@@ -71,6 +73,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
         _scheduleRepository = scheduleRepository;
         _inventoryRepository = inventoryRepository;
         _orderRepository = orderRepository;
+        _medicalRecordRepository = medicalRecordRepository;
         InitializeComponent();
         DataContext = this;
     }

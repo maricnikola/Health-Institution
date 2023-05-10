@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -5,13 +6,14 @@ using System.Linq;
 using System.Text.Json;
 using ZdravoCorp.Core.Exceptions;
 using ZdravoCorp.Core.Models.MedicalRecord;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.MedicalRecord;
 
-public class MedicalRecordRepository
+public class MedicalRecordRepository : ISerializable
 {
     private List<Models.MedicalRecord.MedicalRecord> records { get; set; }
-    private readonly string _filename = @".\..\..\..\Data\records.json";
+    private readonly string _filename = @".\..\..\..\Data\medicalRecords.json";
     private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
     {
         PropertyNameCaseInsensitive = true
@@ -19,7 +21,8 @@ public class MedicalRecordRepository
     public MedicalRecordRepository()
     {
         records = new List<Models.MedicalRecord.MedicalRecord>();
-        LoadFromFile();
+        //LoadFromFile();
+        Serializer.Load(this);
     }
 
     //public MedicalRecordRepository()
@@ -69,4 +72,21 @@ public class MedicalRecordRepository
         records.RemoveAll(record => record.user.Email == id);
     }
 
+    public string FileName()
+    {
+        return _filename;
+        //throw new System.NotImplementedException();
+    }
+
+    public IEnumerable<object>? GetList()
+    {
+        //throw new System.NotImplementedException();
+        return records;
+    }
+
+    public void Import(JToken token)
+    {
+        //throw new System.NotImplementedException();
+        records = token.ToObject<List<Models.MedicalRecord.MedicalRecord>>();
+    }
 }

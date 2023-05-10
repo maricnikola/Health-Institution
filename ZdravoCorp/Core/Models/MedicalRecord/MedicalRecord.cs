@@ -17,21 +17,21 @@ public class MedicalRecord
 
     public MedicalRecord(Patient patient)
     {
-        user = patient;
+        this.user = patient;
         height = 0;
         weight = 0;
         deseaseHistory=new List<string>();
     }
     public MedicalRecord(Patient patient, int h, int w)
     {
-        user = patient;
+        this.user = patient;
         height = h;
         weight = w;
         deseaseHistory = new List<string>();
     }
-    public MedicalRecord(Patient user, int height, int weight, List<string> deseaseHistory)
+    public MedicalRecord(Patient patient, int height, int weight, List<string> deseaseHistory)
     {
-        this.user = user;
+        this.user = patient;
         this.height = height;
         this.weight = weight;
         this.deseaseHistory = deseaseHistory;
