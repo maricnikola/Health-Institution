@@ -11,18 +11,19 @@ public class Appointment
     [JsonPropertyName("Id")] public int Id { get; set; }
     [JsonPropertyName("Time")] public TimeSlot Time { get; set; }
     [JsonPropertyName("Doctor")] public Doctor Doctor { get; set; }
-    [JsonPropertyName("MedicalRecord")] public MedicalRecord.MedicalRecord MedicalRecord { get; set; }
+    [JsonPropertyName("PatientEmail")] public string PatientEmail { get; set; }
     public String? Anamnesis { get; set; }
     public Room.Room? Room { get; set; }
     public bool IsCanceled;
+    public bool Status { get; set; }
 
     [JsonConstructor]
-    public Appointment(int id, TimeSlot t, Doctor doctor, MedicalRecord.MedicalRecord mr)
+    public Appointment(int id, TimeSlot t, Doctor doctor, string email)
     {
         Id = id;
         Time = t;
         Doctor = doctor;
-        MedicalRecord = mr;
+        PatientEmail = email;
         Anamnesis = null;
         Room = null;
         IsCanceled = false;

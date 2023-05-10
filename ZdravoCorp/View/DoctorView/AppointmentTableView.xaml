@@ -1,11 +1,10 @@
-﻿<Window x:Class="ZdravoCorp.View.DoctorView.AppointmentsShowView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ZdravoCorp.View.DoctorView"
-        mc:Ignorable="d"
-        Title="AppointmentsShowView" Height="450" Width="800"
+﻿<UserControl x:Class="ZdravoCorp.View.DoctorView.AppointmentTableView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+         Height="450" Width="800"
         Background="#29262e">
     <Grid>
         <DockPanel>
@@ -25,17 +24,17 @@
                     <Grid Grid.Column="1">
                         <Button Command="{Binding SearchAppointmentCommand}" Width="100" Margin="300 0 0 0" Content="Search"/>
                     </Grid>
-                    
+
                 </Grid>
-        
+
             </Grid>
-            
+
             <Grid DockPanel.Dock="Bottom" Margin="150 0 0 20">
                 <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
                     <Button Command="{Binding AddAppointmentCommand}" Content="Add" Width="100"/>
@@ -63,4 +62,4 @@
         </DockPanel>
 
     </Grid>
-</Window>
+</UserControl>
