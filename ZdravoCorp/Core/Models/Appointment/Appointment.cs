@@ -15,6 +15,7 @@ public class Appointment
     public String? Anamnesis { get; set; }
     public Room.Room? Room { get; set; }
     public bool IsCanceled;
+    public bool Status { get; set; }
 
     [JsonConstructor]
     public Appointment(int id, TimeSlot t, Doctor doctor, string email)

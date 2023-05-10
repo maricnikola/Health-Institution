@@ -98,8 +98,8 @@ public class AppointmentShowViewModel : ViewModelBase
         AppointmentViewModel selectedAppointment = SelectedAppointments;
         if (selectedAppointment != null)
         {
-            //Appointment appointment = _controller.GetAppointmentById(selectedAppointment.Id);
-            //_controller.CancelAppointment(appointment);
+            Appointment appointment = _scheduleRepository.GetAppointmentById(selectedAppointment.Id);
+            _scheduleRepository.CancelAppointmentByDoctor(appointment);
             Appointments.Remove(GetById(selectedAppointment.Id, Appointments));
 
         }
@@ -139,8 +139,11 @@ public class AppointmentShowViewModel : ViewModelBase
         Appointments.Clear();
         foreach (Appointment appointment in showAppointments)
         {
-            MedicalRecord mr = _medicalRecordRepository.GetById(appointment.PatientEmail);
-            Appointments.Add(new AppointmentViewModel(appointment));
+            if (!appointment.IsCanceled)
+            {
+                //MedicalRecord mr = _medicalRecordRepository.GetById(appointment.PatientEmail);
+                Appointments.Add(new AppointmentViewModel(appointment));
+            }
         }
 
     }

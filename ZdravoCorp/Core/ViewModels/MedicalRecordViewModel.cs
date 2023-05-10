@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.MedicalRecord;
 
 namespace ZdravoCorp.Core.ViewModels;
@@ -22,7 +24,8 @@ class MedicalRecordViewModel:ViewModelBase
         _medicalRecord = medicalRecord;
 		_height = _medicalRecord.height;
 		_weight = _medicalRecord.weight;
-		_diseaseHistory = "";
+		_diseaseHistory = medicalRecord.DiseaseHistoryToString();
+		SaveCommand = new DelegateCommand(o => SaveChangesMedicalRecord());
     }
 
 	private int _height;
@@ -70,7 +73,20 @@ class MedicalRecordViewModel:ViewModelBase
 	public void SaveChangesMedicalRecord()
 	{
 
-	}
+        try
+        {
+			int height = Height;
+			int weight = Weight;
+			List<String> diseasHistory = DiseaseHistory.Trim().Split(",").ToList();
+
+        }
+        catch (Exception)
+        {
+            MessageBox.Show("Invalid Medical record", "Error", MessageBoxButton.OK);
+        }
+
+
+    }
 }
 
 

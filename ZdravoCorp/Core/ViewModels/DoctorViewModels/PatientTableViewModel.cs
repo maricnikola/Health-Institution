@@ -35,11 +35,13 @@ public class PatientTableViewModel : ViewModelBase
     private PatientRepository _patientRepository;
     private DoctorRepository _doctorRepository;
     private MedicalRecordRepository _medicalRecordRepository;
+    private ScheduleRepository _scheduleRepository;
 
     public ICommand ChangeMedicalRecordCommand { get; }
 
-    public PatientTableViewModel(User user, DoctorRepository doctorRepository, PatientRepository patientRepository, MedicalRecordRepository medicalRecordRepository)
+    public PatientTableViewModel(User user,ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, PatientRepository patientRepository, MedicalRecordRepository medicalRecordRepository)
     {
+        _scheduleRepository = scheduleRepository;
         _doctorRepository = doctorRepository;
         _doctor = _doctorRepository.GetDoctorByEmail(user.Email);
         _patientRepository = patientRepository;
@@ -116,12 +118,20 @@ public class PatientTableViewModel : ViewModelBase
     public void OpenMedicalRecordChange()
     {
         PatientsViewModel patient = SelectedPatient;
-        if (patient != null)
+        if (patient != null )
         {
+            Patient _patient = _patientRepository.GetPatientByEmail(patient.Email);
+            bool isExamined = _scheduleRepository.IsPatientExamined(_patient,_doctor);
+            if (isExamined)
+            {
             MedicalRecord medicalR = _medicalRecordRepository.GetById(patient.Email);
-            //Patient patient = _patientRepository.GetPatientByEmail(patientMail);
             ChangeMedicalRecordView window = new ChangeMedicalRecordView() { DataContext = new MedicalRecordViewModel(medicalR) };
-            window.Show();
+                window.Show();
+            }
+            else
+            {
+                MessageBox.Show("Patient is not examined", "Error", MessageBoxButton.OK);
+            }
 
         }
         else
@@ -130,4 +140,5 @@ public class PatientTableViewModel : ViewModelBase
         }
 
     }
+   
 }
