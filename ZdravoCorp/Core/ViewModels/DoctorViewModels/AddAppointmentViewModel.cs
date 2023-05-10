@@ -16,13 +16,13 @@ using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.TimeSlots;
 using ZdravoCorp.View;
 
-namespace ZdravoCorp.Core.ViewModels;
+namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
 public class AddAppointmentViewModel : ViewModelBase
 {
-    private ObservableCollection<String> _patientsFullname { get; }
+    private ObservableCollection<string> _patientsFullname { get; }
     private ScheduleRepository _scheduleRepository;
-    public IEnumerable<String> Patients => _patientsFullname;
+    public IEnumerable<string> Patients => _patientsFullname;
     private PatientRepository _patientRepository;
     private Doctor _dr;
     private MedicalRecordRepository _medicalRepository;
@@ -112,7 +112,7 @@ public class AddAppointmentViewModel : ViewModelBase
             int hours = StartTimeHours;
             int minutes = StartTimeMinutes;
             DateTime d = StartDate;
-            String dm = Username;
+            string dm = Username;
 
             DateTime start = new DateTime(d.Year, d.Month, d.Day, hours, minutes, 0);
             DateTime end = start.AddMinutes(15);
@@ -122,17 +122,13 @@ public class AddAppointmentViewModel : ViewModelBase
             string mail = tokens[1];
             Patient patient = _patientRepository.GetPatientByEmail(mail);
 
-            MedicalRecord medicalRecord = new MedicalRecord(patient);
-
-            Appointment appointment = _scheduleRepository.CreateAppointment(time, _dr, medicalRecord);
+            Appointment appointment = _scheduleRepository.CreateAppointment(time, _dr, mail);
             if (appointment != null)
             {
                 if (_scheduleRepository.IsForShow(appointment, date))
                 {
                     Appointments.Add(new AppointmentViewModel(appointment));
                 }
-
-                _medicalRepository.AddRecord(appointment.MedicalRecord);
             }
             else
             {

@@ -12,16 +12,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ZdravoCorp.View
+namespace ZdravoCorp.View.DoctorView
 {
     /// <summary>
-    /// Interaction logic for DoctorWindow.xaml
+    /// Interaction logic for ChangeMedicalRecordView.xaml
     /// </summary>
-    public partial class DoctorWindow : Window
+    public partial class ChangeMedicalRecordView : Window
     {
-        public DoctorWindow()
+        public ChangeMedicalRecordView()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

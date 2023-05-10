@@ -9,63 +9,73 @@ using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.MedicalRecord;
-using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.TimeSlots;
+
+using ZdravoCorp.Core.Models.Users;
 
 namespace ZdravoCorp.Core.ViewModels;
 
 public class MakeAppointmentViewModel : ViewModelBase
 {
     private readonly ObservableCollection<String> _doctors;
-    private ScheduleRepository _scheduleRepository;
+    private ScheduleRepository _scheduleRepository;         
     private DoctorRepository _doctorRepository;
     private Patient _patient;
     public IEnumerable<String> AllDoctors => _doctors;
+
+    public int[] PossibleMinutes { get; set; }
+    public int[] PossibleHours { get; set; }
+
     public ICommand CreateAppointmentCommand { get; set; }
 
     private string _doctorName;
-
     public string DoctorName
     {
-        get { return _doctorName; }
+        get
+        {
+            return _doctorName;
+        }
         set
         {
             _doctorName = value;
             OnPropertyChanged(nameof(DoctorName));
         }
     }
-
     private DateTime _date = DateTime.Now + TimeSpan.FromHours(1);
-
     public DateTime Date
     {
-        get { return _date; }
+        get
+        {
+            return _date;
+        }
         set
         {
             _date = value;
             OnPropertyChanged(nameof(Date));
         }
     }
-
     private int _hours = 00;
-
     public int Hours
     {
-        get { return _hours; }
+        get
+        {
+            return _hours;
+        }
         set
         {
             _hours = value;
             OnPropertyChanged(nameof(Hours));
         }
     }
-
     private int _minutes = 00;
-
     public int Minutes
     {
-        get { return _minutes; }
+        get
+        {
+            return _minutes;
+        }
         set
         {
             _minutes = value;
@@ -74,22 +84,26 @@ public class MakeAppointmentViewModel : ViewModelBase
     }
 
 
-    public MakeAppointmentViewModel(List<Doctor> doctors, ScheduleRepository scheduleRepository,
-        ObservableCollection<AppointmentViewModel> Appointments, DoctorRepository doctorRepository, Patient patient)
+    public MakeAppointmentViewModel(ScheduleRepository scheduleRepository, ObservableCollection<AppointmentViewModel> Appointments, DoctorRepository doctorRepository, Patient patient)
     {
         _doctorRepository = doctorRepository;
-        _scheduleRepository = scheduleRepository;
+        _scheduleRepository= scheduleRepository;
         _patient = patient;
         _doctors = new ObservableCollection<String>();
+        PossibleMinutes = new[] { 00, 15, 30, 45 };
+        PossibleHours = new[]
+            { 00, 01, 02, 03, 04, 05, 06, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
+        List<Doctor> doctors = doctorRepository.GetAll();
         foreach (var doctor in doctors)
         {
             _doctors.Add(doctor.FullName + "-" + doctor.Email);
         }
 
         CreateAppointmentCommand = new DelegateCommand(o => CreateAppointment(Appointments));
+
     }
 
-    public void CreateAppointment(ObservableCollection<AppointmentViewModel> Appointments)
+    private void CreateAppointment(ObservableCollection<AppointmentViewModel> Appointments)
     {
         try
         {
@@ -108,8 +122,8 @@ public class MakeAppointmentViewModel : ViewModelBase
 
             MedicalRecord medicalRecord = new MedicalRecord(_patient);
 
-            Appointment appointment = _scheduleRepository.CreateAppointment(time, doctor, medicalRecord);
-            if (appointment != null)
+            Appointment appointment = _scheduleRepository.CreateAppointment(time, doctor, _patient.Email);
+            if (appointment!=null)
                 Appointments.Add(new AppointmentViewModel(appointment));
             else
             {
@@ -121,4 +135,5 @@ public class MakeAppointmentViewModel : ViewModelBase
             MessageBox.Show("Invalid Appointment", "Error", MessageBoxButton.OK);
         }
     }
+
 }

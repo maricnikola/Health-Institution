@@ -59,4 +59,6 @@
     <PackageReference Include="Quartz" Version="3.6.2" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
+
 </Project>

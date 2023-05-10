@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZdravoCorp.View"
         mc:Ignorable="d"
-        Title="Medical record" Height="300" Width="300"
-        Background="#29262e">
+         Title="Medical record" Height="300" Width="300"
+    Background="#29262e">
     <Grid Margin="50 0 0 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -42,7 +42,7 @@
         <Grid Grid.Row="3" Grid.Column="0" Margin="40 10 0 0">
             <Button Content="Close" Padding="10" Margin="35,0,-35,0" Click="Button_Click"/>
         </Grid>
-            
-        
+
+
     </Grid>
 </Window>

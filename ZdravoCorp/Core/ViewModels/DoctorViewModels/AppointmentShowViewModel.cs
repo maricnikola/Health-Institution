@@ -15,11 +15,12 @@ using ZdravoCorp.Core.Repositories.MedicalRecord;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.TimeSlots;
+using ZdravoCorp.Core.ViewModels.DoctorViewModels;
 using ZdravoCorp.View;
 using ZdravoCorp.View.DoctorView;
 using MedicalRecordView = ZdravoCorp.View.MedicalRecordView;
 
-namespace ZdravoCorp.Core.ViewModels;
+namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
 public class AppointmentShowViewModel : ViewModelBase
 {
@@ -41,8 +42,7 @@ public class AppointmentShowViewModel : ViewModelBase
     public ICommand SearchAppointmentCommand { get; }
     public ICommand ViewMedicalRecordCommand { get; }
 
-    public AppointmentShowViewModel(User user, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository,
-        PatientRepository patientRepository)
+    public AppointmentShowViewModel(User user, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, PatientRepository patientRepository,MedicalRecordRepository medicalRecordRepository)
     {
         counterViews = 0;
         _patientRepository = patientRepository;
@@ -51,8 +51,8 @@ public class AppointmentShowViewModel : ViewModelBase
         _doctorRepository = doctorRepository;
         _doctor = _doctorRepository.GetDoctorByEmail(user.Email);
 
-        List<Appointment> appointments = _scheduleRepository.GetDoctorAppointments(_doctor);
-        _medicalRecordRepository = new MedicalRecordRepository(appointments);
+        List<Appointment> appointments = _scheduleRepository.GetDoctorAppointments(_doctor.Email);
+        _medicalRecordRepository = medicalRecordRepository;
 
         _appointments = new ObservableCollection<AppointmentViewModel>();
 
@@ -66,15 +66,13 @@ public class AppointmentShowViewModel : ViewModelBase
         CancelAppointmentCommand = new DelegateCommand(o => CancelAppointment());
         SearchAppointmentCommand = new DelegateCommand(o => SearchAppointments());
         ViewMedicalRecordCommand = new DelegateCommand(o => ShowMedicalRecord());
+
+
     }
 
     public void OpenAddDialog()
     {
-        var addAp = new AddAppointmentView()
-        {
-            DataContext = new AddAppointmentViewModel(_scheduleRepository, _doctorRepository, _appointments,
-                _patientRepository, _doctor, _medicalRecordRepository, _dateAppointment)
-        };
+        var addAp = new AddAppointmentView() { DataContext = new AddAppointmentViewModel(_scheduleRepository, _doctorRepository, _appointments, _patientRepository, _doctor, _medicalRecordRepository, _dateAppointment) };
         addAp.Show();
     }
 
@@ -85,13 +83,9 @@ public class AppointmentShowViewModel : ViewModelBase
         {
             string patientMail = appointment.PatientMail;
             Patient patient = _patientRepository.GetPatientByEmail(patientMail);
-            var changeAp = new DrChangeAppointmentView()
-            {
-                DataContext = new DrChangeAppointmentViewModel(SelectedAppointments, _scheduleRepository,
-                    _doctorRepository, _appointments, _patientRepository, _doctor, patient, appointment,
-                    _dateAppointment)
-            };
+            var changeAp = new DrChangeAppointmentView() { DataContext = new DrChangeAppointmentViewModel(SelectedAppointments, _scheduleRepository, _doctorRepository, _appointments, _patientRepository, _doctor, patient, appointment, _dateAppointment) };
             changeAp.Show();
+
         }
         else
         {
@@ -104,14 +98,16 @@ public class AppointmentShowViewModel : ViewModelBase
         AppointmentViewModel selectedAppointment = SelectedAppointments;
         if (selectedAppointment != null)
         {
-            //Appointment appointment = _controller.GetAppointmentById(selectedAppointment.Id);
-            //_controller.CancelAppointment(appointment);
+            Appointment appointment = _scheduleRepository.GetAppointmentById(selectedAppointment.Id);
+            _scheduleRepository.CancelAppointmentByDoctor(appointment);
             Appointments.Remove(GetById(selectedAppointment.Id, Appointments));
+
         }
         else
         {
             MessageBox.Show("None selected", "Error", MessageBoxButton.OK);
         }
+
     }
 
     public AppointmentViewModel GetById(int id, ObservableCollection<AppointmentViewModel> Appointments)
@@ -120,15 +116,16 @@ public class AppointmentShowViewModel : ViewModelBase
         {
             if (appointmentViewModel.Id == id) return appointmentViewModel;
         }
-
         return null;
     }
 
     private DateTime _dateAppointment = DateTime.Now + TimeSpan.FromHours(1);
-
     public DateTime DateAppointment
     {
-        get { return _dateAppointment; }
+        get
+        {
+            return _dateAppointment;
+        }
         set
         {
             _dateAppointment = value;
@@ -142,8 +139,13 @@ public class AppointmentShowViewModel : ViewModelBase
         Appointments.Clear();
         foreach (Appointment appointment in showAppointments)
         {
-            Appointments.Add(new AppointmentViewModel(appointment));
+            if (!appointment.IsCanceled)
+            {
+                //MedicalRecord mr = _medicalRecordRepository.GetById(appointment.PatientEmail);
+                Appointments.Add(new AppointmentViewModel(appointment));
+            }
         }
+
     }
 
     public void ShowMedicalRecord()
@@ -152,12 +154,17 @@ public class AppointmentShowViewModel : ViewModelBase
         if (appointment != null)
         {
             MedicalRecord medicalR = _medicalRecordRepository.GetById(appointment.PatientMail);
-            MedicalRecordView window = new MedicalRecordView() { DataContext = new MedicalRecordViewModel(medicalR) };
+            MedicalRecordView window = new MedicalRecordView() { DataContext = new MedicalRecordViewModel(medicalR,_medicalRecordRepository) };
             window.Show();
+
         }
         else
         {
             MessageBox.Show("None selected", "Error", MessageBoxButton.OK);
         }
+
     }
+
+
+
 }

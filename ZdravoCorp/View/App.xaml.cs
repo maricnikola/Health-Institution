@@ -2,6 +2,7 @@
 using ZdravoCorp.Core.Loader;
 using ZdravoCorp.Core.Repositories.Equipment;
 using ZdravoCorp.Core.Repositories.Inventory;
+using ZdravoCorp.Core.Repositories.MedicalRecord;
 using ZdravoCorp.Core.Repositories.Order;
 using ZdravoCorp.Core.Repositories.Room;
 using ZdravoCorp.Core.Repositories.Schedule;
@@ -32,6 +33,7 @@ namespace ZdravoCorp.View
             EquipmentRepository equipmentRepository = new EquipmentRepository();
             RoomRepository roomRepository = new RoomRepository();
             InventoryRepository inventoryRepository = new InventoryRepository(roomRepository, equipmentRepository);
+            MedicalRecordRepository medicalRecordRepository =  new MedicalRecordRepository();
             ScheduleRepository scheduleRepository = new ScheduleRepository();
             OrderRepository orderRepository = new OrderRepository();
             TransferRepository transferRepository = new TransferRepository();
@@ -40,7 +42,7 @@ namespace ZdravoCorp.View
 
 
             //___________________________
-            var dialog = new LoginDialog(userRepository, patientRepository, doctorRepository, scheduleRepository, inventoryRepository, orderRepository, roomRepository, transferRepository);
+            var dialog = new LoginDialog(userRepository, patientRepository, doctorRepository, scheduleRepository, inventoryRepository, orderRepository, roomRepository, transferRepository, medicalRecordRepository);
             
             if (dialog.ShowDialog() == true)
             {

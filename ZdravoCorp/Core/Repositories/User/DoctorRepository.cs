@@ -36,6 +36,17 @@ public class DoctorRepository : ISerializable
         return _doctors;
     }
 
+    public List<Doctor> GetAllWithCertainSpecialization(Doctor.SpecializationType specialization)
+    {
+        List<Doctor> wantedDoctors = new List<Doctor>();
+        foreach (var doctor in Doctors)
+        {
+            if (doctor.Specialization == specialization)
+                wantedDoctors.Add(doctor);
+        }
+        return wantedDoctors;
+    }
+
     public string FileName()
     {
         return _fileName;

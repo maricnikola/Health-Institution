@@ -14,13 +14,13 @@ using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.TimeSlots;
 
-namespace ZdravoCorp.Core.ViewModels
+namespace ZdravoCorp.Core.ViewModels.DoctorViewModels
 {
     class DrChangeAppointmentViewModel : ViewModelBase
     {
-        private ObservableCollection<String> _patientsFullname { get; }
+        private ObservableCollection<string> _patientsFullname { get; }
         private ScheduleRepository _scheduleRepository;
-        public IEnumerable<String> Patients => _patientsFullname;
+        public IEnumerable<string> Patients => _patientsFullname;
         private PatientRepository _patientRepository;
         private Doctor _dr;
         private Patient _patient;
@@ -28,10 +28,7 @@ namespace ZdravoCorp.Core.ViewModels
         private DateTime _date;
 
 
-        public DrChangeAppointmentViewModel(AppointmentViewModel appointmentModel,
-            ScheduleRepository scheduleRepository, DoctorRepository doctorRepository,
-            ObservableCollection<AppointmentViewModel> appointment, PatientRepository patientRepository, Doctor doctor,
-            Patient patient, AppointmentViewModel appointmentSelected, DateTime date)
+        public DrChangeAppointmentViewModel(AppointmentViewModel appointmentModel, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, ObservableCollection<AppointmentViewModel> appointment, PatientRepository patientRepository, Doctor doctor, Patient patient, AppointmentViewModel appointmentSelected, DateTime date)
         {
             _dr = doctor;
             _appointmentModel = appointmentModel;
@@ -56,11 +53,15 @@ namespace ZdravoCorp.Core.ViewModels
         }
 
 
-        private DateTime _startDateChange;
 
+
+        private DateTime _startDateChange;
         public DateTime StartDateChange
         {
-            get { return _startDateChange; }
+            get
+            {
+                return _startDateChange;
+            }
             set
             {
                 _startDateChange = value;
@@ -69,28 +70,32 @@ namespace ZdravoCorp.Core.ViewModels
         }
 
         private int _changeHours;
-
         public int ChangeHours
         {
-            get { return _changeHours; }
+            get
+            {
+                return _changeHours;
+            }
             set
             {
                 _changeHours = value;
                 OnPropertyChanged(nameof(ChangeHours));
             }
         }
-
         private int _changeMinutes;
-
         public int ChangeMinutes
         {
-            get { return _changeMinutes; }
+            get
+            {
+                return _changeMinutes;
+            }
             set
             {
                 _changeMinutes = value;
                 OnPropertyChanged(nameof(ChangeMinutes));
             }
         }
+
 
 
         public ICommand ChangeCommand { get; }
@@ -114,8 +119,7 @@ namespace ZdravoCorp.Core.ViewModels
                 MedicalRecord medicalRecord = new MedicalRecord(_patient);
 
 
-                Appointment appointment =
-                    _scheduleRepository.ChangeAppointment(_appointmentModel.Id, time, _dr, medicalRecord);
+                Appointment appointment = _scheduleRepository.ChangeAppointment(_appointmentModel.Id, time, _dr, _patient.Email);
 
 
                 if (appointment != null)
@@ -124,6 +128,7 @@ namespace ZdravoCorp.Core.ViewModels
                     {
                         Appointments.Remove(_appointmentModel);
                         Appointments.Add(new AppointmentViewModel(appointment));
+
                     }
                     else
                     {
