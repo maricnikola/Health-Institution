@@ -6,16 +6,19 @@ using ZdravoCorp.Core.Repositories.Schedule;
 
 namespace ZdravoCorp.Core.Repositories.MedicalRecord;
 
+using System.Windows;
+using ZdravoCorp.Core.Models.MedicalRecord;
+
 public class MedicalRecordRepository
 {
-    private List<Models.MedicalRecord.MedicalRecord> _records { get; set; }
+    private List<MedicalRecord> _records { get; set; }
 
     public MedicalRecordRepository(List<Appointment> appointments)
     {
-        _records = new List<Models.MedicalRecord.MedicalRecord>();
+        _records = new List<MedicalRecord>();
         foreach(Appointment ap in appointments)
         {
-            Models.MedicalRecord.MedicalRecord mr = ap.MedicalRecord;
+            MedicalRecord mr = ap.MedicalRecord;
             _records.Add(mr);
         }
             
@@ -24,9 +27,14 @@ public class MedicalRecordRepository
     {
         _records.Add(newMedicalRecord);
     }
-    public Models.MedicalRecord.MedicalRecord? GetById(string id)
-    {
-        return _records.FirstOrDefault(record => record.user.Email == id);
+    public MedicalRecord? GetById(string id)
+    {   
+        MedicalRecord mr = _records.FirstOrDefault(record => record.user.Email == id);
+        //foreach(MedicalRecord m in _records)
+        //{
+        //    MessageBox.Show(m.user.Email, "Error", MessageBoxButton.OK);
+        //}
+        return mr;
     }
     public void RemoveById(int id)
     {

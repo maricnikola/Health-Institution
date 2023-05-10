@@ -1,1 +1,128 @@
-[{"Id":57508,"Time":{"start":"2023-10-10T09:00:00","end":"2023-10-10T09:15:00"},"Doctor":{"email":"savo.oroz@gmail.com","firstname":"Savo","lastname":"Oroz","Specialization":"Surgeon","FullName":"Dr Savo Oroz"},"MedicalRecord":{"height":175,"weight":72,"deseaseHistory":[]},"Anamnesis":null,"Room":null},{"Id":43347,"Time":{"start":"2023-11-10T06:00:00","end":"2023-11-10T06:15:00"},"Doctor":{"email":"savo.oroz@gmail.com","firstname":"Savo","lastname":"Oroz","Specialization":"Surgeon","FullName":"Dr Savo Oroz"},"MedicalRecord":{"height":175,"weight":72,"deseaseHistory":[]},"Anamnesis":null,"Room":null},{"Id":63859,"Time":{"start":"2023-08-11T06:00:00","end":"2023-08-11T06:15:00"},"Doctor":{"email":"savo.oroz@gmail.com","firstname":"Savo","lastname":"Oroz","Specialization":"Surgeon","FullName":"Dr Savo Oroz"},"MedicalRecord":{"height":175,"weight":72,"deseaseHistory":[]},"Anamnesis":null,"Room":null},{"Id":31273,"Time":{"start":"2023-05-10T06:00:00","end":"2023-05-10T06:15:00"},"Doctor":{"email":"savo.oroz@gmail.com","firstname":"Savo","lastname":"Oroz","Specialization":"Surgeon","FullName":"Dr Savo Oroz"},"MedicalRecord":{"height":175,"weight":72,"deseaseHistory":[]},"Anamnesis":null,"Room":null},{"Id":26144,"Time":{"start":"2023-05-12T10:00:00","end":"2023-05-12T08:15:00"},"Doctor":{"email":"savo.oroz@gmail.com","firstname":"Savo","lastname":"Oroz","Specialization":"Surgeon","FullName":"Dr Savo Oroz"},"MedicalRecord":{"height":175,"weight":72,"deseaseHistory":[]},"Anamnesis":null,"Room":null},{"Id":74562,"Time":{"start":"2023-05-11T11:11:00","end":"2023-05-11T11:26:00"},"Doctor":{"email":"savo.oroz@gmail.com","firstname":"Savo","lastname":"Oroz","Specialization":"Psychologist","FullName":"Dr Savo Oroz"},"MedicalRecord":{"height":0,"weight":0,"deseaseHistory":[]},"Anamnesis":null,"Room":null}]
+[
+  {
+    "Id": 79703,
+    "Time": {
+      "end": "2023-10-10T09:15:00",
+      "start": "2023-10-10T09:00:00"
+    },
+    "Doctor": {
+      "email": "savo.oroz@gmail.com",
+      "firstname": "Savo",
+      "lastname": "Oroz",
+      "Specialization": "Surgeon",
+      "FullName": "Dr Savo Oroz"
+    },
+    "MedicalRecord": {
+      "height": 175,
+      "weight": 72,
+      "deseaseHistory": []
+    },
+    "Anamnesis": null,
+    "Room": null
+  },
+  {
+    "Id": 59789,
+    "Time": {
+      "start": "2023-11-10T06:00:00",
+      "end": "2023-11-10T06:15:00"
+    },
+    "Doctor": {
+      "email": "savo.oroz@gmail.com",
+      "firstname": "Savo",
+      "lastname": "Oroz",
+      "Specialization": "Surgeon",
+      "FullName": "Dr Savo Oroz"
+    },
+    "MedicalRecord": {
+      "height": 175,
+      "weight": 72,
+      "deseaseHistory": []
+    },
+    "Anamnesis": null,
+    "Room": null
+  },
+  {
+    "Id": 18388,
+    "Time": {
+      "start": "2023-08-11T06:00:00",
+      "end": "2023-08-11T06:15:00"
+    },
+    "Doctor": {
+      "email": "savo.oroz@gmail.com",
+      "firstname": "Savo",
+      "lastname": "Oroz",
+      "Specialization": "Surgeon",
+      "FullName": "Dr Savo Oroz"
+    },
+    "MedicalRecord": {
+      "height": 175,
+      "weight": 72,
+      "deseaseHistory": []
+    },
+    "Anamnesis": null,
+    "Room": null
+  },
+  {
+    "Id": 24876,
+    "Time": {
+      "start": "2023-05-10T06:00:00",
+      "end": "2023-05-10T06:15:00"
+    },
+    "Doctor": {
+      "email": "savo.oroz@gmail.com",
+      "firstname": "Savo",
+      "lastname": "Oroz",
+      "Specialization": "Surgeon",
+      "FullName": "Dr Savo Oroz"
+    },
+    "MedicalRecord": {
+      "height": 175,
+      "weight": 72,
+      "deseaseHistory": []
+    },
+    "Anamnesis": null,
+    "Room": null
+  },
+  {
+    "Id": 75867,
+    "Time": {
+      "start": "2023-05-19T11:10:00",
+      "end": "2023-05-19T11:25:00"
+    },
+    "Doctor": {
+      "email": "savo.oroz@gmail.com",
+      "firstname": "Savo",
+      "lastname": "Oroz",
+      "Specialization": "Psychologist",
+      "FullName": "Dr Savo Oroz"
+    },
+    "MedicalRecord": {
+      "height": 0,
+      "weight": 0,
+      "deseaseHistory": []
+    },
+    "Anamnesis": null,
+    "Room": null
+  },
+  {
+    "Id": 65406,
+    "Time": {
+      "start": "2023-05-12T11:00:00",
+      "end": "2023-05-12T11:15:00"
+    },
+    "Doctor": {
+      "email": "savo.oroz@gmail.com",
+      "firstname": "Savo",
+      "lastname": "Oroz",
+      "Specialization": "Psychologist",
+      "FullName": "Dr Savo Oroz"
+    },
+    "MedicalRecord": {
+      "height": 0,
+      "weight": 0,
+      "deseaseHistory": []
+    },
+    "Anamnesis": null,
+    "Room": null
+  }
+]

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Documents;
 using ZdravoCorp.Core.Models.User;
 
 namespace ZdravoCorp.Core.Models.MedicalRecord;
@@ -40,5 +42,11 @@ public class MedicalRecord
     public override string ToString()
     {
         return "Patient : " + user.ToString() + "height : " + height + "weight : " + weight;
+    }
+
+    public string DiseaseHistoryToString()
+    {
+        string result = deseaseHistory.Any() ? string.Join(",", deseaseHistory) : string.Empty;
+        return result;
     }
 }

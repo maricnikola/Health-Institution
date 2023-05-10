@@ -42,17 +42,17 @@ public class AppointmentShowViewModel : ViewModelBase
     public ICommand SearchAppointmentCommand { get; }
     public ICommand ViewMedicalRecordCommand { get; }
 
-    public AppointmentShowViewModel(User user, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, PatientRepository patientRepository)
+    public AppointmentShowViewModel(User user, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, PatientRepository patientRepository,MedicalRecordRepository medicalRecordRepository)
     {
         counterViews = 0;
         _patientRepository = patientRepository;
         _scheduleRepository = scheduleRepository;
 
         _doctorRepository = doctorRepository;
-        _doctor = _doctorRepository.GetDoctorByEmail(user.Email);
+        //_doctor = _doctorRepository.GetDoctorByEmail(user.Email);
 
-        List<Appointment> appointments = _scheduleRepository.GetDoctorAppointments(_doctor.Email);
-        _medicalRecordRepository = new MedicalRecordRepository(appointments);
+        //List<Appointment> appointments = _scheduleRepository.GetDoctorAppointments(_doctor.Email);
+        _medicalRecordRepository = medicalRecordRepository;
 
         _appointments = new ObservableCollection<AppointmentViewModel>();
 

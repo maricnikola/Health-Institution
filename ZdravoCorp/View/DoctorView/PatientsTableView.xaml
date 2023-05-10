@@ -16,12 +16,12 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBox Text="{Binding Path = SearchBox , Mode = OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="80 20 0 0" Grid.Column="0"></TextBox>
-                <Button Padding="4" Margin="40 20 0 0" Grid.Column="1" Content="Medical record"/>
+                <Button Command="{Binding ChangeMedicalRecordCommand}" Padding="4" Margin="40 20 0 0" Grid.Column="1" Content="Medical record"/>
 
             </Grid>
 
             <DataGrid DockPanel.Dock="Bottom" x:Name="DataGridPatinets" ItemsSource="{Binding Patients, UpdateSourceTrigger=PropertyChanged}"
-            SelectedItem="{Binding SelectedPatinet, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single"
+            SelectedItem="{Binding SelectedPatient, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single"
             IsReadOnly="True" AutoGenerateColumns="False" Width="600" Height="325">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="FirstName" Width="200"  x:Name="name" Binding="{Binding FirstName}"/>
