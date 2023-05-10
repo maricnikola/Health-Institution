@@ -25,10 +25,10 @@ namespace ZdravoCorp.View
     public partial class MakeAppointmentView : Window
     {
         //private DoctorRepository _doctorRepository;
-        public MakeAppointmentView(DoctorRepository drRepository, ScheduleRepository scheduleRepository,ObservableCollection<AppointmentViewModel> Appointments, Patient patient)
+        public MakeAppointmentView()
         {
-            MakeAppointmentViewModel MAV = new MakeAppointmentViewModel(drRepository.GetAll(), scheduleRepository, Appointments, drRepository, patient);
-            DataContext = MAV;
+            //MakeAppointmentViewModel MAV = new MakeAppointmentViewModel(drRepository.GetAll(), scheduleRepository, Appointments, drRepository, patient);
+            //DataContext = MAV;
             InitializeComponent();
         }
 

@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Exceptions;
 using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.Utilities;
+using static ZdravoCorp.Core.Models.User.Doctor;
 
 namespace ZdravoCorp.Core.Repositories.User;
 
@@ -36,6 +37,17 @@ public class DoctorRepository : ISerializable
     public List<Doctor> GetAll()
     {
         return _doctors;
+    }
+
+    public List<Doctor> GetAllWithCertainSpecialization(SpecializationType specialization)
+    {
+        List<Doctor> wantedDoctors = new List<Doctor>();
+        foreach (var doctor in Doctors)
+        {
+            if (doctor.Specialization == specialization)
+                wantedDoctors.Add(doctor);
+        }
+        return wantedDoctors;
     }
 
     public string FileName()

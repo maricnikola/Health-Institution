@@ -46,14 +46,14 @@ public class LoadFunctions
         int id2 = random.Next(0, 100000);
         Appointment appointment2 = new Appointment(id2, time2, d2, mr2);
 
-        TimeSlot time3 = new TimeSlot(new DateTime(2023, 6, 23, 6, 0, 0), new DateTime(2023, 6, 23, 6, 15, 0));
+        TimeSlot time3 = new TimeSlot(new DateTime(2023, 5, 10, 6, 0, 0), new DateTime(2023, 5, 10, 6, 15, 0));
         Patient p3 = new Patient("sreten.pejovic@gmail.com", "Sreten", "Pejovic");
         MedicalRecord mr3 = new MedicalRecord(p, 175, 72);
         Doctor d3 = new Doctor("savo.oroz@gmail.com", "Savo", "Oroz", Doctor.SpecializationType.Surgeon);
         int id3 = random.Next(0, 100000);
         Appointment appointment3 = new Appointment(id3, time3, d3, mr3);
 
-        TimeSlot time4 = new TimeSlot(new DateTime(2023, 12, 12, 8, 0, 0), new DateTime(2023, 12, 12, 8, 15, 0));
+        TimeSlot time4 = new TimeSlot(new DateTime(2023, 5, 12, 10, 0, 0), new DateTime(2023, 5, 12, 8, 15, 0));
         Patient p4 = new Patient("sreten.pejovic@gmail.com", "Sreten", "Pejovic");
         MedicalRecord mr4 = new MedicalRecord(p, 175, 72);
         Doctor d4 = new Doctor("savo.oroz@gmail.com", "Savo", "Oroz", Doctor.SpecializationType.Surgeon);

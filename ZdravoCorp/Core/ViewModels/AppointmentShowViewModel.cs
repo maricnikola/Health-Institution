@@ -50,7 +50,7 @@ public class AppointmentShowViewModel : ViewModelBase
         _doctorRepository = doctorRepository;
         _doctor = _doctorRepository.GetDoctorByEmail(user.Email);
 
-        List<Appointment> appointments = _scheduleRepository.GetDoctorAppointments(_doctor);
+        List<Appointment> appointments = _scheduleRepository.GetDoctorAppointments(_doctor.Email);
         _medicalRecordRepository = new MedicalRecordRepository(appointments);
 
         _appointments = new ObservableCollection<AppointmentViewModel>();

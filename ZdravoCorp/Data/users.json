@@ -18,10 +18,10 @@
     "UserState": "NotBlocked"
   },
   {
-    "Type": "Patient",
-    "Email": "sreten.pejovic@gmail.com",
-    "Password": "pejo78",
-    "UserState": "NotBlocked"
+    "type": "Patient",
+    "email": "sreten.pejovic@gmail.com",
+    "password": "1",
+    "userstate": "NotBlocked"
   },
   {
     "Type": "Patient",

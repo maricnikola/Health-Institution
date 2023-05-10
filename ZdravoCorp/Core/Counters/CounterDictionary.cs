@@ -75,7 +75,7 @@ public class CounterDictionary
     {
         try
         {
-            return AllCounters[email].Cancelations.Count >= 5 || AllCounters[email].News.Count>=8;
+            return AllCounters[email].Cancelations.Count >= 50 || AllCounters[email].News.Count>=80;
         }
         catch (Exception e)
         {
