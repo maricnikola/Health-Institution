@@ -1,12 +1,12 @@
 ﻿[
   {
-    "email": "sreten.pejovic@gmail.com",
-    "firstname": "Sreten",
-    "lastname": "Pejovic"
+    "Fmail": "sreten.pejovic@gmail.com",
+    "FirstName": "Sreten",
+    "LastName": "Pejovic"
   },
   {
-    "email": "marko.stojanovic@gmail.com",
-    "firstname": "Marko",
-    "lastname": "Stojanovic"
+    "Email": "marko.stojanovic@gmail.com",
+    "FirstName": "Marko",
+    "LastName": "Stojanovic"
   }
 ]

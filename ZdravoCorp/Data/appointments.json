@@ -1,17 +1,18 @@
 [
   {
-    "Id": 79703,
+    "Id": 69966,
     "Time": {
-      "end": "2023-10-10T09:15:00",
-      "start": "2023-10-10T09:00:00"
+      "start": "2023-10-10T09:00:00",
+      "end": "2023-10-10T09:15:00"
     },
     "Doctor": {
-      "email": "savo.oroz@gmail.com",
-      "firstname": "Savo",
-      "lastname": "Oroz",
-      "Specialization": "Surgeon",
-      "FullName": "Dr Savo Oroz"
+        "email": "savo.oroz@gmail.com",
+        "firstname": "Savo",
+        "lastname": "Oroz",
+        "Specialization": "Surgeon",
+        "FullName": "Dr Savo Oroz"
     },
+    //patient : patientemail
     "MedicalRecord": {
       "height": 175,
       "weight": 72,
@@ -21,7 +22,7 @@
     "Room": null
   },
   {
-    "Id": 59789,
+    "Id": 95210,
     "Time": {
       "start": "2023-11-10T06:00:00",
       "end": "2023-11-10T06:15:00"
@@ -42,7 +43,7 @@
     "Room": null
   },
   {
-    "Id": 18388,
+    "Id": 98254,
     "Time": {
       "start": "2023-08-11T06:00:00",
       "end": "2023-08-11T06:15:00"
@@ -63,10 +64,10 @@
     "Room": null
   },
   {
-    "Id": 24876,
+    "Id": 11463,
     "Time": {
-      "start": "2023-05-10T06:00:00",
-      "end": "2023-05-10T06:15:00"
+      "start": "2023-06-23T06:00:00",
+      "end": "2023-06-23T06:15:00"
     },
     "Doctor": {
       "email": "savo.oroz@gmail.com",
@@ -84,10 +85,31 @@
     "Room": null
   },
   {
-    "Id": 75867,
+    "Id": 9287,
     "Time": {
-      "start": "2023-05-19T11:10:00",
-      "end": "2023-05-19T11:25:00"
+      "start": "2023-12-12T08:00:00",
+      "end": "2023-12-12T08:15:00"
+    },
+    "Doctor": {
+      "email": "savo.oroz@gmail.com",
+      "firstname": "Savo",
+      "lastname": "Oroz",
+      "Specialization": "Surgeon",
+      "FullName": "Dr Savo Oroz"
+    },
+    "MedicalRecord": {
+      "height": 175,
+      "weight": 72,
+      "deseaseHistory": []
+    },
+    "Anamnesis": null,
+    "Room": null
+  },
+  {
+    "Id": 866,
+    "Time": {
+      "start": "2023-04-20T10:00:00",
+      "end": "2023-04-20T10:15:00"
     },
     "Doctor": {
       "email": "savo.oroz@gmail.com",
@@ -105,10 +127,10 @@
     "Room": null
   },
   {
-    "Id": 65406,
+    "Id": 13564,
     "Time": {
-      "start": "2023-05-12T11:00:00",
-      "end": "2023-05-12T11:15:00"
+      "start": "2023-04-20T11:20:00",
+      "end": "2023-04-20T11:35:00"
     },
     "Doctor": {
       "email": "savo.oroz@gmail.com",

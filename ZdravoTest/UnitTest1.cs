@@ -111,7 +111,7 @@ public class UnitTest1
     [TestMethod]
     public void TestEquipment()
     {
-        Equipment equipment1 = new Equipment(23, "stolica", Equipment.EquipmentType.Operation);
+        Equipment equipment1 = new Equipment(23, "stolica", Equipment.EquipmentType.Operation, false);
         EquipmentRepository equipmentRepository = new EquipmentRepository();
         equipmentRepository.Add(equipment1);
         equipmentRepository.SaveToFile();
@@ -126,7 +126,7 @@ public class UnitTest1
     public void TestInventory()
     {
         Room room = new Room(22, RoomType.ExaminationRoom);
-        Equipment equipment = new Equipment(33, "sto", Equipment.EquipmentType.Examination);
+        Equipment equipment = new Equipment(33, "sto", Equipment.EquipmentType.Examination, false);
         RoomRepository roomRepository = new RoomRepository();
         roomRepository.Add(room);
         EquipmentRepository equipmentRepository = new EquipmentRepository();

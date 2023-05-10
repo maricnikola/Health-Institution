@@ -1,15 +1,15 @@
 ﻿[
   {
-    "email": "savo.oroz@gmail.com",
-    "firstname": "Savo",
-    "lastname": "Oroz",
-    "specialization": "Surgeon"
+    "Email": "savo.oroz@gmail.com",
+    "FirstName": "Savo",
+    "LastName": "Oroz",
+    "Specialization": "Surgeon"
   },
   {
-    "email": "vrabac@gmail.com",
-    "firstname": "Mirko",
-    "lastname": "Vrabac",
-    "specialization": "Surgeon"
+    "Email": "vrabac@gmail.com",
+    "FirstName": "Mirko",
+    "LastName": "Vrabac",
+    "Specialization": "Surgeon"
   }
 
 

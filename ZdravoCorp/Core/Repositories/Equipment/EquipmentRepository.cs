@@ -3,13 +3,15 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Exceptions;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.Equipment;
 
-public class EquipmentRepository
+public class EquipmentRepository : ISerializable
 {
-    private readonly List<Models.Equipment.Equipment>  _equipment;
+    private  List<Models.Equipment.Equipment>? _equipment;
     private readonly string _fileName =  @".\..\..\..\Data\equipment.json";
     private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
     {
@@ -20,34 +22,9 @@ public class EquipmentRepository
 
     {
         _equipment = new List<Models.Equipment.Equipment>();
-        LoadFromFile();
+        Serializer.Load(this);
     }
-
-    public void SaveToFile()
-    {
-        if (_equipment.Count == 0)
-        {
-            Trace.WriteLine($"Repository is empty! {this.GetType()}");
-            return;
-        }
-        var equipment= JsonSerializer.Serialize(_equipment, _serializerOptions);
-        File.WriteAllText(this._fileName, equipment);
-    }
-    public void LoadFromFile()
-    {
-        var text = File.ReadAllText(_fileName);
-        if (text == "")
-            throw new EmptyFileException("File is empty!");
-        try
-        {
-            var equipment = JsonSerializer.Deserialize<List<Models.Equipment.Equipment>>(text);
-            equipment?.ForEach(eq => _equipment.Add(eq));
-        }
-        catch (JsonException jsonException)
-        {
-           Trace.WriteLine(jsonException);
-        }
-    }
+    
 
     public void Add(Models.Equipment.Equipment newEquipment)
     {
@@ -58,4 +35,20 @@ public class EquipmentRepository
     {
         return _equipment.FirstOrDefault(eq => eq.Id == id);
     }
-}
+
+    public string FileName()
+    {
+        return _fileName;
+    }
+
+    public IEnumerable<object>? GetList()
+    {
+        return _equipment;
+    }
+
+    public void Import(JToken token)
+    {
+        _equipment = token.ToObject<List<Models.Equipment.Equipment>>();
+    }
+    
+    }

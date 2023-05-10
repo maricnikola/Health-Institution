@@ -1,9 +1,9 @@
 [
   {
-    "type": "Director",
-    "email": "pero.peric@gmail.com",
-    "password": "pero78",
-    "userstate": "NotBlocked"
+    "Type": "Director",
+    "Email": "pero.peric@gmail.com",
+    "Password": "pero78",
+    "UserState": "NotBlocked"
   },
   {
     "type": "Doctor",
@@ -12,10 +12,10 @@
     "userstate": "NotBlocked"
   },
   {
-    "type": "Nurse",
-    "email": "eva.ras@gmail.com",
-    "password": "eva44",
-    "userstate": "NotBlocked"
+    "Type": "Nurse",
+    "Email": "eva.ras@gmail.com",
+    "Password": "eva44",
+    "UserState": "NotBlocked"
   },
   {
     "type": "Patient",
@@ -24,10 +24,10 @@
     "userstate": "NotBlocked"
   },
   {
-    "type": "Patient",
-    "email": "marko.stojanovic@gmail.com",
-    "password": "koks33",
-    "userstate": "NotBlocked"
+    "Type": "Patient",
+    "Email": "marko.stojanovic@gmail.com",
+    "Password": "koks33",
+    "UserState": "NotBlocked"
   }
   
   
