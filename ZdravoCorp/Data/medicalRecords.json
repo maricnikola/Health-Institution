@@ -1,0 +1,30 @@
+[
+	{
+		"user" : {
+			"Email": "sreten.pejovic@gmail.com",
+			"FirstName": "Sreten",
+			"LastName": "Pejovic"
+		},
+		"weight": 90,
+		"height": 190,
+		"deseaseHistory": [
+			"tuberkuloza",
+			"upalaPluca"
+		]
+	},
+	{
+		"user" : {
+			"Email": "marko.stojanovic@gmail.com",
+			"FirstName": "Marko",
+			"LastName": "Stojanovic"
+		},
+		"weight": 90,
+		"height": 190,
+		"deseaseHistory": [
+			"tuberkuloza",
+			"upalaPluca"
+		]
+	}
+
+
+]

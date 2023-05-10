@@ -15,11 +15,12 @@ using ZdravoCorp.Core.Repositories.MedicalRecord;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.TimeSlots;
+using ZdravoCorp.Core.ViewModels.DoctorViewModels;
 using ZdravoCorp.View;
 using ZdravoCorp.View.DoctorView;
 using MedicalRecordView = ZdravoCorp.View.MedicalRecordView;
 
-namespace ZdravoCorp.Core.ViewModels;
+namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
 public class AppointmentShowViewModel : ViewModelBase
 {
@@ -33,7 +34,7 @@ public class AppointmentShowViewModel : ViewModelBase
     private int counterViews;
 
     public ObservableCollection<AppointmentViewModel> Appointments => _appointments;
-   
+
     public AppointmentViewModel SelectedAppointments { get; set; }
     public ICommand ChangeAppointmentCommand { get; }
     public ICommand AddAppointmentCommand { get; }
@@ -41,7 +42,7 @@ public class AppointmentShowViewModel : ViewModelBase
     public ICommand SearchAppointmentCommand { get; }
     public ICommand ViewMedicalRecordCommand { get; }
 
-    public AppointmentShowViewModel(User user,ScheduleRepository scheduleRepository,DoctorRepository doctorRepository,PatientRepository patientRepository)
+    public AppointmentShowViewModel(User user, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, PatientRepository patientRepository,MedicalRecordRepository medicalRecordRepository)
     {
         counterViews = 0;
         _patientRepository = patientRepository;
@@ -51,7 +52,7 @@ public class AppointmentShowViewModel : ViewModelBase
         _doctor = _doctorRepository.GetDoctorByEmail(user.Email);
 
         List<Appointment> appointments = _scheduleRepository.GetDoctorAppointments(_doctor.Email);
-        _medicalRecordRepository = new MedicalRecordRepository(appointments);
+        _medicalRecordRepository = medicalRecordRepository;
 
         _appointments = new ObservableCollection<AppointmentViewModel>();
 
@@ -71,7 +72,7 @@ public class AppointmentShowViewModel : ViewModelBase
 
     public void OpenAddDialog()
     {
-        var addAp = new AddAppointmentView() { DataContext = new AddAppointmentViewModel(_scheduleRepository,_doctorRepository,_appointments,_patientRepository,_doctor,_medicalRecordRepository,_dateAppointment) };
+        var addAp = new AddAppointmentView() { DataContext = new AddAppointmentViewModel(_scheduleRepository, _doctorRepository, _appointments, _patientRepository, _doctor, _medicalRecordRepository, _dateAppointment) };
         addAp.Show();
     }
 
@@ -82,7 +83,7 @@ public class AppointmentShowViewModel : ViewModelBase
         {
             string patientMail = appointment.PatientMail;
             Patient patient = _patientRepository.GetPatientByEmail(patientMail);
-            var changeAp = new DrChangeAppointmentView() { DataContext = new DrChangeAppointmentViewModel(SelectedAppointments,_scheduleRepository, _doctorRepository, _appointments, _patientRepository, _doctor,patient,appointment,_dateAppointment) };
+            var changeAp = new DrChangeAppointmentView() { DataContext = new DrChangeAppointmentViewModel(SelectedAppointments, _scheduleRepository, _doctorRepository, _appointments, _patientRepository, _doctor, patient, appointment, _dateAppointment) };
             changeAp.Show();
 
         }
@@ -118,7 +119,7 @@ public class AppointmentShowViewModel : ViewModelBase
         return null;
     }
 
-    private DateTime _dateAppointment =  DateTime.Now + TimeSpan.FromHours(1);
+    private DateTime _dateAppointment = DateTime.Now + TimeSpan.FromHours(1);
     public DateTime DateAppointment
     {
         get
@@ -134,24 +135,25 @@ public class AppointmentShowViewModel : ViewModelBase
 
     public void SearchAppointments()
     {
-        List<Appointment> showAppointments =  _scheduleRepository.GetAppointmentsForShow(_dateAppointment);
+        List<Appointment> showAppointments = _scheduleRepository.GetAppointmentsForShow(_dateAppointment);
         Appointments.Clear();
-        foreach (Appointment appointment in showAppointments) 
+        foreach (Appointment appointment in showAppointments)
         {
+            MedicalRecord mr = _medicalRecordRepository.GetById(appointment.PatientEmail);
             Appointments.Add(new AppointmentViewModel(appointment));
         }
-        
+
     }
 
     public void ShowMedicalRecord()
     {
         AppointmentViewModel appointment = SelectedAppointments;
-        if(appointment != null)
+        if (appointment != null)
         {
             MedicalRecord medicalR = _medicalRecordRepository.GetById(appointment.PatientMail);
             MedicalRecordView window = new MedicalRecordView() { DataContext = new MedicalRecordViewModel(medicalR) };
             window.Show();
-            
+
         }
         else
         {

@@ -1,39 +1,34 @@
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text.Json;
 using System.Windows;
 using ZdravoCorp.Core.Counters;
 using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.Operation;
 using ZdravoCorp.Core.Models.User;
-using ZdravoCorp.Core.TimeSlots;
-using ZdravoCorp.Core.Models.MedicalRecord;
 using ZdravoCorp.Core.Repositories.User;
-using ZdravoCorp.View;
+using ZdravoCorp.Core.TimeSlots;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.Schedule;
 
-public class ScheduleRepository
+public class ScheduleRepository : ISerializable
 {
-    private JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
-    {
-
-    };
 
     private String _fileNameAppointments = @".\..\..\..\Data\appointments.json";
     private String _fileNameOperations = @".\..\..\..\Data\operations.json";
     private CounterDictionary _counterDictionary;
-    private List<Appointment> Appointments { get; set; }
-    private List<Operation> Operations { get; set; }
+    private List<Appointment> _appointments { get; set; }
+    private List<Operation> _operations { get; set; }
 
     public ScheduleRepository()
     {
-        Appointments = new List<Appointment>();
-        Operations = new List<Operation>();
+        _appointments = new List<Appointment>();
+        _operations = new List<Operation>();
         _counterDictionary = new CounterDictionary();
+        Serializer.Load(this);
     }
 
     //public ScheduleRepository()
@@ -44,42 +39,42 @@ public class ScheduleRepository
 
     public void AddAppointment(Appointment appointment)
     {
-        Appointments.Add(appointment);
+        _appointments.Add(appointment);
     }
 
     public void AddOperation(Operation operation)
     {
-        Operations.Add(operation);
+        _operations.Add(operation);
     }
 
     public Operation? GetOperationById(int id)
     {
-        return Operations.FirstOrDefault(op => op.Id == id);
+        return _operations.FirstOrDefault(op => op.Id == id);
     }
 
     public Appointment GetAppointmentById(int id)
     {
-        return Appointments.FirstOrDefault(ap => ap.Id == id);
+        return _appointments.FirstOrDefault(ap => ap.Id == id);
     }
 
     public List<Appointment> GetAllAppointments()
     {
-        return Appointments;
+        return _appointments;
     }
 
     public List<Appointment> GetPatientAppointments(String patientMail)
     {
         List<Appointment> patientAppointments = new List<Appointment>();   
-        foreach(Appointment appointment in Appointments)
+        foreach(Appointment appointment in _appointments)
         {
-            if(appointment.MedicalRecord.user.Email == patientMail && !appointment.IsCanceled) patientAppointments.Add(appointment);
+            if(appointment.PatientEmail== patientMail && !appointment.IsCanceled) patientAppointments.Add(appointment);
         }
         return patientAppointments;
     }
     public List<Operation> GetPatientOperations(String patientMail)
     {
         List<Operation> patientOperations = new List<Operation>();
-        foreach(Operation operation in Operations)
+        foreach(Operation operation in _operations)
         {
             if (operation.MedicalRecord.user.Email == patientMail) patientOperations.Add(operation);
         }
@@ -89,7 +84,7 @@ public class ScheduleRepository
     public List<Appointment> GetDoctorAppointments(String doctorsMail)
     {
         List<Appointment> doctorAppointments = new List<Appointment>();
-        foreach(Appointment appointment in Appointments)
+        foreach(Appointment appointment in _appointments)
         {
             if(appointment.Doctor.Email == doctorsMail) doctorAppointments.Add(appointment);
         }
@@ -99,7 +94,7 @@ public class ScheduleRepository
     public List<Operation> GetDoctorOperations(String doctorsMail)
     {
         List<Operation> doctorOperations = new List<Operation>();
-        foreach (Operation operation in Operations)
+        foreach (Operation operation in _operations)
         {
             if (operation.Doctor.Email == doctorsMail) doctorOperations.Add(operation);
         }
@@ -135,44 +130,44 @@ public class ScheduleRepository
         return true;
     }
 
-    public void LoadAppointments()
+    //public void LoadAppointments()
+    //{
+    //    string text = File.ReadAllText(_fileNameAppointments);
+    //    var appointments = JsonSerializer.Deserialize<List<Appointment>>(text);
+    //    appointments.ForEach(appointment => _appointments.Add(appointment));
+
+    //}
+
+    //public void SaveAppointments()
+    //{
+    //    var users = JsonSerializer.Serialize(this._appointments, _serializerOptions);
+    //    File.WriteAllText(this._fileNameAppointments, users);
+    //}
+
+    //public void LoadOperations()
+    //{
+    //    string text = File.ReadAllText(_fileNameOperations);
+    //    var operatons = JsonSerializer.Deserialize<List<Operation>>(text);
+    //    _operations.ForEach(operations => _operations.Add(operations));
+
+    //}
+
+    //public void SaveOperations()
+    //{
+    //    var users = JsonSerializer.Serialize(this._operations, _serializerOptions);
+    //    File.WriteAllText(this._fileNameOperations, users);
+    //}
+
+    public Appointment? CreateAppointment(TimeSlot time, Doctor doctor, String email)
     {
-        string text = File.ReadAllText(_fileNameAppointments);
-        var appointments = JsonSerializer.Deserialize<List<Appointment>>(text);
-        appointments.ForEach(appointment => Appointments.Add(appointment));
-
-    }
-
-    public void SaveAppointments()
-    {
-        var users = JsonSerializer.Serialize(this.Appointments, _serializerOptions);
-        File.WriteAllText(this._fileNameAppointments, users);
-    }
-
-    public void LoadOperations()
-    {
-        string text = File.ReadAllText(_fileNameOperations);
-        var operatons = JsonSerializer.Deserialize<List<Operation>>(text);
-        Operations.ForEach(operations => Operations.Add(operations));
-
-    }
-
-    public void SaveOperations()
-    {
-        var users = JsonSerializer.Serialize(this.Operations, _serializerOptions);
-        File.WriteAllText(this._fileNameOperations, users);
-    }
-
-    public Appointment? CreateAppointment(TimeSlot time, Doctor doctor, Models.MedicalRecord.MedicalRecord medicalRecord)
-    {
-        if (isDoctorAvailable(time,doctor.Email) && isPatientAvailable(time, medicalRecord.user.Email) && time.start>DateTime.Now)
+        if (isDoctorAvailable(time,doctor.Email) && isPatientAvailable(time, email) && time.start>DateTime.Now)
         {
             Random random = new Random();
             int id = random.Next(0, 100000);
-            Appointment appointment = new Appointment(id, time, doctor, medicalRecord);
-            Appointments.Add(appointment);
-            SaveAppointments();
-            _counterDictionary.AddNews(appointment.MedicalRecord.user.Email, DateTime.Now);
+            Appointment appointment = new Appointment(id, time, doctor, email);
+            _appointments.Add(appointment);
+            Serializer.Save(this);
+            _counterDictionary.AddNews(appointment.PatientEmail, DateTime.Now);
             return appointment;
         }
 
@@ -183,16 +178,16 @@ public class ScheduleRepository
         if (isDoctorAvailable(time, doctor.Email) && isPatientAvailable(time, medicalRecord.user.Email))
         {
             Operation operation = new Operation(0, time, doctor, medicalRecord);
-            Operations.Add(operation);
-            SaveOperations();
+            _operations.Add(operation);
+            Serializer.Save(this);
         }
     }
 
-    public Appointment? ChangeAppointment(int id,TimeSlot time, Doctor doctor, Models.MedicalRecord.MedicalRecord medicalRecord)
+    public Appointment? ChangeAppointment(int id,TimeSlot time, Doctor doctor, String email)
     {
         if (time.start > DateTime.Now)
         {
-            Appointment appointment = new Appointment(id, time, doctor, medicalRecord);
+            Appointment appointment = new Appointment(id, time, doctor, email);
             if (IsAppointmentInList(appointment))
             {
                 MessageBox.Show("Nothing is changed", "Error", MessageBoxButton.OK);
@@ -201,15 +196,15 @@ public class ScheduleRepository
             else
             {
                 Appointment toGo = GetAppointmentById(id);
-                Appointments.Remove(GetAppointmentById(id));
-                if (isDoctorAvailable(time, doctor.Email) && isPatientAvailable(time, medicalRecord.user.Email))
+                _appointments.Remove(GetAppointmentById(id));
+                if (isDoctorAvailable(time, doctor.Email) && isPatientAvailable(time, email))
                 {
-                    Appointments.Add(appointment);
-                    SaveAppointments();
-                    _counterDictionary.AddCancelation(appointment.MedicalRecord.user.Email, DateTime.Now);
+                    _appointments.Add(appointment);
+                    Serializer.Save(this);
+                    _counterDictionary.AddCancelation(appointment.PatientEmail, DateTime.Now);
                     return appointment;
                 }
-                Appointments.Add(toGo);
+                _appointments.Add(toGo);
                 return null;
             }
 
@@ -222,24 +217,24 @@ public class ScheduleRepository
         bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now)>24;
         if (IsAppointmentInList(appointment) && isOnTime)
         {
-            int index = Appointments.IndexOf(appointment);
+            int index = _appointments.IndexOf(appointment);
             appointment.IsCanceled = true;
-            Appointments[index] = appointment;
-            _counterDictionary.AddCancelation(appointment.MedicalRecord.user.Email, DateTime.Now);
-            SaveAppointments();
+            _appointments[index] = appointment;
+            _counterDictionary.AddCancelation(appointment.PatientEmail, DateTime.Now);
+            Serializer.Save(this);
         }
     }
 
     public bool IsAppointmentInList(Appointment appointment)
     {
         //return (from t in Appointments where t.Id == appointment.Id where t.Doctor.Email == appointment.Doctor.Email where t.MedicalRecord.user.Email == appointment.MedicalRecord.user.Email select t).Any(t => t.Time.start == appointment.Time.start && t.Time.end == appointment.Time.end);
-        return Appointments.Any(ap => ap.MedicalRecord.user.Email == appointment.MedicalRecord.user.Email && ap.Doctor.Email == appointment.Doctor.Email && ap.Time.start==appointment.Time.start && ap.Time.end==appointment.Time.end);
+        return _appointments.Any(ap => ap.PatientEmail == appointment.PatientEmail && ap.Doctor.Email == appointment.Doctor.Email && ap.Time.start==appointment.Time.start && ap.Time.end==appointment.Time.end);
     }
 
     public List<Appointment> GetAppointmentsForShow(DateTime date)
     {
         List<Appointment> showAppointments = new List<Appointment>();
-        foreach(Appointment appointment in Appointments)
+        foreach(Appointment appointment in _appointments)
         {
             if (IsForShow(appointment, date)) showAppointments.Add(appointment);
         }
@@ -314,7 +309,7 @@ public class ScheduleRepository
     {
         var availableTimeSlots = FindAvailableTimeSlotsByDoctorPriority(doctor.Email, wantedTime, lastDate);
         Random random = new Random();
-        return availableTimeSlots.Select(slot => new Appointment(random.Next(10000), slot, doctor, patient)).ToList();
+        return availableTimeSlots.Select(slot => new Appointment(random.Next(10000), slot, doctor, patient.user.Email)).ToList();
     }
 
     public List<Appointment> FindAppointmentsByTimePriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate,
@@ -322,7 +317,7 @@ public class ScheduleRepository
     {
         var pairsTimeSlotDoctor = FindAvailableTimeSlotsByTimePriority(doctor, wantedTime, lastDate, doctorRepository);
         Random random = new Random();
-        return pairsTimeSlotDoctor.Select(pair => new Appointment(random.Next(10000), pair.Item1, pair.Item2, patient)).ToList();
+        return pairsTimeSlotDoctor.Select(pair => new Appointment(random.Next(10000), pair.Item1, pair.Item2, patient.user.Email)).ToList();
     }
 
     private List<TimeSlot> FindAvailableTimeSlotsByDoctorPriority(string doctorMail, TimeSlot wantedTime, DateTime lastDate)
@@ -431,4 +426,18 @@ public class ScheduleRepository
         return time.AddMinutes(minutesToAdd);
     }
 
+    public string FileName()
+    {
+        return _fileNameAppointments;
+    }
+
+    public IEnumerable<object>? GetList()
+    {
+        return _appointments ;
+    }
+
+    public void Import(JToken token)
+    {
+        _appointments = token.ToObject<List<Appointment>>();
+    }
 }

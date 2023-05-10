@@ -122,7 +122,7 @@ public class MakeAppointmentViewModel : ViewModelBase
 
             MedicalRecord medicalRecord = new MedicalRecord(_patient);
 
-            Appointment appointment = _scheduleRepository.CreateAppointment(time, doctor, medicalRecord);
+            Appointment appointment = _scheduleRepository.CreateAppointment(time, doctor, _patient.Email);
             if (appointment!=null)
                 Appointments.Add(new AppointmentViewModel(appointment));
             else
