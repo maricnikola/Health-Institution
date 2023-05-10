@@ -10,6 +10,7 @@ using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Order;
 using ZdravoCorp.Core.Repositories.Room;
 using ZdravoCorp.Core.Repositories.Schedule;
+using ZdravoCorp.Core.Repositories.Transfers;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels;
 using ZdravoCorp.Core.ViewModels.DirectorViewModel;
@@ -32,6 +33,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
     private readonly ScheduleRepository _scheduleRepository;
     private readonly OrderRepository _orderRepository;
     private readonly RoomRepository _roomRepository;
+    private readonly TransferRepository _transferRepository;
     
     public string Email
     {
@@ -64,7 +66,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             }
         }
     }
-    public LoginDialog(UserRepository userRepository, PatientRepository patientRepository ,DoctorRepository doctorRepository, ScheduleRepository scheduleRepository,InventoryRepository inventoryRepository, OrderRepository orderRepository, RoomRepository roomRepository)
+    public LoginDialog(UserRepository userRepository, PatientRepository patientRepository ,DoctorRepository doctorRepository, ScheduleRepository scheduleRepository,InventoryRepository inventoryRepository, OrderRepository orderRepository, RoomRepository roomRepository, TransferRepository transferRepository)
     {
         _roomRepository = roomRepository;
         _patientRepository = patientRepository;
@@ -73,6 +75,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
         _scheduleRepository = scheduleRepository;
         _inventoryRepository = inventoryRepository;
         _orderRepository = orderRepository;
+        _transferRepository = transferRepository;
         InitializeComponent();
         DataContext = this;
     }
@@ -90,7 +93,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
         {
                 case User.UserType.Director:
                     //start director view
-                    Application.Current.MainWindow = new DirectorWindow() {DataContext = new DirectorViewModel(_inventoryRepository, _orderRepository, _roomRepository)};;
+                    Application.Current.MainWindow = new DirectorWindow() {DataContext = new DirectorViewModel(_inventoryRepository, _orderRepository, _roomRepository, _transferRepository)};;
                     break;
                 case User.UserType.Patient:
                     //start patient view

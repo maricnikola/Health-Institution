@@ -18,12 +18,12 @@
             </Grid.ColumnDefinitions>
             <StackPanel  Grid.Column="0">
                 <Label Content="Choose destination room:"></Label>
-                <DataGrid  ItemsSource="{Binding Rooms, UpdateSourceTrigger=PropertyChanged}"
+                <DataGrid  Height="200" ItemsSource="{Binding Rooms, UpdateSourceTrigger=PropertyChanged}"
                            SelectionMode="Single"
-                           IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,0" Name="EquipmentV"
-                           SelectedItem="{Binding SelectedInventoryItemVm, Mode=TwoWay}">
+                           IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,0" Name="Rooms"
+                           SelectedItem="{Binding SelectedRoom, Mode=TwoWay}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Room" Width="50" x:Name="Name" Binding="{Binding Room}"/>
+                        <DataGridTextColumn Header="Room" Width="50" x:Name="Name" Binding="{Binding Id}"/>
                         <DataGridTextColumn Header="Type"  Binding="{Binding Type}" />
 
   
@@ -31,8 +31,8 @@
                 </DataGrid>
             </StackPanel>
             <StackPanel VerticalAlignment="Center" Grid.Column="1">
-                <Label Content="Choose transfer date and time:"></Label>
-                <DatePicker Margin="10,0"></DatePicker>
+                <Label Content="Choose transfer date, time and quantity:"></Label>
+                <DatePicker SelectedDate="{Binding SelectedDate}" DisplayDateStart="1/01/23" Margin="10,0"></DatePicker>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -41,20 +41,22 @@
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <ComboBox Grid.Row="1"  Width="60"></ComboBox>
-                    <ComboBox Grid.Row="1" Grid.Column="1" Width="60"></ComboBox>
-                    <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Hours"></Label>
+                    <ComboBox ItemsSource="{Binding Hour}" SelectedItem="{Binding SelectedHour}" Grid.Row="1"  Width="60"></ComboBox>
+                    <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Minute}" SelectedItem="{Binding SelectedMinute}" Width="60"></ComboBox>
+                    <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Hour"></Label>
                     <Label Grid.Column="1" Grid.Row="0" Content="Minutes" HorizontalContentAlignment="Center"></Label>
+                    <TextBox Grid.Row="2" Grid.Column="1" Height="30" Width="80" Text="{Binding Quantity}" Margin="0,30,0,0"  ></TextBox>
+                    <Label  Content="{Binding MaxQuantity}" Grid.Row="2" HorizontalContentAlignment="Left" Margin="0,30,0,0"></Label>
                 </Grid>
-
-               
+                
             </StackPanel>
         </Grid>
        
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="10" Orientation="Horizontal">
-            <Button Padding="5" Margin="20,0" Content="Cancel" Command="{Binding CancelOrder}"></Button>
-            <Button  Padding="5" Margin="20,0" Content="Confirm" Command="{Binding ConfirmOrder}"></Button>
+            <Button Padding="5" Margin="20,0" Content="Cancel" Command="{Binding CancelTransfer}"></Button>
+            <Button  Padding="5" Margin="20,0" Content="Confirm" Command="{Binding ConfirmTransfer}"></Button>
         </StackPanel>
     </Grid>
 </Window>

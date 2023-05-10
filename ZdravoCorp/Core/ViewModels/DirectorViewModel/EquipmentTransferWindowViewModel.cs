@@ -8,9 +8,11 @@ using ZdravoCorp.Core.Models.Equipment;
 using ZdravoCorp.Core.Models.Inventory;
 using ZdravoCorp.Core.Models.Orders;
 using ZdravoCorp.Core.Models.Rooms;
+using ZdravoCorp.Core.Models.Transfers;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Order;
 using ZdravoCorp.Core.Repositories.Room;
+using ZdravoCorp.Core.Repositories.Transfers;
 using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.Core.Utilities.CronJobs;
 
@@ -25,8 +27,21 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
 
     private RoomRepository _roomRepository;
     private InventoryRepository _inventoryRepository;
+    private TransferRepository _transferRepository;
     private ObservableCollection<RoomViewModel> _rooms;
+    public RoomViewModel? SelectedRoom { get; set; }
+    
+    public int[] Hour { get; set; }
+    public int[] Minute { get; set; }
+    
+    public int? SelectedHour { get; set; }
+    public int? SelectedMinute { get; set; }
+    public DateTime? SelectedDate { get; set; }
 
+    private int _quantity;
+    public string MaxQuantity { get; }
+    
+    public int Quantity { get; set; }
     public IEnumerable<RoomViewModel> Rooms
     {
         get
@@ -41,20 +56,49 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
     }
     public event EventHandler OnRequestClose;
     public int InventoryItemId { get; set; }
+    private int _sourceRoomId;
     
 
-    public EquipmentTransferWindowViewModel(int inventoryItemId, RoomRepository roomRepository, InventoryRepository inventoryRepository)
+    public EquipmentTransferWindowViewModel(int inventoryItemId, int roomId, int quantity, RoomRepository roomRepository, InventoryRepository inventoryRepository, TransferRepository transferRepository)
     {
+        _rooms = new ObservableCollection<RoomViewModel>();
         _roomRepository = roomRepository;
         _inventoryRepository = inventoryRepository;
+        _transferRepository = transferRepository;
         InventoryItemId = inventoryItemId;
+        _sourceRoomId = roomId;
+        _quantity = quantity;
+        Quantity = 0;
+        MaxQuantity = $"Quantity(max "+_quantity.ToString()+"):";
         InventoryItem inventoryItem = _inventoryRepository.GetInventoryById(inventoryItemId);
-        ConfirmTransfer = new DelegateCommand(o => Confirm());
+        ConfirmTransfer = new DelegateCommand(o => Confirm(), o => CanConfirm());
         CancelTransfer = new DelegateCommand(o => Cancel());
         foreach (var room in _roomRepository.GetAllExcept(inventoryItem.RoomId))
         {
             _rooms.Add(new RoomViewModel(room));
         }
+
+        InitComboBoxes();
+    }
+
+    private void InitComboBoxes()
+    {
+        Hour = new int[24];
+        Minute = new int[60];
+        for (int i = 0; i < 24; i++)
+        {
+            Hour[i] = i;
+        }
+
+        for (int i = 0; i < 60; i++)
+        {
+            Minute[i] = i;
+        }
+    }
+
+    private bool CanConfirm()
+    {
+        return SelectedDate != null && SelectedHour != null && SelectedMinute != null && SelectedRoom != null && Quantity != 0;
     }
 
     private void Cancel()
@@ -64,6 +108,14 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
 
     private void Confirm()
     {
+        DateTime tempDate = (DateTime)SelectedDate;
+        DateTime when = new DateTime(tempDate.Year, tempDate.Month, tempDate.Day, (int)SelectedHour, (int)SelectedMinute, 0);
+
+        Transfer newTransfer = new Transfer(_roomRepository.GetById(_sourceRoomId),
+            _roomRepository.GetById(SelectedRoom.Id), when, _quantity);
+        _transferRepository.Add(newTransfer);  
+        //_inventoryRepository.GetInventoryById(InventoryItemId).UpdateRoom(_roomRepository.GetById(SelectedRoom.Id));
+        
         OnRequestClose(this, new EventArgs());
     }
 }

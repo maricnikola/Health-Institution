@@ -10,7 +10,11 @@ public class Transfer
     public DateTime When { get; set; }
     public int Quantity { get; set; }
 
-    public Transfer()
+    public Transfer(Room from, Room to, DateTime when, int quantity)
     {
+        From = from;
+        To = to;
+        When = when;
+        Quantity = quantity;
     }
 }

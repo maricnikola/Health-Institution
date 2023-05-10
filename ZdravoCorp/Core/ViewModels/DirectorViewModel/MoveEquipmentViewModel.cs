@@ -8,6 +8,7 @@ using ZdravoCorp.Core.Models.Equipment;
 using ZdravoCorp.Core.Models.Rooms;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Room;
+using ZdravoCorp.Core.Repositories.Transfers;
 using ZdravoCorp.View.DirectorView;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
@@ -15,6 +16,7 @@ namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 public class MoveEquipmentViewModel : ViewModelBase
 {
     private InventoryRepository _inventoryRepository;
+    private TransferRepository _transferRepository;
     private RoomRepository _roomRepository;
     private ObservableCollection<InventoryViewModel> _inventory;
     private ObservableCollection<InventoryViewModel> _allInventory;
@@ -72,11 +74,12 @@ public class MoveEquipmentViewModel : ViewModelBase
         }
     }
 
-    public MoveEquipmentViewModel(InventoryRepository inventoryRepository, RoomRepository roomRepository)
+    public MoveEquipmentViewModel(InventoryRepository inventoryRepository, RoomRepository roomRepository, TransferRepository transferRepository)
     {
         _lock = new object();
-        _roomRepository = _roomRepository;
+        _roomRepository = roomRepository;
         _inventoryRepository = inventoryRepository;
+        _transferRepository = transferRepository;
         _inventoryRepository.OnRequestUpdate += (s, e) => UpdateTable();
         _allInventory = new ObservableCollection<InventoryViewModel>();
         MoveSelectedInventoryItem = new DelegateCommand(o => MoveInventoryItem(), o => IsInventoryItemSelected());
@@ -92,7 +95,8 @@ public class MoveEquipmentViewModel : ViewModelBase
     private void MoveInventoryItem()
     {
         var inventoryItemId = SelectedInventoryItemVm.Id;
-        var vm = new EquipmentTransferWindowViewModel(inventoryItemId, _roomRepository, _inventoryRepository);
+        var roomId = SelectedInventoryItemVm.Room;
+        var vm = new EquipmentTransferWindowViewModel(inventoryItemId, roomId, SelectedInventoryItemVm.Quantity, _roomRepository, _inventoryRepository, _transferRepository);
        
         var transferWindow = new EquipmentTransferWindowView()
             { DataContext = vm  };

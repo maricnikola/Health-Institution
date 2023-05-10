@@ -45,6 +45,11 @@ public class InventoryItem
         RoomId = other.RoomId;
     }
 
+    public void UpdateRoom(Room room)
+    {
+        Room = room;
+    }
+
     protected bool Equals(InventoryItem other)
     {
         return Id == other.Id && Quantity == other.Quantity && Equals(Room, other.Room) &&
