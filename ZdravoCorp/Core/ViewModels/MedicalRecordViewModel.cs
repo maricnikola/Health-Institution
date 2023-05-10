@@ -66,6 +66,11 @@ class MedicalRecordViewModel:ViewModelBase
 			OnPropertyChanged(nameof(DiseaseHistory));
 		}
 	}
+
+	public void SaveChangesMedicalRecord()
+	{
+
+	}
 }
 
 

@@ -43,14 +43,14 @@ public class DoctorViewModel : ViewModelBase
         }
     }
 
-    public DoctorViewModel(User user, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, PatientRepository patientRepository)
+    public DoctorViewModel(User user, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, PatientRepository patientRepository,MedicalRecordRepository medicalRecordRepository)
     {
         _doctorRepository = doctorRepository;
         _scheduleRepository = scheduleRepository;
         _doctor = _doctorRepository.GetDoctorByEmail(user.Email);
         _patientRepository = patientRepository;
         List<Appointment> appointments = _scheduleRepository.GetDoctorAppointments(_doctor.Email);
-        _medicalRecordRepository = new MedicalRecordRepository(appointments);
+        _medicalRecordRepository = medicalRecordRepository;
 
         _user = user;
         LoadAppointmentCommand = new DelegateCommand(o => LoadAppointments());

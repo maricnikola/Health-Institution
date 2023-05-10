@@ -32,10 +32,9 @@ namespace ZdravoCorp.View
             EquipmentRepository equipmentRepository = new EquipmentRepository();
             RoomRepository roomRepository = new RoomRepository();
             InventoryRepository inventoryRepository = new InventoryRepository(roomRepository, equipmentRepository);
+            MedicalRecordRepository medicalRecordRepository =  new MedicalRecordRepository();
             ScheduleRepository scheduleRepository = new ScheduleRepository();
             OrderRepository orderRepository = new OrderRepository();
-            LoadFunctions.LoadAppointments(scheduleRepository);
-            MedicalRecordRepository medicalRecordRepository =  new MedicalRecordRepository();
 
 
             //___________________________

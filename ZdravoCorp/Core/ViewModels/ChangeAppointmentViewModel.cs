@@ -124,7 +124,7 @@ public class ChangeAppointmentViewModel : ViewModelBase
 
             MedicalRecord medicalRecord = new MedicalRecord(_patient);
 
-            Appointment appointment = _scheduleRepository.ChangeAppointment(_appointmentViewModel.Id, time, doctor, medicalRecord);
+            Appointment appointment = _scheduleRepository.ChangeAppointment(_appointmentViewModel.Id, time, doctor, _patient.Email);
             if (appointment != null)
             {
                 Appointments.Remove(GetById(appointment.Id, Appointments));

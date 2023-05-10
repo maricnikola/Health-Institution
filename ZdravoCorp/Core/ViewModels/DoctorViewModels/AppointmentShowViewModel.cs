@@ -49,10 +49,10 @@ public class AppointmentShowViewModel : ViewModelBase
         _scheduleRepository = scheduleRepository;
 
         _doctorRepository = doctorRepository;
-        //_doctor = _doctorRepository.GetDoctorByEmail(user.Email);
+        _doctor = _doctorRepository.GetDoctorByEmail(user.Email);
 
-        List<Appointment> appointments = _scheduleRepository.GetDoctorAppointments(_doctor);
-        //_medicalRecordRepository = new MedicalRecordRepository(appointments);
+        List<Appointment> appointments = _scheduleRepository.GetDoctorAppointments(_doctor.Email);
+        _medicalRecordRepository = medicalRecordRepository;
 
         _appointments = new ObservableCollection<AppointmentViewModel>();
 
@@ -139,6 +139,7 @@ public class AppointmentShowViewModel : ViewModelBase
         Appointments.Clear();
         foreach (Appointment appointment in showAppointments)
         {
+            MedicalRecord mr = _medicalRecordRepository.GetById(appointment.PatientEmail);
             Appointments.Add(new AppointmentViewModel(appointment));
         }
 

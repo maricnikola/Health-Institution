@@ -130,7 +130,7 @@ public class AddAppointmentViewModel : ViewModelBase
 
             MedicalRecord medicalRecord = new MedicalRecord(patient);
 
-            Appointment appointment = _scheduleRepository.CreateAppointment(time, _dr, medicalRecord);
+            Appointment appointment = _scheduleRepository.CreateAppointment(time, _dr, mail);
             if (appointment != null)
             {
                 if (_scheduleRepository.IsForShow(appointment, date))
@@ -138,7 +138,7 @@ public class AddAppointmentViewModel : ViewModelBase
                     Appointments.Add(new AppointmentViewModel(appointment));
                 }
 
-                _medicalRepository.AddRecord(appointment.MedicalRecord);
+                _medicalRepository.AddRecord(medicalRecord);
             }
             else
             {

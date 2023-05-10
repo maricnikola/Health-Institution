@@ -119,7 +119,7 @@ namespace ZdravoCorp.Core.ViewModels.DoctorViewModels
                 MedicalRecord medicalRecord = new MedicalRecord(_patient);
 
 
-                Appointment appointment = _scheduleRepository.ChangeAppointment(_appointmentModel.Id, time, _dr, medicalRecord);
+                Appointment appointment = _scheduleRepository.ChangeAppointment(_appointmentModel.Id, time, _dr, _patient.Email);
 
 
                 if (appointment != null)
