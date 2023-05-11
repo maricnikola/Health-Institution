@@ -1,73 +1,116 @@
 [
   {
-    "Id": 13,
-    "Name": "Stolica",
+    "Id": 1,
+    "Name": "Bed",
     "Type": "Room",
     "IsDynamic" : false
+  },
+  {
+    "Id": 2,
+    "Name": "Table",
+    "Type": "Room",
+    "IsDynamic" : false
+  },
+  {
+    "Id": 3,
+    "Name": "Chair",
+    "Type": "Room",
+    "IsDynamic" : false
+  },
+  {
+    "Id": 4,
+    "Name": "Cabinet",
+    "Type": "Room",
+    "IsDynamic" : false
+  },
+  {
+    "Id": 5,
+    "Name": "Operating Table",
+    "Type": "Operation",
+    "IsDynamic" : false
+  },
+  {
+    "Id": 6,
+    "Name": "Bedside Table",
+    "Type": "Room",
+    "IsDynamic" : false
+  },
+  {
+    "Id": 10,
+    "Name": "Gauze",
+    "Type": "Operation",
+    "IsDynamic" : true
+  },
+  {
+    "Id": 11,
+    "Name": "Stitch",
+    "Type": "Operation",
+    "IsDynamic" : true
+  },
+  {
+    "Id": 12,
+    "Name": "Thread",
+    "Type": "Operation",
+    "IsDynamic" : true
+  },
+  {
+    "Id": 13,
+    "Name": "Syringe",
+    "Type": "Examination",
+    "IsDynamic" : true
   },
   {
     "Id": 14,
-    "Name": "Sto",
-    "Type": "Room",
-    "IsDynamic" : false
-  },
-  {
-    "Id": 15,
-    "Name": "Krevet",
-    "Type": "Room",
-    "IsDynamic" : false
-  },
-  {
-    "Id": 16,
-    "Name": "Orman",
-    "Type": "Room",
-    "IsDynamic" : false
-  },
-  {
-    "Id": 17,
-    "Name": "Operacioni sto",
-    "Type": "Operation",
-    "IsDynamic" : false
-  },
-  {
-    "Id": 18,
-    "Name": "Lampa",
-    "Type": "Examination"
-  },
-  {
-    "Id": 50,
-    "Name": "Gaza",
+    "Name": "Needle",
     "Type": "Operation",
     "IsDynamic" : true
   },
   {
-    "Id": 51,
-    "Name": "Kopca",
+    "Id": 21,
+    "Name": "Pen",
+    "Type": "Examination",
+    "IsDynamic" : true
+  },
+  {
+    "Id": 22,
+    "Name": "Paper",
+    "Type": "Examination",
+    "IsDynamic" : true
+  },
+  {
+    "Id": 23,
+    "Name": "Staples",
+    "Type": "Examination",
+    "IsDynamic" : true
+  },
+  {
+    "Id": 24,
+    "Name": "Patch",
     "Type": "Operation",
     "IsDynamic" : true
   },
   {
-    "Id": 52,
-    "Name": "Hanzaplast",
+    "Id": 25,
+    "Name": "Mask",
+    "Type": "Operation",
+    "IsDynamic" : true
+  },
+  {
+    "Id": 26,
+    "Name": "Gloves",
     "Type": "Examination",
     "IsDynamic" : true
   },
   {
-    "Id": 53,
-    "Name": "Injekcija",
-    "Type": "Examination",
+    "Id": 27,
+    "Name": "Oxygen Tank",
+    "Type": "Operation",
     "IsDynamic" : true
   },
   {
-    "Id": 54,
-    "Name": "Papir",
-    "Type": "Examination",
-    "IsDynamic" : true
-  },
-  {
-    "Id": 55,
-    "Name": "Olovka",
-    "Type": "Examination",
+    "Id": 28,
+    "Name": "Lamp",
+    "Type": "Operation",
     "IsDynamic" : true
   }
 ]

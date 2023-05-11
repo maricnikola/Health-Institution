@@ -1,15 +1,11 @@
 [
   {
-    "Id": 10,
+    "Id": 101,
     "Type": "OperationRoom"
   },
   {
-    "Id": 11,
+    "Id": 102,
     "Type": "OperationRoom"
-  },
-  {
-    "Id": 110,
-    "Type": "ExaminationRoom"
   },
   {
     "Id": 111,
@@ -24,19 +20,23 @@
     "Type": "ExaminationRoom"
   },
   {
-    "Id": 220,
+    "Id": 114,
+    "Type": "ExaminationRoom"
+  },
+  {
+    "Id": 150,
     "Type": "PatientRoom"
   },
   {
-    "Id": 233,
+    "Id": 151,
     "Type": "PatientRoom"
   },
   {
-    "Id": 234,
+    "Id": 152,
     "Type": "PatientRoom"
   }, 
   {
-    "Id": 235,
+    "Id": 153,
     "Type": "PatientRoom"
   },
   {

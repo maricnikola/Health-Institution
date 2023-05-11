@@ -24,6 +24,7 @@ public class DEquipmentExecuteOrder : IJob
 
         _inventoryRepository.LoadRoomsAndEquipment();
         _inventoryRepository.OnRequestUpdate(this, new EventArgs());
+        Serializer.Save(_inventoryRepository);
         
 
         return Task.CompletedTask;

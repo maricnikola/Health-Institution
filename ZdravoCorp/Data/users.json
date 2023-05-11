@@ -6,10 +6,10 @@
     "UserState": "NotBlocked"
   },
   {
-    "type": "Doctor",
-    "email": "savo.oroz@gmail.com",
-    "password": "1",
-    "userstate": "NotBlocked"
+    "Type": "Doctor",
+    "Email": "savo.oroz@gmail.com",
+    "Password": "1",
+    "Userstate": "NotBlocked"
   },
   {
     "Type": "Nurse",
@@ -18,10 +18,10 @@
     "UserState": "NotBlocked"
   },
   {
-    "type": "Patient",
-    "email": "sreten.pejovic@gmail.com",
-    "password": "1",
-    "userstate": "NotBlocked"
+    "Type": "Patient",
+    "Email": "sreten.pejovic@gmail.com",
+    "Password": "1",
+    "UserState": "NotBlocked"
   },
   {
     "Type": "Patient",
