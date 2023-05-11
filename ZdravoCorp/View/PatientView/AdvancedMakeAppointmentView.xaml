@@ -23,7 +23,7 @@
         <Label Content="Latest possible date : " HorizontalAlignment="Left" Height="30" Margin="645,55,0,0" VerticalAlignment="Top" Width="155" FontSize="14"/>
         <ComboBox SelectedIndex="1" SelectedItem="{Binding Priority, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding PriorityOptions}" HorizontalAlignment="Left" Height="34" Margin="328,172,0,0" VerticalAlignment="Top" Width="122"/>
         <Label Content="Priority : " HorizontalAlignment="Left" Height="29" Margin="334,138,0,0" VerticalAlignment="Top" Width="64" FontSize="14"/>
-        <DataGrid ItemsSource="{Binding Appointments, UpdateSourceTrigger=PropertyChanged}"
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Appointments, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding SelectedAppointment, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single"
                   IsReadOnly="True" Height="106" Margin="65,262,87,0" VerticalAlignment="Top">
             <DataGrid.Columns>

@@ -1,11 +1,12 @@
-﻿<Window x:Class="ZdravoCorp.View.DirectorView.DEquipmentOrderConfirmView"
+﻿<Window x:Class="ZdravoCorp.View.DirectorView.DynamicOrderConfirmView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:ZdravoCorp.View.DirectorView"
         mc:Ignorable="d"
-        Title="DEquipmentOrderConfirmView"  Width="200" Height="Auto" SizeToContent="Height" WindowStartupLocation="CenterOwner">
+        Background="#29262e"
+        Title="DynamicOrderConfirmView"  Width="200" Height="Auto" SizeToContent="Height" WindowStartupLocation="CenterScreen" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

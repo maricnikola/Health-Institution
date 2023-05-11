@@ -13,7 +13,10 @@ public class AppointmentViewModel : ViewModelBase
     
     public string PatientName => _appointment.PatientEmail;
     public DateTime Date => _appointment.Time.start;
+    public string Anamnesis => _appointment.Anamnesis.KeyWord;
     public string PatientMail => _appointment.PatientEmail;
+
+    public string Specialization => _appointment.Doctor.Specialization.ToString();
 
 
     public AppointmentViewModel(Appointment appointment)

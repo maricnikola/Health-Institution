@@ -24,7 +24,7 @@ public class TransferRequestTask : IJob
         _transferRepository.Remove(_transfer);
         _transferRepository.OnRequestUpdate(this, new EventArgs());
         _inventoryRepository.OnRequestUpdate(this, new EventArgs());
-        
+
         return Task.CompletedTask;
     }
 }

@@ -7,6 +7,7 @@ using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.Users;
+using ZdravoCorp.Core.Repositories;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.MedicalRecord;
 using ZdravoCorp.Core.Repositories.Room;
@@ -45,16 +46,16 @@ public class DoctorViewModel : ViewModelBase
         }
     }
 
-    public DoctorViewModel(User user, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, PatientRepository patientRepository,MedicalRecordRepository medicalRecordRepository,InventoryRepository inventoryRepository,RoomRepository roomRepository)
+    public DoctorViewModel(User user, RepositoryManager repositoryManager)
     {
-        _roomRepository = roomRepository;
-        _inventoryRepository = inventoryRepository;
-        _doctorRepository = doctorRepository;
-        _scheduleRepository = scheduleRepository;
+        _inventoryRepository = repositoryManager.InventoryRepository;
+        _roomRepository = repositoryManager.RoomRepository;
+        _doctorRepository = repositoryManager.DoctorRepository;
+        _scheduleRepository = repositoryManager.ScheduleRepository;
         _doctor = _doctorRepository.GetDoctorByEmail(user.Email);
-        _patientRepository = patientRepository;
+        _patientRepository = repositoryManager.PatientRepository;
         List<Appointment> appointments = _scheduleRepository.GetDoctorAppointments(_doctor.Email);
-        _medicalRecordRepository = medicalRecordRepository;
+        _medicalRecordRepository = repositoryManager.MedicalRecordRepository;
 
         _user = user;
         LoadAppointmentCommand = new DelegateCommand(o => LoadAppointments());
