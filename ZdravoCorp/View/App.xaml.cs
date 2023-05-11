@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using ZdravoCorp.Core.Loader;
+using ZdravoCorp.Core.Repositories;
 using ZdravoCorp.Core.Repositories.Equipment;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.MedicalRecord;
@@ -24,23 +24,12 @@ namespace ZdravoCorp.View
             Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             //Load functions for repositories
             IDGenerator idg = new IDGenerator();
-            UserRepository userRepository = new UserRepository();
-            DirectorRepository directorRepository = new DirectorRepository();
-            PatientRepository patientRepository = new PatientRepository();
-            NurseRepository nurseRepository = new NurseRepository();
-            DoctorRepository doctorRepository = new DoctorRepository();
-            EquipmentRepository equipmentRepository = new EquipmentRepository();
-            RoomRepository roomRepository = new RoomRepository();
-            InventoryRepository inventoryRepository = new InventoryRepository(roomRepository, equipmentRepository);
-            MedicalRecordRepository medicalRecordRepository =  new MedicalRecordRepository();
-            ScheduleRepository scheduleRepository = new ScheduleRepository();
-            OrderRepository orderRepository = new OrderRepository();
-            TransferRepository transferRepository = new TransferRepository();
-            JobScheduler scheduler = new JobScheduler(inventoryRepository,transferRepository, orderRepository);
+            RepositoryManager repositoryManager = new RepositoryManager();
+            JobScheduler scheduler = new JobScheduler(repositoryManager.InventoryRepository, repositoryManager.TransferRepository, repositoryManager.OrderRepository);
 
 
-            //___________________________
-            var dialog = new LoginDialog(userRepository, patientRepository, doctorRepository, scheduleRepository, inventoryRepository, orderRepository, roomRepository, transferRepository, medicalRecordRepository, equipmentRepository);
+
+            var dialog = new LoginDialog(repositoryManager);
             
             if (dialog.ShowDialog() == true)
             {
@@ -55,5 +44,7 @@ namespace ZdravoCorp.View
                 Current.Shutdown(-1);
             }
         }
+        
+        
     }
 }

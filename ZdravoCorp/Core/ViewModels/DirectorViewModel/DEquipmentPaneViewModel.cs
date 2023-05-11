@@ -20,15 +20,11 @@ public class DEquipmentPaneViewModel : ViewModelBase
     private ObservableCollection<DynamicInventoryViewModel> _dynamicInventory;
     private object _lock;
     private object _lock2;
-
     private ObservableCollection<OrderViewModel> _orders;
 
     public IEnumerable<OrderViewModel> Orders
     {
-        get
-        {
-            return _orders;
-        }
+        get => _orders;
         set
         {
             _orders = new ObservableCollection<OrderViewModel>(value);
@@ -40,7 +36,7 @@ public class DEquipmentPaneViewModel : ViewModelBase
     public IEnumerable<DynamicInventoryViewModel> DynamicInventory
 
     {
-        get { return _dynamicInventory; }
+        get => _dynamicInventory;
         set
         {
             _dynamicInventory = new ObservableCollection<DynamicInventoryViewModel>(value);
@@ -53,12 +49,14 @@ public class DEquipmentPaneViewModel : ViewModelBase
         _lock = new object();
         _lock2 = new object();
         _dynamicInventory = new ObservableCollection<DynamicInventoryViewModel>();
-        BindingOperations.EnableCollectionSynchronization(_dynamicInventory, _lock);
         _inventoryRepository = inventoryRepository;
         _equipmentRepository = equipmentRepository;
         _orderRepository = orderRepository;
         _orders = new ObservableCollection<OrderViewModel>();
+        
+        BindingOperations.EnableCollectionSynchronization(_dynamicInventory, _lock);
         BindingOperations.EnableCollectionSynchronization(_orders, _lock2);
+        
         _inventoryRepository.OnRequestUpdate += (s, e) => RefreshInventory();
         _orderRepository.OnRequestUpdate += (s, e) => RefreshOrders();
         foreach (var inventoryItem in _inventoryRepository.GetDynamicGrouped())

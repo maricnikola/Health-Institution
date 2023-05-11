@@ -21,29 +21,21 @@ namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 public class DEquipmentTransferWindowViewModel : ViewModelBase
 
 {
-    public ICommand ConfirmTransfer
-    {
-        get;
-        set;
-    }
-
-
+    public ICommand ConfirmTransfer { get; set; }
+    
     public ICommand CancelTransfer { get; }
-
-    private RoomRepository _roomRepository;
     private InventoryRepository _inventoryRepository;
     private ObservableCollection<SourceRoomViewModel> _rooms;
     public SourceRoomViewModel? SelectedRoom { get; set; }
-
-    private int _quantity;
     private int _moveQuantity;
     private int _maxMoveQuantity;
-
     public int Quantity { get; set; }
+    public event EventHandler OnRequestClose;
+    public int InventoryItemId { get; set; }
 
     public int MoveQuantity
     {
-        get { return _moveQuantity; }
+        get => _moveQuantity;
         set
         {
             if (SelectedRoom != null)
@@ -56,7 +48,6 @@ public class DEquipmentTransferWindowViewModel : ViewModelBase
             }
 
             _moveQuantity = value;
-            //_confirmTransfer.RaiseCanExecuteChanged();
         }
     }
 
@@ -77,33 +68,30 @@ public class DEquipmentTransferWindowViewModel : ViewModelBase
         }
     }
 
-    public event EventHandler OnRequestClose;
-    public int InventoryItemId { get; set; }
-    private int _sourceRoomId;
-    private InventoryItem _inventoryItem;
+
+
 
 
     public DEquipmentTransferWindowViewModel(int inventoryItemId, int roomId, int quantity,
-        RoomRepository roomRepository, InventoryRepository inventoryRepository)
+         InventoryRepository inventoryRepository)
     {
         _rooms = new ObservableCollection<SourceRoomViewModel>();
-        _roomRepository = roomRepository;
         _inventoryRepository = inventoryRepository;
         InventoryItemId = inventoryItemId;
         DestinationRoom = roomId;
         Quantity = quantity;
         MoveQuantity = 0;
         MaxMoveQuantity = -1;
-        _inventoryItem = _inventoryRepository.GetInventoryById(inventoryItemId);
-        RoomType = _inventoryItem.Room.Type.ToString();
-        Item = _inventoryItem.Equipment.Name;
-        ConfirmTransfer = new DelegateCommand(o => Confirm(), o => CanConfirm());
+        var inventoryItem = _inventoryRepository.GetInventoryById(inventoryItemId);
+        RoomType = inventoryItem?.Room.Type.ToString();
+        Item = inventoryItem.Equipment.Name;
 
-        CancelTransfer = new DelegateCommand(o => Cancel());
-        foreach (var item in _inventoryRepository.LocateItem(_inventoryItem))
+        foreach (var item in _inventoryRepository.LocateItem(inventoryItem))
         {
             _rooms.Add(new SourceRoomViewModel(item));
         }
+        ConfirmTransfer = new DelegateCommand(o => Confirm(), o => CanConfirm());
+        CancelTransfer = new DelegateCommand(o => Cancel());
     }
 
 
@@ -118,7 +106,7 @@ public class DEquipmentTransferWindowViewModel : ViewModelBase
     }
 
     private void Confirm()
-    
+
     {
         _inventoryRepository.UpdateDestinationInventoryItem(SelectedRoom.ItemId, InventoryItemId, _moveQuantity);
         OnRequestClose(this, new EventArgs());
