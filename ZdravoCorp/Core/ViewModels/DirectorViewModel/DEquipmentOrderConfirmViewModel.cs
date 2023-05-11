@@ -47,10 +47,13 @@ public class DEquipmentOrderConfirmViewModel
             order.Add(item.EquipmentId, item.OrderQuantity);
         }
 
-        Order newOrder = new Order(IDGenerator.GetId(), order, DateTime.Now, DateTime.Now.AddMinutes(1),
+        Order newOrder = new Order(IDGenerator.GetId(), order, DateTime.Now, DateTime.Now.AddMinutes(5),
             Order.OrderStatus.Pending);
         _orderRepository.AddOrder(newOrder);
-        JobScheduler.DEquipmentTaskScheduler(newOrder, _inventoryRepository);
+        Serializer.Save(_orderRepository);
+        JobScheduler.DEquipmentTaskScheduler(newOrder);
+        _orderRepository.OnRequestUpdate(this, new EventArgs());
         OnRequestClose(this, new EventArgs());
+        
     }
 }
