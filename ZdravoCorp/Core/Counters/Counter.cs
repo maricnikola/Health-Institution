@@ -24,5 +24,4 @@ public class Counter
         Cancelations = clc;
         News = chan;
     }
-
 }

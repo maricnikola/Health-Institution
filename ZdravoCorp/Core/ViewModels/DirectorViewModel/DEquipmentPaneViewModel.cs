@@ -17,19 +17,18 @@ public class DEquipmentPaneViewModel : ViewModelBase
     private ObservableCollection<DynamicInventoryViewModel> _dynamicInventory;
     private object _lock;
     public ICommand CreateOrder { get; }
+
     public IEnumerable<DynamicInventoryViewModel> DynamicInventory
-    
+
     {
-        get
-        {
-            return _dynamicInventory;
-        }
+        get { return _dynamicInventory; }
         set
         {
             _dynamicInventory = new ObservableCollection<DynamicInventoryViewModel>(value);
             OnPropertyChanged();
         }
     }
+
     public DEquipmentPaneViewModel(InventoryRepository inventoryRepository, OrderRepository orderRepository)
     {
         _lock = new object();
@@ -37,15 +36,14 @@ public class DEquipmentPaneViewModel : ViewModelBase
         BindingOperations.EnableCollectionSynchronization(_dynamicInventory, _lock);
         _inventoryRepository = inventoryRepository;
         _orderRepository = orderRepository;
-        _inventoryRepository.OnRequestUpdate+= (s, e) => RefreshInventory();
+        _inventoryRepository.OnRequestUpdate += (s, e) => RefreshInventory();
         foreach (var inventoryItem in _inventoryRepository.GetDynamic())
         {
-            
             if (inventoryItem.Quantity < 5)
                 _dynamicInventory.Add(new DynamicInventoryViewModel(inventoryItem));
         }
 
-        CreateOrder = new DelegateCommand(o=> OrderConfirmDialog());
+        CreateOrder = new DelegateCommand(o => OrderConfirmDialog());
     }
 
     private void RefreshInventory()
@@ -61,11 +59,12 @@ public class DEquipmentPaneViewModel : ViewModelBase
 
             DynamicInventory = updateInventory;
         }
-       
     }
+
     private void OrderConfirmDialog()
     {
-        var vm = new DEquipmentOrderConfirmViewModel(DynamicInventory.Where(item => item.IsChecked), _orderRepository, _inventoryRepository);
+        var vm = new DEquipmentOrderConfirmViewModel(DynamicInventory.Where(item => item.IsChecked), _orderRepository,
+            _inventoryRepository);
         var confirmDialog = new DEquipmentOrderConfirmView() { DataContext = vm };
         vm.OnRequestClose += (s, e) => confirmDialog.Close();
         confirmDialog.Show();

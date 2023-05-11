@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Documents;
-using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Models.Users;
 
 namespace ZdravoCorp.Core.Models.MedicalRecord;
 

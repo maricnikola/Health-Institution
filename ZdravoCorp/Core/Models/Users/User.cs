@@ -1,16 +1,15 @@
 using System;
 using Newtonsoft.Json;
 
-
-namespace ZdravoCorp.Core.Models.User;
+namespace ZdravoCorp.Core.Models.Users;
 
 public class User
 {
-     public UserType Type { get; set; }
+    public UserType Type { get; set; }
     public string Email { get; set; }
-    public string? Password { private get;  set; }
-   public State UserState { get; set; }
-    
+    public string? Password { private get; set; }
+    public State UserState { get; set; }
+
 
     [JsonConstructor]
     public User(string? password, string email, UserType type, State userState)
@@ -20,14 +19,12 @@ public class User
         UserState = userState;
         Type = type;
     }
-    
+
     public User(string email, UserType type, State userState)
     {
         Email = email;
         UserState = userState;
     }
-    
-
 
 
     public bool ValidatePassword(string password)

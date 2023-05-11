@@ -1,6 +1,5 @@
 ﻿using System;
 using ZdravoCorp.Core.Models.Appointment;
-using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.View;
 
 namespace ZdravoCorp.Core.ViewModels;
@@ -22,7 +21,4 @@ public class AppointmentViewModel : ViewModelBase
        // PatientName = patientFullName;
         _appointment = appointment;
     }
-
-
-
 }

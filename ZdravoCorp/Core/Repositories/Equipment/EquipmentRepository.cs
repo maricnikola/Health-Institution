@@ -11,8 +11,9 @@ namespace ZdravoCorp.Core.Repositories.Equipment;
 
 public class EquipmentRepository : ISerializable
 {
-    private  List<Models.Equipment.Equipment>? _equipment;
-    private readonly string _fileName =  @".\..\..\..\Data\equipment.json";
+    private List<Models.Equipment.Equipment>? _equipment;
+    private readonly string _fileName = @".\..\..\..\Data\equipment.json";
+
     private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
     {
         PropertyNameCaseInsensitive = true
@@ -24,7 +25,7 @@ public class EquipmentRepository : ISerializable
         _equipment = new List<Models.Equipment.Equipment>();
         Serializer.Load(this);
     }
-    
+
 
     public void Add(Models.Equipment.Equipment newEquipment)
     {
@@ -50,5 +51,4 @@ public class EquipmentRepository : ISerializable
     {
         _equipment = token.ToObject<List<Models.Equipment.Equipment>>();
     }
-    
-    }
+}
