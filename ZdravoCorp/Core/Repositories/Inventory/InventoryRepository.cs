@@ -98,7 +98,6 @@ public class InventoryRepository : ISerializable
     public void UpdateInventoryItem(Transfer transfer)
     {
         var index = _inventory.FindIndex(item => item.Id == transfer.InventoryId);
-        
         var newInventoryItem = new InventoryItem(_inventory.ElementAt(index));
         newInventoryItem.Id = IDGenerator.GetId();
         _inventory.ElementAt(index).Quantity -= transfer.Quantity;

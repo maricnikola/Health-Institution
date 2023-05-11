@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Text.Json;
+using Newtonsoft.Json;
 using ZdravoCorp.Core.Exceptions;
 using ZdravoCorp.Core.Models.Inventory;
+using JsonException = System.Text.Json.JsonException;
 
 namespace ZdravoCorp.Core.Utilities;
 
@@ -21,7 +22,7 @@ public class IDGenerator
 
     public static void SaveToFile()
     {
-        var id = JsonSerializer.Serialize(_currentId);
+        var id = JsonConvert.SerializeObject(_currentId);
 
         File.WriteAllText(_fileName, id);
     }
@@ -33,7 +34,7 @@ public class IDGenerator
             throw new EmptyFileException("File is empty!");
         try
         {
-            var id = JsonSerializer.Deserialize<int>(text);
+            var id = JsonConvert.DeserializeObject<int>(text);
             return id;
         }
         catch (JsonException e)

@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:ZdravoCorp.View.DirectorView"
         mc:Ignorable="d"
+        Background="#29262e"
         Title="DEquipmentOrderConfirmView"  Width="500" Height="Auto" SizeToContent="Height" WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid.RowDefinitions>
@@ -17,7 +18,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <StackPanel  Grid.Column="0">
-                <Label Content="Transfer from:"></Label>
+                <Label Foreground="WhiteSmoke" Content="Transfer from:"></Label>
                 <DataGrid  Height="200" ItemsSource="{Binding Rooms, UpdateSourceTrigger=PropertyChanged}"
                            SelectionMode="Single"
                            IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,0" Name="Rooms"
@@ -36,7 +37,7 @@
                     <RowDefinition/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Label Content="Transfer to:"></Label>
+                <Label Foreground="WhiteSmoke" Content="Transfer to:"></Label>
                 <StackPanel Background="WhiteSmoke" Margin="10" Grid.Row="1" Orientation="Vertical">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -73,7 +74,7 @@
                     
                 </StackPanel>
              <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="30">
-                 <Label Content="Quantity:"></Label>
+                 <Label Foreground="WhiteSmoke" Content="Quantity:"></Label>
                  <TextBox Text="{Binding MoveQuantity}" Width="50" Margin="5" Height="25"></TextBox>
                  
              </StackPanel>   

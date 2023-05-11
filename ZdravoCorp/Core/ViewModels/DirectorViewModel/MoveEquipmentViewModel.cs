@@ -138,15 +138,18 @@ public class MoveEquipmentViewModel : ViewModelBase
     }
     private void MoveInventoryItem()
     {
-        var inventoryItemId = SelectedInventoryItemVm.Id;
-        var roomId = SelectedInventoryItemVm.Room;
-        var vm = new EquipmentTransferWindowViewModel(inventoryItemId, roomId, SelectedInventoryItemVm.Quantity, _roomRepository, _inventoryRepository, _transferRepository);
+        if (SelectedInventoryItemVm != null)
+        {
+            var inventoryItemId = SelectedInventoryItemVm.Id;
+            var roomId = SelectedInventoryItemVm.Room;
+            var vm = new EquipmentTransferWindowViewModel(inventoryItemId, roomId, SelectedInventoryItemVm.Quantity, _roomRepository, _inventoryRepository, _transferRepository);
        
-        var transferWindow = new EquipmentTransferWindowView()
-            { DataContext = vm  };
-        vm.OnRequestUpdate += (s, e) => UpdateTransfers();
-        vm.OnRequestClose +=  (s, e) => transferWindow.Close();
-        transferWindow.Show();
+            var transferWindow = new EquipmentTransferWindowView()
+                { DataContext = vm  };
+            vm.OnRequestUpdate += (s, e) => UpdateTransfers();
+            vm.OnRequestClose +=  (s, e) => transferWindow.Close();
+            transferWindow.Show();
+        }
     }
 
     private bool IsInventoryItemSelected()

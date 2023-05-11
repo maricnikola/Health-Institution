@@ -31,8 +31,8 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
     private ObservableCollection<RoomViewModel> _rooms;
     public RoomViewModel? SelectedRoom { get; set; }
     
-    public int[] Hour { get; set; }
-    public int[] Minute { get; set; }
+    public int[]? Hour { get; set; }
+    public int[]? Minute { get; set; }
     
     public int? SelectedHour { get; set; }
     public int? SelectedMinute { get; set; }
@@ -54,8 +54,8 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
-    public event EventHandler OnRequestClose;
-    public event EventHandler OnRequestUpdate;
+    public event EventHandler? OnRequestClose;
+    public event EventHandler? OnRequestUpdate;
     public int InventoryItemId { get; set; }
     private int _sourceRoomId;
     private InventoryItem _inventoryItem;
@@ -118,8 +118,7 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
         _transferRepository.Add(newTransfer);
         Serializer.Save(_transferRepository);
         JobScheduler.TransferRequestTaskScheduler(newTransfer);
-        //_inventoryRepository.GetInventoryById(InventoryItemId).UpdateRoom(_roomRepository.GetById(SelectedRoom.Id));
-        OnRequestUpdate(this, new EventArgs());
-        OnRequestClose(this, new EventArgs());
+        OnRequestUpdate?.Invoke(this, new EventArgs());
+        OnRequestClose?.Invoke(this, new EventArgs());
     }
 }
