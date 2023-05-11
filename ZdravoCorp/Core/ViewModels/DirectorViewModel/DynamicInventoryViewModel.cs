@@ -2,7 +2,7 @@
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
-public class DynamicInventoryViewModel: ViewModelBase
+public class DynamicInventoryViewModel : ViewModelBase
 {
     private InventoryItem _inventoryItem;
     public int Id => _inventoryItem.Id;

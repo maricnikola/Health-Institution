@@ -19,6 +19,7 @@ public class InventoryViewModel : ViewModelBase
 
     public override string ToString()
     {
-        return $"{nameof(Id)}: {Id}, {nameof(Name)}: {Name}, {nameof(Room)}: {Room}, {nameof(Type)}: {Type}, {nameof(RoomType)}: {RoomType}, {nameof(Quantity)}: {Quantity}";
+        return
+            $"{nameof(Id)}: {Id}, {nameof(Name)}: {Name}, {nameof(Room)}: {Room}, {nameof(Type)}: {Type}, {nameof(RoomType)}: {RoomType}, {nameof(Quantity)}: {Quantity}";
     }
 }

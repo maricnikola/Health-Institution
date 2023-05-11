@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text.Json;
 using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Exceptions;
-using ZdravoCorp.Core.Models.Room;
 using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.Room;
@@ -14,22 +13,27 @@ namespace ZdravoCorp.Core.Repositories.Room;
 public class RoomRepository : ISerializable
 {
     private readonly string _fileName = @".\..\..\..\Data\rooms.json";
-    private  List<Models.Room.Room>? _rooms;
-    
+    private List<Models.Rooms.Room>? _rooms;
+
 
     public RoomRepository()
     {
-        _rooms = new List<Models.Room.Room>();
+        _rooms = new List<Models.Rooms.Room>();
         Serializer.Load(this);
     }
-    
-    public void Add(Models.Room.Room newRoom)
+
+    public void Add(Models.Rooms.Room newRoom)
     {
         _rooms.Add(newRoom);
     }
 
+    public IEnumerable<Models.Rooms.Room> GetAllExcept(int roomId)
+    {
+        return _rooms.Where(room => room.Id != roomId);
+    }
 
-    public Models.Room.Room? GetById(int id)
+
+    public Models.Rooms.Room? GetById(int id)
     {
         return _rooms.FirstOrDefault(room => room.Id == id);
     }
@@ -46,6 +50,6 @@ public class RoomRepository : ISerializable
 
     public void Import(JToken token)
     {
-        _rooms = token.ToObject<List<Models.Room.Room>>();
+        _rooms = token.ToObject<List<Models.Rooms.Room>>();
     }
 }

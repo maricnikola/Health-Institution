@@ -5,11 +5,12 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using ZdravoCorp.Core.Counters;
 using ZdravoCorp.Core.Models.Appointment;
-using ZdravoCorp.Core.Models.Order;
-using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Order;
+using ZdravoCorp.Core.Repositories.Room;
 using ZdravoCorp.Core.Repositories.Schedule;
+using ZdravoCorp.Core.Repositories.Transfers;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels;
 using ZdravoCorp.Core.ViewModels.DirectorViewModel;
@@ -21,6 +22,7 @@ using ZdravoCorp.View.PatientV;
 using ZdravoCorp.View.DoctorView;
 using ZdravoCorp.View.NurseView;
 using ZdravoCorp.Core.Repositories.MedicalRecord;
+using ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
 namespace ZdravoCorp.View;
 
@@ -34,6 +36,8 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
     private readonly PatientRepository _patientRepository;
     private readonly ScheduleRepository _scheduleRepository;
     private readonly OrderRepository _orderRepository;
+    private readonly RoomRepository _roomRepository;
+    private readonly TransferRepository _transferRepository;
     private readonly MedicalRecordRepository _medicalRecordRepository;
     
     public string Email
@@ -67,14 +71,16 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             }
         }
     }
-    public LoginDialog(UserRepository userRepository, PatientRepository patientRepository ,DoctorRepository doctorRepository, ScheduleRepository scheduleRepository,InventoryRepository inventoryRepository, OrderRepository orderRepository, MedicalRecordRepository medicalRecordRepository)
+    public LoginDialog(UserRepository userRepository, PatientRepository patientRepository ,DoctorRepository doctorRepository, ScheduleRepository scheduleRepository,InventoryRepository inventoryRepository, OrderRepository orderRepository, RoomRepository roomRepository, TransferRepository transferRepository,MedicalRecordRepository medicalRecordRepository)
     {
+        _roomRepository = roomRepository;
         _patientRepository = patientRepository;
         _userRepository = userRepository;
         _doctorRepository = doctorRepository;
         _scheduleRepository = scheduleRepository;
         _inventoryRepository = inventoryRepository;
         _orderRepository = orderRepository;
+        _transferRepository = transferRepository;
         _medicalRecordRepository = medicalRecordRepository;
         InitializeComponent();
         DataContext = this;
@@ -93,13 +99,13 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
         {
                 case User.UserType.Director:
                     //start director view
-                    Application.Current.MainWindow = new DirectorWindow() {DataContext = new DirectorViewModel(_inventoryRepository, _orderRepository)};;
+                    Application.Current.MainWindow = new DirectorWindow() {DataContext = new DirectorViewModel(_inventoryRepository, _orderRepository, _roomRepository, _transferRepository)};;
                     break;
                 case User.UserType.Patient:
                     //start patient view
                     User.State state = user.UserState;
                     Patient patient = _patientRepository.GetPatientByEmail(user.Email);
-                    List<Appointment> appointments = _scheduleRepository.GetPatientAppointments(patient);
+                    List<Appointment> appointments = _scheduleRepository.GetPatientAppointments(patient.Email);
                     CounterDictionary counterDictionary = new CounterDictionary();
                     if (counterDictionary.IsForBlock(user.Email))
                     {
@@ -111,7 +117,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                         Application.Current.MainWindow = new PatientWindow()
                         {
                             DataContext = new PatientViewModel(appointments, _scheduleRepository, _doctorRepository,
-                                patient)
+                                patient, _medicalRecordRepository)
                         };
 
                     break;
@@ -121,7 +127,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     break;
                 case User.UserType.Doctor:
                 //start doctor view
-                    Application.Current.MainWindow = new AppointmentsShowView() { DataContext = new AppointmentShowViewModel(user,_scheduleRepository,_doctorRepository,_patientRepository)};
+                    Application.Current.MainWindow = new DoctorWindow() { DataContext = new DoctorViewModel(user,_scheduleRepository, _doctorRepository, _patientRepository,_medicalRecordRepository) };
                     break;
 
         }

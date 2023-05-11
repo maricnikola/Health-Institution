@@ -19,8 +19,8 @@ public class Equipment
         Type = type;
         IsDynamic = isDynamic;
     }
-    
-    
+
+
     public enum EquipmentType
     {
         Operation,
@@ -47,4 +47,3 @@ public class Equipment
         return HashCode.Combine(Id, Name, (int)Type);
     }
 }
-
