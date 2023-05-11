@@ -30,13 +30,6 @@ public class ScheduleRepository : ISerializable
         _counterDictionary = new CounterDictionary();
         Serializer.Load(this);
     }
-
-    //public ScheduleRepository()
-    //{
-    //    LoadAppointments();
-    //    Operations = new List<Operation>();
-    //}
-
     public void AddAppointment(Appointment appointment)
     {
         _appointments.Add(appointment);
@@ -449,6 +442,12 @@ public class ScheduleRepository : ISerializable
         }
         return false;
 
+    }
+    public bool CanPerformAppointment(int id)
+    {
+        Appointment appointment = this.GetAppointmentById(id);
+        if (!appointment.IsCanceled && appointment.Time.IsNow()) return true;
+        return false;
     }
     public string FileName()
     {

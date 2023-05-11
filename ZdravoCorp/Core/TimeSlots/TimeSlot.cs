@@ -104,6 +104,14 @@ namespace ZdravoCorp.Core.TimeSlots
                 return hash;
             }
         }
+
+        public bool IsNow()
+        {
+            DateTime nowTime = DateTime.Now;
+            TimeSpan interval = start - nowTime;
+            bool notPassed = !(start.CompareTo(DateTime.Now) < 0);
+            return interval.TotalMinutes < 5 && notPassed ;
+        }
     }
     
 }

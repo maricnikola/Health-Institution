@@ -40,7 +40,7 @@
             <Label Foreground="White" Content="{Binding PatientHeight}"/>
         </Grid>
         <Grid Grid.Row="3" Grid.Column="0" Margin="40 10 0 0">
-            <Button Content="Close" Padding="10" Margin="35,0,-35,0" Click="Button_Click"/>
+            <Button Content="Close" Padding="10" Margin="35,0,-35,0" Command="{Binding CloseCommand}"/>
         </Grid>
 
 

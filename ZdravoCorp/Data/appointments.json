@@ -13,7 +13,12 @@
       "Specialization": 1
     },
     "PatientEmail": "sreten.pejovic@gmail.com",
-    "Anamnesis": null,
+    "Anamnesis": {
+      "Symptoms": [ "fever" ,"cough"],
+      "Opinion": "Hospital treatment required",
+      "KeyWord": "Now",
+      "Allergens": [ "urticaria" ,"on food"]
+    },
     "Room": null,
     "Status": false
   },
@@ -31,133 +36,12 @@
       "Specialization": 1
     },
     "PatientEmail": "sreten.pejovic@gmail.com",
-    "Anamnesis": null,
-    "Room": null,
-    "Status": false
-  },
-  {
-    "IsCanceled": false,
-    "Id": 699,
-    "Time": {
-      "start": "2023-09-10T09:00:00",
-      "end": "2023-09-10T09:15:00"
+    "Anamnesis": {
+      "Symptoms": [ "fever", "cough" ],
+      "Opinion": "Hospital treatment required",
+      "KeyWord": "Now",
+      "Allergens": [ "urticaria", "on food" ]
     },
-    "Doctor": {
-      "Email": "savo.oroz@gmail.com",
-      "FirstName": "Savo",
-      "LastName": "Oroz",
-      "Specialization": 1
-    },
-    "PatientEmail": "sreten.pejovic@gmail.com",
-    "Anamnesis": null,
-    "Room": null,
-    "Status": false
-  },
-  {
-    "IsCanceled": true,
-    "Id": 3518,
-    "Time": {
-      "start": "2023-05-12T11:15:00",
-      "end": "2023-05-12T11:30:00"
-    },
-    "Doctor": {
-      "Email": "savo.oroz@gmail.com",
-      "FirstName": "Savo",
-      "LastName": "Oroz",
-      "Specialization": 1
-    },
-    "PatientEmail": "marko.stojanovic@gmail.com",
-    "Anamnesis": null,
-    "Room": null,
-    "Status": true
-  },
-  {
-    "IsCanceled": true,
-    "Id": 69966,
-    "Time": {
-      "start": "2023-05-13T10:15:00",
-      "end": "2023-05-13T10:30:00"
-    },
-    "Doctor": {
-      "Email": "savo.oroz@gmail.com",
-      "FirstName": "Savo",
-      "LastName": "Oroz",
-      "Specialization": 1
-    },
-    "PatientEmail": "sreten.pejovic@gmail.com",
-    "Anamnesis": null,
-    "Room": null,
-    "Status": false
-  },
-  {
-    "IsCanceled": true,
-    "Id": 96746,
-    "Time": {
-      "start": "2023-06-08T15:15:00",
-      "end": "2023-06-08T15:30:00"
-    },
-    "Doctor": {
-      "Email": "savo.oroz@gmail.com",
-      "FirstName": "Savo",
-      "LastName": "Oroz",
-      "Specialization": 1
-    },
-    "PatientEmail": "marko.stojanovic@gmail.com",
-    "Anamnesis": null,
-    "Room": null,
-    "Status": false
-  },
-  {
-    "IsCanceled": false,
-    "Id": 81629,
-    "Time": {
-      "start": "2023-05-12T11:15:00",
-      "end": "2023-05-12T11:30:00"
-    },
-    "Doctor": {
-      "Email": "savo.oroz@gmail.com",
-      "FirstName": "Savo",
-      "LastName": "Oroz",
-      "Specialization": 1
-    },
-    "PatientEmail": "marko.stojanovic@gmail.com",
-    "Anamnesis": null,
-    "Room": null,
-    "Status": false
-  },
-  {
-    "IsCanceled": false,
-    "Id": 96288,
-    "Time": {
-      "start": "2023-05-19T11:00:00",
-      "end": "2023-05-19T11:15:00"
-    },
-    "Doctor": {
-      "Email": "savo.oroz@gmail.com",
-      "FirstName": "Savo",
-      "LastName": "Oroz",
-      "Specialization": 1
-    },
-    "PatientEmail": "marko.stojanovic@gmail.com",
-    "Anamnesis": null,
-    "Room": null,
-    "Status": false
-  },
-  {
-    "IsCanceled": false,
-    "Id": 7244,
-    "Time": {
-      "start": "2023-05-11T01:15:00",
-      "end": "2023-05-11T01:30:00"
-    },
-    "Doctor": {
-      "Email": "vrabac@gmail.com",
-      "FirstName": "Mirko",
-      "LastName": "Vrabac",
-      "Specialization": 1
-    },
-    "PatientEmail": "sreten.pejovic@gmail.com",
-    "Anamnesis": null,
     "Room": null,
     "Status": false
   }

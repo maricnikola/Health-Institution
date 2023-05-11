@@ -49,6 +49,7 @@ public class AddAppointmentViewModel : ViewModelBase
         }
 
         AddCommand = new DelegateCommand(o => DrCreateAppointment(appointment, _date));
+        CancelCommand = new DelegateCommand(o => CloseWindow());
     }
 
 
@@ -104,6 +105,11 @@ public class AddAppointmentViewModel : ViewModelBase
     public ICommand AddCommand { get; }
     public ICommand CancelCommand { get; }
 
+    private void CloseWindow()
+    {
+        Window activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+        activeWindow?.Close();
+    }
 
     public void DrCreateAppointment(ObservableCollection<AppointmentViewModel> Appointments, DateTime date)
     {
@@ -123,8 +129,10 @@ public class AddAppointmentViewModel : ViewModelBase
             Patient patient = _patientRepository.GetPatientByEmail(mail);
 
             Appointment appointment = _scheduleRepository.CreateAppointment(time, _dr, mail);
+
             if (appointment != null)
             {
+                CloseWindow();
                 if (_scheduleRepository.IsForShow(appointment, date))
                 {
                     Appointments.Add(new AppointmentViewModel(appointment));
