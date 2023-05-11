@@ -10,18 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ZdravoCorp.View.DoctorView;
-
-/// <summary>
-/// Interaction logic for PatientsTableView.xaml
-/// </summary>
-public partial class PatientsTableView : UserControl
+namespace ZdravoCorp.View.NurseView
 {
-    public PatientsTableView()
+    /// <summary>
+    /// Interaction logic for NurseWindow.xaml
+    /// </summary>
+    public partial class NurseWindow : Window
     {
-        InitializeComponent();
+        public NurseWindow()
+        {
+            InitializeComponent();
+        }
     }
 }

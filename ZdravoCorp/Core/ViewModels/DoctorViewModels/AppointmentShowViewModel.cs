@@ -41,7 +41,7 @@ public class AppointmentShowViewModel : ViewModelBase
     public ICommand CancelAppointmentCommand { get; }
     public ICommand SearchAppointmentCommand { get; }
     public ICommand ViewMedicalRecordCommand { get; }
-
+    public ICommand PerformAppointmentCommand { get; }
     public AppointmentShowViewModel(User user, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, PatientRepository patientRepository,MedicalRecordRepository medicalRecordRepository)
     {
         counterViews = 0;
@@ -66,6 +66,7 @@ public class AppointmentShowViewModel : ViewModelBase
         CancelAppointmentCommand = new DelegateCommand(o => CancelAppointment());
         SearchAppointmentCommand = new DelegateCommand(o => SearchAppointments());
         ViewMedicalRecordCommand = new DelegateCommand(o => ShowMedicalRecord());
+        PerformAppointmentCommand = new DelegateCommand(o => ShowPerformingView());
 
 
     }
@@ -129,6 +130,12 @@ public class AppointmentShowViewModel : ViewModelBase
         set
         {
             _dateAppointment = value;
+            if (_dateAppointment < DateTime.Today)
+            {
+                MessageBox.Show("Select date in future", "Error", MessageBoxButton.OK);
+                _dateAppointment = DateTime.Today;
+                return;
+            }
             OnPropertyChanged(nameof(DateAppointment));
         }
     }
@@ -139,9 +146,8 @@ public class AppointmentShowViewModel : ViewModelBase
         Appointments.Clear();
         foreach (Appointment appointment in showAppointments)
         {
-            if (!appointment.IsCanceled)
+            if (!appointment.IsCanceled && appointment.Doctor.Email.Equals(_doctor.Email))
             {
-                //MedicalRecord mr = _medicalRecordRepository.GetById(appointment.PatientEmail);
                 Appointments.Add(new AppointmentViewModel(appointment));
             }
         }
@@ -157,6 +163,26 @@ public class AppointmentShowViewModel : ViewModelBase
             MedicalRecordView window = new MedicalRecordView() { DataContext = new MedicalRecordViewModel(medicalR,_medicalRecordRepository) };
             window.Show();
 
+        }
+        else
+        {
+            MessageBox.Show("None selected", "Error", MessageBoxButton.OK);
+        }
+
+    }
+
+    public void ShowPerformingView()
+    {
+        AppointmentViewModel appointment = SelectedAppointments;
+        if(appointment!= null)
+        {
+            bool checkPerformAppointment = _scheduleRepository.CanPerformAppointment(appointment.Id);
+            if (checkPerformAppointment)
+            {
+            PerformAppointmentView window = new PerformAppointmentView() { DataContext = new PerformAppointmentViewModel() };
+            window.Show();
+            }
+            else MessageBox.Show("Appointment cannot be performed", "Error", MessageBoxButton.OK);
         }
         else
         {

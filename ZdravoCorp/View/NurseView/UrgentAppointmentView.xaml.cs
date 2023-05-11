@@ -13,15 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ZdravoCorp.View.DoctorView;
-
-/// <summary>
-/// Interaction logic for PatientsTableView.xaml
-/// </summary>
-public partial class PatientsTableView : UserControl
+namespace ZdravoCorp.View.NurseView
 {
-    public PatientsTableView()
+    /// <summary>
+    /// Interaction logic for UrgentAppointmentView.xaml
+    /// </summary>
+    public partial class UrgentAppointmentView : UserControl
     {
-        InitializeComponent();
+        public UrgentAppointmentView()
+        {
+            InitializeComponent();
+        }
     }
 }

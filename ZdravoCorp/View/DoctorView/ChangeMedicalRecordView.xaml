@@ -50,7 +50,7 @@
             <Button Content="Save"  Command="{Binding SaveCommand}" Padding="4" Margin="0,0,0,0" Width="100"/>
         </Grid>
         <Grid Grid.Row="4" Grid.Column="1" Margin="20 15 30 20">
-            <Button Content="Close" Padding="4" Margin="0,0,0,0" Width="100" Click="Button_Click"/>
+            <Button Content="Close" Command="{Binding CloseCommand}" Padding="4" Margin="0,0,0,0" Width="100"/>
         </Grid>
 
 
