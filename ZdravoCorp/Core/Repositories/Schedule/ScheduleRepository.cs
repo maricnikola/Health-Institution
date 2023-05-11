@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using ZdravoCorp.Core.Counters;
+using ZdravoCorp.Core.Models.AnamnesisReport;
 using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.Operation;
 using ZdravoCorp.Core.Models.Users;
@@ -186,16 +187,17 @@ public class ScheduleRepository : ISerializable
             Serializer.Save(this);
         }
     }
-    public void CancelAppointmentByDoctor(Appointment appointment)
+    public Appointment CancelAppointmentByDoctor(Appointment appointment)
     {
-        bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now) > 24;
-        if (IsAppointmentInList(appointment) && isOnTime)
+        if (IsAppointmentInList(appointment))
         {
             int index = _appointments.IndexOf(appointment);
             appointment.IsCanceled = true;
             _appointments[index] = appointment;
             Serializer.Save(this);
+            return appointment;
         }
+        else return null;
 
     }
 
@@ -404,6 +406,36 @@ public class ScheduleRepository : ISerializable
         Appointment appointment = this.GetAppointmentById(id);
         if (!appointment.IsCanceled && appointment.Time.IsNow()) return true;
         return false;
+    }
+    public bool CheckPerformingAppointmentData(List<String> symptoms,String opinion, List<String> allergens,String keyWord)
+    {
+        if (checkListElementsLength(symptoms)) return false;
+        if (opinion.Trim().Length < 10) return false;
+        if (checkListElementsLength(allergens)) return false;
+        if (keyWord.Trim().Length < 2) return false;
+        return true;
+    }
+
+
+    private bool checkListElementsLength(List<String> list)
+    {
+        foreach(String l in list){
+            if (l.Trim().Length < 5) return true;
+        }
+        return false;
+    }
+
+    public void ChangePerformingAppointment(int id, List<String> symptoms,string opinion,List<string> allergens,String keyWord,int roomId)
+    {
+        Appointment appointment = this.GetAppointmentById(id);
+        _appointments.Remove(GetAppointmentById(id));
+        Anamnesis anamnesis = new Anamnesis(symptoms, opinion,keyWord, allergens);
+        Appointment performedAppointment = new Appointment(appointment.Id, appointment.Time, appointment.Doctor, appointment.PatientEmail, anamnesis);
+        performedAppointment.Status = true;
+        performedAppointment.Room = roomId;
+        _appointments.Add(performedAppointment);
+        Serializer.Save(this);
+
     }
     public string FileName()
     {

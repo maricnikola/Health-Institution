@@ -2,8 +2,8 @@ using System;
 using ZdravoCorp.Core.Models.AnamnesisReport;
 using ZdravoCorp.Core.TimeSlots;
 using Newtonsoft.Json;
-using ZdravoCorp.Core.Models.Rooms;
 using ZdravoCorp.Core.Models.Users;
+using ZdravoCorp.Core.Models.Rooms;
 
 namespace ZdravoCorp.Core.Models.Appointment;
 
@@ -13,8 +13,8 @@ public class Appointment
     public TimeSlot Time { get; set; }
     public Doctor Doctor { get; set; }
     public string PatientEmail { get; set; }
-    public AnamnesisReport.Anamnesis Anamnesis { get; set; }
-    public Room? Room { get; set; }
+    public Anamnesis Anamnesis { get; set; }
+    public int? Room { get; set; }
     public bool IsCanceled { get; set; }
     public bool Status { get; set; }
 
