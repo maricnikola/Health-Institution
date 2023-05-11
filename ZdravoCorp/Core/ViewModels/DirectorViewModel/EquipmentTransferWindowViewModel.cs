@@ -39,9 +39,22 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
     public DateTime? SelectedDate { get; set; }
 
     private int _quantity;
+    private int _inputQuantity;
     public string MaxQuantity { get; }
-    
-    public int Quantity { get; set; }
+
+    public int Quantity
+    {
+        get
+        {
+            return _inputQuantity;
+        }
+        set
+        {
+            _inputQuantity = value;
+            CommandManager.InvalidateRequerySuggested();
+        }
+    }
+
     public IEnumerable<RoomViewModel> Rooms
     {
         get
@@ -52,6 +65,7 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
         {
             _rooms = new ObservableCollection<RoomViewModel>(value);
             OnPropertyChanged();
+            CommandManager.InvalidateRequerySuggested();
         }
     }
     public event EventHandler? OnRequestClose;
