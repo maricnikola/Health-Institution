@@ -7,20 +7,17 @@ using System.Text.Json;
 using System.Windows.Documents;
 using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Exceptions;
-using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Utilities;
-using static ZdravoCorp.Core.Models.User.Doctor;
 
 namespace ZdravoCorp.Core.Repositories.User;
 
 public class DoctorRepository : ISerializable
 {
-
-    private  List<Doctor>? _doctors;
+    private List<Doctor>? _doctors;
     private readonly string _fileName = @".\..\..\..\Data\doctors.json";
     public List<Doctor>? Doctors => _doctors;
-    
-    
+
 
     public DoctorRepository()
     {
@@ -39,7 +36,7 @@ public class DoctorRepository : ISerializable
         return _doctors;
     }
 
-    public List<Doctor> GetAllWithCertainSpecialization(SpecializationType specialization)
+    public List<Doctor> GetAllWithCertainSpecialization(Doctor.SpecializationType specialization)
     {
         List<Doctor> wantedDoctors = new List<Doctor>();
         foreach (var doctor in Doctors)
@@ -57,13 +54,11 @@ public class DoctorRepository : ISerializable
 
     public IEnumerable<object>? GetList()
     {
-       return _doctors;
+        return _doctors;
     }
 
     public void Import(JToken token)
     {
         _doctors = token.ToObject<List<Doctor>>();
     }
-
-
 }

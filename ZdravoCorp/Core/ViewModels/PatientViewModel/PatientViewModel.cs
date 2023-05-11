@@ -4,7 +4,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Appointment;
-using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.MedicalRecord;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
@@ -26,10 +26,7 @@ public class PatientViewModel : ViewModelBase
 
     public object CurrentView
     {
-        get
-        {
-            return _currentView;
-        }
+        get { return _currentView; }
         set
         {
             _currentView = value;
@@ -39,7 +36,7 @@ public class PatientViewModel : ViewModelBase
     
     public PatientViewModel(List<Appointment> appointments, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, Patient patient, MedicalRecordRepository medicalRecordRepository)
     {
-        _appointments=appointments;
+        _appointments = appointments;
         _scheduleRepository = scheduleRepository;
         _doctorRepository = doctorRepository;
         _patient = patient;

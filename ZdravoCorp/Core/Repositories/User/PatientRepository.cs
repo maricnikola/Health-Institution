@@ -6,19 +6,16 @@ using System.Linq;
 using System.Text.Json;
 using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Exceptions;
-using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.User;
 
 public class PatientRepository : ISerializable
 {
-        
-    private  List<Patient> _patients;
+    private List<Patient> _patients;
     private readonly string _fileName = @".\..\..\..\Data\patients.json";
     public List<Patient> Patients => _patients;
-    
-    
 
 
     public PatientRepository()
@@ -31,12 +28,11 @@ public class PatientRepository : ISerializable
     {
         _patients.Add(patient);
     }
-   
+
     public Patient? GetPatientByEmail(string email)
     {
         return _patients.FirstOrDefault(patient => patient.Email == email);
     }
-    
 
 
     public string FileName()

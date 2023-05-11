@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace ZdravoCorp.Core.Models.User;
+namespace ZdravoCorp.Core.Models.Users;
 
 public class Director
 {
