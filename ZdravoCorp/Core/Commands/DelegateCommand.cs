@@ -42,7 +42,6 @@ public class DelegateCommand : ICommand
 
     public void RaiseCanExecuteChanged()
     {
-        
     }
     
     /// <param name="parameter">parameter to pass to predicate</param>

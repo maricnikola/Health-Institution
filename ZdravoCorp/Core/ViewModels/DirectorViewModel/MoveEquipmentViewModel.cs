@@ -25,7 +25,17 @@ public class MoveEquipmentViewModel : ViewModelBase
     private object _lock;
     private object _lock2;
     private string _searchText = "";
-    public InventoryViewModel? SelectedInventoryItemVm { get; set; }
+    private InventoryViewModel? _selectedInventoryItemVm;
+
+    public InventoryViewModel? SelectedInventoryItemVm
+    {
+        get => _selectedInventoryItemVm;
+        set
+        {
+            _selectedInventoryItemVm = value;
+            CommandManager.InvalidateRequerySuggested();
+        }
+    }
 
     public IEnumerable<TransferViewModel> Transfers
     {

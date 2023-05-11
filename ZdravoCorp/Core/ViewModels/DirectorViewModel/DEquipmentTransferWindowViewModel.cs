@@ -48,6 +48,7 @@ public class DEquipmentTransferWindowViewModel : ViewModelBase
             }
 
             _moveQuantity = value;
+            CommandManager.InvalidateRequerySuggested();
         }
     }
 
@@ -63,7 +64,7 @@ public class DEquipmentTransferWindowViewModel : ViewModelBase
         set
         {
             _rooms = new ObservableCollection<SourceRoomViewModel>(value);
-            //_confirmTransfer.RaiseCanExecuteChanged();
+            CommandManager.InvalidateRequerySuggested();
             OnPropertyChanged();
         }
     }
