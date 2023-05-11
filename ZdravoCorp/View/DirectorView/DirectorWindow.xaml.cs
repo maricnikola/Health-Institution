@@ -8,5 +8,4 @@ public partial class DirectorWindow : Window
     {
         InitializeComponent();
     }
-
 }

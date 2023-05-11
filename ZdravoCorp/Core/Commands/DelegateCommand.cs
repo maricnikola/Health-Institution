@@ -3,12 +3,10 @@ using System.Windows.Input;
 
 namespace ZdravoCorp.Core.Commands;
 
-public  class DelegateCommand : ICommand
+public class DelegateCommand : ICommand
 {
-
-    private Action<object> executionAction;
-
-    private Predicate<object> canExecutePredicate;
+    private readonly Predicate<object> canExecutePredicate;
+    private readonly Action<object> executionAction;
 
     /// <param name="execute">The delegate to call on execution</param>
     public DelegateCommand(Action<object> execute)
@@ -20,26 +18,23 @@ public  class DelegateCommand : ICommand
     /// <param name="canExecute">The predicate to determine if command is valid for execution</param>
     public DelegateCommand(Action<object> execute, Predicate<object> canExecute)
     {
-        if (execute == null)
-        {
-            throw new ArgumentNullException("execute");
-        }
+        if (execute == null) throw new ArgumentNullException("execute");
 
-        this.executionAction = execute;
-        this.canExecutePredicate = canExecute;
+        executionAction = execute;
+        canExecutePredicate = canExecute;
     }
 
 
     public event EventHandler CanExecuteChanged
     {
-        add { CommandManager.RequerySuggested += value; }
-        remove { CommandManager.RequerySuggested -= value; }
+        add => CommandManager.RequerySuggested += value;
+        remove => CommandManager.RequerySuggested -= value;
     }
 
     /// <param name="parameter">parameter to pass to predicate</param>
     public bool CanExecute(object parameter)
     {
-        return this.canExecutePredicate == null ? true : this.canExecutePredicate(parameter);
+        return canExecutePredicate == null ? true : canExecutePredicate(parameter);
     }
 
 
@@ -47,10 +42,14 @@ public  class DelegateCommand : ICommand
     /// <exception cref="InvalidOperationException">Thrown if CanExecute returns false</exception>
     public void Execute(object parameter)
     {
-        if (!this.CanExecute(parameter))
-        {
-            throw new InvalidOperationException("The command is not valid for execution, check the CanExecute method before attempting to execute.");
-        }
-        this.executionAction(parameter);
+        if (!CanExecute(parameter))
+            throw new InvalidOperationException(
+                "The command is not valid for execution, check the CanExecute method before attempting to execute.");
+
+        executionAction(parameter);
+    }
+
+    public void RaiseCanExecuteChanged()
+    {
     }
 }

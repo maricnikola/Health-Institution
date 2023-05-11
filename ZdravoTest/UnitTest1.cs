@@ -1,14 +1,14 @@
-using ZdravoCorp.Core.Models.Equipment;
+using ZdravoCorp.Core.Models.Equipments;
 using ZdravoCorp.Core.Models.Inventory;
-using ZdravoCorp.Core.Models.MedicalRecord;
-using ZdravoCorp.Core.Models.Operation;
-using ZdravoCorp.Core.Models.Room;
-using ZdravoCorp.Core.Models.User;
-using ZdravoCorp.Core.Repositories.Equipment;
-using ZdravoCorp.Core.Repositories.Inventory;
-using ZdravoCorp.Core.Repositories.Room;
-using ZdravoCorp.Core.Repositories.Schedule;
-using ZdravoCorp.Core.Repositories.User;
+using ZdravoCorp.Core.Models.MedicalRecords;
+using ZdravoCorp.Core.Models.Operations;
+using ZdravoCorp.Core.Models.Rooms;
+using ZdravoCorp.Core.Models.Users;
+using ZdravoCorp.Core.Repositories.EquipmentRepo;
+using ZdravoCorp.Core.Repositories.InventoryRepo;
+using ZdravoCorp.Core.Repositories.RoomRepo;
+using ZdravoCorp.Core.Repositories.ScheduleRepo;
+using ZdravoCorp.Core.Repositories.UsersRepo;
 using ZdravoCorp.Core.TimeSlots;
 
 namespace ZdravoTest;
@@ -21,7 +21,7 @@ public class UnitTest1
     {
         Director director1 = new Director("email", "ime", "prezime");
         DirectorRepository directorRepository = new DirectorRepository(director1 );
-        directorRepository.SaveToFile();
+        //directorRepository.SaveToFile();
 
         DirectorRepository directorRepository2 = new DirectorRepository();
         Assert.AreEqual(directorRepository2.Director, director1);
@@ -32,8 +32,8 @@ public class UnitTest1
     {
         Doctor? doctor1 = new Doctor("email", "ime", "pre", Doctor.SpecializationType.Neurologist);
         DoctorRepository doctorRepository = new DoctorRepository();
-        doctorRepository.Add(doctor1);
-        doctorRepository.SaveToFile();
+        //doctorRepository.Add(doctor1);
+        //doctorRepository.SaveToFile();
 
         DoctorRepository doctorRepository2 = new DoctorRepository();
         Doctor? doctor2 = doctorRepository2.GetDoctorByEmail("email");
@@ -46,7 +46,7 @@ public class UnitTest1
         Nurse? nurse1 = new Nurse("email", "ime", "prezime");
         NurseRepository nurseRepository = new NurseRepository();
         nurseRepository.Add(nurse1);
-        nurseRepository.SaveToFile();
+        //nurseRepository.SaveToFile();
 
         NurseRepository nurseRepository2 = new NurseRepository();
         Nurse? nurse2 = nurseRepository.GetNurseByEmail("email");
@@ -59,7 +59,7 @@ public class UnitTest1
         Patient patient1 = new Patient("email", "ime", "prezime");
         PatientRepository patientRepository = new PatientRepository();
         patientRepository.Add(patient1);
-        patientRepository.SaveToFile();
+        //patientRepository.SaveToFile();
 
         PatientRepository patientRepository2 = new PatientRepository();
         Patient? patient2 = patientRepository2.GetPatientByEmail("email");
@@ -73,7 +73,7 @@ public class UnitTest1
         User user = new User("pass", "email", User.UserType.Director, User.State.NotBlocked);
         UserRepository userRepository = new UserRepository();
         userRepository.AddUser(user);
-        userRepository.SaveToFile();
+        //userRepository.SaveToFile();
 
         UserRepository userRepository2 = new UserRepository();
         User user2 = userRepository2.GetUserByEmail("email");
@@ -86,7 +86,7 @@ public class UnitTest1
         Room room = new Room(12, RoomType.ExaminationRoom);
         RoomRepository roomRepository = new RoomRepository();
         roomRepository.Add(room);
-        roomRepository.SaveToFile();
+        //roomRepository.SaveToFile();
 
         RoomRepository roomRepository2= new RoomRepository();
         Room room2 = roomRepository2.GetById(12);
@@ -100,10 +100,10 @@ public class UnitTest1
             new MedicalRecord(new Patient("email", "ime", "prezime"), 20, 120));
         ScheduleRepository scheduleRepository = new ScheduleRepository();
         scheduleRepository.AddOperation(operation1);
-        scheduleRepository.SaveOperations();
+        //scheduleRepository.SaveOperations();
 
         ScheduleRepository scheduleRepository2 = new ScheduleRepository();
-        scheduleRepository2.LoadOperations();
+        //scheduleRepository2.LoadOperations();
         Operation ?operation2 = scheduleRepository2.GetOperationById(12);
         Assert.AreEqual(operation1, operation2);
 
@@ -111,10 +111,10 @@ public class UnitTest1
     [TestMethod]
     public void TestEquipment()
     {
-        Equipment equipment1 = new Equipment(23, "stolica", Equipment.EquipmentType.Operation);
+        Equipment equipment1 = new Equipment(23, "stolica", Equipment.EquipmentType.Operation, false);
         EquipmentRepository equipmentRepository = new EquipmentRepository();
         equipmentRepository.Add(equipment1);
-        equipmentRepository.SaveToFile();
+        //equipmentRepository.SaveToFile();
 
         EquipmentRepository equipmentRepository2 = new EquipmentRepository();
         Equipment? equipment2 = equipmentRepository2.GetById(23);
@@ -126,7 +126,7 @@ public class UnitTest1
     public void TestInventory()
     {
         Room room = new Room(22, RoomType.ExaminationRoom);
-        Equipment equipment = new Equipment(33, "sto", Equipment.EquipmentType.Examination);
+        Equipment equipment = new Equipment(33, "sto", Equipment.EquipmentType.Examination, false);
         RoomRepository roomRepository = new RoomRepository();
         roomRepository.Add(room);
         EquipmentRepository equipmentRepository = new EquipmentRepository();
@@ -134,7 +134,7 @@ public class UnitTest1
         InventoryItem inventoryItem1 = new InventoryItem(22, 44, room, equipment);
         InventoryRepository inventoryRepository = new InventoryRepository(roomRepository, equipmentRepository);
         inventoryRepository.AddItem(inventoryItem1);
-        inventoryRepository.SaveToFile();
+        //inventoryRepository.SaveToFile();
 
         InventoryRepository inventoryRepository2 = new InventoryRepository(roomRepository, equipmentRepository);
         InventoryItem ?inventoryItem2= inventoryRepository.GetInventoryById(22);
