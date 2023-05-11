@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.MedicalRecord;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
-using ZdravoCorp.Core.Models.User;
-using ZdravoCorp.Core.Commands;
-using ZdravoCorp.Core.Models.Appointment;
 
 namespace ZdravoCorp.Core.ViewModels.NurseViewModel
 {

@@ -2,9 +2,9 @@
 
 namespace ZdravoCorp.View.DirectorView;
 
-public partial class DEquipmentOrderConfirmView : Window
+public partial class DynamicOrderConfirmView : Window
 {
-    public DEquipmentOrderConfirmView()
+    public DynamicOrderConfirmView()
     {
         InitializeComponent();
     }

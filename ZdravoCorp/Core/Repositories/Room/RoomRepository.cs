@@ -14,6 +14,7 @@ public class RoomRepository : ISerializable
 {
     private readonly string _fileName = @".\..\..\..\Data\rooms.json";
     private List<Models.Rooms.Room>? _rooms;
+    public List<Models.Rooms.Room>? Rooms => _rooms;
 
 
     public RoomRepository()

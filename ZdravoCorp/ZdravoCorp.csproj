@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\ViewModels\DoctorViewModel\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Page Update="View\Director\DirectorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
@@ -48,6 +44,11 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\DirectorView\EquipmentTransferWindowView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\DirectorView\DynamicTransferWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>

@@ -7,8 +7,10 @@ using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.Users;
+using ZdravoCorp.Core.Repositories;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.MedicalRecord;
+using ZdravoCorp.Core.Repositories.Room;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels.DirectorViewModel;
@@ -24,6 +26,7 @@ public class DoctorViewModel : ViewModelBase
     private DoctorRepository _doctorRepository;
     private PatientRepository _patientRepository;
     private MedicalRecordRepository _medicalRecordRepository;
+    private RoomRepository _roomRepository;
     private Doctor _doctor;
 
     public ICommand LoadAppointmentCommand { get; private set; }
@@ -43,24 +46,26 @@ public class DoctorViewModel : ViewModelBase
         }
     }
 
-    public DoctorViewModel(User user, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, PatientRepository patientRepository,MedicalRecordRepository medicalRecordRepository)
+    public DoctorViewModel(User user, RepositoryManager repositoryManager)
     {
-        _doctorRepository = doctorRepository;
-        _scheduleRepository = scheduleRepository;
+        _inventoryRepository = repositoryManager.InventoryRepository;
+        _roomRepository = repositoryManager.RoomRepository;
+        _doctorRepository = repositoryManager.DoctorRepository;
+        _scheduleRepository = repositoryManager.ScheduleRepository;
         _doctor = _doctorRepository.GetDoctorByEmail(user.Email);
-        _patientRepository = patientRepository;
+        _patientRepository = repositoryManager.PatientRepository;
         List<Appointment> appointments = _scheduleRepository.GetDoctorAppointments(_doctor.Email);
-        _medicalRecordRepository = medicalRecordRepository;
+        _medicalRecordRepository = repositoryManager.MedicalRecordRepository;
 
         _user = user;
         LoadAppointmentCommand = new DelegateCommand(o => LoadAppointments());
         LoadPatientsCommand = new DelegateCommand(o => LoadPatinets());
-        _currentView = new AppointmentShowViewModel(_user, _scheduleRepository, _doctorRepository, _patientRepository,_medicalRecordRepository);
+        _currentView = new AppointmentShowViewModel(_user, _scheduleRepository, _doctorRepository, _patientRepository,_medicalRecordRepository,_inventoryRepository,_roomRepository);
     }
 
     public void LoadAppointments()
     {
-        CurrentView = new AppointmentShowViewModel(_user, _scheduleRepository, _doctorRepository, _patientRepository,_medicalRecordRepository);
+        CurrentView = new AppointmentShowViewModel(_user, _scheduleRepository, _doctorRepository, _patientRepository,_medicalRecordRepository,_inventoryRepository,_roomRepository);
     }
 
     public void LoadPatinets()

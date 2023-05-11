@@ -31,10 +31,7 @@ public class User
     {
         return Password == password;
     }
-
-    public User()
-    {
-    }
+    
 
     public enum State
     {

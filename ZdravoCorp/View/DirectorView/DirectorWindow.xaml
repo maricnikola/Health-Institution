@@ -13,13 +13,13 @@
             <directorView:EquipmentView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type director:DEquipmentPaneViewModel}">
-            <directorView:DynamicEquipmentView/>
+            <directorView:DynamicOrderView/>
         </DataTemplate>        
         <DataTemplate DataType="{x:Type director:MoveEquipmentViewModel}">
             <directorView:MoveEquipmentView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type director:MoveDEquipmentViewModel}">
-            <directorView:MoveDEquipmentView/>
+            <directorView:DynamicMoveView/>
         </DataTemplate>
         
     </Window.Resources>

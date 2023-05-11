@@ -2,9 +2,9 @@
 
 namespace ZdravoCorp.View.DirectorView;
 
-public partial class DynamicEquipmentView : UserControl
+public partial class DynamicOrderView : UserControl
 {
-    public DynamicEquipmentView()
+    public DynamicOrderView()
     {
         InitializeComponent();
     }

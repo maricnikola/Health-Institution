@@ -5,12 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using ZdravoCorp.Core.Counters;
+using ZdravoCorp.Core.Models.AnamnesisReport;
 using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.Operation;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.TimeSlots;
 using ZdravoCorp.Core.Utilities;
+using ZdravoCorp.View;
 
 namespace ZdravoCorp.Core.Repositories.Schedule;
 
@@ -33,11 +35,13 @@ public class ScheduleRepository : ISerializable
     public void AddAppointment(Appointment appointment)
     {
         _appointments.Add(appointment);
+        Serializer.Save(this);
     }
 
     public void AddOperation(Operation operation)
     {
         _operations.Add(operation);
+        Serializer.Save(this);
     }
 
     public Operation? GetOperationById(int id)
@@ -57,23 +61,18 @@ public class ScheduleRepository : ISerializable
 
     public List<Appointment> GetPatientAppointments(String patientMail)
     {
-        List<Appointment> patientAppointments = new List<Appointment>();   
-        foreach(Appointment appointment in _appointments)
-        {
-            if(appointment.PatientEmail== patientMail && !appointment.IsCanceled) patientAppointments.Add(appointment);
-        }
-        return patientAppointments;
+        return _appointments.Where(appointment => appointment.PatientEmail == patientMail && !appointment.IsCanceled).ToList();
     }
     public List<Operation> GetPatientOperations(String patientMail)
     {
-        List<Operation> patientOperations = new List<Operation>();
-        foreach(Operation operation in _operations)
-        {
-            if (operation.MedicalRecord.user.Email == patientMail) patientOperations.Add(operation);
-        }
-        return patientOperations;
+        return _operations.Where(operation => operation.MedicalRecord.user.Email == patientMail).ToList();
     }
-   
+
+    public List<Appointment> GetPatientsOldAppointments(String patientMail)
+    {
+        return _appointments.Where(appointment => appointment.PatientEmail == patientMail && appointment.Time.end < DateTime.Now).ToList();
+    }
+
     public List<Appointment> GetDoctorAppointments(String doctorsMail)
     {
         List<Appointment> doctorAppointments = new List<Appointment>();
@@ -123,40 +122,11 @@ public class ScheduleRepository : ISerializable
         return true;
     }
 
-    //public void LoadAppointments()
-    //{
-    //    string text = File.ReadAllText(_fileNameAppointments);
-    //    var appointments = JsonSerializer.Deserialize<List<Appointment>>(text);
-    //    appointments.ForEach(appointment => _appointments.Add(appointment));
-
-    //}
-
-    //public void SaveAppointments()
-    //{
-    //    var users = JsonSerializer.Serialize(this._appointments, _serializerOptions);
-    //    File.WriteAllText(this._fileNameAppointments, users);
-    //}
-
-    //public void LoadOperations()
-    //{
-    //    string text = File.ReadAllText(_fileNameOperations);
-    //    var operatons = JsonSerializer.Deserialize<List<Operation>>(text);
-    //    _operations.ForEach(operations => _operations.Add(operations));
-
-    //}
-
-    //public void SaveOperations()
-    //{
-    //    var users = JsonSerializer.Serialize(this._operations, _serializerOptions);
-    //    File.WriteAllText(this._fileNameOperations, users);
-    //}
-
     public Appointment? CreateAppointment(TimeSlot time, Doctor doctor, String email)
     {
         if (isDoctorAvailable(time,doctor.Email) && isPatientAvailable(time, email) && time.start>DateTime.Now)
         {
-            Random random = new Random();
-            int id = random.Next(0, 100000);
+            int id = IDGenerator.GetId();
             Appointment appointment = new Appointment(id, time, doctor, email);
             _appointments.Add(appointment);
             Serializer.Save(this);
@@ -217,16 +187,17 @@ public class ScheduleRepository : ISerializable
             Serializer.Save(this);
         }
     }
-    public void CancelAppointmentByDoctor(Appointment appointment)
+    public Appointment CancelAppointmentByDoctor(Appointment appointment)
     {
-        bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now) > 24;
-        if (IsAppointmentInList(appointment) && isOnTime)
+        if (IsAppointmentInList(appointment))
         {
             int index = _appointments.IndexOf(appointment);
             appointment.IsCanceled = true;
             _appointments[index] = appointment;
             Serializer.Save(this);
+            return appointment;
         }
+        else return null;
 
     }
 
@@ -278,7 +249,8 @@ public class ScheduleRepository : ISerializable
             {
                 if (day.end<DateTime.Now)
                     continue;
-                day.start = GiveFirstDevisibleBy15(DateTime.Now);
+
+                day.start = TimeSlot.GiveFirstDevisibleBy15(DateTime.Now);
             }
             while (day.start!=day.end)
             {
@@ -313,16 +285,14 @@ public class ScheduleRepository : ISerializable
     public List<Appointment> FindAppointmentsByDoctorPriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate, String patientMail)
     {
         var availableTimeSlots = FindAvailableTimeSlotsByDoctorPriority(doctor.Email, wantedTime, lastDate);
-        Random random = new Random();
-        return availableTimeSlots.Select(slot => new Appointment(random.Next(10000), slot, doctor, patientMail)).ToList();
+        return availableTimeSlots.Select(slot => new Appointment(IDGenerator.GetId(), slot, doctor, patientMail)).ToList();
     }
 
     public List<Appointment> FindAppointmentsByTimePriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate,
         String patientMail, DoctorRepository doctorRepository)
     {
         var pairsTimeSlotDoctor = FindAvailableTimeSlotsByTimePriority(doctor, wantedTime, lastDate, doctorRepository);
-        Random random = new Random();
-        return pairsTimeSlotDoctor.Select(pair => new Appointment(random.Next(10000), pair.Item1, pair.Item2, patientMail)).ToList();
+        return pairsTimeSlotDoctor.Select(pair => new Appointment(IDGenerator.GetId(), pair.Item1, pair.Item2, patientMail)).ToList();
     }
 
     private List<TimeSlot> FindAvailableTimeSlotsByDoctorPriority(string doctorMail, TimeSlot wantedTime, DateTime lastDate)
@@ -417,19 +387,7 @@ public class ScheduleRepository : ISerializable
 
 
 
-    private DateTime GiveFirstDevisibleBy15(DateTime time)       //this should be somewhere else
-    {
-        var minutes = time.Minute;
-        var minutesToAdd = minutes switch
-        {
-            < 15 => 15 - minutes,
-            < 30 => 30 - minutes,
-            < 45 => 45 - minutes,
-            < 60 => 60 - minutes,
-            _ => 0
-        };
-        return time.AddMinutes(minutesToAdd);
-    }
+    
     public bool IsPatientExamined(Patient patient,Doctor doctor)
     {
         foreach(Appointment appointment in _appointments)
@@ -448,6 +406,36 @@ public class ScheduleRepository : ISerializable
         Appointment appointment = this.GetAppointmentById(id);
         if (!appointment.IsCanceled && appointment.Time.IsNow()) return true;
         return false;
+    }
+    public bool CheckPerformingAppointmentData(List<String> symptoms,String opinion, List<String> allergens,String keyWord)
+    {
+        if (checkListElementsLength(symptoms)) return false;
+        if (opinion.Trim().Length < 10) return false;
+        if (checkListElementsLength(allergens)) return false;
+        if (keyWord.Trim().Length < 2) return false;
+        return true;
+    }
+
+
+    private bool checkListElementsLength(List<String> list)
+    {
+        foreach(String l in list){
+            if (l.Trim().Length < 5) return true;
+        }
+        return false;
+    }
+
+    public void ChangePerformingAppointment(int id, List<String> symptoms,string opinion,List<string> allergens,String keyWord,int roomId)
+    {
+        Appointment appointment = this.GetAppointmentById(id);
+        _appointments.Remove(GetAppointmentById(id));
+        Anamnesis anamnesis = new Anamnesis(symptoms, opinion,keyWord, allergens);
+        Appointment performedAppointment = new Appointment(appointment.Id, appointment.Time, appointment.Doctor, appointment.PatientEmail, anamnesis);
+        performedAppointment.Status = true;
+        performedAppointment.Room = roomId;
+        _appointments.Add(performedAppointment);
+        Serializer.Save(this);
+
     }
     public string FileName()
     {

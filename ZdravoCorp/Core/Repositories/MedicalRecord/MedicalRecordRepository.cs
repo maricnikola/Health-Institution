@@ -109,7 +109,7 @@ public class MedicalRecordRepository : ISerializable
         if (newHeight > 300 && newHeight < 50) return false;
         foreach(string desease in newDeseaseHistory)
         {
-            if (desease.Trim().Length < 4) return false;
+            if (desease.Trim().Length < 5) return false;
         }
         return true;
     }

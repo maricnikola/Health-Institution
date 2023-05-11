@@ -29,12 +29,21 @@ public class DelegateCommand : ICommand
     }
 
 
+
     public event EventHandler CanExecuteChanged
     {
-        add { CommandManager.RequerySuggested += value; }
+        add
+        {
+            CommandManager.RequerySuggested += value;
+            
+        }
         remove { CommandManager.RequerySuggested -= value; }
     }
 
+    public void RaiseCanExecuteChanged()
+    {
+    }
+    
     /// <param name="parameter">parameter to pass to predicate</param>
     public bool CanExecute(object parameter)
     {
