@@ -81,7 +81,12 @@
       "Specialization": 1
     },
     "PatientEmail": "sreten.pejovic@gmail.com",
-    "Anamnesis": null,
+    "Anamnesis": {
+      "Symptoms": [ "fever", "cough" ],
+      "Opinion": "Hospital treatment required",
+      "KeyWord": "Gangrena",
+      "Allergens": [ "urticaria", "on food" ]
+    },
     "Room": null,
     "IsCanceled": false,
     "Status": false
@@ -99,7 +104,12 @@
       "Specialization": 1
     },
     "PatientEmail": "sreten.pejovic@gmail.com",
-    "Anamnesis": null,
+    "Anamnesis": {
+      "Symptoms": [ "memori problems" ],
+      "Opinion": "Hospital treatment required",
+      "KeyWord": "Insomnia",
+      "Allergens": [ "urticaria", "on food" ]
+    },
     "Room": null,
     "IsCanceled": false,
     "Status": false
@@ -312,6 +322,24 @@
       "Email": "savo.oroz@gmail.com",
       "FirstName": "Savo",
       "LastName": "Oroz",
+      "Specialization": 1
+    },
+    "PatientEmail": "sreten.pejovic@gmail.com",
+    "Anamnesis": null,
+    "Room": null,
+    "IsCanceled": true,
+    "Status": false
+  },
+  {
+    "Id": 444,
+    "Time": {
+      "start": "2023-05-12T02:45:00",
+      "end": "2023-05-12T03:00:00"
+    },
+    "Doctor": {
+      "Email": "vrabac@gmail.com",
+      "FirstName": "Mirko",
+      "LastName": "Vrabac",
       "Specialization": 1
     },
     "PatientEmail": "sreten.pejovic@gmail.com",
