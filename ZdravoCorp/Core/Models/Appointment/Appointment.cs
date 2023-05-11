@@ -1,6 +1,6 @@
 using System;
 using ZdravoCorp.Core.Models.AnamnesisReport;
-using ZdravoCorp.Core.Models.User;
+
 using ZdravoCorp.Core.TimeSlots;
 using Newtonsoft.Json;
 using ZdravoCorp.Core.Models.Users;
