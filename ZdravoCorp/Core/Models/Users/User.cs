@@ -5,10 +5,20 @@ namespace ZdravoCorp.Core.Models.Users;
 
 public class User
 {
-    public UserType Type { get; set; }
-    public string Email { get; set; }
-    public string? Password { private get; set; }
-    public State UserState { get; set; }
+    public enum State
+    {
+        BlockedBySystem,
+        BlockedBySecretary,
+        NotBlocked
+    }
+
+    public enum UserType
+    {
+        Director,
+        Doctor,
+        Patient,
+        Nurse
+    }
 
 
     [JsonConstructor]
@@ -26,26 +36,15 @@ public class User
         UserState = userState;
     }
 
+    public UserType Type { get; set; }
+    public string Email { get; set; }
+    public string? Password { private get; set; }
+    public State UserState { get; set; }
+
 
     public bool ValidatePassword(string password)
     {
         return Password == password;
-    }
-    
-
-    public enum State
-    {
-        BlockedBySystem,
-        BlockedBySecretary,
-        NotBlocked
-    }
-
-    public enum UserType
-    {
-        Director,
-        Doctor,
-        Patient,
-        Nurse
     }
 
     protected bool Equals(User other)
@@ -57,7 +56,7 @@ public class User
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
+        if (obj.GetType() != GetType()) return false;
         return Equals((User)obj);
     }
 

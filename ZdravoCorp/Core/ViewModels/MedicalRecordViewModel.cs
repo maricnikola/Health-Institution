@@ -1,107 +1,100 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
-using ZdravoCorp.Core.Models.MedicalRecord;
-using ZdravoCorp.Core.Repositories.MedicalRecord;
+using ZdravoCorp.Core.Models.MedicalRecords;
+using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
 
 namespace ZdravoCorp.Core.ViewModels;
 
-class MedicalRecordViewModel:ViewModelBase
+internal class MedicalRecordViewModel : ViewModelBase
 {
     private readonly MedicalRecord _medicalRecord;
+
+    private string _diseaseHistory;
+
+    private int _height;
+    private readonly MedicalRecordRepository _medicalRecordRepository;
+
+    private int _weight;
+
+    public MedicalRecordViewModel(MedicalRecord medicalRecord, MedicalRecordRepository medicalRecordRepository)
+    {
+        _medicalRecordRepository = medicalRecordRepository;
+        _medicalRecord = medicalRecord;
+        _height = _medicalRecord.height;
+        _weight = _medicalRecord.weight;
+        _diseaseHistory = medicalRecord.DiseaseHistoryToString();
+        SaveCommand = new DelegateCommand(o => SaveChangesMedicalRecord());
+        CloseCommand = new DelegateCommand(o => CloseWindow());
+    }
+
     public int PatientHeight => _medicalRecord.height;
     public int PatientWeight => _medicalRecord.weight;
     public string PatientName => _medicalRecord.user.FullName;
-	public string PatientDeseaseHistory => _medicalRecord.DiseaseHistoryToString();
-	private MedicalRecordRepository _medicalRecordRepository;
-	
-	public ICommand SaveCommand { get; }
-	public ICommand CloseCommand { get; }
-    public MedicalRecordViewModel(MedicalRecord medicalRecord,MedicalRecordRepository medicalRecordRepository)
+    public string PatientDeseaseHistory => _medicalRecord.DiseaseHistoryToString();
+
+    public ICommand SaveCommand { get; }
+    public ICommand CloseCommand { get; }
+
+    public int Height
     {
-		_medicalRecordRepository = medicalRecordRepository;
-        _medicalRecord = medicalRecord;
-		_height = _medicalRecord.height;
-		_weight = _medicalRecord.weight;
-		_diseaseHistory = medicalRecord.DiseaseHistoryToString();
-		SaveCommand = new DelegateCommand(o => SaveChangesMedicalRecord());
-		CloseCommand = new DelegateCommand(o => CloseWindow());
+        get => _height;
+        set
+        {
+            _height = value;
+            OnPropertyChanged();
+        }
     }
 
-	private int _height;
-	public int Height
-	{
-		get
-		{
-			return _height;
-		}
-		set
-		{
-			_height = value;
-			OnPropertyChanged(nameof(Height));
-		}
-	}
+    public int Weight
+    {
+        get => _weight;
+        set
+        {
+            _weight = value;
+            OnPropertyChanged();
+        }
+    }
 
-	private int _weight;
-	public int Weight
-	{
-		get
-		{
-			return _weight;
-		}
-		set
-		{
-			_weight = value;
-			OnPropertyChanged(nameof(Weight));
-		}
-	}
+    public string DiseaseHistory
+    {
+        get => _diseaseHistory;
+        set
+        {
+            _diseaseHistory = value;
+            OnPropertyChanged();
+        }
+    }
 
-	private string _diseaseHistory;
-	public string DiseaseHistory
-	{
-		get
-		{
-			return _diseaseHistory;
-		}
-		set
-		{
-			_diseaseHistory = value;
-			OnPropertyChanged(nameof(DiseaseHistory));
-		}
-	}
     private void CloseWindow()
     {
-        Window activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+        var activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
         activeWindow?.Close();
     }
-    public void SaveChangesMedicalRecord()
-	{
 
+    public void SaveChangesMedicalRecord()
+    {
         try
         {
-			int height = Height;
-			int weight = Weight;
-			List<String> diseasHistory = DiseaseHistory.Trim().Split(",").ToList();
-			bool checkData = _medicalRecordRepository.CheckDataForChanges(weight,height,diseasHistory);
-			if (checkData)
-			{
-				_medicalRecordRepository.ChangeRecord(_medicalRecord.user.Email, height, weight, diseasHistory);
-				CloseWindow();
-
-			}else MessageBox.Show("Invalid Medical record", "Error", MessageBoxButton.OK);
+            var height = Height;
+            var weight = Weight;
+            var diseasHistory = DiseaseHistory.Trim().Split(",").ToList();
+            var checkData = _medicalRecordRepository.CheckDataForChanges(weight, height, diseasHistory);
+            if (checkData)
+            {
+                _medicalRecordRepository.ChangeRecord(_medicalRecord.user.Email, height, weight, diseasHistory);
+                CloseWindow();
+            }
+            else
+            {
+                MessageBox.Show("Invalid Medical record", "Error", MessageBoxButton.OK);
+            }
         }
         catch (Exception)
         {
             MessageBox.Show("Invalid Medical record", "Error", MessageBoxButton.OK);
         }
-
-
     }
 }
-
-

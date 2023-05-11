@@ -6,16 +6,6 @@ namespace ZdravoCorp.Core.Models.Transfers;
 
 public class Transfer
 {
-    public int Id { get; }
-    public Room From { get; }
-    public Room To { get; }
-    public DateTime When { get; set; }
-    public int Quantity { get; set; }
-    
-    public int InventoryId { get; set; }
-    public string? InventoryItemName { get; set; }
-    
-
     [JsonConstructor]
     public Transfer(int id, Room from, Room to, DateTime when, int quantity, int inventoryId, string? inventoryItemName)
     {
@@ -35,4 +25,13 @@ public class Transfer
         Quantity = quantity;
         InventoryId = inventoryId;
     }
+
+    public int Id { get; }
+    public Room From { get; }
+    public Room To { get; }
+    public DateTime When { get; set; }
+    public int Quantity { get; set; }
+
+    public int InventoryId { get; set; }
+    public string? InventoryItemName { get; set; }
 }

@@ -1,6 +1,9 @@
 [
   {
-    "deseaseHistory": [ "tuberkuloza", "fraktura lobanje" ],
+    "deseaseHistory": [
+      "tuberkuloza",
+      "fraktura lobanje"
+    ],
     "height": 187,
     "user": {
       "Email": "sreten.pejovic@gmail.com",
@@ -17,6 +20,9 @@
     },
     "height": 190,
     "weight": 110,
-    "deseaseHistory": [ "tuberkuloza", "upala mozga" ]
+    "deseaseHistory": [
+      "tuberkuloza",
+      "upala mozga"
+    ]
   }
 ]

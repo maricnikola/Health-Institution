@@ -2,34 +2,32 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
-using ZdravoCorp.Core.Models.Appointment;
-using ZdravoCorp.Core.Models.MedicalRecord;
 using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.Repositories.MedicalRecord;
-using ZdravoCorp.Core.Repositories.Schedule;
-using ZdravoCorp.Core.Repositories.User;
+using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
+using ZdravoCorp.Core.Repositories.ScheduleRepo;
+using ZdravoCorp.Core.Repositories.UsersRepo;
 using ZdravoCorp.Core.TimeSlots;
-using ZdravoCorp.View;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
 public class AddAppointmentViewModel : ViewModelBase
 {
-    private ObservableCollection<string> _patientsFullname { get; }
-    private ScheduleRepository _scheduleRepository;
-    public IEnumerable<string> Patients => _patientsFullname;
-    private PatientRepository _patientRepository;
-    private Doctor _dr;
+    private readonly DateTime _date;
+    private readonly Doctor _dr;
     private MedicalRecordRepository _medicalRepository;
-    private DateTime _date;
+    private readonly PatientRepository _patientRepository;
+    private readonly ScheduleRepository _scheduleRepository;
 
-    public int[] PossibleMinutes { get; set; }
-    public int[] PossibleHours { get; set; }
+    private DateTime _startDate = DateTime.Now + TimeSpan.FromHours(1);
+
+    private int _startTimeHours;
+    private int _startTimeMinutes;
+
+
+    private string _username;
 
 
     public AddAppointmentViewModel(ScheduleRepository scheduleRepository, DoctorRepository doctorRepository,
@@ -45,68 +43,59 @@ public class AddAppointmentViewModel : ViewModelBase
 
         _scheduleRepository = scheduleRepository;
         _patientRepository = patientRepository;
-        PatientRepository _controller = new PatientRepository();
-        List<Patient> patients = _controller.Patients;
+        var _controller = new PatientRepository();
+        var patients = _controller.Patients;
 
         _patientsFullname = new ObservableCollection<string>();
-        foreach (Patient p in patients)
-        {
-            _patientsFullname.Add(p.FullName + "-" + p.Email);
-        }
+        foreach (var p in patients) _patientsFullname.Add(p.FullName + "-" + p.Email);
 
         AddCommand = new DelegateCommand(o => DrCreateAppointment(appointment, _date));
         CancelCommand = new DelegateCommand(o => CloseWindow());
     }
 
+    private ObservableCollection<string> _patientsFullname { get; }
+    public IEnumerable<string> Patients => _patientsFullname;
 
-    private string _username;
+    public int[] PossibleMinutes { get; set; }
+    public int[] PossibleHours { get; set; }
 
     public string Username
     {
-        get { return _username; }
+        get => _username;
         set
         {
             _username = value;
-            OnPropertyChanged(nameof(Username));
+            OnPropertyChanged();
         }
     }
-
-    private DateTime _startDate = DateTime.Now + TimeSpan.FromHours(1);
 
     public DateTime StartDate
     {
-        get { return _startDate; }
+        get => _startDate;
         set
         {
             _startDate = value;
-            OnPropertyChanged(nameof(StartDate));
+            OnPropertyChanged();
         }
     }
 
-    private int _startTimeHours = 00;
     public int StartTimeHours
     {
-        get
-        {
-            return _startTimeHours;
-        }
+        get => _startTimeHours;
         set
         {
             _startTimeHours = value;
-            OnPropertyChanged(nameof(StartTimeHours));
+            OnPropertyChanged();
         }
     }
-    private int _startTimeMinutes = 00;
+
     public int StartTimeMinutes
     {
-        get
-        {
-            return _startTimeMinutes;
-        }
+        get => _startTimeMinutes;
         set
         {
             _startTimeMinutes = value;
-            OnPropertyChanged(nameof(StartTimeMinutes));
+            OnPropertyChanged();
         }
     }
 
@@ -116,7 +105,7 @@ public class AddAppointmentViewModel : ViewModelBase
 
     private void CloseWindow()
     {
-        Window activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+        var activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
         activeWindow?.Close();
     }
 
@@ -124,28 +113,26 @@ public class AddAppointmentViewModel : ViewModelBase
     {
         try
         {
-            int hours = StartTimeHours;
-            int minutes = StartTimeMinutes;
-            DateTime d = StartDate;
-            string dm = Username;
+            var hours = StartTimeHours;
+            var minutes = StartTimeMinutes;
+            var d = StartDate;
+            var dm = Username;
 
-            DateTime start = new DateTime(d.Year, d.Month, d.Day, hours, minutes, 0);
-            DateTime end = start.AddMinutes(15);
-            TimeSlot time = new TimeSlot(start, end);
+            var start = new DateTime(d.Year, d.Month, d.Day, hours, minutes, 0);
+            var end = start.AddMinutes(15);
+            var time = new TimeSlot(start, end);
 
-            string[] tokens = dm.Split("-");
-            string mail = tokens[1];
-            Patient patient = _patientRepository.GetPatientByEmail(mail);
+            var tokens = dm.Split("-");
+            var mail = tokens[1];
+            var patient = _patientRepository.GetPatientByEmail(mail);
 
-            Appointment appointment = _scheduleRepository.CreateAppointment(time, _dr, mail);
+            var appointment = _scheduleRepository.CreateAppointment(time, _dr, mail);
 
             if (appointment != null)
             {
                 CloseWindow();
                 if (_scheduleRepository.IsForShow(appointment, date))
-                {
                     Appointments.Add(new AppointmentViewModel(appointment));
-                }
             }
             else
             {

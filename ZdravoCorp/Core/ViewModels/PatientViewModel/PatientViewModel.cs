@@ -1,41 +1,22 @@
-﻿using Quartz.Impl;
-using System.Collections.Generic;
-using System.Windows.Documents;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
-using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories;
-using ZdravoCorp.Core.Repositories.MedicalRecord;
-using ZdravoCorp.Core.Repositories.Schedule;
-using ZdravoCorp.Core.Repositories.User;
+using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
+using ZdravoCorp.Core.Repositories.ScheduleRepo;
+using ZdravoCorp.Core.Repositories.UsersRepo;
 
 namespace ZdravoCorp.Core.ViewModels.PatientViewModel;
 
 public class PatientViewModel : ViewModelBase
 {
     private object _currentView;
-    private ScheduleRepository _scheduleRepository;
-    private DoctorRepository _doctorRepository;
-    private MedicalRecordRepository _medicalRecordRepository;
-    private Patient _patient;
-    
-    public ICommand LoadAppointmentsCommand { get; set; }
-    public ICommand LoadMedicalRecordCommand { get; set; }
-    public ICommand LoadOldAppointmentsCommand { get; set; }
+    private readonly DoctorRepository _doctorRepository;
+    private readonly MedicalRecordRepository _medicalRecordRepository;
+    private readonly Patient _patient;
+    private readonly ScheduleRepository _scheduleRepository;
 
-
-    public object CurrentView
-    {
-        get { return _currentView; }
-        set
-        {
-            _currentView = value;
-            OnPropertyChanged("CurrentView");
-        }
-    }
-    
-    public PatientViewModel(Patient patient,RepositoryManager _repositoryManager)
+    public PatientViewModel(Patient patient, RepositoryManager _repositoryManager)
     {
         _scheduleRepository = _repositoryManager.ScheduleRepository;
         _doctorRepository = _repositoryManager.DoctorRepository;
@@ -47,6 +28,21 @@ public class PatientViewModel : ViewModelBase
         _currentView = new AppointmentTableViewModel(_scheduleRepository, _doctorRepository, _patient);
     }
 
+    public ICommand LoadAppointmentsCommand { get; set; }
+    public ICommand LoadMedicalRecordCommand { get; set; }
+    public ICommand LoadOldAppointmentsCommand { get; set; }
+
+
+    public object CurrentView
+    {
+        get => _currentView;
+        set
+        {
+            _currentView = value;
+            OnPropertyChanged();
+        }
+    }
+
     public void LoadAppointments()
     {
         CurrentView = new AppointmentTableViewModel(_scheduleRepository, _doctorRepository, _patient);
@@ -54,12 +50,12 @@ public class PatientViewModel : ViewModelBase
 
     public void LoadMedicalRecord()
     {
-        CurrentView = new MedicalRecordViewModel(_medicalRecordRepository.GetById(_patient.Email), _medicalRecordRepository);
+        CurrentView =
+            new MedicalRecordViewModel(_medicalRecordRepository.GetById(_patient.Email), _medicalRecordRepository);
     }
 
     public void LoadOldAppointments()
     {
         CurrentView = new OldAppointmentsViewModel(_scheduleRepository, _doctorRepository, _patient);
     }
-
 }

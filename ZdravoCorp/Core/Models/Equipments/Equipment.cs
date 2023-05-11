@@ -1,14 +1,17 @@
 using System;
 using Newtonsoft.Json;
 
-namespace ZdravoCorp.Core.Models.Equipment;
+namespace ZdravoCorp.Core.Models.Equipments;
 
 public class Equipment
 {
-    public int Id { get; set; }
-    public string? Name { get; set; }
-    public EquipmentType Type { get; set; }
-    public bool IsDynamic { get; set; }
+    public enum EquipmentType
+    {
+        Operation,
+        Examination,
+        Room,
+        Hallway
+    }
 
 
     [JsonConstructor]
@@ -20,14 +23,10 @@ public class Equipment
         IsDynamic = isDynamic;
     }
 
-
-    public enum EquipmentType
-    {
-        Operation,
-        Examination,
-        Room,
-        Hallway
-    }
+    public int Id { get; set; }
+    public string? Name { get; set; }
+    public EquipmentType Type { get; set; }
+    public bool IsDynamic { get; set; }
 
     protected bool Equals(Equipment other)
     {
@@ -38,7 +37,7 @@ public class Equipment
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
+        if (obj.GetType() != GetType()) return false;
         return Equals((Equipment)obj);
     }
 

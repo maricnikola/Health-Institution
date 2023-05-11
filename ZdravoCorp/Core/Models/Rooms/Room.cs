@@ -5,15 +5,15 @@ namespace ZdravoCorp.Core.Models.Rooms;
 
 public class Room
 {
-    public int Id { get; set; }
-    public RoomType Type { get; set; }
-
     [JsonConstructor]
     public Room(int id, RoomType type)
     {
         Id = id;
         Type = type;
     }
+
+    public int Id { get; set; }
+    public RoomType Type { get; set; }
 
     protected bool Equals(Room other)
     {
@@ -24,7 +24,7 @@ public class Room
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
+        if (obj.GetType() != GetType()) return false;
         return Equals((Room)obj);
     }
 

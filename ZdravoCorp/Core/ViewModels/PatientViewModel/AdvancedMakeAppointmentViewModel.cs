@@ -2,37 +2,62 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
-using ZdravoCorp.Core.Models.Appointment;
-using ZdravoCorp.Core.Models.MedicalRecord;
+using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.Repositories.Schedule;
-using ZdravoCorp.Core.Repositories.User;
+using ZdravoCorp.Core.Repositories.ScheduleRepo;
+using ZdravoCorp.Core.Repositories.UsersRepo;
 using ZdravoCorp.Core.TimeSlots;
-using ZdravoCorp.View;
 
 namespace ZdravoCorp.Core.ViewModels.PatientViewModel;
 
 public class AdvancedMakeAppointmentViewModel : ViewModelBase
 {
-    private DoctorRepository _doctorRepository;
-    private ScheduleRepository _scheduleRepository;
+    private readonly ObservableCollection<string> _doctors;
 
-    private readonly ObservableCollection<AppointmentViewModel> _appointments;
-    public ObservableCollection<AppointmentViewModel> Appointments => _appointments;
-    private List<Appointment> _possibleAppointments;
+    private DateTime _date = DateTime.Now + TimeSpan.FromHours(1);
 
-    private readonly ObservableCollection<String> _doctors;
-    private Patient _patient;
+    private string _doctorName;
+    private readonly DoctorRepository _doctorRepository;
+    private int _endHours;
+    private int _endMinutes;
+    private readonly Patient _patient;
+    private readonly List<Appointment> _possibleAppointments;
+
+    private string _priority;
+    private readonly ScheduleRepository _scheduleRepository;
+
+    private int _startHours;
+    private int _startMinutes;
+
+    public AdvancedMakeAppointmentViewModel(DoctorRepository doctorRepository, ScheduleRepository scheduleRepository,
+        Patient patient, ObservableCollection<AppointmentViewModel> allAppointments)
+    {
+        _scheduleRepository = scheduleRepository;
+        _doctorRepository = doctorRepository;
+        _doctors = new ObservableCollection<string>();
+        _patient = patient;
+        Appointments = new ObservableCollection<AppointmentViewModel>();
+        _possibleAppointments = new List<Appointment>();
+        PossibleMinutes = new[] { 00, 15, 30, 45 };
+        PossibleHours = new[]
+            { 00, 01, 02, 03, 04, 05, 06, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
+        PriorityOptions = new[] { "Doctor", "Time" };
+        var doctors = doctorRepository.GetAll();
+        foreach (var doctor in doctors) _doctors.Add(doctor.FullName + "-" + doctor.Email);
+
+        RecommendAppointmentCommand = new DelegateCommand(o => RecommendAppointments());
+        MakeAppointmentAdvancedCommand = new DelegateCommand(o => MakeAppointmentAdvanced(allAppointments));
+    }
+
+    public ObservableCollection<AppointmentViewModel> Appointments { get; }
+
     public AppointmentViewModel SelectedAppointment { get; set; }
 
 
-    public IEnumerable<String> AllDoctors => _doctors;
+    public IEnumerable<string> AllDoctors => _doctors;
     public int[] PossibleMinutes { get; set; }
     public int[] PossibleHours { get; set; }
     public string[] PriorityOptions { get; set; }
@@ -40,122 +65,74 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
     public ICommand RecommendAppointmentCommand { get; set; }
     public ICommand MakeAppointmentAdvancedCommand { get; set; }
 
-    private string _doctorName;
     public string DoctorName
     {
-        get
-        {
-            return _doctorName;
-        }
+        get => _doctorName;
         set
         {
             _doctorName = value;
-            OnPropertyChanged(nameof(DoctorName));
+            OnPropertyChanged();
         }
     }
 
-    private DateTime _date = DateTime.Now + TimeSpan.FromHours(1);
     public DateTime Date
     {
-        get
-        {
-            return _date;
-        }
+        get => _date;
         set
         {
             _date = value;
-            OnPropertyChanged(nameof(Date));
+            OnPropertyChanged();
         }
     }
 
-    private int _startHours = 00;
     public int StartHours
     {
-        get
-        {
-            return _startHours;
-        }
+        get => _startHours;
         set
         {
             _startHours = value;
-            OnPropertyChanged(nameof(StartHours));
+            OnPropertyChanged();
         }
     }
-    private int _startMinutes = 00;
+
     public int StartMinutes
     {
-        get
-        {
-            return _startMinutes;
-        }
+        get => _startMinutes;
         set
         {
             _startMinutes = value;
-            OnPropertyChanged(nameof(StartMinutes));
+            OnPropertyChanged();
         }
     }
-    private int _endHours = 00;
+
     public int EndHours
     {
-        get
-        {
-            return _endHours;
-        }
+        get => _endHours;
         set
         {
             _endHours = value;
-            OnPropertyChanged(nameof(EndHours));
+            OnPropertyChanged();
         }
     }
-    private int _endMinutes = 00;
+
     public int EndMinutes
     {
-        get
-        {
-            return _endMinutes;
-        }
+        get => _endMinutes;
         set
         {
             _endMinutes = value;
-            OnPropertyChanged(nameof(EndMinutes));
+            OnPropertyChanged();
         }
     }
-
-    private string _priority;
 
     public string Priority
     {
-        get
-        {
-            return _priority;
-        }
+        get => _priority;
         set
         {
             _priority = value;
-            OnPropertyChanged(nameof(Priority));
+            OnPropertyChanged();
         }
-    }
-
-    public AdvancedMakeAppointmentViewModel(DoctorRepository doctorRepository, ScheduleRepository scheduleRepository, Patient patient, ObservableCollection<AppointmentViewModel> allAppointments)
-    {
-        _scheduleRepository = scheduleRepository;
-        _doctorRepository = doctorRepository;
-        _doctors = new ObservableCollection<string>();
-        _patient =  patient;
-        _appointments = new ObservableCollection<AppointmentViewModel>();
-        _possibleAppointments = new List<Appointment>();
-        PossibleMinutes = new[] { 00, 15, 30, 45 };
-        PossibleHours = new[]
-            { 00, 01, 02, 03, 04, 05, 06, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
-        PriorityOptions = new[] { "Doctor", "Time" };
-        List<Doctor> doctors = doctorRepository.GetAll();
-        foreach (var doctor in doctors)
-        {
-            _doctors.Add(doctor.FullName + "-" + doctor.Email);
-        }
-
-        RecommendAppointmentCommand = new DelegateCommand(o=>RecommendAppointments());
-        MakeAppointmentAdvancedCommand = new DelegateCommand(o => MakeAppointmentAdvanced(allAppointments));
     }
 
     private void RecommendAppointments()
@@ -164,24 +141,28 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
         {
             Appointments.Clear();
             _possibleAppointments.Clear();
-            DateTime lastDate = Date;
+            var lastDate = Date;
             if (Date < DateTime.Now)
                 throw new Exception();
             lastDate = new DateTime(lastDate.Year, lastDate.Month, lastDate.Day, 23, 59, 0);
-            DateTime startTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, StartHours, StartMinutes, 0);
-            DateTime endTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, EndHours, EndMinutes, 0);
+            var startTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, StartHours,
+                StartMinutes, 0);
+            var endTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, EndHours, EndMinutes,
+                0);
             if (startTime >= endTime)
                 throw new Exception();
-            TimeSlot wantedTimeSlot = new TimeSlot(startTime, endTime);
+            var wantedTimeSlot = new TimeSlot(startTime, endTime);
 
-            string[] tokens = DoctorName.Split("-");
-            string doctorsMail = tokens[1];
-            Doctor? doctor = _doctorRepository.GetDoctorByEmail(doctorsMail);
+            var tokens = DoctorName.Split("-");
+            var doctorsMail = tokens[1];
+            var doctor = _doctorRepository.GetDoctorByEmail(doctorsMail);
 
             if (Priority.Equals("Doctor"))
             {
-                List<Appointment> fittingAppointments = _scheduleRepository.FindAppointmentsByDoctorPriority(doctor, wantedTimeSlot, lastDate, _patient.Email);
-                foreach (Appointment singleAppointment in fittingAppointments)
+                var fittingAppointments =
+                    _scheduleRepository.FindAppointmentsByDoctorPriority(doctor, wantedTimeSlot, lastDate,
+                        _patient.Email);
+                foreach (var singleAppointment in fittingAppointments)
                 {
                     _possibleAppointments.Add(singleAppointment);
                     Appointments.Add(new AppointmentViewModel(singleAppointment));
@@ -189,10 +170,10 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
             }
             else
             {
-                List<Appointment> possibleAppointments =
+                var possibleAppointments =
                     _scheduleRepository.FindAppointmentsByTimePriority(doctor, wantedTimeSlot, lastDate, _patient.Email,
                         _doctorRepository);
-                foreach (Appointment singleAppointment in possibleAppointments)
+                foreach (var singleAppointment in possibleAppointments)
                 {
                     _possibleAppointments.Add(singleAppointment);
                     Appointments.Add(new AppointmentViewModel(singleAppointment));
@@ -202,7 +183,6 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
         catch (Exception e)
         {
             MessageBox.Show("Error", "Error", MessageBoxButton.OK);
-
         }
     }
 
@@ -210,9 +190,8 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
     {
         var selectedAppointment = SelectedAppointment;
         if (selectedAppointment != null)
-        {
-            foreach (var appointment in _possibleAppointments.Where(appointment => appointment.Id == selectedAppointment.Id))
-            {
+            foreach (var appointment in _possibleAppointments.Where(appointment =>
+                         appointment.Id == selectedAppointment.Id))
                 if (_scheduleRepository.isDoctorAvailable(appointment.Time, appointment.Doctor.Email) &&
                     _scheduleRepository.isPatientAvailable(appointment.Time, appointment.Doctor.Email))
                 {
@@ -225,8 +204,6 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
                     MessageBox.Show("Invalid appointment", "Error", MessageBoxButton.OK);
                     return;
                 }
-            }
-        }
         else
             MessageBox.Show("None selected", "Error", MessageBoxButton.OK);
     }

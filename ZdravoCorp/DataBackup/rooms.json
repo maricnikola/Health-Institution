@@ -34,7 +34,7 @@
   {
     "Id": 152,
     "Type": "PatientRoom"
-  }, 
+  },
   {
     "Id": 153,
     "Type": "PatientRoom"
@@ -45,7 +45,6 @@
   },
   {
     "Id": 888,
-    "Type" : "WaitingRoom"
+    "Type": "WaitingRoom"
   }
-  
 ]

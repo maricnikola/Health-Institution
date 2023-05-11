@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -10,7 +9,7 @@ namespace ZdravoCorp.Core.Utilities;
 
 public static class Serializer
 {
-    private static JsonSerializer _serializer;
+    private static readonly JsonSerializer _serializer;
 
     static Serializer()
     {

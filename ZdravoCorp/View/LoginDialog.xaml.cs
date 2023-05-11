@@ -1,45 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using ZdravoCorp.Core.Counters;
-using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories;
-using ZdravoCorp.Core.Repositories.Equipment;
-using ZdravoCorp.Core.Repositories.Inventory;
-using ZdravoCorp.Core.Repositories.Order;
-using ZdravoCorp.Core.Repositories.Room;
-using ZdravoCorp.Core.Repositories.Schedule;
-using ZdravoCorp.Core.Repositories.Transfers;
-using ZdravoCorp.Core.Repositories.User;
-using ZdravoCorp.Core.ViewModels;
 using ZdravoCorp.Core.ViewModels.DirectorViewModel;
-using ZdravoCorp.Core.ViewModels.PatientViewModel;
+using ZdravoCorp.Core.ViewModels.DoctorViewModels;
 using ZdravoCorp.Core.ViewModels.NurseViewModel;
+using ZdravoCorp.Core.ViewModels.PatientViewModel;
 using ZdravoCorp.View.Director;
-using ZdravoCorp.View.Director;
-using ZdravoCorp.View.PatientV;
 using ZdravoCorp.View.DoctorView;
 using ZdravoCorp.View.NurseView;
-using ZdravoCorp.Core.Repositories.MedicalRecord;
-using ZdravoCorp.Core.ViewModels.DoctorViewModels;
+using ZdravoCorp.View.PatientV;
 
 namespace ZdravoCorp.View;
 
 public partial class LoginDialog : Window, INotifyPropertyChanged
 {
+    private readonly RepositoryManager _repositoryManager;
     private string? _email;
     private string? _password;
-    private readonly RepositoryManager _repositoryManager;
+
+    public LoginDialog(RepositoryManager repositoryManager)
+    {
+        _repositoryManager = repositoryManager;
+        InitializeComponent();
+        DataContext = this;
+    }
 
     public string Email
     {
-        get
-        {
-            return _email;
-        }
+        get => _email;
         set
         {
             if (value != _email)
@@ -52,10 +44,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
 
     public string Password
     {
-        get
-        {
-            return _password;
-        }
+        get => _password;
         set
         {
             if (value != _password)
@@ -65,56 +54,55 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             }
         }
     }
-    public LoginDialog(RepositoryManager repositoryManager)
-    {
-        _repositoryManager = repositoryManager;
-        InitializeComponent();
-        DataContext = this;
-    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     private void LoginButton_OnClick(object sender, RoutedEventArgs e)
     {
         var user = GetLoggedUser();
-        if (user==null)
+        if (user == null)
             return;
         DialogResult = true;
 
- 
-             
+
         switch (user.Type)
         {
-                case User.UserType.Director:
-                    //start director view
-                    Application.Current.MainWindow = new DirectorWindow() {DataContext = new DirectorViewModel(_repositoryManager)};;
-                    break;
-                case User.UserType.Patient:
-                    //start patient view
-                    User.State state = user.UserState;
-                    Patient patient = _repositoryManager.PatientRepository.GetPatientByEmail(user.Email);
-                    CounterDictionary counterDictionary = new CounterDictionary();
-                    if (counterDictionary.IsForBlock(user.Email))
+            case User.UserType.Director:
+                //start director view
+                Application.Current.MainWindow = new DirectorWindow
+                    { DataContext = new DirectorViewModel(_repositoryManager) };
+                ;
+                break;
+            case User.UserType.Patient:
+                //start patient view
+                var state = user.UserState;
+                var patient = _repositoryManager.PatientRepository.GetPatientByEmail(user.Email);
+                var counterDictionary = new CounterDictionary();
+                if (counterDictionary.IsForBlock(user.Email))
+                {
+                    MessageBox.Show("You are blocked", "Error", MessageBoxButton.OK);
+                    DialogResult = false;
+                }
+                else
+                {
+                    Application.Current.MainWindow = new PatientWindow
                     {
-                        MessageBox.Show("You are blocked", "Error", MessageBoxButton.OK);
-                        DialogResult = false;
-                    }
-                    else
-                        Application.Current.MainWindow = new PatientWindow()
-                        {
-                            DataContext = new PatientViewModel(patient,_repositoryManager)
-                        };
+                        DataContext = new PatientViewModel(patient, _repositoryManager)
+                    };
+                }
 
-                    break;
-                case User.UserType.Nurse:
-                    //start nurse view
-                    Application.Current.MainWindow = new NurseWindow(){DataContext = new NurseViewModel(_repositoryManager)};
-                    break;
-                case User.UserType.Doctor:
+                break;
+            case User.UserType.Nurse:
+                //start nurse view
+                Application.Current.MainWindow = new NurseWindow
+                    { DataContext = new NurseViewModel(_repositoryManager) };
+                break;
+            case User.UserType.Doctor:
                 //start doctor view
-                    Application.Current.MainWindow = new DoctorWindow() { DataContext = new DoctorViewModel(user,_repositoryManager) };
-                    break;
-
+                Application.Current.MainWindow = new DoctorWindow
+                    { DataContext = new DoctorViewModel(user, _repositoryManager) };
+                break;
         }
-        
     }
 
     private User? GetLoggedUser()
@@ -124,18 +112,12 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             MessageBox.Show("Invalid Email", "Error", MessageBoxButton.OK);
             return null;
         }
-        else
-        {
-            var user = _repositoryManager.UserRepository.GetUserByEmail(Email);
-            if (user != null && user.ValidatePassword(Password))
-            {
-                return user;
-            }
-            MessageBox.Show("Invalid Password", "Error", MessageBoxButton.OK);
-            return null;
-        }
+
+        var user = _repositoryManager.UserRepository.GetUserByEmail(Email);
+        if (user != null && user.ValidatePassword(Password)) return user;
+        MessageBox.Show("Invalid Password", "Error", MessageBoxButton.OK);
+        return null;
     }
-    public event PropertyChangedEventHandler? PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {

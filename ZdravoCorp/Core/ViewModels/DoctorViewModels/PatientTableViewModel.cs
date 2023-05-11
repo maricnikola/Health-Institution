@@ -1,44 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
-using ZdravoCorp.Core.Models.Appointment;
-using ZdravoCorp.Core.Models.MedicalRecord;
 using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.Repositories.MedicalRecord;
-using ZdravoCorp.Core.Repositories.Schedule;
-using ZdravoCorp.Core.Repositories.User;
-using ZdravoCorp.Core.ViewModels.DirectorViewModel;
-using ZdravoCorp.View;
+using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
+using ZdravoCorp.Core.Repositories.ScheduleRepo;
+using ZdravoCorp.Core.Repositories.UsersRepo;
 using ZdravoCorp.View.DoctorView;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
 public class PatientTableViewModel : ViewModelBase
 {
-    private ObservableCollection<PatientsViewModel> _patients;
-    private ObservableCollection<PatientsViewModel> _Allpatients;
-    private ObservableCollection<PatientsViewModel> _searchedPatients;
-    
+    private readonly ObservableCollection<PatientsViewModel> _Allpatients;
 
-    private Doctor _doctor;
+
+    private readonly Doctor _doctor;
+    private readonly DoctorRepository _doctorRepository;
+    private readonly MedicalRecordRepository _medicalRecordRepository;
+    private readonly PatientRepository _patientRepository;
+    private ObservableCollection<PatientsViewModel> _patients;
+    private readonly ScheduleRepository _scheduleRepository;
+
+    private ObservableCollection<PatientsViewModel> _searchedPatients;
+
     // public ObservableCollection<PatientsViewModel> Patients => _patients; 
     private string _searchText = "";
 
-    public PatientsViewModel SelectedPatient { get; set; }
-    private PatientRepository _patientRepository;
-    private DoctorRepository _doctorRepository;
-    private MedicalRecordRepository _medicalRecordRepository;
-    private ScheduleRepository _scheduleRepository;
-
-    public ICommand ChangeMedicalRecordCommand { get; }
-
-    public PatientTableViewModel(User user,ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, PatientRepository patientRepository, MedicalRecordRepository medicalRecordRepository)
+    public PatientTableViewModel(User user, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository,
+        PatientRepository patientRepository, MedicalRecordRepository medicalRecordRepository)
     {
         _scheduleRepository = scheduleRepository;
         _doctorRepository = doctorRepository;
@@ -46,21 +38,22 @@ public class PatientTableViewModel : ViewModelBase
         _patientRepository = patientRepository;
         _medicalRecordRepository = medicalRecordRepository;
 
-        List<Patient> patinets = _patientRepository.Patients;
+        var patinets = _patientRepository.Patients;
 
         _Allpatients = new ObservableCollection<PatientsViewModel>();
-        foreach (Patient patient in patinets)
-        {
-            _Allpatients.Add(new PatientsViewModel(patient));
-        }
+        foreach (var patient in patinets) _Allpatients.Add(new PatientsViewModel(patient));
         _patients = _Allpatients;
 
         ChangeMedicalRecordCommand = new DelegateCommand(o => OpenMedicalRecordChange());
     }
 
+    public PatientsViewModel SelectedPatient { get; set; }
+
+    public ICommand ChangeMedicalRecordCommand { get; }
+
     public string SearchBox
     {
-        get { return _searchText; }
+        get => _searchText;
         set
         {
             _searchText = value;
@@ -71,14 +64,9 @@ public class PatientTableViewModel : ViewModelBase
 
     public IEnumerable<PatientsViewModel> Patients
     {
-        get
-        {
-            return _patients;
-
-        }
+        get => _patients;
         set
         {
-
             _patients = new ObservableCollection<PatientsViewModel>(value);
             OnPropertyChanged();
         }
@@ -87,15 +75,8 @@ public class PatientTableViewModel : ViewModelBase
     private ObservableCollection<PatientsViewModel> UpdateTableFromSearch()
     {
         if (_searchText != "")
-        {
             return new ObservableCollection<PatientsViewModel>(Search(_searchText));
-
-        }
-        else
-        {
-
-            return _patients;
-        }
+        return _patients;
     }
 
     public IEnumerable<PatientsViewModel> Search(string inputText)
@@ -105,10 +86,8 @@ public class PatientTableViewModel : ViewModelBase
     }
 
 
-
     private void UpdateTable()
     {
-
         _searchedPatients = _Allpatients;
         var f1 = _searchedPatients.Intersect(UpdateTableFromSearch());
         Patients = f1;
@@ -116,28 +95,26 @@ public class PatientTableViewModel : ViewModelBase
 
     public void OpenMedicalRecordChange()
     {
-        PatientsViewModel patient = SelectedPatient;
-        if (patient != null )
+        var patient = SelectedPatient;
+        if (patient != null)
         {
-            Patient _patient = _patientRepository.GetPatientByEmail(patient.Email);
-            bool isExamined = _scheduleRepository.IsPatientExamined(_patient,_doctor);
+            var _patient = _patientRepository.GetPatientByEmail(patient.Email);
+            var isExamined = _scheduleRepository.IsPatientExamined(_patient, _doctor);
             if (isExamined)
             {
-            MedicalRecord medicalR = _medicalRecordRepository.GetById(patient.Email);
-            ChangeMedicalRecordView window = new ChangeMedicalRecordView() { DataContext = new MedicalRecordViewModel(medicalR,_medicalRecordRepository) };
+                var medicalR = _medicalRecordRepository.GetById(patient.Email);
+                var window = new ChangeMedicalRecordView
+                    { DataContext = new MedicalRecordViewModel(medicalR, _medicalRecordRepository) };
                 window.Show();
             }
             else
             {
                 MessageBox.Show("Patient is not examined", "Error", MessageBoxButton.OK);
             }
-
         }
         else
         {
             MessageBox.Show("None selected", "Error", MessageBoxButton.OK);
         }
-
     }
-   
 }

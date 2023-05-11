@@ -1,36 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using Newtonsoft.Json.Linq;
-using ZdravoCorp.Core.Exceptions;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Utilities;
 
-namespace ZdravoCorp.Core.Repositories.User;
+namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
 public class NurseRepository : ISerializable
 {
-    private List<Nurse?> _nurses;
     private readonly string _fileName = @".\..\..\..\Data\nurses.json";
+    private List<Nurse?> _nurses;
 
 
     public NurseRepository()
     {
         _nurses = new List<Nurse?>();
         Serializer.Load(this);
-    }
-
-    public void Add(Nurse? nurse)
-    {
-        _nurses.Add(nurse);
-    }
-
-    public Nurse? GetNurseByEmail(string email)
-    {
-        return _nurses.FirstOrDefault(nurse => nurse.Email == email);
     }
 
 
@@ -47,5 +32,15 @@ public class NurseRepository : ISerializable
     public void Import(JToken token)
     {
         _nurses = token.ToObject<List<Nurse>>();
+    }
+
+    public void Add(Nurse? nurse)
+    {
+        _nurses.Add(nurse);
+    }
+
+    public Nurse? GetNurseByEmail(string email)
+    {
+        return _nurses.FirstOrDefault(nurse => nurse.Email == email);
     }
 }

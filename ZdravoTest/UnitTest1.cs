@@ -1,14 +1,14 @@
-using ZdravoCorp.Core.Models.Equipment;
+using ZdravoCorp.Core.Models.Equipments;
 using ZdravoCorp.Core.Models.Inventory;
-using ZdravoCorp.Core.Models.MedicalRecord;
-using ZdravoCorp.Core.Models.Operation;
+using ZdravoCorp.Core.Models.MedicalRecords;
+using ZdravoCorp.Core.Models.Operations;
 using ZdravoCorp.Core.Models.Rooms;
 using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.Repositories.Equipment;
-using ZdravoCorp.Core.Repositories.Inventory;
-using ZdravoCorp.Core.Repositories.Room;
-using ZdravoCorp.Core.Repositories.Schedule;
-using ZdravoCorp.Core.Repositories.User;
+using ZdravoCorp.Core.Repositories.EquipmentRepo;
+using ZdravoCorp.Core.Repositories.InventoryRepo;
+using ZdravoCorp.Core.Repositories.RoomRepo;
+using ZdravoCorp.Core.Repositories.ScheduleRepo;
+using ZdravoCorp.Core.Repositories.UsersRepo;
 using ZdravoCorp.Core.TimeSlots;
 
 namespace ZdravoTest;

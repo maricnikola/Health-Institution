@@ -1,29 +1,48 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
 using Newtonsoft.Json.Linq;
-using ZdravoCorp.Core.Exceptions;
-using ZdravoCorp.Core.Models.Equipment;
 using ZdravoCorp.Core.Models.Inventory;
 using ZdravoCorp.Core.Models.Transfers;
-using ZdravoCorp.Core.Repositories.Equipment;
-using ZdravoCorp.Core.Repositories.Room;
+using ZdravoCorp.Core.Repositories.EquipmentRepo;
+using ZdravoCorp.Core.Repositories.RoomRepo;
 using ZdravoCorp.Core.Utilities;
 
-namespace ZdravoCorp.Core.Repositories.Inventory;
+namespace ZdravoCorp.Core.Repositories.InventoryRepo;
 
 public class InventoryRepository : ISerializable
 {
-    private readonly RoomRepository _roomRepository;
     private readonly EquipmentRepository _equipmentRepository;
-    private List<InventoryItem>? _inventory;
     private readonly string _fileName = @".\..\..\..\Data\inventory.json";
+    private readonly RoomRepository _roomRepository;
+    private List<InventoryItem>? _inventory;
 
 
     public EventHandler OnRequestUpdate;
+
+    public InventoryRepository(RoomRepository roomRepository, EquipmentRepository equipmentRepository)
+    {
+        _roomRepository = roomRepository;
+        _equipmentRepository = equipmentRepository;
+        _inventory = new List<InventoryItem>();
+        Serializer.Load(this);
+        LoadRoomsAndEquipment();
+    }
+
+    public string FileName()
+    {
+        return _fileName;
+    }
+
+    public IEnumerable<object>? GetList()
+    {
+        return _inventory;
+    }
+
+    public void Import(JToken token)
+    {
+        _inventory = token.ToObject<List<InventoryItem>>();
+    }
 
     public void AddItem(InventoryItem newInventoryItem)
     {
@@ -40,15 +59,6 @@ public class InventoryRepository : ISerializable
         {
             _inventory.Add(newInventoryItem);
         }
-    }
-
-    public InventoryRepository(RoomRepository roomRepository, EquipmentRepository equipmentRepository)
-    {
-        _roomRepository = roomRepository;
-        _equipmentRepository = equipmentRepository;
-        _inventory = new List<InventoryItem>();
-        Serializer.Load(this);
-        LoadRoomsAndEquipment();
     }
 
     public List<InventoryItem> GetNonDynamic()
@@ -70,7 +80,6 @@ public class InventoryRepository : ISerializable
     {
         var dynamicEquipment = new List<InventoryItem>();
         foreach (var inventoryItem in _inventory)
-        {
             if (inventoryItem.Equipment.IsDynamic)
             {
                 var index = dynamicEquipment.FindIndex(item =>
@@ -85,14 +94,15 @@ public class InventoryRepository : ISerializable
                     dynamicEquipment.Add(itemCopy);
                 }
             }
-        }
 
         return dynamicEquipment;
     }
 
     public List<InventoryItem> LocateItem(InventoryItem inventoryItem)
     {
-        return _inventory.Where(item => item.EquipmentId == inventoryItem.EquipmentId && item.Quantity != 0 && item.Id != inventoryItem.Id).ToList();
+        return _inventory.Where(item =>
+                item.EquipmentId == inventoryItem.EquipmentId && item.Quantity != 0 && item.Id != inventoryItem.Id)
+            .ToList();
     }
 
     public void UpdateInventoryItem(Transfer transfer)
@@ -110,12 +120,13 @@ public class InventoryRepository : ISerializable
 
     public void UpdateDestinationInventoryItem(int source, int destination, int quantity)
     {
-        var destinationIndex = _inventory.FindIndex(item => item.Id ==destination);
+        var destinationIndex = _inventory.FindIndex(item => item.Id == destination);
         _inventory.ElementAt(destinationIndex).Quantity += quantity;
         var sourceIndex = _inventory.FindIndex(item => item.Id == source);
         _inventory.ElementAt(sourceIndex).Quantity -= quantity;
         Serializer.Save(this);
     }
+
     public void LoadRoomsAndEquipment()
     {
         foreach (var inventoryItem in _inventory)
@@ -132,21 +143,4 @@ public class InventoryRepository : ISerializable
     {
         return _inventory.FirstOrDefault(inv => inv.Id == id);
     }
-
-    public string FileName()
-    {
-        return _fileName;
-    }
-
-    public IEnumerable<object>? GetList()
-    {
-        return _inventory;
-    }
-
-    public void Import(JToken token)
-    {
-        _inventory = token.ToObject<List<InventoryItem>>();
-    }
-
-   
 }

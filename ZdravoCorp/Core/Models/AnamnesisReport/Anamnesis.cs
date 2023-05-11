@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ZdravoCorp.Core.Models.AnamnesisReport;
 
 public class Anamnesis
 {
-    public List<String> Symptoms { get; set; }
-    public String Opinion { get; set; }
-    public String KeyWord { get; set; }
-    public List<String> Allergens { get; set; }
-
-    public Anamnesis(List<String> symptoms, String opinion, String keyWord, List<String> alerrgens)
+    public Anamnesis(List<string> symptoms, string opinion, string keyWord, List<string> alerrgens)
     {
         Symptoms = symptoms;
         Opinion = opinion;
@@ -21,25 +12,22 @@ public class Anamnesis
         Allergens = alerrgens;
     }
 
+    public List<string> Symptoms { get; set; }
+    public string Opinion { get; set; }
+    public string KeyWord { get; set; }
+    public List<string> Allergens { get; set; }
+
     public string SymptomsToString()
     {
-        string ssymptoms = "";
-        foreach (var symptom in Symptoms)
-        {
-            ssymptoms += symptom + " ; ";
-        }
+        var ssymptoms = "";
+        foreach (var symptom in Symptoms) ssymptoms += symptom + " ; ";
         return ssymptoms;
     }
 
     public string AllergensToString()
     {
-        string sallergens= "";
-        foreach (var allergen in Allergens)
-        {
-            sallergens += allergen + " ; ";
-        }
+        var sallergens = "";
+        foreach (var allergen in Allergens) sallergens += allergen + " ; ";
         return sallergens;
     }
-
-
 }

@@ -11,11 +11,11 @@
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type nurse:PatientReceptionViewModel}">
-            <local:PatientReceptionView/>
+            <local:PatientReceptionView />
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type nurse:UrgentAppointmentViewModel}">
-            <local:UrgentAppointmentView/>
+            <local:UrgentAppointmentView />
         </DataTemplate>
 
     </Window.Resources>
@@ -23,23 +23,25 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="70"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="162"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="162" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Nurse" Foreground="White" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0" Height="32" Width="85" ></TextBlock>
+        <TextBlock Text="Nurse" Foreground="White" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Left"
+                   Margin="20,0,0,0" Height="32" Width="85" />
         <StackPanel Grid.Column="0" Grid.Row="1">
-            <RadioButton Content= "New Patient Reception" Height="50" Foreground="WhiteSmoke"  Style="{DynamicResource ToggleTheme}" Command="{Binding NewPatientReceptionCommand}"></RadioButton>
-            <RadioButton Content="Urgent Appointment" Height="50" Foreground="WhiteSmoke"  Style="{DynamicResource ToggleTheme}" Command="{Binding UrgentAppointmentReservationCommand}"></RadioButton>
+            <RadioButton Content="New Patient Reception" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding NewPatientReceptionCommand}" />
+            <RadioButton Content="Urgent Appointment" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding UrgentAppointmentReservationCommand}" />
 
         </StackPanel>
-        <ContentControl Grid.RowSpan="2" Background="#29262e" Content="{Binding Path=CurrentView}" Grid.Row="0" Grid.Column="1" Margin="10,10,10,10" ></ContentControl>
+        <ContentControl Grid.RowSpan="2" Background="#29262e" Content="{Binding Path=CurrentView}" Grid.Row="0"
+                        Grid.Column="1" Margin="10,10,10,10" />
     </Grid>
-
-
 
 
 </Window>

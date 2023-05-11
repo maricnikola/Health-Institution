@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
-using ZdravoCorp.Core.Models.Appointment;
+using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.Repositories.Schedule;
-using ZdravoCorp.Core.Repositories.User;
+using ZdravoCorp.Core.Repositories.ScheduleRepo;
+using ZdravoCorp.Core.Repositories.UsersRepo;
 using ZdravoCorp.View;
 using ZdravoCorp.View.PatientV;
 using ZdravoCorp.View.PatientView;
@@ -18,21 +16,12 @@ namespace ZdravoCorp.Core.ViewModels.PatientViewModel;
 
 public class AppointmentTableViewModel : ViewModelBase
 {
+    private readonly List<Appointment> _allAppointments;
     private ObservableCollection<AppointmentViewModel> _appointments;
+    private readonly ScheduleRepository _controller;
+    private readonly DoctorRepository _doctorRepository;
+    private readonly Patient _patient;
 
-    //public ObservableCollection<AppointmentViewModel> Appointments => _appointments;
-    public AppointmentViewModel SelectedAppointment { get; set; }
-    private ScheduleRepository _controller;
-    private DoctorRepository _doctorRepository;
-    private Patient _patient;
-    private List<Appointment> _allAppointments;
-
-    public ICommand NewAppointmentCommand { get; set; }
-    public ICommand ChangeAppointmentCommand { get; set; }
-    public ICommand CancelAppointmentCommand { get; set; }
-    public ICommand RecommendAppointmentCommand { get; set; }
-
-    
 
     public AppointmentTableViewModel()
     {
@@ -53,17 +42,17 @@ public class AppointmentTableViewModel : ViewModelBase
         RecommendAppointmentCommand = new DelegateCommand(o => RecommendAppointmentComm());
     }
 
-    private void UpdateTable(List<Appointment> appointments)
-    {
-        foreach (var appointment in appointments)
-        {
-            _appointments.Add(new AppointmentViewModel(appointment));
-        }
-    }
+    //public ObservableCollection<AppointmentViewModel> Appointments => _appointments;
+    public AppointmentViewModel SelectedAppointment { get; set; }
+
+    public ICommand NewAppointmentCommand { get; set; }
+    public ICommand ChangeAppointmentCommand { get; set; }
+    public ICommand CancelAppointmentCommand { get; set; }
+    public ICommand RecommendAppointmentCommand { get; set; }
 
     public ObservableCollection<AppointmentViewModel> Appointments
     {
-        get { return _appointments; }
+        get => _appointments;
         set
         {
             _appointments = value;
@@ -71,33 +60,42 @@ public class AppointmentTableViewModel : ViewModelBase
         }
     }
 
+    private void UpdateTable(List<Appointment> appointments)
+    {
+        foreach (var appointment in appointments) _appointments.Add(new AppointmentViewModel(appointment));
+    }
+
 
     private void ChangeAppointmentComm()
     {
-        AppointmentViewModel selectedAppointment = SelectedAppointment;
+        var selectedAppointment = SelectedAppointment;
         if (selectedAppointment != null)
         {
-            Appointment appointment = _controller.GetAppointmentById(selectedAppointment.Id);
-            bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now) > 24;
+            var appointment = _controller.GetAppointmentById(selectedAppointment.Id);
+            var isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now) > 24;
             if (isOnTime)
             {
-                var window = new ChangeAppointmentView()
+                var window = new ChangeAppointmentView
                 {
                     DataContext = new ChangeAppointmentViewModel(selectedAppointment,
-                        _controller, Appointments,_doctorRepository, _patient)
+                        _controller, Appointments, _doctorRepository, _patient)
                 };
                 window.Show();
             }
             else
+            {
                 MessageBox.Show("You are too late", "Error", MessageBoxButton.OK);
+            }
         }
         else
+        {
             MessageBox.Show("None selected", "Error", MessageBoxButton.OK);
+        }
     }
 
     public void NewAppointment()
     {
-        var window = new MakeAppointmentView()
+        var window = new MakeAppointmentView
         {
             DataContext = new MakeAppointmentViewModel(_controller, Appointments,
                 _doctorRepository, _patient)
@@ -108,38 +106,41 @@ public class AppointmentTableViewModel : ViewModelBase
 
     public void CancelAppointmentComm()
     {
-        AppointmentViewModel selectedAppointment = SelectedAppointment;
+        var selectedAppointment = SelectedAppointment;
         if (selectedAppointment != null)
         {
-            Appointment appointment = _controller.GetAppointmentById(selectedAppointment.Id);
-            bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now) > 24;
+            var appointment = _controller.GetAppointmentById(selectedAppointment.Id);
+            var isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now) > 24;
             if (isOnTime)
             {
                 _controller.CancelAppointment(appointment);
                 Appointments.Remove(GetById(selectedAppointment.Id, Appointments));
             }
             else
+            {
                 MessageBox.Show("You are too late", "Error", MessageBoxButton.OK);
+            }
         }
         else
+        {
             MessageBox.Show("None selected", "Error", MessageBoxButton.OK);
+        }
     }
 
     public void RecommendAppointmentComm()
     {
-        var window = new AdvancedMakeAppointmentView() { DataContext = new AdvancedMakeAppointmentViewModel(_doctorRepository, _controller, _patient, Appointments) };
+        var window = new AdvancedMakeAppointmentView
+        {
+            DataContext = new AdvancedMakeAppointmentViewModel(_doctorRepository, _controller, _patient, Appointments)
+        };
         window.Show();
     }
 
     public AppointmentViewModel GetById(int id, ObservableCollection<AppointmentViewModel> Appointments)
     {
         foreach (var appointmentViewModel in Appointments)
-        {
             if (appointmentViewModel.Id == id)
-            {
                 return appointmentViewModel;
-            }
-        }
 
         return null;
     }

@@ -1,59 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using ZdravoCorp.Core.Repositories.Inventory;
-using ZdravoCorp.Core.ViewModels.DirectorViewModel;
-using ZdravoCorp.Core.Utilities;
-using ZdravoCorp.Core.Commands;
 using System.Windows;
+using System.Windows.Input;
+using ZdravoCorp.Core.Commands;
+using ZdravoCorp.Core.Repositories.InventoryRepo;
+using ZdravoCorp.Core.Utilities;
+using ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
-public class DEquipmentSpentViewModel :ViewModelBase
+public class DEquipmentSpentViewModel : ViewModelBase
 {
-    private InventoryRepository _inventoryRepository;
     private ObservableCollection<DynamicInventoryViewModel> _dynamicInventory;
-    private int _roomId;
+    private readonly InventoryRepository _inventoryRepository;
+    private readonly int _roomId;
+
+    public DEquipmentSpentViewModel(InventoryRepository inventoryRepository, int roomId)
+    {
+        _roomId = roomId;
+        _dynamicInventory = new ObservableCollection<DynamicInventoryViewModel>();
+        _inventoryRepository = inventoryRepository;
+        foreach (var inventoryItem in _inventoryRepository.GetDynamic())
+            if (inventoryItem.RoomId == _roomId)
+                _dynamicInventory.Add(new DynamicInventoryViewModel(inventoryItem));
+        ConfirmSpentQuantity = new DelegateCommand(o => ConfirmChanges());
+    }
+
     public IEnumerable<DynamicInventoryViewModel> DynamicInventory
 
     {
-        get { return _dynamicInventory; }
+        get => _dynamicInventory;
         set
         {
             _dynamicInventory = new ObservableCollection<DynamicInventoryViewModel>(value);
             OnPropertyChanged();
         }
     }
-    public ICommand ConfirmSpentQuantity { get; }
-    public DEquipmentSpentViewModel(InventoryRepository inventoryRepository,int roomId)
-    {
-        _roomId = roomId;
-        _dynamicInventory = new ObservableCollection<DynamicInventoryViewModel>();
-        _inventoryRepository = inventoryRepository;
-        foreach (var inventoryItem in _inventoryRepository.GetDynamic())
-        { 
-            if(inventoryItem.RoomId == _roomId)
-            {
-                _dynamicInventory.Add(new DynamicInventoryViewModel(inventoryItem));
-            }
-        }
-        ConfirmSpentQuantity = new DelegateCommand(o => ConfirmChanges());
 
-    }
+    public ICommand ConfirmSpentQuantity { get; }
 
     private void CloseWindow()
     {
-        Window activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+        var activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
         activeWindow?.Close();
     }
+
     public void ConfirmChanges()
     {
-        bool correctnessCheck = true;
-        foreach(var inventoryItem in _dynamicInventory)
+        var correctnessCheck = true;
+        foreach (var inventoryItem in _dynamicInventory)
         {
             if (!inventoryItem.IsChecked) continue;
             if (inventoryItem.OrderQuantity <= 0 || inventoryItem.OrderQuantity > inventoryItem.Quantity)
@@ -61,12 +57,11 @@ public class DEquipmentSpentViewModel :ViewModelBase
                 correctnessCheck = false;
                 break;
             }
-            else
-            {
-                _inventoryRepository.GetInventoryById(inventoryItem.Id).Quantity -= inventoryItem.OrderQuantity;
-                Serializer.Save(_inventoryRepository);
-            }
+
+            _inventoryRepository.GetInventoryById(inventoryItem.Id).Quantity -= inventoryItem.OrderQuantity;
+            Serializer.Save(_inventoryRepository);
         }
+
         if (correctnessCheck) CloseWindow();
         else MessageBox.Show("Invalid data", "Error", MessageBoxButton.OK);
     }

@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:ZdravoCorp.View.PatientView"
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="700">
     <Grid>
@@ -14,15 +13,17 @@
                 <Button Command="{Binding ChangeAppointmentCommand}">Change</Button>
                 <Button Command="{Binding CancelAppointmentCommand}">Cancel</Button>
             </ToolBar>
-            <DataGrid Grid.Row="1" x:Name="DataGridAppointments" ItemsSource="{Binding Appointments, UpdateSourceTrigger=PropertyChanged}"
-                      SelectedItem="{Binding SelectedAppointment, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single"
+            <DataGrid x:Name="DataGridAppointments"
+                      ItemsSource="{Binding Appointments, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedAppointment, UpdateSourceTrigger=PropertyChanged}"
+                      SelectionMode="Single"
                       IsReadOnly="True" AutoGenerateColumns="False" Width="600" Height="325">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Doctor" Width="180"  x:Name="name" Binding="{Binding DoctorName}"/>
+                    <DataGridTextColumn Header="Doctor" Width="180" x:Name="name" Binding="{Binding DoctorName}" />
                     <DataGridTextColumn Header="Patient" Width="180" Binding="{Binding PatientName}" />
                     <DataGridTextColumn Header="Date" Width="180" Binding="{Binding Date}" />
                     <DataGridTextColumn Header="ID" Width="190" Binding="{Binding Id}" />
-  
+
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>

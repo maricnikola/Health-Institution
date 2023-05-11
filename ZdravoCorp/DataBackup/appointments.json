@@ -14,10 +14,16 @@
     },
     "PatientEmail": "sreten.pejovic@gmail.com",
     "Anamnesis": {
-      "Symptoms": [ "fever" ,"cough"],
+      "Symptoms": [
+        "fever",
+        "cough"
+      ],
       "Opinion": "Hospital treatment required",
       "KeyWord": "Now",
-      "Allergens": [ "urticaria" ,"on food"]
+      "Allergens": [
+        "urticaria",
+        "on food"
+      ]
     },
     "Room": null,
     "Status": false
@@ -37,10 +43,16 @@
     },
     "PatientEmail": "sreten.pejovic@gmail.com",
     "Anamnesis": {
-      "Symptoms": [ "fever", "cough" ],
+      "Symptoms": [
+        "fever",
+        "cough"
+      ],
       "Opinion": "Hospital treatment required",
       "KeyWord": "Now",
-      "Allergens": [ "urticaria", "on food" ]
+      "Allergens": [
+        "urticaria",
+        "on food"
+      ]
     },
     "Room": null,
     "Status": false

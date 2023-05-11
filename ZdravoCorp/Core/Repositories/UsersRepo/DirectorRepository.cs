@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text.Json;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using ZdravoCorp.Core.Exceptions;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Utilities;
 
-namespace ZdravoCorp.Core.Repositories.User;
+namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
 public class DirectorRepository : ISerializable
 {
-    private Director? _director;
-
-    public Director? Director => _director;
     private readonly string _fileName = @".\..\..\..\Data\directors.json";
 
 
@@ -25,9 +17,11 @@ public class DirectorRepository : ISerializable
 
     public DirectorRepository(Director director)
     {
-        _director = director;
+        Director = director;
         Serializer.Load(this);
     }
+
+    public Director? Director { get; private set; }
 
 
     public string FileName()
@@ -38,12 +32,12 @@ public class DirectorRepository : ISerializable
     public IEnumerable<object>? GetList()
     {
         var list = new List<object>();
-        if (_director != null) list.Add(_director);
+        if (Director != null) list.Add(Director);
         return list;
     }
 
     public void Import(JToken token)
     {
-        _director = token.ToObject<Director>();
+        Director = token.ToObject<Director>();
     }
 }

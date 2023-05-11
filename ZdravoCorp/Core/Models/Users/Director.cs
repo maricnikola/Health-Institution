@@ -5,12 +5,6 @@ namespace ZdravoCorp.Core.Models.Users;
 
 public class Director
 {
-    public string Email { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    [JsonIgnore] public string FullName => string.Format("Nurse {0} {1}", FirstName, LastName);
-
-
     [JsonConstructor]
     public Director(string email, string firstName, string lastName)
     {
@@ -18,6 +12,11 @@ public class Director
         FirstName = firstName;
         LastName = lastName;
     }
+
+    public string Email { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    [JsonIgnore] public string FullName => string.Format("Nurse {0} {1}", FirstName, LastName);
 
 
     protected bool Equals(Director other)
@@ -29,7 +28,7 @@ public class Director
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
+        if (obj.GetType() != GetType()) return false;
         return Equals((Director)obj);
     }
 

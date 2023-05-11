@@ -1,27 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
-namespace ZdravoCorp.View.PatientView
+namespace ZdravoCorp.View.PatientView;
+
+/// <summary>
+///     Interaction logic for FullAnamnesisView.xaml
+/// </summary>
+public partial class FullAnamnesisView : Window
 {
-    /// <summary>
-    /// Interaction logic for FullAnamnesisView.xaml
-    /// </summary>
-    public partial class FullAnamnesisView : Window
+    public FullAnamnesisView()
     {
-        public FullAnamnesisView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

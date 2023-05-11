@@ -8,5 +8,4 @@ public partial class DynamicTransferWindowView : Window
     {
         InitializeComponent();
     }
-    
 }

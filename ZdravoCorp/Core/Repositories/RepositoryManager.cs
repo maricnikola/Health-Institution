@@ -1,29 +1,45 @@
 ﻿using System;
-using ZdravoCorp.Core.Repositories.Equipment;
-using ZdravoCorp.Core.Repositories.Inventory;
-using ZdravoCorp.Core.Repositories.MedicalRecord;
-using ZdravoCorp.Core.Repositories.Order;
-using ZdravoCorp.Core.Repositories.Room;
-using ZdravoCorp.Core.Repositories.Schedule;
-using ZdravoCorp.Core.Repositories.Transfers;
-using ZdravoCorp.Core.Repositories.User;
+using ZdravoCorp.Core.Repositories.EquipmentRepo;
+using ZdravoCorp.Core.Repositories.InventoryRepo;
+using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
+using ZdravoCorp.Core.Repositories.OrderRepo;
+using ZdravoCorp.Core.Repositories.RoomRepo;
+using ZdravoCorp.Core.Repositories.ScheduleRepo;
+using ZdravoCorp.Core.Repositories.TransfersRepo;
+using ZdravoCorp.Core.Repositories.UsersRepo;
 
 namespace ZdravoCorp.Core.Repositories;
 
 public class RepositoryManager
 {
-    private UserRepository _userRepository;
     private DirectorRepository _directorRepository;
-    private PatientRepository _patientRepository;
-    private NurseRepository _nurseRepository;
     private DoctorRepository _doctorRepository;
     private EquipmentRepository _equipmentRepository;
-    private RoomRepository _roomRepository;
     private InventoryRepository _inventoryRepository;
     private MedicalRecordRepository _medicalRecordRepository;
-    private ScheduleRepository _scheduleRepository;
+    private NurseRepository _nurseRepository;
     private OrderRepository _orderRepository;
+    private PatientRepository _patientRepository;
+    private RoomRepository _roomRepository;
+    private ScheduleRepository _scheduleRepository;
     private TransferRepository _transferRepository;
+    private UserRepository _userRepository;
+
+    public RepositoryManager()
+    {
+        _userRepository = new UserRepository();
+        _directorRepository = new DirectorRepository();
+        _patientRepository = new PatientRepository();
+        _nurseRepository = new NurseRepository();
+        _doctorRepository = new DoctorRepository();
+        _equipmentRepository = new EquipmentRepository();
+        _roomRepository = new RoomRepository();
+        _inventoryRepository = new InventoryRepository(_roomRepository, _equipmentRepository);
+        _medicalRecordRepository = new MedicalRecordRepository();
+        _scheduleRepository = new ScheduleRepository();
+        _orderRepository = new OrderRepository();
+        _transferRepository = new TransferRepository();
+    }
 
     public UserRepository UserRepository
     {
@@ -95,21 +111,5 @@ public class RepositoryManager
     {
         get => _transferRepository;
         set => _transferRepository = value ?? throw new ArgumentNullException(nameof(value));
-    }
-
-    public RepositoryManager()
-    {
-        _userRepository = new UserRepository();
-        _directorRepository = new DirectorRepository();
-        _patientRepository = new PatientRepository();
-        _nurseRepository = new NurseRepository();
-        _doctorRepository = new DoctorRepository();
-        _equipmentRepository = new EquipmentRepository();
-         _roomRepository = new RoomRepository();
-        _inventoryRepository = new InventoryRepository(_roomRepository, _equipmentRepository);
-        _medicalRecordRepository =  new MedicalRecordRepository();
-        _scheduleRepository = new ScheduleRepository();
-        _orderRepository = new OrderRepository();
-        _transferRepository = new TransferRepository();
     }
 }

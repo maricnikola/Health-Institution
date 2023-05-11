@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ZdravoCorp.Core.Counters;
-
 
 public class CounterDictionary
 {
     private readonly string _fileName = @".\..\..\..\Data\counters.json";
-    private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
+
+    private readonly JsonSerializerOptions _serializerOptions = new()
     {
         //WriteIndented = true
         PropertyNameCaseInsensitive = true
     };
+
     public Dictionary<string, Counter>? AllCounters;
 
     public CounterDictionary()
@@ -34,21 +31,22 @@ public class CounterDictionary
             AllCounters[email].Cancelations.Add(date);
             foreach (var d in AllCounters[email].Cancelations)
             {
-                DateTime monthAgo = DateTime.Now - TimeSpan.FromDays(30);
+                var monthAgo = DateTime.Now - TimeSpan.FromDays(30);
                 if (d < monthAgo)
                     AllCounters[email].Cancelations.Remove(d);
             }
         }
         else
         {
-            Counter c = new Counter();
+            var c = new Counter();
             c.Cancelations = new List<DateTime> { date };
             AllCounters.Add(email, c);
         }
-            
-            //AllCounters[email].Cancelations =
+
+        //AllCounters[email].Cancelations =
         SaveToFile();
     }
+
     public void AddNews(string email, DateTime date)
     {
         if (AllCounters.ContainsKey(email))
@@ -56,7 +54,7 @@ public class CounterDictionary
             AllCounters[email].Cancelations.Add(date);
             foreach (var d in AllCounters[email].Cancelations)
             {
-                DateTime monthAgo = DateTime.Now - TimeSpan.FromDays(30);
+                var monthAgo = DateTime.Now - TimeSpan.FromDays(30);
                 if (d < monthAgo)
                     AllCounters[email].Cancelations.Remove(d);
             }
@@ -64,10 +62,11 @@ public class CounterDictionary
 
         else
         {
-            Counter c = new Counter();
+            var c = new Counter();
             c.News = new List<DateTime> { date };
             AllCounters.Add(email, c);
         }
+
         SaveToFile();
     }
 
@@ -75,7 +74,7 @@ public class CounterDictionary
     {
         try
         {
-            return AllCounters[email].Cancelations.Count >= 50 || AllCounters[email].News.Count>=80;
+            return AllCounters[email].Cancelations.Count >= 50 || AllCounters[email].News.Count >= 80;
         }
         catch (Exception e)
         {
@@ -85,12 +84,9 @@ public class CounterDictionary
 
     public void LoadFromFile()
     {
-        string text = File.ReadAllText(_fileName);
-        if (text == "")
-        {
-            return;
-        }
-        Dictionary<string, Counter>? users = JsonConvert.DeserializeObject<Dictionary<string, Counter>>(text);
+        var text = File.ReadAllText(_fileName);
+        if (text == "") return;
+        var users = JsonConvert.DeserializeObject<Dictionary<string, Counter>>(text);
 
         AllCounters = users;
     }
@@ -98,7 +94,6 @@ public class CounterDictionary
     public void SaveToFile()
     {
         var counters = JsonConvert.SerializeObject(AllCounters, Formatting.Indented);
-        File.WriteAllText(this._fileName, counters);
+        File.WriteAllText(_fileName, counters);
     }
-
 }

@@ -1,23 +1,31 @@
 ﻿using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
-using ZdravoCorp.Core.Models.MedicalRecord;
 using ZdravoCorp.Core.Repositories;
-using ZdravoCorp.Core.Repositories.Inventory;
-using ZdravoCorp.Core.Repositories.MedicalRecord;
-using ZdravoCorp.Core.Repositories.Order;
-using ZdravoCorp.Core.Repositories.Schedule;
-using ZdravoCorp.Core.Repositories.User;
+using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
+using ZdravoCorp.Core.Repositories.ScheduleRepo;
+using ZdravoCorp.Core.Repositories.UsersRepo;
 
 namespace ZdravoCorp.Core.ViewModels.NurseViewModel;
 
 public class NurseViewModel : ViewModelBase
 
 {
-    private PatientRepository _patientRepository;
-    private MedicalRecordRepository _medicalRecordRepository;
-    private ScheduleRepository _scheduleRepository;
-    private DoctorRepository _doctorRepository;
     private object _currentView;
+    private readonly DoctorRepository _doctorRepository;
+    private readonly MedicalRecordRepository _medicalRecordRepository;
+    private readonly PatientRepository _patientRepository;
+    private readonly ScheduleRepository _scheduleRepository;
+
+    public NurseViewModel(RepositoryManager repositoryManager)
+    {
+        _patientRepository = repositoryManager.PatientRepository;
+        _medicalRecordRepository = repositoryManager.MedicalRecordRepository;
+        _scheduleRepository = repositoryManager.ScheduleRepository;
+        _doctorRepository = repositoryManager.DoctorRepository;
+        NewPatientReceptionCommand = new DelegateCommand(o => NewPatientReception());
+        UrgentAppointmentReservationCommand = new DelegateCommand(o => UrgentAppointmentReservation());
+        _currentView = new PatientReceptionViewModel(_patientRepository, _scheduleRepository);
+    }
 
     public ICommand NewPatientReceptionCommand { get; private set; }
     public ICommand UrgentAppointmentReservationCommand { get; private set; }
@@ -25,26 +33,12 @@ public class NurseViewModel : ViewModelBase
 
     public object CurrentView
     {
-        get
-        {
-            return _currentView;
-        }
+        get => _currentView;
         set
         {
             _currentView = value;
-            OnPropertyChanged("CurrentView");
+            OnPropertyChanged();
         }
-    }
-
-    public NurseViewModel(RepositoryManager repositoryManager)
-    {
-        _patientRepository = repositoryManager.PatientRepository;
-        _medicalRecordRepository = repositoryManager.MedicalRecordRepository;
-        _scheduleRepository = repositoryManager.ScheduleRepository;   
-        _doctorRepository = repositoryManager.DoctorRepository;
-        NewPatientReceptionCommand = new DelegateCommand(o => NewPatientReception());
-        UrgentAppointmentReservationCommand = new DelegateCommand(o => UrgentAppointmentReservation());
-        _currentView = new PatientReceptionViewModel(_patientRepository, _scheduleRepository);
     }
 
     public void NewPatientReception()
