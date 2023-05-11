@@ -104,6 +104,13 @@ namespace ZdravoCorp.Core.TimeSlots
                 return hash;
             }
         }
+
+        public bool IsNow()
+        {
+            DateTime nowTime = DateTime.Now;
+            TimeSpan interval = start - nowTime;
+            return interval.TotalMinutes < 5;
+        }
     }
     
 }

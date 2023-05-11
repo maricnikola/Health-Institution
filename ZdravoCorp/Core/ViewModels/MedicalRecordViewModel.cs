@@ -21,6 +21,7 @@ class MedicalRecordViewModel:ViewModelBase
 	private MedicalRecordRepository _medicalRecordRepository;
 	
 	public ICommand SaveCommand { get; }
+	public ICommand CloseCommand { get; }
     public MedicalRecordViewModel(MedicalRecord medicalRecord,MedicalRecordRepository medicalRecordRepository)
     {
 		_medicalRecordRepository = medicalRecordRepository;
@@ -29,6 +30,7 @@ class MedicalRecordViewModel:ViewModelBase
 		_weight = _medicalRecord.weight;
 		_diseaseHistory = medicalRecord.DiseaseHistoryToString();
 		SaveCommand = new DelegateCommand(o => SaveChangesMedicalRecord());
+		CloseCommand = new DelegateCommand(o => CloseWindow());
     }
 
 	private int _height;
@@ -72,8 +74,12 @@ class MedicalRecordViewModel:ViewModelBase
 			OnPropertyChanged(nameof(DiseaseHistory));
 		}
 	}
-
-	public void SaveChangesMedicalRecord()
+    private void CloseWindow()
+    {
+        Window activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+        activeWindow?.Close();
+    }
+    public void SaveChangesMedicalRecord()
 	{
 
         try
@@ -85,6 +91,7 @@ class MedicalRecordViewModel:ViewModelBase
 			if (checkData)
 			{
 				_medicalRecordRepository.ChangeRecord(_medicalRecord.user.Email, height, weight, diseasHistory);
+				CloseWindow();
 
 			}else MessageBox.Show("Invalid Medical record", "Error", MessageBoxButton.OK);
         }

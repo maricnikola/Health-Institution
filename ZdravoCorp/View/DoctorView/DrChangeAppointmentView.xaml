@@ -40,7 +40,7 @@
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" Margin=" 0 50 0 0">
             <Button Command="{Binding ChangeCommand}" Padding="10" Content="Change" Margin="80 0 100 0"/>
-            <Button Command="{Binding CancelCommand}"  Padding="10" Content="Cancel" Click="Button_Click"/>
+            <Button Command="{Binding CancelCommand}"  Padding="10" Content="Cancel" />
         </StackPanel>
 
     </Grid>

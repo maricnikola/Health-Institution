@@ -50,6 +50,7 @@ namespace ZdravoCorp.Core.ViewModels.DoctorViewModels
             _changeHours = appointmentModel.Date.Hour;
             _changeMinutes = appointmentModel.Date.Minute;
             ChangeCommand = new DelegateCommand(o => DrChangeAppointment(appointment));
+            CancelCommand = new DelegateCommand(o => CloseWindow());
         }
 
 
@@ -100,6 +101,11 @@ namespace ZdravoCorp.Core.ViewModels.DoctorViewModels
 
         public ICommand ChangeCommand { get; }
         public ICommand CancelCommand { get; }
+        private void CloseWindow()
+        {
+            Window activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+            activeWindow?.Close();
+        }
 
         public void DrChangeAppointment(ObservableCollection<AppointmentViewModel> Appointments)
         {
@@ -124,6 +130,7 @@ namespace ZdravoCorp.Core.ViewModels.DoctorViewModels
 
                 if (appointment != null)
                 {
+                    CloseWindow();
                     if (_scheduleRepository.IsForShow(appointment, _date))
                     {
                         Appointments.Remove(_appointmentModel);
