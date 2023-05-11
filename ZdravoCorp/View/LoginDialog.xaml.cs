@@ -6,6 +6,7 @@ using System.Windows;
 using ZdravoCorp.Core.Counters;
 using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.Users;
+using ZdravoCorp.Core.Repositories.Equipment;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Order;
 using ZdravoCorp.Core.Repositories.Room;
@@ -38,6 +39,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
     private readonly OrderRepository _orderRepository;
     private readonly RoomRepository _roomRepository;
     private readonly TransferRepository _transferRepository;
+    private readonly EquipmentRepository _equipmentRepository;
     private readonly MedicalRecordRepository _medicalRecordRepository;
     
     public string Email
@@ -71,7 +73,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             }
         }
     }
-    public LoginDialog(UserRepository userRepository, PatientRepository patientRepository ,DoctorRepository doctorRepository, ScheduleRepository scheduleRepository,InventoryRepository inventoryRepository, OrderRepository orderRepository, RoomRepository roomRepository, TransferRepository transferRepository,MedicalRecordRepository medicalRecordRepository)
+    public LoginDialog(UserRepository userRepository, PatientRepository patientRepository ,DoctorRepository doctorRepository, ScheduleRepository scheduleRepository,InventoryRepository inventoryRepository, OrderRepository orderRepository, RoomRepository roomRepository, TransferRepository transferRepository,MedicalRecordRepository medicalRecordRepository, EquipmentRepository equipmentRepository)
     {
         _roomRepository = roomRepository;
         _patientRepository = patientRepository;
@@ -82,6 +84,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
         _orderRepository = orderRepository;
         _transferRepository = transferRepository;
         _medicalRecordRepository = medicalRecordRepository;
+        _equipmentRepository = equipmentRepository;
         InitializeComponent();
         DataContext = this;
     }
@@ -99,7 +102,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
         {
                 case User.UserType.Director:
                     //start director view
-                    Application.Current.MainWindow = new DirectorWindow() {DataContext = new DirectorViewModel(_inventoryRepository, _orderRepository, _roomRepository, _transferRepository)};;
+                    Application.Current.MainWindow = new DirectorWindow() {DataContext = new DirectorViewModel(_inventoryRepository, _orderRepository, _roomRepository, _transferRepository, _equipmentRepository)};;
                     break;
                 case User.UserType.Patient:
                     //start patient view

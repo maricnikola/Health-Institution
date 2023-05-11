@@ -6,7 +6,7 @@ public class InventoryViewModel : ViewModelBase
 {
     private InventoryItem _inventoryItem;
     public int Id => _inventoryItem.Id;
-    public string Name => _inventoryItem.Equipment.Name;
+    public string? Name => _inventoryItem.Equipment.Name;
     public int Room => _inventoryItem.RoomId;
     public string Type => _inventoryItem.Equipment.Type.ToString();
     public string RoomType => _inventoryItem.Room.Type.ToString();

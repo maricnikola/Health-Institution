@@ -12,12 +12,16 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <Label Content="Order dynamic equipment" FontSize="24" Foreground="WhiteSmoke" HorizontalAlignment="Center"></Label>
+        <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
+            <Label Content="Order dynamic equipment" FontSize="18" Foreground="WhiteSmoke" VerticalContentAlignment="Center" ></Label>
+            <Button Content="Make Order" Width="100" Padding="4" Margin="300,20,20,20" Command="{Binding CreateOrder}"></Button>
+        </StackPanel>
         <DataGrid Grid.Row="1" ItemsSource="{Binding DynamicInventory, UpdateSourceTrigger=PropertyChanged}"
                   SelectionMode="Single"
-                  AutoGenerateColumns="False" Margin="30" Name="DynamicEq">
+                  AutoGenerateColumns="False" Margin="20" Name="DynamicEq">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" IsReadOnly="True" Width="100" x:Name="Name" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Quantity" IsReadOnly="True" Binding="{Binding Quantity}" />
@@ -32,6 +36,17 @@
   
             </DataGrid.Columns>
         </DataGrid>
-        <Button Grid.Row="2" Content="Make Order" Width="100" Padding="4" Margin="20" Command="{Binding CreateOrder}"></Button>
+        <Label Grid.Row="2" Foreground="WhiteSmoke" Margin="10,0,0,0">Orders:</Label>
+        
+        <DataGrid Grid.Row="3" ItemsSource="{Binding Orders, UpdateSourceTrigger=PropertyChanged}"
+                  SelectionMode="Single"
+                  IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,10" Name="Orders">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Items" Width="200"  Binding="{Binding Items}"/>
+                <DataGridTextColumn Header="Order Time" Width="180" Binding="{Binding OrderTime}" />
+                <DataGridTextColumn Header="Arrival Time"  Width="180" Binding="{Binding ArrivalTime}" />
+                <DataGridTextColumn Header="Status" Width="80" Binding="{Binding Status}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>
