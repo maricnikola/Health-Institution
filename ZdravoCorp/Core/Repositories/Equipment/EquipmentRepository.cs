@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Exceptions;
 using ZdravoCorp.Core.Utilities;
@@ -13,12 +12,7 @@ public class EquipmentRepository : ISerializable
 {
     private List<Models.Equipment.Equipment>? _equipment;
     private readonly string _fileName = @".\..\..\..\Data\equipment.json";
-
-    private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
-    {
-        PropertyNameCaseInsensitive = true
-    };
-
+    
     public EquipmentRepository()
 
     {
@@ -29,7 +23,7 @@ public class EquipmentRepository : ISerializable
 
     public void Add(Models.Equipment.Equipment newEquipment)
     {
-        _equipment.Add(newEquipment);
+        _equipment?.Add(newEquipment);
     }
 
     public Models.Equipment.Equipment? GetById(int id)

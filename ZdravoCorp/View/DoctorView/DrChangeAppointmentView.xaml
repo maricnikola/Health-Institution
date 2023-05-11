@@ -30,10 +30,10 @@
                 <Label Foreground="White" Content="Enter the time"/>
             </Grid>
             <Grid Grid.Column="1" Margin="10 0 20 0">
-                <TextBox Text="{Binding ChangeHours,UpdateSourceTrigger=PropertyChanged}" Margin="60,0,-70,0" RenderTransformOrigin="0.5,0.477"/>
+                <ComboBox ItemsSource="{Binding PossibleHours}" SelectedItem="{Binding StartTimeHours,UpdateSourceTrigger=PropertyChanged}" Margin="60,0,-70,0" RenderTransformOrigin="0.5,0.477"/>
             </Grid>
             <Grid Grid.Column="2" Margin="20 0 0 0">
-                <TextBox Text="{Binding ChangeMinutes,UpdateSourceTrigger=PropertyChanged}"  Margin="75,0,-75,0"/>
+                <ComboBox ItemsSource="{Binding PossibleMinutes}"  SelectedItem="{Binding StartTimeMinutes,UpdateSourceTrigger=PropertyChanged}"  Margin="75,0,-75,0"/>
             </Grid>
 
         </Grid>

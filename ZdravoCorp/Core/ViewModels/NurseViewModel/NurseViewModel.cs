@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.MedicalRecord;
+using ZdravoCorp.Core.Repositories;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.MedicalRecord;
 using ZdravoCorp.Core.Repositories.Order;
@@ -35,12 +36,12 @@ public class NurseViewModel : ViewModelBase
         }
     }
 
-    public NurseViewModel(MedicalRecordRepository medicalRecordRepository, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, PatientRepository patientRepository)
+    public NurseViewModel(RepositoryManager repositoryManager)
     {
-        _patientRepository = patientRepository;
-        _medicalRecordRepository = medicalRecordRepository;
-        _scheduleRepository = scheduleRepository;   
-        _doctorRepository = doctorRepository;
+        _patientRepository = repositoryManager.PatientRepository;
+        _medicalRecordRepository = repositoryManager.MedicalRecordRepository;
+        _scheduleRepository = repositoryManager.ScheduleRepository;   
+        _doctorRepository = repositoryManager.DoctorRepository;
         NewPatientReceptionCommand = new DelegateCommand(o => NewPatientReception());
         UrgentAppointmentReservationCommand = new DelegateCommand(o => UrgentAppointmentReservation());
         _currentView = new PatientReceptionViewModel(_patientRepository, _scheduleRepository);

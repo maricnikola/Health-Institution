@@ -26,6 +26,8 @@ namespace ZdravoCorp.Core.ViewModels.DoctorViewModels
         private Patient _patient;
         private AppointmentViewModel _appointmentModel;
         private DateTime _date;
+        public int[] PossibleMinutes { get; set; }
+        public int[] PossibleHours { get; set; }
 
 
         public DrChangeAppointmentViewModel(AppointmentViewModel appointmentModel, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, ObservableCollection<AppointmentViewModel> appointment, PatientRepository patientRepository, Doctor doctor, Patient patient, AppointmentViewModel appointmentSelected, DateTime date)
@@ -47,8 +49,11 @@ namespace ZdravoCorp.Core.ViewModels.DoctorViewModels
             }
 
             _startDateChange = appointmentModel.Date;
-            _changeHours = appointmentModel.Date.Hour;
-            _changeMinutes = appointmentModel.Date.Minute;
+            _startTimeHours = _appointmentModel.Date.Hour;
+            _startTimeMinutes = _appointmentModel.Date.Minute;
+            PossibleMinutes = new[] { 00, 15, 30, 45 };
+            PossibleHours = new[]
+                { 00, 01, 02, 03, 04, 05, 06, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
             ChangeCommand = new DelegateCommand(o => DrChangeAppointment(appointment));
             CancelCommand = new DelegateCommand(o => CloseWindow());
         }
@@ -70,30 +75,30 @@ namespace ZdravoCorp.Core.ViewModels.DoctorViewModels
             }
         }
 
-        private int _changeHours;
-        public int ChangeHours
+        private int _startTimeHours = 00;
+        public int StartTimeHours
         {
             get
             {
-                return _changeHours;
+                return _startTimeHours;
             }
             set
             {
-                _changeHours = value;
-                OnPropertyChanged(nameof(ChangeHours));
+                _startTimeHours = value;
+                OnPropertyChanged(nameof(StartTimeHours));
             }
         }
-        private int _changeMinutes;
-        public int ChangeMinutes
+        private int _startTimeMinutes = 00;
+        public int StartTimeMinutes
         {
             get
             {
-                return _changeMinutes;
+                return _startTimeMinutes;
             }
             set
             {
-                _changeMinutes = value;
-                OnPropertyChanged(nameof(ChangeMinutes));
+                _startTimeMinutes = value;
+                OnPropertyChanged(nameof(StartTimeMinutes));
             }
         }
 
@@ -111,8 +116,8 @@ namespace ZdravoCorp.Core.ViewModels.DoctorViewModels
         {
             try
             {
-                int hours = ChangeHours;
-                int minutes = ChangeMinutes;
+                int hours = StartTimeHours;
+                int minutes = StartTimeMinutes;
                 DateTime d = StartDateChange;
 
                 DateTime start = new DateTime(d.Year, d.Month, d.Day, hours, minutes, 0);

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZdravoCorp.View.DoctorView"
         mc:Ignorable="d"
-       Title="Medical record" Height="550" Width="400"
+       Title="Medical record" Height="500" Width="500"
         Background="#29262e">
     <Grid Margin="30,0,0,16">
         <Grid.RowDefinitions>
@@ -15,6 +15,8 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -38,33 +40,40 @@
             <Label  Foreground="White" Content="Disease symptoms: "/>
         </Grid>
         <Grid Grid.Row="2" Grid.Column="1"  Margin="0 10 30 20">
-            <TextBox Height="40" Width="170" Text="{Binding  DiseaseSymptoms,UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Height="40" Width="170" Text="{Binding  Symptoms,UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
         <Grid Grid.Row="3" Grid.Column="0"  Margin=" 0 10 30 20">
             <Label Foreground="White" Content="Doctor's opinion: "/>
         </Grid>
         <Grid Grid.Row="3" Grid.Column="1" Margin="0 10 30 15">
-            <TextBox  Height="40" Width="170" Text="{Binding  DoctorOpinion,UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox  Height="40" Width="170" Text="{Binding  Opinion,UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         <Grid Grid.Row="4" Grid.Column="0"  Margin=" 0 10 30 15">
             <Label  Foreground="White" Content="Allergens:  "/>
         </Grid>
         <Grid Grid.Row="4" Grid.Column="1"  Margin="0 10 30 15">
-            <TextBox  Width="170" Text="{Binding  PatientAllergens,UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox  Width="170" Text="{Binding  Allergens,UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid Grid.Row="5" Grid.Column="1"  Margin=" 0 10 30 15">
+        <Grid Grid.Row="5" Grid.Column="0">
+            <Label  Foreground="White" Content="Key word:   "/>
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="1"  Margin="0 10 30 15">
+            <TextBox  Width="170" Text="{Binding  KeyWord,UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+              
+        <Grid Grid.Row="6" Grid.Column="1"  Margin=" 0 10 30 15">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
-                <Button Content="Save"  Command="{Binding SaveCommand}" Padding="4" Margin="0,0,20,0" Width="100"/>
+                <Button Content="Save"  Command="{Binding PerformCommand}" Padding="4" Margin="0 0 20 0" Width="100"/>
             </Grid>
-            <Grid Grid.Column="1">
-                <Button Content="Close" Command="{Binding CloseCommand}" Padding="4" Margin="0,0,0,0" Width="100"/>
+            <Grid Grid.Column="1" Margin="0 0 10 0">
+                <Button Content="Close" Command="{Binding CancelCommand}" Padding="4" Margin="0,0,0,0" Width="100"/>
             </Grid>
         </Grid>
-        <Grid Grid.Row="5" Grid.Column="0" Margin="0 10 30 15">
+        <Grid Grid.Row="6" Grid.Column="0" Margin="0 10 0 15">
             <Button Content="Medical Record" Command="{Binding MedicalRCommand}" Padding="4" Margin="0,0,0,0" Width="100"/>
         </Grid>
 

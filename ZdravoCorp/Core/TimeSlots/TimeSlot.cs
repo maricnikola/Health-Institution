@@ -14,6 +14,7 @@ namespace ZdravoCorp.Core.TimeSlots
         public DateTime start { get; set; }
         public DateTime end { get; set; }
 
+        
         public TimeSlot(DateTime start, DateTime end)
         {
             this.start = start;
@@ -110,7 +111,21 @@ namespace ZdravoCorp.Core.TimeSlots
             DateTime nowTime = DateTime.Now;
             TimeSpan interval = start - nowTime;
             bool notPassed = !(start.CompareTo(DateTime.Now) < 0);
-            return interval.TotalMinutes < 5 && notPassed ;
+            return interval.TotalMinutes < 15 && notPassed ;
+        }
+
+        public static DateTime GiveFirstDevisibleBy15(DateTime time)       //this should be somewhere else
+        {
+            var minutes = time.Minute;
+            var minutesToAdd = minutes switch
+            {
+                < 15 => 15 - minutes,
+                < 30 => 30 - minutes,
+                < 45 => 45 - minutes,
+                < 60 => 60 - minutes,
+                _ => 0
+            };
+            return time.AddMinutes(minutesToAdd);
         }
 
         public bool IsBefore()

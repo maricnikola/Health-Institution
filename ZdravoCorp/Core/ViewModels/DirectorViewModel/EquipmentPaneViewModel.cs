@@ -23,11 +23,7 @@ public class EquipmentPaneViewModel : ViewModelBase
     private string _selectedEquipmentType = "None";
     private string _selectedQuantity = "None";
     private bool _warehouseChecked = false;
-
-    public EquipmentPaneViewModel()
-    {
-    }
-
+    
     public bool IsWarehouseChecked
     {
         get { return _warehouseChecked; }
@@ -228,19 +224,17 @@ public class EquipmentPaneViewModel : ViewModelBase
     {
         _lock = new object();
         _inventoryRepository = inventoryRepository;
-
         _inventoryRepository.OnRequestUpdate += (s, e) => UpdateTable();
         _allInventory = new ObservableCollection<InventoryViewModel>();
         foreach (var inventoryItem in _inventoryRepository.GetAll())
         {
             _allInventory.Add(new InventoryViewModel(inventoryItem));
         }
-
         _inventory = _allInventory;
-        BindingOperations.EnableCollectionSynchronization(_inventory, _lock);
         _equipmentTypes = new ObservableCollection<string>();
         _roomTypes = new ObservableCollection<string>();
         _quantities = new ObservableCollection<string>();
+        BindingOperations.EnableCollectionSynchronization(_inventory, _lock);
         LoadComboBoxCollections();
     }
 
