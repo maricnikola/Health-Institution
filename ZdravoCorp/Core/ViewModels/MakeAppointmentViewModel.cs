@@ -120,7 +120,6 @@ public class MakeAppointmentViewModel : ViewModelBase
             string mail = tokens[1];
             Doctor doctor = _doctorRepository.GetDoctorByEmail(mail);
 
-            MedicalRecord medicalRecord = new MedicalRecord(_patient);
 
             Appointment appointment = _scheduleRepository.CreateAppointment(time, doctor, _patient.Email);
             if (appointment!=null)

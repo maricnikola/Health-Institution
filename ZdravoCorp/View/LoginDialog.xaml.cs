@@ -115,7 +115,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                         Application.Current.MainWindow = new PatientWindow()
                         {
                             DataContext = new PatientViewModel(appointments, _scheduleRepository, _doctorRepository,
-                                patient)
+                                patient, _medicalRecordRepository)
                         };
 
                     break;

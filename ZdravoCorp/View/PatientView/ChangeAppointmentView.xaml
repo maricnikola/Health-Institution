@@ -11,12 +11,12 @@
         <Label Content="Doctor : " HorizontalAlignment="Left" Margin="27,129,0,0" VerticalAlignment="Top" FontSize="22"/>
         <DatePicker SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="155,217,0,0" VerticalAlignment="Top" Height="114" Width="134"/>
         <Label Content="Datum : " HorizontalAlignment="Left" Margin="27,217,0,0" VerticalAlignment="Top" FontSize="24"/>
-        <TextBox Text="{Binding Hours, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="32" Margin="513,227,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" RenderTransformOrigin="0.476,0.568"  FontSize="18"/>
         <Label Content="Tacno vreme : " HorizontalAlignment="Left" Margin="352,217,0,0" VerticalAlignment="Top" FontSize="24"/>
-        <Label Content=":" HorizontalAlignment="Left" Margin="545,222,0,0" VerticalAlignment="Top" FontSize="20"/>
         <Button Command="{Binding ChangeAppointmentCommand}" Content="Change" HorizontalAlignment="Left" Margin="222,355,0,0" VerticalAlignment="Top" Height="48" Width="129" FontSize="16"/>
         <Button Content="Cancel" HorizontalAlignment="Left" Margin="418,355,0,0" VerticalAlignment="Top" FontSize="20" Height="48" Width="116" Click="Button_Click"/>
-        <TextBox Text="{Binding Minutes, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="32" Margin="562,227,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" RenderTransformOrigin="0.476,0.568" FontSize="18"/>
+        <Label Content=":" HorizontalAlignment="Left" Margin="560,219,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <ComboBox SelectedIndex="1" SelectedItem="{Binding Hours, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding PossibleHours}" HorizontalAlignment="Left" Margin="511,223,0,0" VerticalAlignment="Top" Width="49" Height="30"/>
+        <ComboBox SelectedIndex ="1"  SelectedItem="{Binding Minutes, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding PossibleMinutes}" HorizontalAlignment="Left" Margin="574,223,0,0" VerticalAlignment="Top" Width="49" Height="30"/>
 
     </Grid>
 </Window>
