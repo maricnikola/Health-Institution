@@ -5,6 +5,7 @@ using Quartz.Impl;
 using ZdravoCorp.Core.Models.Orders;
 using ZdravoCorp.Core.Models.Transfers;
 using ZdravoCorp.Core.Repositories.Inventory;
+using ZdravoCorp.Core.Repositories.Order;
 using ZdravoCorp.Core.Repositories.Transfers;
 
 namespace ZdravoCorp.Core.Utilities.CronJobs;
@@ -22,14 +23,15 @@ public class JobScheduler
     }
 
     // dynamic equipment order task
-    public static void DEquipmentTaskScheduler(Order order, InventoryRepository inventoryRepository)
+    public static void DEquipmentTaskScheduler(Order order, InventoryRepository inventoryRepository, OrderRepository orderRepository)
     {
         var job = JobBuilder.Create<DEquipmentExecuteOrder>()
             .WithIdentity(name: "DEquipmentTask" + order.OrderTime, group: "Orders").Build();
         job.JobDataMap["order"] = order;
         job.JobDataMap["invrepo"] = inventoryRepository;
-        var trigger = TriggerBuilder.Create().WithIdentity("trigger" + order.ArrivalTime, group: "OrderTriggers")
-            .WithCronSchedule("0 " + order.ArrivalTime.Minute + " " + order.ArrivalTime.Hour + " " + " * * ?",
+        job.JobDataMap["ordrepo"] = orderRepository;
+         var trigger = TriggerBuilder.Create().WithIdentity("trigger" + order.ArrivalTime, group: "OrderTriggers")
+            .WithCronSchedule("0 " + order.ArrivalTime.Minute + " " + order.ArrivalTime.Hour + " " +  order.ArrivalTime.Day + " " + order.ArrivalTime.Month + " ? *",
                 x => x.InTimeZone(TimeZoneInfo.Local)).ForJob(job).Build();
         _scheduler.ScheduleJob(job, trigger);
     }

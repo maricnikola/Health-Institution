@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Utilities;
 
@@ -8,11 +9,11 @@ public class OrderRepository : ISerializable
 {
     private List<Models.Orders.Order>? _orders;
     private readonly string _fileName = @".\..\..\..\Data\orders.json";
-
+    public  EventHandler OnRequestUpdate;
     public OrderRepository()
     {
         _orders = new List<Models.Orders.Order>();
-            //Serializer.Load(this);
+        Serializer.Load(this);
     }
 
     public void AddOrder(Models.Orders.Order order)
