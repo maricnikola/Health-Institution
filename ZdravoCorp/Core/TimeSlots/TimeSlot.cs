@@ -127,6 +127,11 @@ namespace ZdravoCorp.Core.TimeSlots
             };
             return time.AddMinutes(minutesToAdd);
         }
+
+        public bool IsBefore()
+        {
+            return start.CompareTo(start) < 0;
+        }
     }
     
 }

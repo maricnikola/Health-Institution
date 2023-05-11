@@ -23,7 +23,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Label  Foreground="LightGray" Margin="0,0,0,5" FontSize="18" Content="Doctor specialization : "></Label>
-                <ComboBox Grid.Row="1" SelectedItem="{Binding Path=SelectedEquipmentType}"  ItemsSource="{Binding Path=EquipmentTypes}" Text="Equipment Type" Width="100" Margin="10,0,10, 10"></ComboBox>
+                <ComboBox Grid.Row="1" SelectedItem="{Binding Path=SpecializationType}"  ItemsSource="{Binding Path=SpecializationTypes}" Text="Equipment Type" Width="100" Margin="10,0,10, 10"></ComboBox>
             </Grid>
 
             <Button Command="{Binding FindUrgentAppointmentCommand}" Padding="10" Content="Find" Margin="80 20 100 20"/>
