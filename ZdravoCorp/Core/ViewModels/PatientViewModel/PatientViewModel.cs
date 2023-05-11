@@ -5,6 +5,7 @@ using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.Users;
+using ZdravoCorp.Core.Repositories;
 using ZdravoCorp.Core.Repositories.MedicalRecord;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
@@ -34,16 +35,16 @@ public class PatientViewModel : ViewModelBase
         }
     }
     
-    public PatientViewModel(List<Appointment> appointments, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, Patient patient, MedicalRecordRepository medicalRecordRepository)
+    public PatientViewModel(List<Appointment> appointments, Patient patient,RepositoryManager _repositoryManager)
     {
         _appointments = appointments;
-        _scheduleRepository = scheduleRepository;
-        _doctorRepository = doctorRepository;
+        _scheduleRepository = _repositoryManager.ScheduleRepository;
+        _doctorRepository = _repositoryManager.DoctorRepository;
         _patient = patient;
-        _medicalRecordRepository = medicalRecordRepository;
+        _medicalRecordRepository = _repositoryManager.MedicalRecordRepository;
         LoadAppointmentsCommand = new DelegateCommand(o => LoadAppointments());
         LoadMedicalRecordCommand = new DelegateCommand(o => LoadMedicalRecord());
-        _currentView = new AppointmentTableViewModel(_appointments, scheduleRepository, _doctorRepository, _patient);
+        _currentView = new AppointmentTableViewModel(_appointments, _scheduleRepository, _doctorRepository, _patient);
     }
 
     public void LoadAppointments()

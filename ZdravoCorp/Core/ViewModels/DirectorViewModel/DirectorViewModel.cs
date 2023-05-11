@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
+using ZdravoCorp.Core.Repositories;
 using ZdravoCorp.Core.Repositories.Equipment;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Order;
@@ -34,13 +35,13 @@ public class DirectorViewModel : ViewModelBase
         }
     }
 
-    public DirectorViewModel(InventoryRepository inventoryRepository, OrderRepository orderRepository, RoomRepository roomRepository, TransferRepository transferRepository, EquipmentRepository equipmentRepository)
+    public DirectorViewModel(RepositoryManager _repositoryManager)
     {
-        _inventoryRepository = inventoryRepository;
-        _orderRepository = orderRepository;
-        _equipmentRepository = equipmentRepository;
-        _roomRepository = roomRepository;
-        _transferRepository = transferRepository;
+        _inventoryRepository = _repositoryManager.InventoryRepository;
+        _orderRepository = _repositoryManager.OrderRepository;
+        _equipmentRepository = _repositoryManager.EquipmentRepository;
+        _roomRepository = _repositoryManager.RoomRepository;
+        _transferRepository = _repositoryManager.TransferRepository;
         ViewEquipmentCommand = new DelegateCommand(o => EquipmentView());
         MoveEquipmentCommand = new DelegateCommand(o => MoveEquipmentView());
         ViewDynamicEquipmentCommand = new DelegateCommand(o => DynamicEquipmentView());
