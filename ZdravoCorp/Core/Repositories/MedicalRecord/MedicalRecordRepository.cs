@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text.Json;
 using ZdravoCorp.Core.Exceptions;
 using ZdravoCorp.Core.Models.MedicalRecord;
-using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.MedicalRecord;

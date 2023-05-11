@@ -6,20 +6,21 @@ namespace ZdravoCorp.Core.Repositories.Order;
 
 public class OrderRepository : ISerializable
 {
-    private List<Models.Order.Order>? _orders;
+    private List<Models.Orders.Order>? _orders;
     private readonly string _fileName = @".\..\..\..\Data\orders.json";
-    
+
     public OrderRepository()
     {
-        _orders = new List<Models.Order.Order>();
+        _orders = new List<Models.Orders.Order>();
+            //Serializer.Load(this);
     }
 
-    public void AddOrder(Models.Order.Order order)
+    public void AddOrder(Models.Orders.Order order)
     {
         _orders.Add(order);
     }
 
-    public List<Models.Order.Order>? GetOrders()
+    public List<Models.Orders.Order>? GetOrders()
     {
         return _orders;
     }
@@ -36,6 +37,6 @@ public class OrderRepository : ISerializable
 
     public void Import(JToken token)
     {
-        _orders = token.ToObject < List<Models.Order.Order>>();
+        _orders = token.ToObject<List<Models.Orders.Order>>();
     }
 }

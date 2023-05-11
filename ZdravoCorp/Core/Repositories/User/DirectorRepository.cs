@@ -5,7 +5,7 @@ using System.IO;
 using System.Text.Json;
 using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Exceptions;
-using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.User;
@@ -16,19 +16,18 @@ public class DirectorRepository : ISerializable
 
     public Director? Director => _director;
     private readonly string _fileName = @".\..\..\..\Data\directors.json";
-    
-    
+
 
     public DirectorRepository()
     {
         Serializer.Load(this);
-    } 
+    }
+
     public DirectorRepository(Director director)
     {
         _director = director;
         Serializer.Load(this);
     }
-    
 
 
     public string FileName()

@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using ZdravoCorp.Core.Models.Appointment;
-using ZdravoCorp.Core.Models.Room;
-using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Models.Users;
 
 namespace ZdravoCorp.Core.ViewModels;
 

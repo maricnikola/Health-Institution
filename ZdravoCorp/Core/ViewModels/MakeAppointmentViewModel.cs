@@ -9,11 +9,11 @@ using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.MedicalRecord;
-using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.TimeSlots;
-using ZdravoCorp.Core.Models.User;
+
+using ZdravoCorp.Core.Models.Users;
 
 namespace ZdravoCorp.Core.ViewModels;
 
@@ -120,7 +120,6 @@ public class MakeAppointmentViewModel : ViewModelBase
             string mail = tokens[1];
             Doctor doctor = _doctorRepository.GetDoctorByEmail(mail);
 
-            MedicalRecord medicalRecord = new MedicalRecord(_patient);
 
             Appointment appointment = _scheduleRepository.CreateAppointment(time, doctor, _patient.Email);
             if (appointment!=null)

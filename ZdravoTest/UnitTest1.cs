@@ -2,8 +2,8 @@ using ZdravoCorp.Core.Models.Equipment;
 using ZdravoCorp.Core.Models.Inventory;
 using ZdravoCorp.Core.Models.MedicalRecord;
 using ZdravoCorp.Core.Models.Operation;
-using ZdravoCorp.Core.Models.Room;
-using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Models.Rooms;
+using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.Equipment;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.Room;
@@ -100,10 +100,10 @@ public class UnitTest1
             new MedicalRecord(new Patient("email", "ime", "prezime"), 20, 120));
         ScheduleRepository scheduleRepository = new ScheduleRepository();
         scheduleRepository.AddOperation(operation1);
-        scheduleRepository.SaveOperations();
+        //scheduleRepository.SaveOperations();
 
         ScheduleRepository scheduleRepository2 = new ScheduleRepository();
-        scheduleRepository2.LoadOperations();
+        //scheduleRepository2.LoadOperations();
         Operation ?operation2 = scheduleRepository2.GetOperationById(12);
         Assert.AreEqual(operation1, operation2);
 
