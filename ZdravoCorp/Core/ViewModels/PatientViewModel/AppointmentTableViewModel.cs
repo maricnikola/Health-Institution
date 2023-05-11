@@ -18,40 +18,59 @@ namespace ZdravoCorp.Core.ViewModels.PatientViewModel;
 
 public class AppointmentTableViewModel : ViewModelBase
 {
-    private readonly ObservableCollection<AppointmentViewModel> _appointments;
+    private ObservableCollection<AppointmentViewModel> _appointments;
 
-    public ObservableCollection<AppointmentViewModel> Appointments => _appointments;
+    //public ObservableCollection<AppointmentViewModel> Appointments => _appointments;
     public AppointmentViewModel SelectedAppointment { get; set; }
     private ScheduleRepository _controller;
     private DoctorRepository _doctorRepository;
     private Patient _patient;
+    private List<Appointment> _allAppointments;
 
     public ICommand NewAppointmentCommand { get; set; }
     public ICommand ChangeAppointmentCommand { get; set; }
     public ICommand CancelAppointmentCommand { get; set; }
     public ICommand RecommendAppointmentCommand { get; set; }
 
+    
+
     public AppointmentTableViewModel()
     {
     }
 
-    public AppointmentTableViewModel(List<Appointment> appointments, ScheduleRepository scheduleRepository,
+    public AppointmentTableViewModel(ScheduleRepository scheduleRepository,
         DoctorRepository doctorRepository, Patient patient)
     {
         _patient = patient;
         _controller = scheduleRepository;
         _appointments = new ObservableCollection<AppointmentViewModel>();
-        _doctorRepository = doctorRepository;   
-        foreach (var appointment in appointments)
-        {
-            _appointments.Add(new AppointmentViewModel(appointment));
-        }
-
+        _doctorRepository = doctorRepository;
+        _allAppointments = _controller.GetPatientAppointments(_patient.Email);
+        UpdateTable(_allAppointments);
         NewAppointmentCommand = new DelegateCommand(o => NewAppointment());
         ChangeAppointmentCommand = new DelegateCommand(o => ChangeAppointmentComm());
         CancelAppointmentCommand = new DelegateCommand(o => CancelAppointmentComm());
         RecommendAppointmentCommand = new DelegateCommand(o => RecommendAppointmentComm());
     }
+
+    private void UpdateTable(List<Appointment> appointments)
+    {
+        foreach (var appointment in appointments)
+        {
+            _appointments.Add(new AppointmentViewModel(appointment));
+        }
+    }
+
+    public ObservableCollection<AppointmentViewModel> Appointments
+    {
+        get { return _appointments; }
+        set
+        {
+            _appointments = value;
+            UpdateTable(_controller.GetPatientAppointments(_patient.Email));
+        }
+    }
+
 
     private void ChangeAppointmentComm()
     {

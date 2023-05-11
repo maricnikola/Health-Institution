@@ -91,18 +91,16 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     //start patient view
                     User.State state = user.UserState;
                     Patient patient = _repositoryManager.PatientRepository.GetPatientByEmail(user.Email);
-                    List<Appointment> appointments = _repositoryManager.ScheduleRepository.GetPatientAppointments(patient.Email);
                     CounterDictionary counterDictionary = new CounterDictionary();
                     if (counterDictionary.IsForBlock(user.Email))
                     {
-                        
                         MessageBox.Show("You are blocked", "Error", MessageBoxButton.OK);
                         DialogResult = false;
                     }
                     else
                         Application.Current.MainWindow = new PatientWindow()
                         {
-                            DataContext = new PatientViewModel(appointments, patient,_repositoryManager)
+                            DataContext = new PatientViewModel(patient,_repositoryManager)
                         };
 
                     break;
@@ -117,9 +115,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
 
         }
         
-        
     }
-
 
     private User? GetLoggedUser()
     {

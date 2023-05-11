@@ -15,7 +15,6 @@ namespace ZdravoCorp.Core.ViewModels.PatientViewModel;
 public class PatientViewModel : ViewModelBase
 {
     private object _currentView;
-    private List<Appointment> _appointments;
     private ScheduleRepository _scheduleRepository;
     private DoctorRepository _doctorRepository;
     private MedicalRecordRepository _medicalRecordRepository;
@@ -36,9 +35,8 @@ public class PatientViewModel : ViewModelBase
         }
     }
     
-    public PatientViewModel(List<Appointment> appointments, Patient patient,RepositoryManager _repositoryManager)
+    public PatientViewModel(Patient patient,RepositoryManager _repositoryManager)
     {
-        _appointments = appointments;
         _scheduleRepository = _repositoryManager.ScheduleRepository;
         _doctorRepository = _repositoryManager.DoctorRepository;
         _patient = patient;
@@ -46,12 +44,12 @@ public class PatientViewModel : ViewModelBase
         LoadAppointmentsCommand = new DelegateCommand(o => LoadAppointments());
         LoadMedicalRecordCommand = new DelegateCommand(o => LoadMedicalRecord());
         LoadOldAppointmentsCommand = new DelegateCommand(o => LoadOldAppointments());
-        _currentView = new AppointmentTableViewModel(_appointments, _scheduleRepository, _doctorRepository, _patient);
+        _currentView = new AppointmentTableViewModel(_scheduleRepository, _doctorRepository, _patient);
     }
 
     public void LoadAppointments()
     {
-        CurrentView = new AppointmentTableViewModel(_appointments, _scheduleRepository, _doctorRepository, _patient);
+        CurrentView = new AppointmentTableViewModel(_scheduleRepository, _doctorRepository, _patient);
     }
 
     public void LoadMedicalRecord()
