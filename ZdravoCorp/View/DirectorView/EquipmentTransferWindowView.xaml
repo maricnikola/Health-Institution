@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ZdravoCorp.View.DirectorView"
         mc:Ignorable="d"
         Background="#29262e"
-        Title="DEquipmentOrderConfirmView"  Width="500" Height="Auto" SizeToContent="Height" WindowStartupLocation="CenterOwner">
+        Title="DynamicOrderConfirmView"  Width="500" Height="Auto" SizeToContent="Height" WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

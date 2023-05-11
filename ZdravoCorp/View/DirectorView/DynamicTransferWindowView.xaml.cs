@@ -2,9 +2,9 @@
 
 namespace ZdravoCorp.View.DirectorView;
 
-public partial class DEquipmentTransferWindowView : Window
+public partial class DynamicTransferWindowView : Window
 {
-    public DEquipmentTransferWindowView()
+    public DynamicTransferWindowView()
     {
         InitializeComponent();
     }

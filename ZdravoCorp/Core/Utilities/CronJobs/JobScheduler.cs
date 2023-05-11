@@ -19,7 +19,8 @@ public class JobScheduler
     private static OrderRepository _orderRepository;
     private static TransferRepository _transferRepository;
 
-    public JobScheduler(InventoryRepository inventoryRepository, TransferRepository transferRepository, OrderRepository orderRepository)
+    public JobScheduler(InventoryRepository inventoryRepository, TransferRepository transferRepository,
+        OrderRepository orderRepository)
     {
         _orderRepository = orderRepository;
         _inventoryRepository = inventoryRepository;
@@ -54,9 +55,22 @@ public class JobScheduler
         job.JobDataMap["order"] = order;
         job.JobDataMap["invrepo"] = _inventoryRepository;
         job.JobDataMap["ordrepo"] = _orderRepository;
-         var trigger = TriggerBuilder.Create().WithIdentity("trigger" + order.ArrivalTime, group: "OrderTriggers")
-            .WithCronSchedule("0 " + order.ArrivalTime.Minute + " " + order.ArrivalTime.Hour + " " +  order.ArrivalTime.Day + " " + order.ArrivalTime.Month + " ? *",
-                x => x.InTimeZone(TimeZoneInfo.Local)).ForJob(job).Build();
+        ITrigger trigger;
+        if (order.ArrivalTime < DateTime.Now)
+        {
+            trigger = TriggerBuilder.Create().WithIdentity("trigger" + order.ArrivalTime, group: "OrderTriggers")
+                .StartNow().ForJob(job).Build();
+        }
+        else
+        {
+            trigger = TriggerBuilder.Create().WithIdentity("trigger" + order.ArrivalTime, group: "OrderTriggers")
+                .WithCronSchedule(
+                    "0 " + order.ArrivalTime.Minute + " " + order.ArrivalTime.Hour + " " + order.ArrivalTime.Day + " " +
+                    order.ArrivalTime.Month + " ? " + order.ArrivalTime.Year,
+                    x => x.InTimeZone(TimeZoneInfo.Local).WithMisfireHandlingInstructionFireAndProceed()).ForJob(job)
+                .Build();
+        }
+
         _scheduler.ScheduleJob(job, trigger);
     }
 
@@ -69,11 +83,23 @@ public class JobScheduler
         job.JobDataMap["transfer"] = transfer;
         job.JobDataMap["invrepo"] = _inventoryRepository;
         job.JobDataMap["transrepo"] = _transferRepository;
+        ITrigger trigger;
+        if (transfer.When < DateTime.Now)
+        {
+            trigger = TriggerBuilder.Create()
+                .WithIdentity("transfer trigger" + transfer.When, group: "TransferTriggers").StartNow().ForJob(job)
+                .Build();
+        }
+        else
+        {
+            trigger = TriggerBuilder.Create()
+                .WithIdentity("transfer trigger" + transfer.When, group: "TransferTriggers").WithCronSchedule(
+                    "0 " + transfer.When.Minute + " " + transfer.When.Hour + " " + transfer.When.Day + " " +
+                    transfer.When.Month + " ? " + transfer.When.Year,
+                    x => x.InTimeZone(TimeZoneInfo.Local).WithMisfireHandlingInstructionFireAndProceed()).ForJob(job)
+                .Build();
+        }
 
-        var trigger = TriggerBuilder.Create()
-            .WithIdentity("transfer trigger" + transfer.When, group: "TransferTriggers").WithCronSchedule(
-                "0 " + transfer.When.Minute + " " + transfer.When.Hour + " " + transfer.When.Day + " " +
-                transfer.When.Month + " ? *", x => x.InTimeZone(TimeZoneInfo.Local)).ForJob(job).Build();
         _scheduler.ScheduleJob(job, trigger);
     }
 }

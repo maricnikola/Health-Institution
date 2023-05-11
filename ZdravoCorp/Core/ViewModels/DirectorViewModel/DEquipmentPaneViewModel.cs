@@ -117,7 +117,7 @@ public class DEquipmentPaneViewModel : ViewModelBase
     {
         var vm = new DEquipmentOrderConfirmViewModel(DynamicInventory.Where(item => item.IsChecked), _orderRepository,
             _inventoryRepository);
-        var confirmDialog = new DEquipmentOrderConfirmView() { DataContext = vm };
+        var confirmDialog = new DynamicOrderConfirmView() { DataContext = vm };
         vm.OnRequestClose += (s, e) => confirmDialog.Close();
         confirmDialog.Show();
     }

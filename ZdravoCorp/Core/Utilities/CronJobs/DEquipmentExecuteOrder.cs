@@ -27,8 +27,8 @@ public class DEquipmentExecuteOrder : IJob
 
         _order.Status = Order.OrderStatus.Completed;
         _inventoryRepository.LoadRoomsAndEquipment();
-        _inventoryRepository.OnRequestUpdate(this, new EventArgs());
-        _orderRepository.OnRequestUpdate(this, new EventArgs());
+        _inventoryRepository.OnRequestUpdate?.Invoke(this, new EventArgs());   
+        _orderRepository.OnRequestUpdate?.Invoke(this, new EventArgs());
         Serializer.Save(_inventoryRepository);
         Serializer.Save(_orderRepository);
         

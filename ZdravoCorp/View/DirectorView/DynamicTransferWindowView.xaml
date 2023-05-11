@@ -1,4 +1,4 @@
-﻿<Window x:Class="ZdravoCorp.View.DirectorView.DEquipmentTransferWindowView"
+﻿<Window x:Class="ZdravoCorp.View.DirectorView.DynamicTransferWindowView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ZdravoCorp.View.DirectorView"
         mc:Ignorable="d"
         Background="#29262e"
-        Title="DEquipmentOrderConfirmView"  Width="500" Height="Auto" SizeToContent="Height" WindowStartupLocation="CenterOwner">
+        Title="DynamicOrderConfirmView"  Width="500" Height="Auto" SizeToContent="Height" WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

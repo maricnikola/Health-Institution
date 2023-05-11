@@ -110,7 +110,7 @@ public class MoveDEquipmentViewModel : ViewModelBase
             var roomId = SelectedInventoryItemVm.Room;
             var vm = new DEquipmentTransferWindowViewModel(inventoryItemId, roomId, SelectedInventoryItemVm.Quantity, _inventoryRepository);
        
-            var transferWindow = new DEquipmentTransferWindowView()
+            var transferWindow = new DynamicTransferWindowView()
                 { DataContext = vm  };
             vm.OnRequestClose +=  (s, e) => transferWindow.Close();
             transferWindow.Show();

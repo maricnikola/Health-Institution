@@ -48,7 +48,7 @@
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\DirectorView\DEquipmentTransferWindowView.xaml">
+    <Page Update="View\DirectorView\DynamicTransferWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
