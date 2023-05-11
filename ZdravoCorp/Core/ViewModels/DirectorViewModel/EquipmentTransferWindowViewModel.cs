@@ -117,7 +117,7 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
             _roomRepository.GetById(SelectedRoom.Id), when, Quantity, InventoryItemId,_inventoryItem.Equipment.Name);
         _transferRepository.Add(newTransfer);
         Serializer.Save(_transferRepository);
-        JobScheduler.TransferRequestTaskScheduler(newTransfer, _inventoryRepository, _transferRepository);
+        JobScheduler.TransferRequestTaskScheduler(newTransfer);
         //_inventoryRepository.GetInventoryById(InventoryItemId).UpdateRoom(_roomRepository.GetById(SelectedRoom.Id));
         OnRequestUpdate(this, new EventArgs());
         OnRequestClose(this, new EventArgs());

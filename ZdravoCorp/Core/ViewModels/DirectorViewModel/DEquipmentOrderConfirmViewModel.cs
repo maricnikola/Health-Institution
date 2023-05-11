@@ -51,7 +51,7 @@ public class DEquipmentOrderConfirmViewModel
             Order.OrderStatus.Pending);
         _orderRepository.AddOrder(newOrder);
         Serializer.Save(_orderRepository);
-        JobScheduler.DEquipmentTaskScheduler(newOrder, _inventoryRepository, _orderRepository);
+        JobScheduler.DEquipmentTaskScheduler(newOrder);
         _orderRepository.OnRequestUpdate(this, new EventArgs());
         OnRequestClose(this, new EventArgs());
         
