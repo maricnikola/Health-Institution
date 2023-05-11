@@ -21,5 +21,25 @@ public class Anamnesis
         Allergens = alerrgens;
     }
 
+    public string SymptomsToString()
+    {
+        string ssymptoms = "";
+        foreach (var symptom in Symptoms)
+        {
+            ssymptoms += symptom + " ; ";
+        }
+        return ssymptoms;
+    }
+
+    public string AllergensToString()
+    {
+        string sallergens= "";
+        foreach (var allergen in Allergens)
+        {
+            sallergens += allergen + " ; ";
+        }
+        return sallergens;
+    }
+
 
 }

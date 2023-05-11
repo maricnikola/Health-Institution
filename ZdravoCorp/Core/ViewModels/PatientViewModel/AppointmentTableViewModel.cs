@@ -41,7 +41,7 @@ public class AppointmentTableViewModel : ViewModelBase
         _patient = patient;
         _controller = scheduleRepository;
         _appointments = new ObservableCollection<AppointmentViewModel>();
-        _doctorRepository = doctorRepository;
+        _doctorRepository = doctorRepository;   
         foreach (var appointment in appointments)
         {
             _appointments.Add(new AppointmentViewModel(appointment));
