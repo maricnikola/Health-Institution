@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Exceptions;
 using ZdravoCorp.Core.Models.Equipment;
 using ZdravoCorp.Core.Models.Inventory;
-using ZdravoCorp.Core.Models.Room;
+using ZdravoCorp.Core.Models.Transfers;
 using ZdravoCorp.Core.Repositories.Equipment;
 using ZdravoCorp.Core.Repositories.Room;
 using ZdravoCorp.Core.Utilities;
@@ -19,9 +19,8 @@ public class InventoryRepository : ISerializable
 {
     private readonly RoomRepository _roomRepository;
     private readonly EquipmentRepository _equipmentRepository;
-    private  List<InventoryItem>? _inventory;
+    private List<InventoryItem>? _inventory;
     private readonly string _fileName = @".\..\..\..\Data\inventory.json";
-
 
 
     public EventHandler OnRequestUpdate;
@@ -86,6 +85,18 @@ public class InventoryRepository : ISerializable
         return dynamicEquipment;
     }
 
+    public void UpdateInventoryItem(Transfer transfer)
+    {
+        var index = _inventory.FindIndex(item => item.Id == transfer.InventoryId);
+        
+        var newInventoryItem = new InventoryItem(_inventory.ElementAt(index));
+        _inventory.ElementAt(index).Quantity -= transfer.Quantity;
+        newInventoryItem.Quantity = transfer.Quantity;
+        newInventoryItem.Room = transfer.To;
+        newInventoryItem.RoomId = transfer.To.Id;
+        AddItem(newInventoryItem);
+        Serializer.Save(this);
+    }
     public void LoadRoomsAndEquipment()
     {
         foreach (var inventoryItem in _inventory)
@@ -97,8 +108,7 @@ public class InventoryRepository : ISerializable
         }
     }
 
-   
-    
+
     public InventoryItem? GetInventoryById(int id)
     {
         return _inventory.FirstOrDefault(inv => inv.Id == id);

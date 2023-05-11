@@ -6,8 +6,7 @@ using Newtonsoft.Json;
 
 namespace ZdravoCorp.Core.Models.Appointment;
 
-
-public class Appointment                    
+public class Appointment
 {
     public int Id { get; set; }
     public TimeSlot Time { get; set; }
@@ -40,6 +39,4 @@ public class Appointment
         IsCanceled = false;
         Status = false;
     }
-
-
 }

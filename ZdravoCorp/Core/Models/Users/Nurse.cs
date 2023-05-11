@@ -1,29 +1,26 @@
 using System;
 using Newtonsoft.Json;
 
+namespace ZdravoCorp.Core.Models.Users;
 
-namespace ZdravoCorp.Core.Models.User;
-
-public class Patient
+public class Nurse
 {
-    public  string Email { get; set; }
-     public string FirstName { get; set; }
-     public string LastName { get; set; }
-    
-     [JsonIgnore]
-    public string FullName => string.Format("{0} {1}", FirstName, LastName);
+    public new string Email { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+
+    [JsonIgnore] public string FullName => string.Format("Nurse {0} {1}", FirstName, LastName);
 
     [JsonConstructor]
-    public Patient(string email, string firstName, string lastName)
+    public Nurse(string email, string firstName, string lastName)
     {
         Email = email;
         FirstName = firstName;
         LastName = lastName;
     }
 
-    
 
-    protected bool Equals(Patient other)
+    protected bool Equals(Nurse other)
     {
         return Email == other.Email && FirstName == other.FirstName && LastName == other.LastName;
     }
@@ -33,7 +30,7 @@ public class Patient
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != this.GetType()) return false;
-        return Equals((Patient)obj);
+        return Equals((Nurse)obj);
     }
 
     public override int GetHashCode()

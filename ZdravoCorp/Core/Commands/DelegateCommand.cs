@@ -3,9 +3,8 @@ using System.Windows.Input;
 
 namespace ZdravoCorp.Core.Commands;
 
-public  class DelegateCommand : ICommand
+public class DelegateCommand : ICommand
 {
-
     private Action<object> executionAction;
 
     private Predicate<object> canExecutePredicate;
@@ -49,8 +48,10 @@ public  class DelegateCommand : ICommand
     {
         if (!this.CanExecute(parameter))
         {
-            throw new InvalidOperationException("The command is not valid for execution, check the CanExecute method before attempting to execute.");
+            throw new InvalidOperationException(
+                "The command is not valid for execution, check the CanExecute method before attempting to execute.");
         }
+
         this.executionAction(parameter);
     }
 }

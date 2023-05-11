@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Appointment;
-using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.View;
@@ -16,7 +16,7 @@ using ZdravoCorp.View.PatientView;
 
 namespace ZdravoCorp.Core.ViewModels.PatientViewModel;
 
-public class AppointmentTableViewModel: ViewModelBase
+public class AppointmentTableViewModel : ViewModelBase
 {
     private readonly ObservableCollection<AppointmentViewModel> _appointments;
 
@@ -33,10 +33,11 @@ public class AppointmentTableViewModel: ViewModelBase
 
     public AppointmentTableViewModel()
     {
-        
     }
-    public AppointmentTableViewModel(List<Appointment> appointments, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, Patient patient)
-    {  
+
+    public AppointmentTableViewModel(List<Appointment> appointments, ScheduleRepository scheduleRepository,
+        DoctorRepository doctorRepository, Patient patient)
+    {
         _patient = patient;
         _controller = scheduleRepository;
         _appointments = new ObservableCollection<AppointmentViewModel>();
@@ -45,8 +46,9 @@ public class AppointmentTableViewModel: ViewModelBase
         {
             _appointments.Add(new AppointmentViewModel(appointment));
         }
+
         NewAppointmentCommand = new DelegateCommand(o => NewAppointment());
-        ChangeAppointmentCommand = new DelegateCommand(o=>ChangeAppointmentComm());
+        ChangeAppointmentCommand = new DelegateCommand(o => ChangeAppointmentComm());
         CancelAppointmentCommand = new DelegateCommand(o => CancelAppointmentComm());
         RecommendAppointmentCommand = new DelegateCommand(o => RecommendAppointmentComm());
     }
@@ -96,7 +98,8 @@ public class AppointmentTableViewModel: ViewModelBase
             {
                 _controller.CancelAppointment(appointment);
                 Appointments.Remove(GetById(selectedAppointment.Id, Appointments));
-            }else
+            }
+            else
                 MessageBox.Show("You are too late", "Error", MessageBoxButton.OK);
         }
         else
@@ -118,8 +121,7 @@ public class AppointmentTableViewModel: ViewModelBase
                 return appointmentViewModel;
             }
         }
+
         return null;
     }
-
-
 }

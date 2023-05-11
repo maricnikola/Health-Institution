@@ -7,7 +7,7 @@ using System.Windows;
 using ZdravoCorp.Core.Counters;
 using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.Operation;
-using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.TimeSlots;
 using ZdravoCorp.Core.Utilities;
@@ -310,19 +310,19 @@ public class ScheduleRepository : ISerializable
         return availableTimeSlot;
     }
 
-    public List<Appointment> FindAppointmentsByDoctorPriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate, Models.MedicalRecord.MedicalRecord patient)
+    public List<Appointment> FindAppointmentsByDoctorPriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate, String patientMail)
     {
         var availableTimeSlots = FindAvailableTimeSlotsByDoctorPriority(doctor.Email, wantedTime, lastDate);
         Random random = new Random();
-        return availableTimeSlots.Select(slot => new Appointment(random.Next(10000), slot, doctor, patient.user.Email)).ToList();
+        return availableTimeSlots.Select(slot => new Appointment(random.Next(10000), slot, doctor, patientMail)).ToList();
     }
 
     public List<Appointment> FindAppointmentsByTimePriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate,
-        Models.MedicalRecord.MedicalRecord patient, DoctorRepository doctorRepository)
+        String patientMail, DoctorRepository doctorRepository)
     {
         var pairsTimeSlotDoctor = FindAvailableTimeSlotsByTimePriority(doctor, wantedTime, lastDate, doctorRepository);
         Random random = new Random();
-        return pairsTimeSlotDoctor.Select(pair => new Appointment(random.Next(10000), pair.Item1, pair.Item2, patient.user.Email)).ToList();
+        return pairsTimeSlotDoctor.Select(pair => new Appointment(random.Next(10000), pair.Item1, pair.Item2, patientMail)).ToList();
     }
 
     private List<TimeSlot> FindAvailableTimeSlotsByDoctorPriority(string doctorMail, TimeSlot wantedTime, DateTime lastDate)
