@@ -224,6 +224,18 @@ public class ScheduleRepository : ISerializable
             Serializer.Save(this);
         }
     }
+    public void CancelAppointmentByDoctor(Appointment appointment)
+    {
+        bool isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now) > 24;
+        if (IsAppointmentInList(appointment) && isOnTime)
+        {
+            int index = _appointments.IndexOf(appointment);
+            appointment.IsCanceled = true;
+            _appointments[index] = appointment;
+            Serializer.Save(this);
+        }
+
+    }
 
     public bool IsAppointmentInList(Appointment appointment)
     {
@@ -425,7 +437,19 @@ public class ScheduleRepository : ISerializable
         };
         return time.AddMinutes(minutesToAdd);
     }
+    public bool IsPatientExamined(Patient patient,Doctor doctor)
+    {
+        foreach(Appointment appointment in _appointments)
+        {
+            bool matchingDoctorAndPatient = appointment.PatientEmail.Equals(patient.Email) && appointment.Doctor.Equals(doctor);
+            if (matchingDoctorAndPatient && appointment.Status.Equals(true))
+            {
+                return true;
+            }
+        }
+        return false;
 
+    }
     public string FileName()
     {
         return _fileNameAppointments;

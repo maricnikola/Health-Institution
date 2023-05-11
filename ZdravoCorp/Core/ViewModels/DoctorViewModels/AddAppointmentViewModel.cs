@@ -128,8 +128,6 @@ public class AddAppointmentViewModel : ViewModelBase
             string mail = tokens[1];
             Patient patient = _patientRepository.GetPatientByEmail(mail);
 
-            MedicalRecord medicalRecord = new MedicalRecord(patient);
-
             Appointment appointment = _scheduleRepository.CreateAppointment(time, _dr, mail);
             if (appointment != null)
             {
@@ -137,8 +135,6 @@ public class AddAppointmentViewModel : ViewModelBase
                 {
                     Appointments.Add(new AppointmentViewModel(appointment));
                 }
-
-                _medicalRepository.AddRecord(medicalRecord);
             }
             else
             {

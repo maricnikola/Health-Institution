@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.Json;
 using ZdravoCorp.Core.Exceptions;
 using ZdravoCorp.Core.Models.MedicalRecord;
+using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.MedicalRecord;
@@ -89,4 +90,29 @@ public class MedicalRecordRepository : ISerializable
         //throw new System.NotImplementedException();
         records = token.ToObject<List<Models.MedicalRecord.MedicalRecord>>();
     }
+    
+    public void ChangeRecord(string patientEmail, int newHeight, int newWeight, List<string> newDeseaseHistory)
+    {
+        Models.MedicalRecord.MedicalRecord medicalRecordToBeChanged = this.GetById(patientEmail);
+
+        if (medicalRecordToBeChanged != null)
+        {
+            medicalRecordToBeChanged.weight = newWeight;
+            medicalRecordToBeChanged.height = newHeight;
+            medicalRecordToBeChanged.deseaseHistory = newDeseaseHistory;
+            Serializer.Save(this);
+        }
+
+    }
+    public bool CheckDataForChanges(int newWeight, int newHeight,List<string> newDeseaseHistory)
+    {
+        if (newWeight < 30 && newWeight > 250) return false;
+        if (newHeight > 300 && newHeight < 50) return false;
+        foreach(string desease in newDeseaseHistory)
+        {
+            if (desease.Trim().Length < 4) return false;
+        }
+        return true;
+    }
+    
 }

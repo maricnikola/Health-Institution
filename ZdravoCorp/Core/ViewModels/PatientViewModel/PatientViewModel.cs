@@ -56,7 +56,7 @@ public class PatientViewModel : ViewModelBase
 
     public void LoadMedicalRecord()
     {
-        CurrentView = new MedicalRecordViewModel(_medicalRecordRepository.GetById(_patient.Email));
+        CurrentView = new MedicalRecordViewModel(_medicalRecordRepository.GetById(_patient.Email), _medicalRecordRepository);
     }
 
 }

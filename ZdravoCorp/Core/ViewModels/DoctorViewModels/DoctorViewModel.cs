@@ -65,6 +65,6 @@ public class DoctorViewModel : ViewModelBase
 
     public void LoadPatinets()
     {
-        CurrentView = new PatientTableViewModel(_user, _doctorRepository, _patientRepository,_medicalRecordRepository);
+        CurrentView = new PatientTableViewModel(_user,_scheduleRepository, _doctorRepository, _patientRepository,_medicalRecordRepository);
     }
 }
