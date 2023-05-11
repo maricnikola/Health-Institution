@@ -11,12 +11,13 @@ namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
 public class PerformAppointmentViewModel
 {
-    public ICommand SaveCommand { get; }
-    public ICommand CloseCommand { get; }
+
+    public ICommand PerformCommand { get; }
+    public ICommand CancelCommand { get; }
 
     public PerformAppointmentViewModel()
     {
-        CloseCommand = new DelegateCommand(o => CloseWindow());
+        CancelCommand = new DelegateCommand(o => CloseWindow());
     }
 
     private void CloseWindow()

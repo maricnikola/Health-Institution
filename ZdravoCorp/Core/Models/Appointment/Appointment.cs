@@ -1,23 +1,23 @@
 using System;
-using System.Text.Json.Serialization;
+using ZdravoCorp.Core.Models.AnamnesisReport;
 using ZdravoCorp.Core.Models.User;
 using ZdravoCorp.Core.TimeSlots;
+using Newtonsoft.Json;
 
 namespace ZdravoCorp.Core.Models.Appointment;
 
 
 public class Appointment                    
 {
-    [JsonPropertyName("Id")] public int Id { get; set; }
-    [JsonPropertyName("Time")] public TimeSlot Time { get; set; }
-    [JsonPropertyName("Doctor")] public Doctor Doctor { get; set; }
-    [JsonPropertyName("PatientEmail")] public string PatientEmail { get; set; }
-    public String? Anamnesis { get; set; }
+    public int Id { get; set; }
+    public TimeSlot Time { get; set; }
+    public Doctor Doctor { get; set; }
+    public string PatientEmail { get; set; }
+    public Anamnesis Anamnesis { get; set; }
     public Room.Room? Room { get; set; }
-    public bool IsCanceled;
+    public bool IsCanceled { get; set; }
     public bool Status { get; set; }
 
-    [JsonConstructor]
     public Appointment(int id, TimeSlot t, Doctor doctor, string email)
     {
         Id = id;
@@ -27,6 +27,18 @@ public class Appointment
         Anamnesis = null;
         Room = null;
         IsCanceled = false;
+    }
+    [JsonConstructor]
+    public Appointment(int id, TimeSlot t, Doctor doctor, string email, Anamnesis anamnesis)
+    {
+        Id = id;
+        Time = t;
+        Doctor = doctor;
+        PatientEmail = email;
+        Anamnesis = anamnesis;
+        Room = null;
+        IsCanceled = false;
+        Status = false;
     }
 
 

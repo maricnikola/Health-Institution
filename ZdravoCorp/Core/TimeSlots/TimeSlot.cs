@@ -109,7 +109,8 @@ namespace ZdravoCorp.Core.TimeSlots
         {
             DateTime nowTime = DateTime.Now;
             TimeSpan interval = start - nowTime;
-            return interval.TotalMinutes < 5;
+            bool notPassed = !(start.CompareTo(DateTime.Now) < 0);
+            return interval.TotalMinutes < 5 && notPassed ;
         }
     }
     
