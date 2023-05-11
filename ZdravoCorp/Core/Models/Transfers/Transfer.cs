@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using ZdravoCorp.Core.Models.Rooms;
 
 namespace ZdravoCorp.Core.Models.Transfers;
@@ -12,10 +13,11 @@ public class Transfer
     public int Quantity { get; set; }
     
     public int InventoryId { get; set; }
-    public string InventoryItemName { get; set; }
+    public string? InventoryItemName { get; set; }
     
 
-    public Transfer(int id, Room from, Room to, DateTime when, int quantity, int inventoryId, string inventoryItemName)
+    [JsonConstructor]
+    public Transfer(int id, Room from, Room to, DateTime when, int quantity, int inventoryId, string? inventoryItemName)
     {
         InventoryId = inventoryId;
         Id = id;
@@ -24,5 +26,13 @@ public class Transfer
         When = when;
         Quantity = quantity;
         InventoryItemName = inventoryItemName;
+    }
+
+    public Transfer(Room from, Room to, int quantity, int inventoryId)
+    {
+        From = from;
+        To = to;
+        Quantity = quantity;
+        InventoryId = inventoryId;
     }
 }

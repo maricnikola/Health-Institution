@@ -57,7 +57,7 @@ public class DirectorViewModel : ViewModelBase
 
     public void MoveDynamicEquipmentView()
     {
-        CurrentView = new MoveDEquipmentViewModel();
+        CurrentView = new MoveDEquipmentViewModel(_inventoryRepository, _roomRepository);
     }
 
     public void MoveEquipmentView()

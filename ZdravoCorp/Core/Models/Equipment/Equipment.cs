@@ -6,13 +6,13 @@ namespace ZdravoCorp.Core.Models.Equipment;
 public class Equipment
 {
     public int Id { get; set; }
-    public string Name { get; set; }
+    public string? Name { get; set; }
     public EquipmentType Type { get; set; }
     public bool IsDynamic { get; set; }
 
 
     [JsonConstructor]
-    public Equipment(int id, string name, EquipmentType type, bool isDynamic)
+    public Equipment(int id, string? name, EquipmentType type, bool isDynamic)
     {
         Id = id;
         Name = name;

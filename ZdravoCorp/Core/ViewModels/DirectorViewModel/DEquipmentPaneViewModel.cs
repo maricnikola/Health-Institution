@@ -37,7 +37,7 @@ public class DEquipmentPaneViewModel : ViewModelBase
         _inventoryRepository = inventoryRepository;
         _orderRepository = orderRepository;
         _inventoryRepository.OnRequestUpdate += (s, e) => RefreshInventory();
-        foreach (var inventoryItem in _inventoryRepository.GetDynamic())
+        foreach (var inventoryItem in _inventoryRepository.GetDynamicGrouped())
         {
             if (inventoryItem.Quantity < 5)
                 _dynamicInventory.Add(new DynamicInventoryViewModel(inventoryItem));
@@ -51,7 +51,7 @@ public class DEquipmentPaneViewModel : ViewModelBase
         lock (_lock)
         {
             var updateInventory = new ObservableCollection<DynamicInventoryViewModel>();
-            foreach (var inventoryItem in _inventoryRepository.GetDynamic())
+            foreach (var inventoryItem in _inventoryRepository.GetDynamicGrouped())
             {
                 if (inventoryItem.Quantity < 5)
                     updateInventory.Add(new DynamicInventoryViewModel(inventoryItem));
