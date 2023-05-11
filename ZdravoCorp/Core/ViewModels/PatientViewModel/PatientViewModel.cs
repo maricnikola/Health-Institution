@@ -23,6 +23,7 @@ public class PatientViewModel : ViewModelBase
     
     public ICommand LoadAppointmentsCommand { get; set; }
     public ICommand LoadMedicalRecordCommand { get; set; }
+    public ICommand LoadOldAppointmentsCommand { get; set; }
 
 
     public object CurrentView
@@ -44,6 +45,7 @@ public class PatientViewModel : ViewModelBase
         _medicalRecordRepository = _repositoryManager.MedicalRecordRepository;
         LoadAppointmentsCommand = new DelegateCommand(o => LoadAppointments());
         LoadMedicalRecordCommand = new DelegateCommand(o => LoadMedicalRecord());
+        LoadOldAppointmentsCommand = new DelegateCommand(o => LoadOldAppointments());
         _currentView = new AppointmentTableViewModel(_appointments, _scheduleRepository, _doctorRepository, _patient);
     }
 
@@ -55,6 +57,11 @@ public class PatientViewModel : ViewModelBase
     public void LoadMedicalRecord()
     {
         CurrentView = new MedicalRecordViewModel(_medicalRecordRepository.GetById(_patient.Email), _medicalRecordRepository);
+    }
+
+    public void LoadOldAppointments()
+    {
+        CurrentView = new OldAppointmentsViewModel(_scheduleRepository, _doctorRepository, _patient);
     }
 
 }

@@ -11,6 +11,7 @@ using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.TimeSlots;
 using ZdravoCorp.Core.Utilities;
+using ZdravoCorp.View;
 
 namespace ZdravoCorp.Core.Repositories.Schedule;
 
@@ -57,23 +58,18 @@ public class ScheduleRepository : ISerializable
 
     public List<Appointment> GetPatientAppointments(String patientMail)
     {
-        List<Appointment> patientAppointments = new List<Appointment>();   
-        foreach(Appointment appointment in _appointments)
-        {
-            if(appointment.PatientEmail== patientMail && !appointment.IsCanceled) patientAppointments.Add(appointment);
-        }
-        return patientAppointments;
+        return _appointments.Where(appointment => appointment.PatientEmail == patientMail && !appointment.IsCanceled).ToList();
     }
     public List<Operation> GetPatientOperations(String patientMail)
     {
-        List<Operation> patientOperations = new List<Operation>();
-        foreach(Operation operation in _operations)
-        {
-            if (operation.MedicalRecord.user.Email == patientMail) patientOperations.Add(operation);
-        }
-        return patientOperations;
+        return _operations.Where(operation => operation.MedicalRecord.user.Email == patientMail).ToList();
     }
-   
+
+    public List<Appointment> GetPatientsOldAppointments(String patientMail)
+    {
+        return _appointments.Where(appointment => appointment.PatientEmail == patientMail && appointment.Time.end < DateTime.Now).ToList();
+    }
+
     public List<Appointment> GetDoctorAppointments(String doctorsMail)
     {
         List<Appointment> doctorAppointments = new List<Appointment>();
