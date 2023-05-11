@@ -7,9 +7,11 @@ using System.Windows.Input;
 using ZdravoCorp.Core.Repositories.MedicalRecord;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
-using ZdravoCorp.Core.Models.User;
+using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Appointment;
+using System.Collections.ObjectModel;
+using ZdravoCorp.Core.TimeSlots;
 
 namespace ZdravoCorp.Core.ViewModels.NurseViewModel
 {
@@ -18,6 +20,7 @@ namespace ZdravoCorp.Core.ViewModels.NurseViewModel
         private MedicalRecordRepository _medicalRecordRepository;
         private DoctorRepository _doctorRepository;
         private ScheduleRepository _scheduleRepository;
+        private ObservableCollection<string> _specializationTypes;
 
         public ICommand FindUrgentAppointmentCommand { get; set; }
 
@@ -41,11 +44,23 @@ namespace ZdravoCorp.Core.ViewModels.NurseViewModel
             _doctorRepository = doctorRepository;
             _scheduleRepository = scheduleRepository;
             FindUrgentAppointmentCommand = new DelegateCommand(o => FindUrgentAppointment());
+            _specializationTypes = new ObservableCollection<string> { } ;
+            _specializationTypes.Add(Doctor.SpecializationType.Surgeon.ToString());
+            _specializationTypes.Add(Doctor.SpecializationType.Psychologist.ToString());
+            _specializationTypes.Add(Doctor.SpecializationType.Neurologist.ToString());
+            _specializationTypes.Add(Doctor.SpecializationType.Urologist.ToString());
+            _specializationTypes.Add(Doctor.SpecializationType.Anesthesiologist.ToString());
+            //_specializationTypes.Add("Any");
+        }
+
+        public ObservableCollection<string> SpecializationTypes
+        {
+            get { return _specializationTypes; }
         }
 
         public void FindUrgentAppointment()
         {
-            DateTime now = DateTime.Now;
+            /*DateTime now = DateTime.Now;
             List<Doctor> suitableDoctors = _doctorRepository.GetAllSpecialized(_specializationType);
             if (suitableDoctors.Count == 0)
             {
@@ -54,14 +69,41 @@ namespace ZdravoCorp.Core.ViewModels.NurseViewModel
             else
             {
                 List<List<Appointment>> allDoctorsAppointments = new List<List<Appointment>> { };
-                foreach(Doctor suitableDoctor in suitableDoctors)
+                List<Appointment> appointments = new List<Appointment> { };
+                List<Tuple<TimeSlot, string>> termins = new List<Tuple<TimeSlot, string>> { }; 
+                //List<string> doctorsEmails = new List<string>();
+                DateTime latestTime = DateTime.Now.AddHours(2);
+
+                TimeSlot interval = new TimeSlot(now, now.AddHours(2));
+                foreach (Doctor suitableDoctor in suitableDoctors)
                 {
-                    allDoctorsAppointments.Add(_scheduleRepository.GetDoctorAppointments(suitableDoctor));
+                    //ovde pitati kuma sta kako ako je ikako moguce private/public kod metode mu smeta
+                    //TimeSlot compareTime = _scheduleRepository.FindAvailableTimeslotsForOneDoctor(suitableDoctor.Email, interval, now, null);
+                    TimeSlot termin = _scheduleRepository.FindAvailableTimeslotsForOneDoctor(suitableDoctor.Email, interval, DateTime.Today);
+                    if (termin != null) {
+                        termins.Add(new Tuple<TimeSlot, string>(termin, suitableDoctor.Email));
+                    }
+                    termins.Sort((a, b) => a.Item1.IsBefore(b.Item1));
+
+                    //allDoctorsAppointments.Add(_scheduleRepository.GetDoctorAppointments(suitableDoctor.Email));
                 }
 
 
 
+            }*/
+        }
+
+        public DateTime GetFirstTime(List<List<Appointment>> allDoctorsAppointments) 
+        {
+            DateTime latestTime = DateTime.Now.AddHours(2);
+            DateTime earliestTime = DateTime.Now;
+            
+            foreach (List<Appointment> oneDoctorsAppointments in allDoctorsAppointments)
+            {
+                
             }
+
+            return latestTime;
         }
 
 

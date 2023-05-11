@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
-using ZdravoCorp.Core.Models.Anamnesis;
+using ZdravoCorp.Core.Models.AnamnesisReport;
+using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
+using ZdravoCorp.Core.TimeSlots;
 
 namespace ZdravoCorp.Core.ViewModels.NurseViewModel
 {
@@ -26,7 +28,7 @@ namespace ZdravoCorp.Core.ViewModels.NurseViewModel
             this._scheduleRepository.LoadAppointments();*/
             _patientRepository = patientRepository;
             _scheduleRepository = scheduleRepository;
-            _patientEmail = "nesto@gmail.com";
+            //_patientEmail = "nesto@gmail.com";
 
             SubmitButton_OnClick = new DelegateCommand(o => AddAnamnesis());
 
@@ -61,13 +63,31 @@ namespace ZdravoCorp.Core.ViewModels.NurseViewModel
         }
 
 
-        public ICommand SubmitButton_OnClick{ get; }
+        public ICommand SubmitButton_OnClick{ get; set; }
 
         public void AddAnamnesis()
         {
-            if (_patientRepository.GetPatientByEmail(_patientEmail) == null)
+            var pomoc = _patientRepository.GetPatientByEmail(_patientEmail);
+            if (_patientRepository.GetPatientByEmail(_patientEmail) != null)
             {
-                //napraviti pravljenje novog patienta za to treba i novi prozor
+                List<string> sympthomeList = _sympthomes.Split(", ").ToList();
+                List<string> alergensList = _alergens.Split(", ").ToList();
+                Anamnesis anamnesis = new Anamnesis(sympthomeList, "doctors oppinion", "keyword", alergensList);
+                //negde poslati ovu anamnezu...
+                TimeSlot interval = new TimeSlot(DateTime.Now, DateTime.Now.AddMinutes(15));
+                Appointment appointment = _scheduleRepository.GetPatientsFirstAppointment(_patientEmail, interval);
+                if (appointment != null)
+                {
+                    appointment.Anamnesis = anamnesis;
+                    MessageBox.Show("Anamnesis submited");
+                }
+                else MessageBox.Show("Too early for termin");
+
+            }
+            else
+            {
+                MessageBox.Show("Invalid username");
+
             }
             // _scheduleRepository. neka funkcija koja ce vracati da li pacijent ima pregled zakazan u narednih 15 minuta
             // public Appointment HasPatientAppointmentInNext15(string email)

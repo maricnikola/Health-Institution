@@ -112,6 +112,11 @@ namespace ZdravoCorp.Core.TimeSlots
             bool notPassed = !(start.CompareTo(DateTime.Now) < 0);
             return interval.TotalMinutes < 5 && notPassed ;
         }
+
+        public bool IsBefore()
+        {
+            return start.CompareTo(start) < 0;
+        }
     }
     
 }

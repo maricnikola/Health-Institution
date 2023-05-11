@@ -22,10 +22,10 @@
         </Grid.RowDefinitions>
 
 
-        <Label Grid.Row="1" Foreground="#FFFFFF" Margin="20,10,100,20" Width="200" Height="40" FontSize="20">Register patient :</Label>
+        <Label Grid.Row="1" Foreground="#FFFFFF" Margin="20,10,100,20" Width="200" Height="40" FontSize="20">Patient reception :</Label>
 
         <Label Grid.Row="2" Margin="20,0,0,0" Foreground="LightGray"  Height="25">Email :</Label>
-        <TextBox Grid.Row="3" Margin="20,0,100,30" Width="350" Height="30" FontSize="18" Name="PatientEmail" Text="{Binding Path = Email, Mode = OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="2"></TextBox>
+        <TextBox Grid.Row="3" Margin="20,0,100,30" Width="350" Height="30" FontSize="18" Name="PatientEmail" Text="{Binding Path = PatientEmail, Mode = OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="2"></TextBox>
 
         <Label Grid.Row="4" Margin="20,30,0,0" Foreground="LightGray"  Height="25">Sympthomes :</Label>
         <TextBox Grid.Row="5" Margin="20,0,100,30" Width="350" Height="50" FontSize="18" Name="Sympthomes" Text="{Binding Path = Sympthomes, Mode = OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="2"></TextBox>

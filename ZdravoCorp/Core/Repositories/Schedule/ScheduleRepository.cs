@@ -296,7 +296,7 @@ public class ScheduleRepository : ISerializable
         return null;
     }
 
-    private TimeSlot? FindAvailableTimeslotsForOneDoctor(string doctorsMail, TimeSlot wantedTime, DateTime lastDate, List<TimeSlot>? alreadyUsed = null)
+    public TimeSlot? FindAvailableTimeslotsForOneDoctor(string doctorsMail, TimeSlot wantedTime, DateTime lastDate, List<TimeSlot>? alreadyUsed = null)
     {
         if (alreadyUsed==null) alreadyUsed = new List<TimeSlot>();
         var wantedTimeCopy = new TimeSlot(wantedTime.start, wantedTime.end);
@@ -462,5 +462,18 @@ public class ScheduleRepository : ISerializable
     public void Import(JToken token)
     {
         _appointments = token.ToObject<List<Appointment>>();
+    }
+
+    public Appointment GetPatientsFirstAppointment(string patientEmail, TimeSlot interval)
+    {
+        //Appointment appointment = null; 
+        foreach(Appointment appointment in _appointments)
+        {
+            if (appointment.PatientEmail.Equals(patientEmail) && appointment.Time.IsInsideSingleSlot(interval))
+            {
+                return appointment;
+            }
+        }
+        return null;
     }
 }
