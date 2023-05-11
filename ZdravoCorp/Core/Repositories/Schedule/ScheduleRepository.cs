@@ -244,4 +244,6 @@ public class ScheduleRepository
         DateTime dateEnd = date.AddDays(3);
         return (appointment.Time.start > date && appointment.Time.start < dateEnd);
     }
+    
+    
 }

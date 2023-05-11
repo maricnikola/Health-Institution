@@ -53,5 +53,11 @@ public class DoctorRepository : ISerializable
         _doctors = token.ToObject<List<Doctor>>();
     }
 
+    public List<Doctor> GetAllSpecialized(Doctor.SpecializationType specializationType)
+    {
+        List<Doctor> suitableDoctors = Doctors.FindAll(doctor => doctor.Specialization == specializationType);
+        return suitableDoctors;
+    
+    }
 
 }

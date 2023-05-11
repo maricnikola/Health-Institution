@@ -8,7 +8,8 @@ using ZdravoCorp.Core.Repositories.MedicalRecord;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.Models.User;
-
+using ZdravoCorp.Core.Commands;
+using ZdravoCorp.Core.Models.Appointment;
 
 namespace ZdravoCorp.Core.ViewModels.NurseViewModel
 {
@@ -39,9 +40,29 @@ namespace ZdravoCorp.Core.ViewModels.NurseViewModel
             _medicalRecordRepository = medicalRecordRepository;
             _doctorRepository = doctorRepository;
             _scheduleRepository = scheduleRepository;
+            FindUrgentAppointmentCommand = new DelegateCommand(o => FindUrgentAppointment());
         }
 
+        public void FindUrgentAppointment()
+        {
+            DateTime now = DateTime.Now;
+            List<Doctor> suitableDoctors = _doctorRepository.GetAllSpecialized(_specializationType);
+            if (suitableDoctors.Count == 0)
+            {
+                //napraviti pop up obavestenja da nema doktora za ovaj posao
+            }
+            else
+            {
+                List<List<Appointment>> allDoctorsAppointments = new List<List<Appointment>> { };
+                foreach(Doctor suitableDoctor in suitableDoctors)
+                {
+                    allDoctorsAppointments.Add(_scheduleRepository.GetDoctorAppointments(suitableDoctor));
+                }
 
+
+
+            }
+        }
 
 
     }
