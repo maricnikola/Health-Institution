@@ -1,1 +1,92 @@
-[{"Id":33,"Quantity":3,"EquipmentId":13,"RoomId":220},{"Id":34,"Quantity":1,"EquipmentId":14,"RoomId":220},{"Id":35,"Quantity":2,"EquipmentId":13,"RoomId":233},{"Id":36,"Quantity":20,"EquipmentId":17,"RoomId":10},{"Id":37,"Quantity":0,"EquipmentId":15,"RoomId":235},{"Id":39,"Quantity":2,"EquipmentId":16,"RoomId":999},{"Id":40,"Quantity":15,"EquipmentId":17,"RoomId":11},{"Id":41,"Quantity":2,"EquipmentId":14,"RoomId":888},{"Id":44,"Quantity":20,"EquipmentId":54,"RoomId":111},{"Id":45,"Quantity":3,"EquipmentId":55,"RoomId":111},{"Id":47,"Quantity":3,"EquipmentId":52,"RoomId":111},{"Id":77,"Quantity":22,"EquipmentId":51,"RoomId":10},{"Id":69,"Quantity":2,"EquipmentId":50,"RoomId":10},{"Id":38,"Quantity":12,"EquipmentId":18,"RoomId":999},{"Id":38,"Quantity":10,"EquipmentId":18,"RoomId":113}]
+[
+  {
+    "Id": 33,
+    "Quantity": 3,
+    "EquipmentId": 13,
+    "RoomId": 220
+  },
+  {
+    "Id": 34,
+    "Quantity": 1,
+    "EquipmentId": 14,
+    "RoomId": 220
+  },
+  {
+    "Id": 35,
+    "Quantity": 2,
+    "EquipmentId": 13,
+    "RoomId": 233
+  },
+  {
+    "Id": 36,
+    "Quantity": 20,
+    "EquipmentId": 17,
+    "RoomId": 10
+  },
+  {
+    "Id": 37,
+    "Quantity": 0,
+    "EquipmentId": 15,
+    "RoomId": 235
+  },
+  {
+    "Id": 39,
+    "Quantity": 2,
+    "EquipmentId": 16,
+    "RoomId": 999
+  },
+  {
+    "Id": 40,
+    "Quantity": 15,
+    "EquipmentId": 17,
+    "RoomId": 11
+  },
+  {
+    "Id": 41,
+    "Quantity": 2,
+    "EquipmentId": 14,
+    "RoomId": 888
+  },
+  {
+    "Id": 44,
+    "Quantity": 0,
+    "EquipmentId": 54,
+    "RoomId": 111
+  },
+  {
+    "Id": 45,
+    "Quantity": 0,
+    "EquipmentId": 55,
+    "RoomId": 111
+  },
+  {
+    "Id": 47,
+    "Quantity": 3,
+    "EquipmentId": 52,
+    "RoomId": 111
+  },
+  {
+    "Id": 77,
+    "Quantity": 0,
+    "EquipmentId": 51,
+    "RoomId": 10
+  },
+  {
+    "Id": 69,
+    "Quantity": 11,
+    "EquipmentId": 50,
+    "RoomId": 10
+  },
+  {
+    "Id": 38,
+    "Quantity": 12,
+    "EquipmentId": 18,
+    "RoomId": 999
+  },
+  {
+    "Id": 38,
+    "Quantity": 10,
+    "EquipmentId": 18,
+    "RoomId": 113
+  }
+]

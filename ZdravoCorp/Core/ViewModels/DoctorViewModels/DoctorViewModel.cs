@@ -9,6 +9,7 @@ using ZdravoCorp.Core.Models.Appointment;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.Inventory;
 using ZdravoCorp.Core.Repositories.MedicalRecord;
+using ZdravoCorp.Core.Repositories.Room;
 using ZdravoCorp.Core.Repositories.Schedule;
 using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels.DirectorViewModel;
@@ -24,6 +25,7 @@ public class DoctorViewModel : ViewModelBase
     private DoctorRepository _doctorRepository;
     private PatientRepository _patientRepository;
     private MedicalRecordRepository _medicalRecordRepository;
+    private RoomRepository _roomRepository;
     private Doctor _doctor;
 
     public ICommand LoadAppointmentCommand { get; private set; }
@@ -43,8 +45,10 @@ public class DoctorViewModel : ViewModelBase
         }
     }
 
-    public DoctorViewModel(User user, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, PatientRepository patientRepository,MedicalRecordRepository medicalRecordRepository)
+    public DoctorViewModel(User user, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, PatientRepository patientRepository,MedicalRecordRepository medicalRecordRepository,InventoryRepository inventoryRepository,RoomRepository roomRepository)
     {
+        _roomRepository = roomRepository;
+        _inventoryRepository = inventoryRepository;
         _doctorRepository = doctorRepository;
         _scheduleRepository = scheduleRepository;
         _doctor = _doctorRepository.GetDoctorByEmail(user.Email);
@@ -55,12 +59,12 @@ public class DoctorViewModel : ViewModelBase
         _user = user;
         LoadAppointmentCommand = new DelegateCommand(o => LoadAppointments());
         LoadPatientsCommand = new DelegateCommand(o => LoadPatinets());
-        _currentView = new AppointmentShowViewModel(_user, _scheduleRepository, _doctorRepository, _patientRepository,_medicalRecordRepository);
+        _currentView = new AppointmentShowViewModel(_user, _scheduleRepository, _doctorRepository, _patientRepository,_medicalRecordRepository,_inventoryRepository,_roomRepository);
     }
 
     public void LoadAppointments()
     {
-        CurrentView = new AppointmentShowViewModel(_user, _scheduleRepository, _doctorRepository, _patientRepository,_medicalRecordRepository);
+        CurrentView = new AppointmentShowViewModel(_user, _scheduleRepository, _doctorRepository, _patientRepository,_medicalRecordRepository,_inventoryRepository,_roomRepository);
     }
 
     public void LoadPatinets()

@@ -14,7 +14,7 @@ public class Appointment
     public Doctor Doctor { get; set; }
     public string PatientEmail { get; set; }
     public Anamnesis Anamnesis { get; set; }
-    public Room? Room { get; set; }
+    public int? Room { get; set; }
     public bool IsCanceled { get; set; }
     public bool Status { get; set; }
 
