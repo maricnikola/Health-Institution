@@ -210,7 +210,7 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
 
     private void MakeAppointmentAdvanced(ObservableCollection<AppointmentViewModel> allAppointments)
     {
-        AppointmentViewModel selectedAppointment = SelectedAppointment;
+        var selectedAppointment = SelectedAppointment;
         if (selectedAppointment != null)
         {
             foreach (var appointment in _possibleAppointments.Where(appointment => appointment.Id == selectedAppointment.Id))

@@ -24,7 +24,6 @@ namespace ZdravoCorp.View
             Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             //Load functions for repositories
             IDGenerator idg = new IDGenerator();
-            
             UserRepository userRepository = new UserRepository();
             DirectorRepository directorRepository = new DirectorRepository();
             PatientRepository patientRepository = new PatientRepository();
@@ -38,8 +37,6 @@ namespace ZdravoCorp.View
             OrderRepository orderRepository = new OrderRepository();
             TransferRepository transferRepository = new TransferRepository();
             JobScheduler scheduler = new JobScheduler(inventoryRepository,transferRepository, orderRepository);
-            LoadFunctions.LoadAppointments(scheduleRepository);
-
 
 
             //___________________________
