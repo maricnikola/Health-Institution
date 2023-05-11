@@ -14,10 +14,12 @@ using ZdravoCorp.Core.Repositories.User;
 using ZdravoCorp.Core.ViewModels;
 using ZdravoCorp.Core.ViewModels.DirectorViewModel;
 using ZdravoCorp.Core.ViewModels.PatientViewModel;
+using ZdravoCorp.Core.ViewModels.NurseViewModel;
 using ZdravoCorp.View.Director;
 using ZdravoCorp.View.Director;
 using ZdravoCorp.View.PatientV;
 using ZdravoCorp.View.DoctorView;
+using ZdravoCorp.View.NurseView;
 using ZdravoCorp.Core.Repositories.MedicalRecord;
 
 namespace ZdravoCorp.View;
@@ -115,7 +117,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     break;
                 case User.UserType.Nurse:
                     //start nurse view
-                    //Application.Current.MainWindow = new NurseWindow(){DataContext = new NurseViewModel()};;
+                    Application.Current.MainWindow = new NurseWindow(){DataContext = new NurseViewModel(_medicalRecordRepository, _scheduleRepository, _doctorRepository, _patientRepository)};
                     break;
                 case User.UserType.Doctor:
                 //start doctor view

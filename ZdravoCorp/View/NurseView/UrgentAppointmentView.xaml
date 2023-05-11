@@ -6,8 +6,36 @@
              xmlns:local="clr-namespace:ZdravoCorp.View.NurseView"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             Background="#FFFFFF">
+             Background="#29262e">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Foreground="LightGray" FontSize="20" Margin="20 10 0 30">Make an urgent appointment : </Label>
+        <StackPanel Margin="0,50, 0, 0" HorizontalAlignment="Center" Orientation="Horizontal">
+            <Label HorizontalAlignment="Center" Foreground="LightGray" Margin="0,15,0,5" FontSize="18" Content="Patient Email : "></Label>
+            <TextBox Margin="0 0 10 0" FontSize="18" Text="{Binding PatientEmail, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Width="180" Height="30" VerticalContentAlignment="Center"
+                     />
+            <Grid HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label  Foreground="LightGray" Margin="0,0,0,5" FontSize="18" Content="Doctor specialization : "></Label>
+                <ComboBox Grid.Row="1" SelectedItem="{Binding Path=SelectedEquipmentType}"  ItemsSource="{Binding Path=EquipmentTypes}" Text="Equipment Type" Width="100" Margin="10,0,10, 10"></ComboBox>
+            </Grid>
+
+            <Button Command="{Binding FindUrgentAppointmentCommand}" Padding="10" Content="Find" Margin="80 20 100 20"/>
+
+
+                <!--<CheckBox IsChecked="{Binding Path=IsWarehouseChecked, UpdateSourceTrigger=PropertyChanged}" Content="StockRoom" Foreground="White" Margin="10,32,10, 10"></CheckBox>-->
+        
+        </StackPanel>
+        
+        
+        
     </Grid>
+
+
 </UserControl>

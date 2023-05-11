@@ -16,18 +16,13 @@ using System.Windows.Shapes;
 namespace ZdravoCorp.View.NurseView
 {
     /// <summary>
-    /// Interaction logic for PatientReception.xaml
+    /// Interaction logic for PatientReceptionView.xaml
     /// </summary>
-    public partial class PatientReception : UserControl
+    public partial class PatientReceptionView : UserControl
     {
-        public PatientReception()
+        public PatientReceptionView()
         {
             InitializeComponent();
-        }
-
-        private void LastNameBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
         }
     }
 }

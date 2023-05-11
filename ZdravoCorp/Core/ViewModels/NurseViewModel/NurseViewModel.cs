@@ -12,13 +12,14 @@ namespace ZdravoCorp.Core.ViewModels.NurseViewModel;
 public class NurseViewModel : ViewModelBase
 
 {
+    private PatientRepository _patientRepository;
     private MedicalRecordRepository _medicalRecordRepository;
     private ScheduleRepository _scheduleRepository;
     private DoctorRepository _doctorRepository;
     private object _currentView;
 
-    public ICommand LoadEquipmentCommand { get; private set; }
-    public ICommand LoadDynamicEquipmentCommand { get; private set; }
+    public ICommand NewPatientReceptionCommand { get; private set; }
+    public ICommand UrgentAppointmentReservationCommand { get; private set; }
 
 
     public object CurrentView
@@ -34,19 +35,20 @@ public class NurseViewModel : ViewModelBase
         }
     }
 
-    public NurseViewModel(MedicalRecordRepository medicalRecordRepository, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository)
+    public NurseViewModel(MedicalRecordRepository medicalRecordRepository, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository, PatientRepository patientRepository)
     {
+        _patientRepository = patientRepository;
         _medicalRecordRepository = medicalRecordRepository;
         _scheduleRepository = scheduleRepository;   
-        _doctorRepository = doctorRepository;   
-        LoadEquipmentCommand = new DelegateCommand(o => NewPatientReception());
-        LoadDynamicEquipmentCommand = new DelegateCommand(o => UrgentAppointmentReservation());
-        _currentView = new PatientReceptionViewModel();
+        _doctorRepository = doctorRepository;
+        NewPatientReceptionCommand = new DelegateCommand(o => NewPatientReception());
+        UrgentAppointmentReservationCommand = new DelegateCommand(o => UrgentAppointmentReservation());
+        _currentView = new PatientReceptionViewModel(_patientRepository, _scheduleRepository);
     }
 
     public void NewPatientReception()
     {
-        CurrentView = new PatientReceptionViewModel();
+        CurrentView = new PatientReceptionViewModel(_patientRepository, _scheduleRepository);
     }
 
     public void UrgentAppointmentReservation()
