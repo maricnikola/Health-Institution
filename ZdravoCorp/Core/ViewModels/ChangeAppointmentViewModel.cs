@@ -24,6 +24,9 @@ public class ChangeAppointmentViewModel : ViewModelBase
     private Patient _patient;
     private AppointmentViewModel _appointmentViewModel;
     public IEnumerable<String> AllDoctors => _doctors;
+    public int[] PossibleMinutes { get; set; }
+    public int[] PossibleHours { get; set; }
+
     public ICommand ChangeAppointmentCommand { get; set; }
 
     public int Inx;
@@ -89,6 +92,9 @@ public class ChangeAppointmentViewModel : ViewModelBase
         _patient = patient;
         _appointmentViewModel = appointmentViewModel;
         _doctors = new ObservableCollection<String>();
+        PossibleMinutes = new[] { 00, 15, 30, 45 };
+        PossibleHours = new[]
+            { 00, 01, 02, 03, 04, 05, 06, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
         List<Doctor> doctors = doctorRepository.GetAll();
         foreach (var doctor in doctors)
         {
@@ -121,8 +127,6 @@ public class ChangeAppointmentViewModel : ViewModelBase
             string[] tokens = dm.Split("-");
             string mail = tokens[1];
             Doctor doctor = _doctorRepository.GetDoctorByEmail(mail);
-
-            MedicalRecord medicalRecord = new MedicalRecord(_patient);
 
             Appointment appointment = _scheduleRepository.ChangeAppointment(_appointmentViewModel.Id, time, doctor, _patient.Email);
             if (appointment != null)

@@ -15,8 +15,7 @@ class MedicalRecordViewModel:ViewModelBase
     public int PatientWeight => _medicalRecord.weight;
     public string PatientName => _medicalRecord.user.FullName;
 	public string PatientDeseaseHistory => _medicalRecord.DiseaseHistoryToString();
-	
-	public ICommand SaveCommand { get; }
+    public ICommand SaveCommand { get; }
     public MedicalRecordViewModel(MedicalRecord medicalRecord)
     {
         _medicalRecord = medicalRecord;

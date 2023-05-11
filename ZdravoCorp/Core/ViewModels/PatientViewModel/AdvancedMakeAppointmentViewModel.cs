@@ -182,7 +182,7 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
 
             if (Priority.Equals("Doctor"))
             {
-                List<Appointment> fittingAppointments = _scheduleRepository.FindAppointmentsByDoctorPriority(doctor, wantedTimeSlot, lastDate, medicalRecord);
+                List<Appointment> fittingAppointments = _scheduleRepository.FindAppointmentsByDoctorPriority(doctor, wantedTimeSlot, lastDate, _patient.Email);
                 foreach (Appointment singleAppointment in fittingAppointments)
                 {
                     _possibleAppointments.Add(singleAppointment);
@@ -192,7 +192,7 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
             else
             {
                 List<Appointment> possibleAppointments =
-                    _scheduleRepository.FindAppointmentsByTimePriority(doctor, wantedTimeSlot, lastDate, medicalRecord,
+                    _scheduleRepository.FindAppointmentsByTimePriority(doctor, wantedTimeSlot, lastDate, _patient.Email,
                         _doctorRepository);
                 foreach (Appointment singleAppointment in possibleAppointments)
                 {
