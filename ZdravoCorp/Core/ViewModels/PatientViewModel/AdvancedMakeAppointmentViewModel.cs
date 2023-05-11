@@ -136,8 +136,6 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
         }
     }
 
-
-
     public AdvancedMakeAppointmentViewModel(DoctorRepository doctorRepository, ScheduleRepository scheduleRepository, Patient patient, ObservableCollection<AppointmentViewModel> allAppointments)
     {
         _scheduleRepository = scheduleRepository;
@@ -166,19 +164,19 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
         {
             Appointments.Clear();
             _possibleAppointments.Clear();
-            String doc = DoctorName;
             DateTime lastDate = Date;
+            if (Date < DateTime.Now)
+                throw new Exception();
             lastDate = new DateTime(lastDate.Year, lastDate.Month, lastDate.Day, 23, 59, 0);
             DateTime startTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, StartHours, StartMinutes, 0);
             DateTime endTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, EndHours, EndMinutes, 0);
+            if (startTime >= endTime)
+                throw new Exception();
             TimeSlot wantedTimeSlot = new TimeSlot(startTime, endTime);
 
-            string[] tokens = doc.Split("-");
+            string[] tokens = DoctorName.Split("-");
             string doctorsMail = tokens[1];
             Doctor? doctor = _doctorRepository.GetDoctorByEmail(doctorsMail);
-            MedicalRecord medicalRecord = new MedicalRecord(_patient);
-
-            string priority = Priority;
 
             if (Priority.Equals("Doctor"))
             {

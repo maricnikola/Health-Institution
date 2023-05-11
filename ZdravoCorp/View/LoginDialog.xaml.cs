@@ -108,18 +108,16 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                     //start patient view
                     User.State state = user.UserState;
                     Patient patient = _patientRepository.GetPatientByEmail(user.Email);
-                    List<Appointment> appointments = _scheduleRepository.GetPatientAppointments(patient.Email);
                     CounterDictionary counterDictionary = new CounterDictionary();
                     if (counterDictionary.IsForBlock(user.Email))
                     {
-                        
                         MessageBox.Show("You are blocked", "Error", MessageBoxButton.OK);
                         DialogResult = false;
                     }
                     else
                         Application.Current.MainWindow = new PatientWindow()
                         {
-                            DataContext = new PatientViewModel(appointments, _scheduleRepository, _doctorRepository,
+                            DataContext = new PatientViewModel(_scheduleRepository, _doctorRepository,
                                 patient, _medicalRecordRepository)
                         };
 
