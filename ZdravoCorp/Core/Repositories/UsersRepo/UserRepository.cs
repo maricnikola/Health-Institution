@@ -40,13 +40,13 @@ public class UserRepository : ISerializable, IUserRepository
         _users = token.ToObject<List<User>>();
     }
 
-    public void AddUser(User user)
+    public void Insert(User user)
     {
         _users.Add(user);
     }
 
 
-    public User? GetUserByEmail(string email)
+    public User? GetByEmail(string email)
     {
         return _users.FirstOrDefault(user => user.Email == email);
     }

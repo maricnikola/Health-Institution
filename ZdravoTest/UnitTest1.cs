@@ -36,7 +36,7 @@ public class UnitTest1
         //doctorRepository.SaveToFile();
 
         DoctorRepository doctorRepository2 = new DoctorRepository();
-        Doctor? doctor2 = doctorRepository2.GetDoctorByEmail("email");
+        Doctor? doctor2 = doctorRepository2.GetByEmail("email");
         Assert.AreEqual(doctor1, doctor2);
     }
 
@@ -49,7 +49,7 @@ public class UnitTest1
         //nurseRepository.SaveToFile();
 
         NurseRepository nurseRepository2 = new NurseRepository();
-        Nurse? nurse2 = nurseRepository.GetNurseByEmail("email");
+        Nurse? nurse2 = nurseRepository.GetByEmail("email");
         Assert.AreEqual(nurse1, nurse2);
     }
 
@@ -72,11 +72,11 @@ public class UnitTest1
     {
         User user = new User("pass", "email", User.UserType.Director, User.State.NotBlocked);
         UserRepository userRepository = new UserRepository();
-        userRepository.AddUser(user);
+        userRepository.Insert(user);
         //userRepository.SaveToFile();
 
         UserRepository userRepository2 = new UserRepository();
-        User user2 = userRepository2.GetUserByEmail("email");
+        User user2 = userRepository2.GetByEmail("email");
         Assert.AreEqual(user, user2);
     }
 

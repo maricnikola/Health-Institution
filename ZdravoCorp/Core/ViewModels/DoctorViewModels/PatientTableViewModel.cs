@@ -34,7 +34,7 @@ public class PatientTableViewModel : ViewModelBase
     {
         _scheduleRepository = scheduleRepository;
         _doctorRepository = doctorRepository;
-        _doctor = _doctorRepository.GetDoctorByEmail(user.Email);
+        _doctor = _doctorRepository.GetByEmail(user.Email);
         _patientRepository = patientRepository;
         _medicalRecordRepository = medicalRecordRepository;
 

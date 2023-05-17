@@ -28,7 +28,7 @@ public class DoctorViewModel : ViewModelBase
         _roomRepository = repositoryManager.RoomRepository;
         _doctorRepository = repositoryManager.DoctorRepository;
         _scheduleRepository = repositoryManager.ScheduleRepository;
-        _doctor = _doctorRepository.GetDoctorByEmail(user.Email);
+        _doctor = _doctorRepository.GetByEmail(user.Email);
         _patientRepository = repositoryManager.PatientRepository;
         var appointments = _scheduleRepository.GetDoctorAppointments(_doctor.Email);
         _medicalRecordRepository = repositoryManager.MedicalRecordRepository;

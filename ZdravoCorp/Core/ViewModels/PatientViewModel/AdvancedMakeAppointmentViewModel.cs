@@ -155,7 +155,7 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
 
             var tokens = DoctorName.Split("-");
             var doctorsMail = tokens[1];
-            var doctor = _doctorRepository.GetDoctorByEmail(doctorsMail);
+            var doctor = _doctorRepository.GetByEmail(doctorsMail);
 
             if (Priority.Equals("Doctor"))
             {

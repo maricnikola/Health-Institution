@@ -5,7 +5,7 @@ namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
 public interface IDoctorRepository
 {
-    Doctor? GetDoctorByEmail(string email);
+    Doctor? GetByEmail(string email);
     List<Doctor> GetAll();
     List<Doctor> GetAllWithCertainSpecialization(Doctor.SpecializationType specialization);
     List<Doctor> GetAllSpecialized(Doctor.SpecializationType specializationType);

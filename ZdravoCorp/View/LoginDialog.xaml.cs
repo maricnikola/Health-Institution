@@ -113,7 +113,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             return null;
         }
 
-        var user = _repositoryManager.UserRepository.GetUserByEmail(Email);
+        var user = _repositoryManager.UserRepository.GetByEmail(Email);
         if (user != null && user.ValidatePassword(Password)) return user;
         MessageBox.Show("Invalid Password", "Error", MessageBoxButton.OK);
         return null;

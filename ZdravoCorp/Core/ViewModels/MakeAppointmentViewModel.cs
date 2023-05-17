@@ -102,7 +102,7 @@ public class MakeAppointmentViewModel : ViewModelBase
 
             var tokens = dm.Split("-");
             var mail = tokens[1];
-            var doctor = _doctorRepository.GetDoctorByEmail(mail);
+            var doctor = _doctorRepository.GetByEmail(mail);
 
 
             var appointment = _scheduleRepository.CreateAppointment(time, doctor, _patient.Email);

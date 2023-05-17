@@ -39,7 +39,7 @@ public class AppointmentShowViewModel : ViewModelBase
         _roomRepository = roomRepository;
 
         _doctorRepository = doctorRepository;
-        _doctor = _doctorRepository.GetDoctorByEmail(user.Email);
+        _doctor = _doctorRepository.GetByEmail(user.Email);
 
         var appointments = _scheduleRepository.GetDoctorAppointments(_doctor.Email);
         _medicalRecordRepository = medicalRecordRepository;

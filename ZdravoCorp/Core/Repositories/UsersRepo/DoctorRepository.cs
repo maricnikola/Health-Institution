@@ -37,7 +37,7 @@ public class DoctorRepository : ISerializable, IDoctorRepository
     }
 
 
-    public Doctor? GetDoctorByEmail(string email)
+    public Doctor? GetByEmail(string email)
     {
         return _doctors.FirstOrDefault(doctor => doctor.Email == email);
     }

@@ -4,7 +4,7 @@ namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
 public interface IUserRepository
 {
-    void AddUser(User user);
-    User? GetUserByEmail(string email);
+    void Insert(User user);
+    User? GetByEmail(string email);
     bool ValidateEmail(string email);
 }

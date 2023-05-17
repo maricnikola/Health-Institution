@@ -39,7 +39,7 @@ public class NurseRepository : ISerializable, INurseRepository
         _nurses.Add(nurse);
     }
 
-    public Nurse? GetNurseByEmail(string email)
+    public Nurse? GetByEmail(string email)
     {
         return _nurses.FirstOrDefault(nurse => nurse.Email == email);
     }
