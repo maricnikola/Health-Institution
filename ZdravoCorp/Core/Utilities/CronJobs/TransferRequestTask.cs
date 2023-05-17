@@ -22,7 +22,7 @@ public class TransferRequestTask : IJob
         _inventoryRepository.UpdateInventoryItem(_transfer);
 
 
-        _transferRepository.Remove(_transfer);
+        _transferRepository.Delete(_transfer);
         _transferRepository.OnRequestUpdate(this, new EventArgs());
         _inventoryRepository.OnRequestUpdate(this, new EventArgs());
 

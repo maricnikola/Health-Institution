@@ -87,7 +87,7 @@ public class DEquipmentPaneViewModel : ViewModelBase
         {
             var updateOrders = new ObservableCollection<OrderViewModel>();
             string items;
-            foreach (var order in _orderRepository.GetOrders())
+            foreach (var order in _orderRepository.GetAll())
                 updateOrders.Add(new OrderViewModel(order, ParseItemsDictionary(order.Items)));
 
             Orders = updateOrders;

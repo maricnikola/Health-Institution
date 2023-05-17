@@ -6,18 +6,20 @@ using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
-public class DoctorRepository : ISerializable
+
+
+public class DoctorRepository : ISerializable, IDoctorRepository
 {
     private readonly string _fileName = @".\..\..\..\Data\doctors.json";
 
 
     public DoctorRepository()
     {
-        Doctors = new List<Doctor>();
+        _doctors = new List<Doctor>();
         Serializer.Load(this);
     }
 
-    public List<Doctor>? Doctors { get; private set; }
+    private List<Doctor>? _doctors;
 
     public string FileName()
     {
@@ -26,29 +28,29 @@ public class DoctorRepository : ISerializable
 
     public IEnumerable<object>? GetList()
     {
-        return Doctors;
+        return _doctors;
     }
 
     public void Import(JToken token)
     {
-        Doctors = token.ToObject<List<Doctor>>();
+        _doctors = token.ToObject<List<Doctor>>();
     }
 
 
     public Doctor? GetDoctorByEmail(string email)
     {
-        return Doctors.FirstOrDefault(doctor => doctor.Email == email);
+        return _doctors.FirstOrDefault(doctor => doctor.Email == email);
     }
 
     public List<Doctor> GetAll()
     {
-        return Doctors;
+        return _doctors;
     }
 
     public List<Doctor> GetAllWithCertainSpecialization(Doctor.SpecializationType specialization)
     {
         var wantedDoctors = new List<Doctor>();
-        foreach (var doctor in Doctors)
+        foreach (var doctor in _doctors)
             if (doctor.Specialization == specialization)
                 wantedDoctors.Add(doctor);
         return wantedDoctors;
@@ -56,7 +58,7 @@ public class DoctorRepository : ISerializable
 
     public List<Doctor> GetAllSpecialized(Doctor.SpecializationType specializationType)
     {
-        var suitableDoctors = Doctors.FindAll(doctor => doctor.Specialization == specializationType);
+        var suitableDoctors = _doctors.FindAll(doctor => doctor.Specialization == specializationType);
         return suitableDoctors;
     }
 }

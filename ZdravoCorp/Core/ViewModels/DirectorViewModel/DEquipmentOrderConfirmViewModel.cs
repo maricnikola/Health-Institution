@@ -47,7 +47,7 @@ public class DEquipmentOrderConfirmViewModel
         var order = InitOrder();
         var newOrder = new Order(IDGenerator.GetId(), order, DateTime.Now, DateTime.Now.AddMinutes(5),
             Order.OrderStatus.Pending);
-        _orderRepository.AddOrder(newOrder);
+        _orderRepository.Insert(newOrder);
         Serializer.Save(_orderRepository);
         JobScheduler.DEquipmentTaskScheduler(newOrder);
         _orderRepository.OnRequestUpdate(this, new EventArgs());

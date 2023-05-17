@@ -31,7 +31,7 @@ public class UrgentAppointmentViewModel : ViewModelBase
         SpecializationTypes.Add(Doctor.SpecializationType.Neurologist.ToString());
         SpecializationTypes.Add(Doctor.SpecializationType.Urologist.ToString());
         SpecializationTypes.Add(Doctor.SpecializationType.Anesthesiologist.ToString());
-        //_specializationTypes.Add("Any");
+        //_specializationTypes.Insert("Any");
     }
 
     public ICommand FindUrgentAppointmentCommand { get; set; }
@@ -65,11 +65,11 @@ public class UrgentAppointmentViewModel : ViewModelBase
                 //TimeSlot compareTime = _scheduleRepository.FindAvailableTimeslotsForOneDoctor(suitableDoctor.Email, interval, now, null);
                 TimeSlot termin = _scheduleRepository.FindAvailableTimeslotsForOneDoctor(suitableDoctor.Email, interval, DateTime.Today);
                 if (termin != null) {
-                    termins.Add(new Tuple<TimeSlot, string>(termin, suitableDoctor.Email));
+                    termins.Insert(new Tuple<TimeSlot, string>(termin, suitableDoctor.Email));
                 }
                 termins.Sort((a, b) => a.Item1.IsBefore(b.Item1));
 
-                //allDoctorsAppointments.Add(_scheduleRepository.GetDoctorAppointments(suitableDoctor.Email));
+                //allDoctorsAppointments.Insert(_scheduleRepository.GetDoctorAppointments(suitableDoctor.Email));
             }
 
 

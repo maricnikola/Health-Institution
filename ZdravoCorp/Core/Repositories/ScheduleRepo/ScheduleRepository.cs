@@ -15,7 +15,7 @@ using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.ScheduleRepo;
 
-public class ScheduleRepository : ISerializable
+public class ScheduleRepository : ISerializable, IScheduleRepository
 {
     private readonly CounterDictionary _counterDictionary;
 

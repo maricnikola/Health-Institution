@@ -5,7 +5,7 @@ using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
-public class DirectorRepository : ISerializable
+public class DirectorRepository : ISerializable, IDirectorRepository
 {
     private readonly string _fileName = @".\..\..\..\Data\directors.json";
 

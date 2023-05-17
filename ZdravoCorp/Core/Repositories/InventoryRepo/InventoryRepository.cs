@@ -10,7 +10,7 @@ using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.InventoryRepo;
 
-public class InventoryRepository : ISerializable
+public class InventoryRepository : ISerializable, IInventoryRepository
 {
     private readonly EquipmentRepository _equipmentRepository;
     private readonly string _fileName = @".\..\..\..\Data\inventory.json";
@@ -18,7 +18,7 @@ public class InventoryRepository : ISerializable
     private List<InventoryItem>? _inventory;
 
 
-    public EventHandler OnRequestUpdate;
+    public EventHandler OnRequestUpdate = null!;
 
     public InventoryRepository(RoomRepository roomRepository, EquipmentRepository equipmentRepository)
     {
@@ -44,7 +44,7 @@ public class InventoryRepository : ISerializable
         _inventory = token.ToObject<List<InventoryItem>>();
     }
 
-    public void AddItem(InventoryItem newInventoryItem)
+    public void Insert(InventoryItem newInventoryItem)
     {
         var index = _inventory.FindIndex(item =>
             item.EquipmentId == newInventoryItem.EquipmentId && item.RoomId == newInventoryItem.RoomId);
@@ -66,9 +66,16 @@ public class InventoryRepository : ISerializable
         return _inventory.Where(item => item.Equipment.IsDynamic == false).ToList();
     }
 
-    public List<InventoryItem>? GetAll()
+    public IEnumerable<InventoryItem> GetAll()
     {
         return _inventory;
+    }
+
+
+
+    public void Delete(InventoryItem entity)
+    {
+        _inventory.Remove(entity);
     }
 
     public List<InventoryItem>? GetDynamic()
@@ -114,7 +121,7 @@ public class InventoryRepository : ISerializable
         newInventoryItem.Quantity = transfer.Quantity;
         newInventoryItem.Room = transfer.To;
         newInventoryItem.RoomId = transfer.To.Id;
-        AddItem(newInventoryItem);
+        Insert(newInventoryItem);
         Serializer.Save(this);
     }
 
@@ -139,7 +146,7 @@ public class InventoryRepository : ISerializable
     }
 
 
-    public InventoryItem? GetInventoryById(int id)
+    public InventoryItem GetById(int id)
     {
         return _inventory.FirstOrDefault(inv => inv.Id == id);
     }

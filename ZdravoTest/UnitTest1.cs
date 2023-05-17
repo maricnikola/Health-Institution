@@ -32,7 +32,7 @@ public class UnitTest1
     {
         Doctor? doctor1 = new Doctor("email", "ime", "pre", Doctor.SpecializationType.Neurologist);
         DoctorRepository doctorRepository = new DoctorRepository();
-        //doctorRepository.Add(doctor1);
+        //doctorRepository.Insert(doctor1);
         //doctorRepository.SaveToFile();
 
         DoctorRepository doctorRepository2 = new DoctorRepository();
@@ -85,7 +85,7 @@ public class UnitTest1
     {
         Room room = new Room(12, RoomType.ExaminationRoom);
         RoomRepository roomRepository = new RoomRepository();
-        roomRepository.Add(room);
+        roomRepository.Insert(room);
         //roomRepository.SaveToFile();
 
         RoomRepository roomRepository2= new RoomRepository();
@@ -128,7 +128,7 @@ public class UnitTest1
         Room room = new Room(22, RoomType.ExaminationRoom);
         Equipment equipment = new Equipment(33, "sto", Equipment.EquipmentType.Examination, false);
         RoomRepository roomRepository = new RoomRepository();
-        roomRepository.Add(room);
+        roomRepository.Insert(room);
         EquipmentRepository equipmentRepository = new EquipmentRepository();
         equipmentRepository.Add(equipment);
         InventoryItem inventoryItem1 = new InventoryItem(22, 44, room, equipment);
@@ -137,7 +137,7 @@ public class UnitTest1
         //inventoryRepository.SaveToFile();
 
         InventoryRepository inventoryRepository2 = new InventoryRepository(roomRepository, equipmentRepository);
-        InventoryItem ?inventoryItem2= inventoryRepository.GetInventoryById(22);
+        InventoryItem ?inventoryItem2= inventoryRepository.GetById(22);
         
         Assert.AreEqual(inventoryItem1, inventoryItem2);
     }

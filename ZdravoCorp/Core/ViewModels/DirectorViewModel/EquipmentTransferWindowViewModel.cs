@@ -40,7 +40,7 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
         _quantity = quantity;
         Quantity = 0;
         MaxQuantity = "Quantity(max " + _quantity + "):";
-        _inventoryItem = _inventoryRepository.GetInventoryById(inventoryItemId);
+        _inventoryItem = _inventoryRepository.GetById(inventoryItemId);
         ConfirmTransfer = new DelegateCommand(o => Confirm(), o => CanConfirm());
         CancelTransfer = new DelegateCommand(o => Cancel());
         foreach (var room in _roomRepository.GetAllExcept(_inventoryItem.RoomId)) _rooms.Add(new RoomViewModel(room));
@@ -112,7 +112,7 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
 
         var newTransfer = new Transfer(IDGenerator.GetId(), _roomRepository.GetById(_sourceRoomId),
             _roomRepository.GetById(SelectedRoom.Id), when, Quantity, InventoryItemId, _inventoryItem.Equipment.Name);
-        _transferRepository.Add(newTransfer);
+        _transferRepository.Insert(newTransfer);
         Serializer.Save(_transferRepository);
         JobScheduler.TransferRequestTaskScheduler(newTransfer);
         OnRequestUpdate?.Invoke(this, new EventArgs());

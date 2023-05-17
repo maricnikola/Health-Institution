@@ -6,7 +6,12 @@ using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
-public class PatientRepository : ISerializable
+public interface IPatientRepository
+{
+    Patient? GetPatientByEmail(string email);
+}
+
+public class PatientRepository : ISerializable, IPatientRepository
 {
     private readonly string _fileName = @".\..\..\..\Data\patients.json";
 

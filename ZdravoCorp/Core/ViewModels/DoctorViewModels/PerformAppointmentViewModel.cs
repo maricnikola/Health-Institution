@@ -101,7 +101,7 @@ public class PerformAppointmentViewModel : ViewModelBase
 
     private void assignRoom()
     {
-        foreach (var room in _roomRepository.Rooms)
+        foreach (var room in _roomRepository.GetAll())
         {
             var checkRoom = true;
             foreach (var appointment in _schedulerRepository.GetAllAppointments())

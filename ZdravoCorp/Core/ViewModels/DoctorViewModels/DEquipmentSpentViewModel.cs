@@ -58,7 +58,7 @@ public class DEquipmentSpentViewModel : ViewModelBase
                 break;
             }
 
-            _inventoryRepository.GetInventoryById(inventoryItem.Id).Quantity -= inventoryItem.OrderQuantity;
+            _inventoryRepository.GetById(inventoryItem.Id).Quantity -= inventoryItem.OrderQuantity;
             Serializer.Save(_inventoryRepository);
         }
 

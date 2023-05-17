@@ -26,7 +26,7 @@ public class DEquipmentTransferWindowViewModel : ViewModelBase
         Quantity = quantity;
         MoveQuantity = 0;
         MaxMoveQuantity = -1;
-        var inventoryItem = _inventoryRepository.GetInventoryById(inventoryItemId);
+        var inventoryItem = _inventoryRepository.GetById(inventoryItemId);
         RoomType = inventoryItem?.Room.Type.ToString();
         Item = inventoryItem.Equipment.Name;
 

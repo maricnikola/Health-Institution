@@ -21,7 +21,7 @@ public class DEquipmentExecuteOrder : IJob
         _inventoryRepository = (InventoryRepository)dataMap["invrepo"];
         _orderRepository = (OrderRepository)dataMap["ordrepo"];
         foreach (var item in _order.Items)
-            _inventoryRepository.AddItem(new InventoryItem(IDGenerator.GetId(), item.Value, 999, item.Key));
+            _inventoryRepository.Insert(new InventoryItem(IDGenerator.GetId(), item.Value, 999, item.Key));
 
         _order.Status = Order.OrderStatus.Completed;
         _inventoryRepository.LoadRoomsAndEquipment();

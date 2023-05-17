@@ -6,17 +6,17 @@ using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.MedicalRecordRepo;
 
-public class MedicalRecordRepository : ISerializable
+public class MedicalRecordRepository : ISerializable, IMedicalRecordRepository
 {
     private readonly string _filename = @".\..\..\..\Data\medicalRecords.json";
 
     public MedicalRecordRepository()
     {
-        records = new List<MedicalRecord>();
+        _records = new List<MedicalRecord>();
         Serializer.Load(this);
     }
 
-    private List<MedicalRecord>? records { get; set; }
+    private List<MedicalRecord>? _records { get; set; }
 
     public string FileName()
     {
@@ -25,30 +25,45 @@ public class MedicalRecordRepository : ISerializable
 
     public IEnumerable<object>? GetList()
     {
-        return records;
+        return _records;
     }
 
     public void Import(JToken token)
     {
-        records = token.ToObject<List<MedicalRecord>>();
+        _records = token.ToObject<List<MedicalRecord>>();
     }
 
 
-    public void AddRecord(MedicalRecord newMedicalRecord)
+    public IEnumerable<MedicalRecord> GetAll()
     {
-        var index = records.FindIndex(record => record.user.Equals(newMedicalRecord.user));
-        if (index != -1) records[index] = newMedicalRecord;
-        else records.Add(newMedicalRecord);
+        return _records;
+    }
+
+    public void Insert(MedicalRecord newMedicalRecord)
+    {
+        var index = _records.FindIndex(record => record.user.Equals(newMedicalRecord.user));
+        if (index != -1) _records[index] = newMedicalRecord;
+        else _records.Add(newMedicalRecord);
+    }
+
+    public void Delete(MedicalRecord entity)
+    {
+        _records.Remove(entity);
+    }
+
+    public MedicalRecord GetById(int id)
+    {
+        throw new System.NotImplementedException();
     }
 
     public MedicalRecord? GetById(string id)
     {
-        return records.FirstOrDefault(record => record.user.Email == id);
+        return _records.FirstOrDefault(record => record.user.Email == id);
     }
 
-    public void RemoveById(string id)
+    public void Delete(string id)
     {
-        records.RemoveAll(record => record.user.Email == id);
+        _records.RemoveAll(record => record.user.Email == id);
     }
 
     public void ChangeRecord(string patientEmail, int newHeight, int newWeight, List<string> newDeseaseHistory)

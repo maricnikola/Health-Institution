@@ -31,7 +31,7 @@ public class JobScheduler
 
     private void LoadScheduledTasks()
     {
-        foreach (var order in _orderRepository.GetOrders())
+        foreach (var order in _orderRepository.GetAll())
             if (order.Status == Order.OrderStatus.Pending)
                 DEquipmentTaskScheduler(order);
 
