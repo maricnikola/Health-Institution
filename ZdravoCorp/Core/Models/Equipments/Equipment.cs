@@ -45,4 +45,12 @@ public class Equipment
     {
         return HashCode.Combine(Id, Name, (int)Type);
     }
+
+    public Equipment(EquipmentDTO equipmentDto)
+    {
+        Id = equipmentDto.Id;
+        Name = equipmentDto.Name;
+        Type = equipmentDto.Type;
+        IsDynamic = equipmentDto.IsDynamic;
+    }
 }

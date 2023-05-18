@@ -34,4 +34,15 @@ public class Transfer
 
     public int InventoryId { get; set; }
     public string? InventoryItemName { get; set; }
+
+    public Transfer(TransferDTO transferDto)
+    {
+        From = transferDto.From;
+        InventoryId = transferDto.InventoryId;
+        Id = transferDto.Id;
+        To = transferDto.To;
+        InventoryItemName = transferDto.InventoryItemName;
+        Quantity = transferDto.Quantity;
+        When = transferDto.When;
+    }
 }

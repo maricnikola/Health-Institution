@@ -39,4 +39,17 @@ public class Appointment
     public int? Room { get; set; }
     public bool IsCanceled { get; set; }
     public bool Status { get; set; }
+
+
+    public Appointment(AppointmentDTO appointmentDto)
+    {
+        Doctor = appointmentDto.Doctor;
+        Anamnesis = appointmentDto.Anamnesis;
+        IsCanceled = appointmentDto.IsCanceled;
+        PatientEmail = appointmentDto.PatientEmail;
+        Id = appointmentDto.Id;
+        Room = appointmentDto.Room;
+        Status = appointmentDto.Status;
+        Time = appointmentDto.Time;
+    }
 }

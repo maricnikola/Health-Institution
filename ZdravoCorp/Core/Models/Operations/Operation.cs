@@ -30,4 +30,14 @@ public class Operation
     public MedicalRecord MedicalRecord { get; set; }
     public Room? Room { get; set; }
     public List<Equipment>? Equipment { get; set; }
+
+    public Operation(OperationDTO operationDto)
+    {
+        Doctor = operationDto.Doctor;
+        MedicalRecord = operationDto.MedicalRecord;
+        Equipment = operationDto.Equipment;
+        Id = operationDto.Id;
+        Room = operationDto.Room;
+        Time = operationDto.Time;
+    }
 }

@@ -25,7 +25,7 @@
         <PasswordBox Grid.Row="4" Margin="0, 1, 0 ,0 " Width="350" Height="30" FontSize="18" Name="PasswordBox"
                      PasswordChanged="PasswordBox_OnPasswordChanged" MaxLength="10" />
 
-        <Button Grid.Row="5" Width="80" Height="30" Margin="50" Name="LoginButton" Click="LoginButton_OnClick">Log In</Button>
+        <Button Grid.Row="5" Width="80" Height="30" Margin="50" Name="LoginButton" Click="LoginButton_OnClick" IsDefault="True">Log In</Button>
 
     </Grid>
 </Window>

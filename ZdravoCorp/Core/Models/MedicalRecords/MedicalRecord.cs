@@ -50,4 +50,12 @@ public class MedicalRecord
         var result = DiseaseHistory.Any() ? string.Join(",", DiseaseHistory) : string.Empty;
         return result;
     }
+
+    public MedicalRecord(MedicalRecordDTO medicalRecordDto)
+    {
+        DiseaseHistory = medicalRecordDto.DiseaseHistory;
+        Patient = medicalRecordDto.Patient;
+        Height = medicalRecordDto.Height;
+        Weight = medicalRecordDto.Weight;
+    }
 }
