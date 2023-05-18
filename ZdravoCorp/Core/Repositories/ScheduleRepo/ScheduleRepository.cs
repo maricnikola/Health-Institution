@@ -82,7 +82,7 @@ public class ScheduleRepository : ISerializable, IScheduleRepository
 
     public List<Operation> GetPatientOperations(string patientMail)
     {
-        return _operations.Where(operation => operation.MedicalRecord.user.Email == patientMail).ToList();
+        return _operations.Where(operation => operation.MedicalRecord.Patient.Email == patientMail).ToList();
     }
 
     public List<Appointment> GetPatientsOldAppointments(string patientMail)
@@ -151,7 +151,7 @@ public class ScheduleRepository : ISerializable, IScheduleRepository
 
     public void CreateOperation(TimeSlot time, Doctor doctor, MedicalRecord medicalRecord)
     {
-        if (isDoctorAvailable(time, doctor.Email) && isPatientAvailable(time, medicalRecord.user.Email))
+        if (isDoctorAvailable(time, doctor.Email) && isPatientAvailable(time, medicalRecord.Patient.Email))
         {
             var operation = new Operation(0, time, doctor, medicalRecord);
             _operations.Add(operation);
@@ -216,7 +216,7 @@ public class ScheduleRepository : ISerializable, IScheduleRepository
 
     public bool IsAppointmentInList(Appointment appointment)
     {
-        //return (from t in Appointments where t.Id == appointment.Id where t.Doctor.Email == appointment.Doctor.Email where t.MedicalRecord.user.Email == appointment.MedicalRecord.user.Email select t).Any(t => t.Time.start == appointment.Time.start && t.Time.end == appointment.Time.end);
+        //return (from t in Appointments where t.Id == appointment.Id where t.Doctor.Email == appointment.Doctor.Email where t.MedicalRecord.Patient.Email == appointment.MedicalRecord.Patient.Email select t).Any(t => t.Time.start == appointment.Time.start && t.Time.end == appointment.Time.end);
         return _appointments.Any(ap =>
             ap.PatientEmail == appointment.PatientEmail && ap.Doctor.Email == appointment.Doctor.Email &&
             ap.Time.start == appointment.Time.start && ap.Time.end == appointment.Time.end);

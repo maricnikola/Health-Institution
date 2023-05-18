@@ -23,16 +23,16 @@ internal class MedicalRecordViewModel : ViewModelBase
     {
         _medicalRecordRepository = medicalRecordRepository;
         _medicalRecord = medicalRecord;
-        _height = _medicalRecord.height;
-        _weight = _medicalRecord.weight;
+        _height = _medicalRecord.Height;
+        _weight = _medicalRecord.Weight;
         _diseaseHistory = medicalRecord.DiseaseHistoryToString();
         SaveCommand = new DelegateCommand(o => SaveChangesMedicalRecord());
         CloseCommand = new DelegateCommand(o => CloseWindow());
     }
 
-    public int PatientHeight => _medicalRecord.height;
-    public int PatientWeight => _medicalRecord.weight;
-    public string PatientName => _medicalRecord.user.FullName;
+    public int PatientHeight => _medicalRecord.Height;
+    public int PatientWeight => _medicalRecord.Weight;
+    public string PatientName => _medicalRecord.Patient.FullName;
     public string PatientDeseaseHistory => _medicalRecord.DiseaseHistoryToString();
 
     public ICommand SaveCommand { get; }
@@ -84,7 +84,7 @@ internal class MedicalRecordViewModel : ViewModelBase
             var checkData = _medicalRecordRepository.CheckDataForChanges(weight, height, diseasHistory);
             if (checkData)
             {
-                _medicalRecordRepository.ChangeRecord(_medicalRecord.user.Email, height, weight, diseasHistory);
+                _medicalRecordRepository.ChangeRecord(_medicalRecord.Patient.Email, height, weight, diseasHistory);
                 CloseWindow();
             }
             else

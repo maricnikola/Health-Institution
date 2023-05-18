@@ -41,7 +41,7 @@ public class MedicalRecordRepository : ISerializable, IMedicalRecordRepository
 
     public void Insert(MedicalRecord newMedicalRecord)
     {
-        var index = _records.FindIndex(record => record.user.Equals(newMedicalRecord.user));
+        var index = _records.FindIndex(record => record.Patient.Equals(newMedicalRecord.Patient));
         if (index != -1) _records[index] = newMedicalRecord;
         else _records.Add(newMedicalRecord);
     }
@@ -58,12 +58,12 @@ public class MedicalRecordRepository : ISerializable, IMedicalRecordRepository
 
     public MedicalRecord? GetById(string id)
     {
-        return _records.FirstOrDefault(record => record.user.Email == id);
+        return _records.FirstOrDefault(record => record.Patient.Email == id);
     }
 
     public void Delete(string id)
     {
-        _records.RemoveAll(record => record.user.Email == id);
+        _records.RemoveAll(record => record.Patient.Email == id);
     }
 
     public void ChangeRecord(string patientEmail, int newHeight, int newWeight, List<string> newDeseaseHistory)
@@ -72,9 +72,9 @@ public class MedicalRecordRepository : ISerializable, IMedicalRecordRepository
 
         if (medicalRecordToBeChanged != null)
         {
-            medicalRecordToBeChanged.weight = newWeight;
-            medicalRecordToBeChanged.height = newHeight;
-            medicalRecordToBeChanged.deseaseHistory = newDeseaseHistory;
+            medicalRecordToBeChanged.Weight = newWeight;
+            medicalRecordToBeChanged.Height = newHeight;
+            medicalRecordToBeChanged.DiseaseHistory = newDeseaseHistory;
             Serializer.Save(this);
         }
     }
