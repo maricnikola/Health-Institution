@@ -3,7 +3,7 @@ using ZdravoCorp.Core.Models.Equipments;
 using ZdravoCorp.Core.Models.MedicalRecords;
 using ZdravoCorp.Core.Models.Rooms;
 using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.TimeSlots;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Models.Operations;
 

@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Newtonsoft.Json.Linq;
-using ZdravoCorp.Core.Counters;
 using ZdravoCorp.Core.Models.AnamnesisReport;
 using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.MedicalRecords;
 using ZdravoCorp.Core.Models.Operations;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.UsersRepo;
-using ZdravoCorp.Core.TimeSlots;
 using ZdravoCorp.Core.Utilities;
+using ZdravoCorp.Core.Utilities.Counters;
 
 namespace ZdravoCorp.Core.Repositories.ScheduleRepo;
 

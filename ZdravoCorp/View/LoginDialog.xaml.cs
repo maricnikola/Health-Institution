@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using ZdravoCorp.Core.Counters;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories;
+using ZdravoCorp.Core.Utilities.Counters;
 using ZdravoCorp.Core.ViewModels.DirectorViewModel;
 using ZdravoCorp.Core.ViewModels.DoctorViewModels;
 using ZdravoCorp.Core.ViewModels.NurseViewModel;

@@ -9,7 +9,7 @@ using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
-using ZdravoCorp.Core.TimeSlots;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 

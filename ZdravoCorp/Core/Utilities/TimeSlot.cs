@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ZdravoCorp.Core.TimeSlots;
+namespace ZdravoCorp.Core.Utilities;
 
 public class TimeSlot : IEquatable<TimeSlot> //will be some functions for time
 {

@@ -9,7 +9,7 @@ using ZdravoCorp.Core.Repositories.InventoryRepo;
 using ZdravoCorp.Core.Repositories.RoomRepo;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
-using ZdravoCorp.Core.TimeSlots;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoTest;
 
@@ -113,7 +113,7 @@ public class UnitTest1
     {
         Equipment equipment1 = new Equipment(23, "stolica", Equipment.EquipmentType.Operation, false);
         EquipmentRepository equipmentRepository = new EquipmentRepository();
-        equipmentRepository.Add(equipment1);
+        equipmentRepository.Insert(equipment1);
         //equipmentRepository.SaveToFile();
 
         EquipmentRepository equipmentRepository2 = new EquipmentRepository();
@@ -130,10 +130,10 @@ public class UnitTest1
         RoomRepository roomRepository = new RoomRepository();
         roomRepository.Insert(room);
         EquipmentRepository equipmentRepository = new EquipmentRepository();
-        equipmentRepository.Add(equipment);
+        equipmentRepository.Insert(equipment);
         InventoryItem inventoryItem1 = new InventoryItem(22, 44, room, equipment);
         InventoryRepository inventoryRepository = new InventoryRepository(roomRepository, equipmentRepository);
-        inventoryRepository.AddItem(inventoryItem1);
+        inventoryRepository.Insert(inventoryItem1);
         //inventoryRepository.SaveToFile();
 
         InventoryRepository inventoryRepository2 = new InventoryRepository(roomRepository, equipmentRepository);

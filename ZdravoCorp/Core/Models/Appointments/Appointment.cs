@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using ZdravoCorp.Core.Models.AnamnesisReport;
 using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.TimeSlots;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Models.Appointments;
 
