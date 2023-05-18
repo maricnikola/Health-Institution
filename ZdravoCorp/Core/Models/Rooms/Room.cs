@@ -1,5 +1,5 @@
 using System;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace ZdravoCorp.Core.Models.Rooms;
 
@@ -10,6 +10,12 @@ public class Room
     {
         Id = id;
         Type = type;
+    }
+
+    public Room(RoomDTO roomDto)
+    {
+        Id=roomDto.Id;
+        Type = roomDto.Type;
     }
 
     public int Id { get; set; }

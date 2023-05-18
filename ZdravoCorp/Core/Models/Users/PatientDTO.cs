@@ -7,11 +7,12 @@ public class PatientDTO
     public string LastName { get; set; }
     public string FullName { get; set; }
 
-    public PatientDTO(Patient patient)
+    public PatientDTO(string email, string firstName, string lastName, string fullName)
     {
-        Email=patient.Email;
-        FirstName=patient.FirstName;
-        LastName=patient.LastName;
-        FullName=patient.FullName;
+        Email = email;
+        FirstName = firstName;
+        LastName = lastName;
+        FullName = $"{FirstName} {LastName}";
     }
+
 }

@@ -16,15 +16,15 @@ public class AppointmentDTO
     public bool IsCanceled { get; set; }
     public bool Status { get; set; }
 
-    public AppointmentDTO(Appointment appointment)
+    public AppointmentDTO(int id, TimeSlot time, Doctor doctor, string patientEmail, Anamnesis anamnesis, int? room, bool isCanceled, bool status)
     {
-        Id = appointment.Id;
-        Time = appointment.Time;
-        Doctor = appointment.Doctor;
-        PatientEmail = appointment.PatientEmail;
-        Anamnesis = appointment.Anamnesis;
-        Room = appointment.Room;
-        IsCanceled = appointment.IsCanceled;
-        Status = appointment.Status;
+        Id = id;
+        Time = time;
+        Doctor = doctor;
+        PatientEmail = patientEmail;
+        Anamnesis = anamnesis;
+        Room = room;
+        IsCanceled = isCanceled;
+        Status = status;
     }
 }

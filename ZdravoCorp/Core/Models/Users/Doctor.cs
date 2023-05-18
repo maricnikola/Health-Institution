@@ -15,6 +15,12 @@ public class Doctor
         Anesthesiologist
     }
 
+    public string Email { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public SpecializationType Specialization { get; set; }
+
+
     [JsonConstructor]
     public Doctor(string email, string firstName, string lastName, SpecializationType specialization)
     {
@@ -24,12 +30,15 @@ public class Doctor
         Specialization = specialization;
     }
 
-    public string Email { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
+    public Doctor(DoctorDTO doctorDto)
+    {
+        Email=doctorDto.Email;
+        FirstName = doctorDto.FirstName;
+        LastName = doctorDto.LastName;
+        Specialization = doctorDto.Specialization;
+    }
 
 
-    public SpecializationType Specialization { get; set; }
 
     [JsonIgnore] public string FullName => string.Format("Dr {0} {1}", FirstName, LastName);
 

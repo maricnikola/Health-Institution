@@ -10,14 +10,13 @@ public class DoctorDTO
     public SpecializationType Specialization { get; set; }
     public string FullName { get; set; }
 
-
-    public DoctorDTO(Doctor doctor)
+    public DoctorDTO(string email, string firstName, string lastName, SpecializationType specialization)
     {
-        Email=doctor.Email;
-        FirstName=doctor.FirstName;
-        LastName=doctor.LastName;
-        Specialization=doctor.Specialization;
-        FullName=doctor.FullName;
+        Email = email;
+        FirstName = firstName;
+        LastName = lastName;
+        Specialization = specialization;
+        FullName = $"Dr {FirstName} {LastName}";
     }
 
 }
