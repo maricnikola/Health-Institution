@@ -19,6 +19,13 @@ public class Patient
 
     [JsonIgnore] public string FullName => string.Format("{0} {1}", FirstName, LastName);
 
+    public Patient(PatientDTO patientDto)
+    {
+        Email=patientDto.Email;
+        FirstName = patientDto.FirstName;
+        LastName = patientDto.LastName;
+    }
+
 
     protected bool Equals(Patient other)
     {

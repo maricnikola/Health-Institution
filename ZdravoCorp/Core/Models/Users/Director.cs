@@ -23,6 +23,13 @@ public class Director
         return Email == other.Email && FirstName == other.FirstName && LastName == other.LastName;
     }
 
+    public Director(DirectorDTO directorDto)
+    {
+        Email= directorDto.Email;
+        FirstName = directorDto.FirstName;
+        LastName = directorDto.LastName;
+    }
+
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;

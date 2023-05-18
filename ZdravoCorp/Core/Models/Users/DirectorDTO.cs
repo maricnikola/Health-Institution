@@ -8,10 +8,11 @@ public class DirectorDTO
     public string FirstName { get; set; }
     public string LastName { get; set; }
 
-    public DirectorDTO(Director director)
+    public DirectorDTO(string email, string firstName, string lastName)
     {
-        Email = director.Email;
-        FirstName = director.FirstName;
-        LastName = director.LastName;
+        Email = email;
+        FirstName = firstName;
+        LastName = lastName;
     }
+
 }

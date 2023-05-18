@@ -6,11 +6,10 @@ public class NurseDTO
     public string FirstName { get; set; }
     public string LastName { get; set; }
 
-    public NurseDTO(Nurse nurse)
+    public NurseDTO(string email, string firstName, string lastName)
     {
-        Email=nurse.Email;
-        FirstName=nurse.FirstName;
-        LastName=nurse.LastName;
+        Email = email;
+        FirstName = firstName;
+        LastName = lastName;
     }
-
 }

@@ -8,10 +8,10 @@ public class UserDTO
     public string Email { get; set; }
     public State UserState { get; set; }
 
-    public UserDTO(User user)
+    public UserDTO(UserType type, string email, State userState)
     {
-        Type=user.Type;
-        Email=user.Email;
-        UserState = user.UserState;
+        Type = type;
+        Email = email;
+        UserState = userState;
     }
 }
