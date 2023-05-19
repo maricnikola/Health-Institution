@@ -195,7 +195,7 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
                 if (_scheduleRepository.isDoctorAvailable(appointment.Time, appointment.Doctor.Email) &&
                     _scheduleRepository.isPatientAvailable(appointment.Time, appointment.Doctor.Email))
                 {
-                    _scheduleRepository.AddAppointment(appointment);
+                    _scheduleRepository.InsertAppointment(appointment);
                     allAppointments.Add(selectedAppointment);
                     return;
                 }
