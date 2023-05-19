@@ -9,6 +9,7 @@ using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
 using ZdravoCorp.Core.Repositories.RoomRepo;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.MedicalRecordServices;
 using ZdravoCorp.View;
 using ZdravoCorp.View.DoctorView;
 
@@ -22,14 +23,14 @@ public class AppointmentShowViewModel : ViewModelBase
     private readonly Doctor _doctor;
     private readonly DoctorRepository _doctorRepository;
     private readonly InventoryRepository _inventoryRepository;
-    private readonly MedicalRecordRepository _medicalRecordRepository;
+    private readonly IMedicalRecordService _medicalRecordService;
     private readonly PatientRepository _patientRepository;
     private readonly RoomRepository _roomRepository;
     private readonly ScheduleRepository _scheduleRepository;
     private int counterViews;
 
     public AppointmentShowViewModel(User user, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository,
-        PatientRepository patientRepository, MedicalRecordRepository medicalRecordRepository,
+        PatientRepository patientRepository, IMedicalRecordService medicalRecordService,
         InventoryRepository inventoryRepository, RoomRepository roomRepository)
     {
         counterViews = 0;
@@ -42,7 +43,7 @@ public class AppointmentShowViewModel : ViewModelBase
         _doctor = _doctorRepository.GetByEmail(user.Email);
 
         var appointments = _scheduleRepository.GetDoctorAppointments(_doctor.Email);
-        _medicalRecordRepository = medicalRecordRepository;
+        _medicalRecordService = medicalRecordService;
 
         Appointments = new ObservableCollection<AppointmentViewModel>();
 
@@ -86,7 +87,7 @@ public class AppointmentShowViewModel : ViewModelBase
         var addAp = new AddAppointmentView
         {
             DataContext = new AddAppointmentViewModel(_scheduleRepository, _doctorRepository, Appointments,
-                _patientRepository, _doctor, _medicalRecordRepository, _dateAppointment)
+                _patientRepository, _doctor, _medicalRecordService, _dateAppointment)
         };
         addAp.Show();
     }
@@ -165,9 +166,9 @@ public class AppointmentShowViewModel : ViewModelBase
         var appointment = SelectedAppointments;
         if (appointment != null)
         {
-            var medicalR = _medicalRecordRepository.GetById(appointment.PatientMail);
+            var medicalR = _medicalRecordService.GetById(appointment.PatientMail);
             var window = new MedicalRecordView
-                { DataContext = new MedicalRecordViewModel(medicalR, _medicalRecordRepository) };
+                { DataContext = new MedicalRecordViewModel(medicalR, _medicalRecordService) };
             window.Show();
         }
         else
@@ -188,7 +189,7 @@ public class AppointmentShowViewModel : ViewModelBase
                 var window = new PerformAppointmentView
                 {
                     DataContext = new PerformAppointmentViewModel(appointmentPerforming, _scheduleRepository,
-                        _patientRepository, _medicalRecordRepository, _inventoryRepository, _roomRepository)
+                        _patientRepository, _medicalRecordService, _inventoryRepository, _roomRepository)
                 };
                 window.Show();
             }

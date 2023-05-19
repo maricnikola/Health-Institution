@@ -44,6 +44,7 @@ public class MedicalRecordRepository : ISerializable, IMedicalRecordRepository
         var index = _records.FindIndex(record => record.Patient.Equals(newMedicalRecord.Patient));
         if (index != -1) _records[index] = newMedicalRecord;
         else _records.Add(newMedicalRecord);
+        Serializer.Save(this);
     }
 
     public void Delete(MedicalRecord entity)
@@ -64,6 +65,7 @@ public class MedicalRecordRepository : ISerializable, IMedicalRecordRepository
     public void Delete(string id)
     {
         _records.RemoveAll(record => record.Patient.Email == id);
+        Serializer.Save(this);  
     }
 
     public void ChangeRecord(string patientEmail, int newHeight, int newWeight, List<string> newDeseaseHistory)

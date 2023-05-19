@@ -10,6 +10,7 @@ using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
 using ZdravoCorp.Core.Repositories.RoomRepo;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.MedicalRecordServices;
 using ZdravoCorp.View.DoctorView;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
@@ -22,7 +23,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     private readonly InventoryRepository _inventoryRepository;
 
     private string _keyWord;
-    private readonly MedicalRecordRepository _medicalRecordRepository;
+    private readonly IMedicalRecordService _medicalRecordService;
 
     private string _opinion;
     private readonly Patient _patient;
@@ -36,13 +37,13 @@ public class PerformAppointmentViewModel : ViewModelBase
 
 
     public PerformAppointmentViewModel(Appointment performingAppointment, ScheduleRepository scheduleRepository,
-        PatientRepository patientRepository, MedicalRecordRepository medicalRecordRepository,
+        PatientRepository patientRepository, IMedicalRecordService medicalRecordService,
         InventoryRepository inventoryRepository, RoomRepository roomRepository)
     {
         _roomRepository = roomRepository;
         _inventoryRepository = inventoryRepository;
         _appointment = performingAppointment;
-        _medicalRecordRepository = medicalRecordRepository;
+        _medicalRecordService = medicalRecordService;
         _schedulerRepository = scheduleRepository;
         _patientRepository = patientRepository;
         _patient = patientRepository.GetPatientByEmail(performingAppointment.PatientEmail);
@@ -123,9 +124,9 @@ public class PerformAppointmentViewModel : ViewModelBase
     {
         if (_patient != null)
         {
-            var medicalR = _medicalRecordRepository.GetById(_patient.Email);
+            var medicalR = _medicalRecordService.GetById(_patient.Email);
             var window = new ChangeMedicalRecordView
-                { DataContext = new MedicalRecordViewModel(medicalR, _medicalRecordRepository) };
+                { DataContext = new MedicalRecordViewModel(medicalR, _medicalRecordService) };
             window.Show();
         }
         else
