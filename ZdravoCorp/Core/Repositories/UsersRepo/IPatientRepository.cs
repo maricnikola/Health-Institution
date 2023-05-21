@@ -2,7 +2,7 @@
 
 namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
-public interface INurseRepository : IUserRepository<Nurse>
+public interface IPatientRepository : IUserRepository<Patient>
 {
-
+    
 }

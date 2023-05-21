@@ -37,6 +37,16 @@ public class DoctorRepository : ISerializable, IDoctorRepository
     }
 
 
+    IEnumerable<Doctor> IUserRepository<Doctor>.GetAll()
+    {
+        return GetAll();
+    }
+
+    public void Insert(Doctor entity)
+    {
+        _doctors.Add(entity);
+    }
+
     public Doctor? GetByEmail(string email)
     {
         return _doctors.FirstOrDefault(doctor => doctor.Email == email);
@@ -47,18 +57,5 @@ public class DoctorRepository : ISerializable, IDoctorRepository
         return _doctors;
     }
 
-    public List<Doctor> GetAllWithCertainSpecialization(Doctor.SpecializationType specialization)
-    {
-        var wantedDoctors = new List<Doctor>();
-        foreach (var doctor in _doctors)
-            if (doctor.Specialization == specialization)
-                wantedDoctors.Add(doctor);
-        return wantedDoctors;
-    }
 
-    public List<Doctor> GetAllSpecialized(Doctor.SpecializationType specializationType)
-    {
-        var suitableDoctors = _doctors.FindAll(doctor => doctor.Specialization == specializationType);
-        return suitableDoctors;
-    }
 }
