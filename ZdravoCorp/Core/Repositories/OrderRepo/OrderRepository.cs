@@ -37,6 +37,7 @@ public class OrderRepository : ISerializable, IOrderRepository
     public void Insert(Order order)
     {
         _orders.Add(order);
+        Serializer.Save(this);
     }
 
     public IEnumerable<Order> GetAll()
@@ -51,6 +52,7 @@ public class OrderRepository : ISerializable, IOrderRepository
     public void Delete(Order entity)
     {
         _orders.Remove(entity);
+        Serializer.Save(this);
     }
 
     public Order GetById(int id)

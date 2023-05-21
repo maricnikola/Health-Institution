@@ -44,6 +44,7 @@ public class TransferRepository : ISerializable, ITransferRepository
     public void Insert(Transfer transfer)
     {
         _transfers.Add(transfer);
+        Serializer.Save(this);
     }
 
     public void Delete(Transfer transfer)

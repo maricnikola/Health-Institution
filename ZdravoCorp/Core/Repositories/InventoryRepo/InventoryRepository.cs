@@ -59,12 +59,10 @@ public class InventoryRepository : ISerializable, IInventoryRepository
         {
             _inventory.Add(newInventoryItem);
         }
+
+        Serializer.Save(this);
     }
 
-    public List<InventoryItem> GetNonDynamic()
-    {
-        return _inventory.Where(item => item.Equipment.IsDynamic == false).ToList();
-    }
 
     public IEnumerable<InventoryItem> GetAll()
     {
@@ -72,67 +70,12 @@ public class InventoryRepository : ISerializable, IInventoryRepository
     }
 
 
-
     public void Delete(InventoryItem entity)
     {
         _inventory.Remove(entity);
-    }
-
-    public List<InventoryItem>? GetDynamic()
-    {
-        return _inventory.Where(item => item.Equipment.IsDynamic).ToList();
-    }
-
-    public List<InventoryItem> GetDynamicGrouped()
-    {
-        var dynamicEquipment = new List<InventoryItem>();
-        foreach (var inventoryItem in _inventory)
-            if (inventoryItem.Equipment.IsDynamic)
-            {
-                var index = dynamicEquipment.FindIndex(item =>
-                    item.EquipmentId == inventoryItem.EquipmentId);
-                if (index != -1)
-                {
-                    dynamicEquipment.ElementAt(index).Quantity += inventoryItem.Quantity;
-                }
-                else
-                {
-                    var itemCopy = new InventoryItem(inventoryItem);
-                    dynamicEquipment.Add(itemCopy);
-                }
-            }
-
-        return dynamicEquipment;
-    }
-
-    public List<InventoryItem> LocateItem(InventoryItem inventoryItem)
-    {
-        return _inventory.Where(item =>
-                item.EquipmentId == inventoryItem.EquipmentId && item.Quantity != 0 && item.Id != inventoryItem.Id)
-            .ToList();
-    }
-
-    public void UpdateInventoryItem(Transfer transfer)
-    {
-        var index = _inventory.FindIndex(item => item.Id == transfer.InventoryId);
-        var newInventoryItem = new InventoryItem(_inventory.ElementAt(index));
-        newInventoryItem.Id = IDGenerator.GetId();
-        _inventory.ElementAt(index).Quantity -= transfer.Quantity;
-        newInventoryItem.Quantity = transfer.Quantity;
-        newInventoryItem.Room = transfer.To;
-        newInventoryItem.RoomId = transfer.To.Id;
-        Insert(newInventoryItem);
         Serializer.Save(this);
     }
 
-    public void UpdateDestinationInventoryItem(int source, int destination, int quantity)
-    {
-        var destinationIndex = _inventory.FindIndex(item => item.Id == destination);
-        _inventory.ElementAt(destinationIndex).Quantity += quantity;
-        var sourceIndex = _inventory.FindIndex(item => item.Id == source);
-        _inventory.ElementAt(sourceIndex).Quantity -= quantity;
-        Serializer.Save(this);
-    }
 
     public void LoadRoomsAndEquipment()
     {
@@ -149,5 +92,10 @@ public class InventoryRepository : ISerializable, IInventoryRepository
     public InventoryItem GetById(int id)
     {
         return _inventory.FirstOrDefault(inv => inv.Id == id);
+    }
+
+    public void SaveChanges()
+    {
+        Serializer.Save(this);
     }
 }
