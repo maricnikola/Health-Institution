@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ZdravoCorp.Core.Models.Transfers;
 using ZdravoCorp.Core.Repositories.TransfersRepo;
 
@@ -11,9 +12,9 @@ public class TransferService : ITransferService
     {
         _transferRepository = transferRepository;
     }
-    public List<Transfer>? GetAll()
+    public List<Transfer> GetAll()
     {
-        return _transferRepository.GetAll() as List<Transfer>;
+        return _transferRepository.GetAll() as List<Transfer> ?? throw new InvalidOperationException();
     }
 
     public Transfer? GetById(int id)

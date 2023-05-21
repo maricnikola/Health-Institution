@@ -5,6 +5,7 @@ using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Orders;
 using ZdravoCorp.Core.Repositories.InventoryRepo;
 using ZdravoCorp.Core.Repositories.OrderRepo;
+using ZdravoCorp.Core.Services.OrderServices;
 using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.Core.Utilities.CronJobs;
 
@@ -13,12 +14,12 @@ namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 public class DEquipmentOrderConfirmViewModel
 
 {
-    private readonly OrderRepository _orderRepository;
+    private readonly IOrderService _orderService;
 
     public DEquipmentOrderConfirmViewModel(IEnumerable<DynamicInventoryViewModel> selectedForOrder,
-        OrderRepository orderRepository, InventoryRepository inventoryRepository)
+        IOrderService orderService)
     {
-        _orderRepository = orderRepository;
+        _orderService = orderService;
         SelectedForOrder = selectedForOrder;
         ConfirmOrder = new DelegateCommand(o => Confirm());
         CancelOrder = new DelegateCommand(o => Cancel());
@@ -45,12 +46,11 @@ public class DEquipmentOrderConfirmViewModel
     private void Confirm()
     {
         var order = InitOrder();
-        var newOrder = new Order(IDGenerator.GetId(), order, DateTime.Now, DateTime.Now.AddMinutes(5),
+        var newOrder = new OrderDTO(IDGenerator.GetId(), order, DateTime.Now, DateTime.Now.AddMinutes(5),
             Order.OrderStatus.Pending);
-        _orderRepository.Insert(newOrder);
-        Serializer.Save(_orderRepository);
+        _orderService.AddOrder(newOrder);
         JobScheduler.DEquipmentTaskScheduler(newOrder);
-        _orderRepository.OnRequestUpdate(this, new EventArgs());
+        _orderService.OnRequestUpdate.(this, new EventArgs());
         OnRequestClose?.Invoke(this, new EventArgs());
     }
 }

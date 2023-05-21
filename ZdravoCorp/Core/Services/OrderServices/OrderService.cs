@@ -8,6 +8,7 @@ namespace ZdravoCorp.Core.Services.OrderServices;
 public class OrderService : IOrderService
 {
     private IOrderRepository _orderRepository;
+    public event EventHandler OnRequestUpdate = null!;
 
     public OrderService(IOrderRepository orderRepository)
     {
@@ -27,6 +28,11 @@ public class OrderService : IOrderService
     public void AddOrder(OrderDTO orderDto)
     {
         _orderRepository.Insert(new Order(orderDto));
+    }
+
+    public void UpdateStatus(int id, Order.OrderStatus status)
+    {
+        _orderRepository.GetById(id).Status = status;
     }
 
     public void Update(int id, OrderDTO orderDto)

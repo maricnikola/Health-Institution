@@ -14,8 +14,9 @@ public partial class App : Application
     {
         //Disable shutdown when the dialog closes
         Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-        //Load functions for repositories
         var idg = new IDGenerator();
+        Injector.Configure();
+        
         var repositoryManager = new RepositoryManager();
         var scheduler = new JobScheduler(repositoryManager.InventoryRepository, repositoryManager.TransferRepository,
             repositoryManager.OrderRepository);

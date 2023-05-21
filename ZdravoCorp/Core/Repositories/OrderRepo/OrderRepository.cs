@@ -11,7 +11,7 @@ public class OrderRepository : ISerializable, IOrderRepository
 {
     private readonly string _fileName = @".\..\..\..\Data\orders.json";
     private List<Order>? _orders;
-    public EventHandler OnRequestUpdate = null!;
+    
 
     public OrderRepository()
     {
@@ -44,9 +44,6 @@ public class OrderRepository : ISerializable, IOrderRepository
     {
         return _orders;
     }
-
-
-
 
 
     public void Delete(Order entity)

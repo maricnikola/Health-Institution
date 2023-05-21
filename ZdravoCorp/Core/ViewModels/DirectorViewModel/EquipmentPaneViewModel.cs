@@ -5,6 +5,7 @@ using System.Windows.Data;
 using ZdravoCorp.Core.Models.Equipments;
 using ZdravoCorp.Core.Models.Rooms;
 using ZdravoCorp.Core.Repositories.InventoryRepo;
+using ZdravoCorp.Core.Services.InventoryServices;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
@@ -13,7 +14,7 @@ public class EquipmentPaneViewModel : ViewModelBase
     private readonly ObservableCollection<InventoryViewModel> _allInventory;
     private ObservableCollection<InventoryViewModel> _filteredInventory;
     private ObservableCollection<InventoryViewModel> _inventory;
-    private readonly InventoryRepository _inventoryRepository;
+    private readonly IInventoryService _inventoryService;
     private readonly object _lock;
     private string _searchText = "";
     private string _selectedEquipmentType = "None";
@@ -21,10 +22,10 @@ public class EquipmentPaneViewModel : ViewModelBase
     private string _selectedRoomType = "None";
     private bool _warehouseChecked;
 
-    public EquipmentPaneViewModel(InventoryRepository inventoryRepository)
+    public EquipmentPaneViewModel(IInventoryService inventoryService)
     {
         _lock = new object();
-        _inventoryRepository = inventoryRepository;
+        _inventoryService = inventoryService;
         _inventoryRepository.OnRequestUpdate += (s, e) => UpdateTable();
         _allInventory = new ObservableCollection<InventoryViewModel>();
         foreach (var inventoryItem in _inventoryRepository.GetAll())

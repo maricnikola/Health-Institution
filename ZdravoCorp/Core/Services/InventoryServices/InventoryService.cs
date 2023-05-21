@@ -59,12 +59,18 @@ public class InventoryService : IInventoryService
             .ToList();
     }
 
+    public void AddFromOrder(InventoryItem inventoryItem)
+    {
+        _inventoryRepository.Insert(inventoryItem);
+        _inventoryRepository.LoadRoomsAndEquipment();
+    }
+
     public List<InventoryItem> GetNonDynamic()
     {
         return _inventoryRepository.GetAll().Where(item => item.Equipment != null && item.Equipment.IsDynamic == false).ToList();
     }
 
-    public List<InventoryItem>? GetDynamic()
+    public List<InventoryItem> GetDynamic()
     {
         return _inventoryRepository.GetAll().Where(item => item.Equipment != null && item.Equipment.IsDynamic).ToList();
     }

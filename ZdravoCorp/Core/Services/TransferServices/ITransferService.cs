@@ -5,7 +5,7 @@ namespace ZdravoCorp.Core.Services.TransferServices;
 
 public interface ITransferService
 {
-    public List<Transfer>? GetAll();
+    public List<Transfer> GetAll();
     public Transfer? GetById(int id);
     public void AddTransfer(TransferDTO transferDtoDto);
 
