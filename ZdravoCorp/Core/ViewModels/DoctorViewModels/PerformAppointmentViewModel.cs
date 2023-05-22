@@ -5,12 +5,12 @@ using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.Repositories.InventoryRepo;
-using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
-using ZdravoCorp.Core.Repositories.RoomRepo;
-using ZdravoCorp.Core.Repositories.ScheduleRepo;
-using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.PatientServices;
+using ZdravoCorp.Core.Services.ScheduleServices;
+using ZdravoCorp.Core.Services.MedicalRecordServices;
 using ZdravoCorp.View.DoctorView;
+using ZdravoCorp.Core.Services.InventoryServices;
+using ZdravoCorp.Core.Services.RoomServices;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -19,33 +19,33 @@ public class PerformAppointmentViewModel : ViewModelBase
     private string _allergens;
     private readonly Appointment _appointment;
     private AppointmentViewModel _appointmentViewModel;
-    private readonly InventoryRepository _inventoryRepository;
+    private readonly IInventoryService _inventoryService;
 
     private string _keyWord;
-    private readonly MedicalRecordRepository _medicalRecordRepository;
+    private readonly IMedicalRecordService _medicalRecordService;
 
     private string _opinion;
-    private readonly Patient _patient;
-    private PatientRepository _patientRepository;
+    private readonly Patient? _patient;
+    private IPatientService _patientService;
     private int _roomId;
-    private readonly RoomRepository _roomRepository;
-    private readonly ScheduleRepository _schedulerRepository;
+    private readonly IRoomService _roomService;
+    private readonly IScheduleService _scheduleService;
 
 
     private string _symptoms;
 
 
-    public PerformAppointmentViewModel(Appointment performingAppointment, ScheduleRepository scheduleRepository,
-        PatientRepository patientRepository, MedicalRecordRepository medicalRecordRepository,
-        InventoryRepository inventoryRepository, RoomRepository roomRepository)
+    public PerformAppointmentViewModel(Appointment performingAppointment, IScheduleService scheduleService,
+        IPatientService patientService, IMedicalRecordService medicalRecordService,
+        IInventoryService inventoryService, IRoomService roomService)
     {
-        _roomRepository = roomRepository;
-        _inventoryRepository = inventoryRepository;
+        _roomService = roomService;
+        _inventoryService = inventoryService;
         _appointment = performingAppointment;
-        _medicalRecordRepository = medicalRecordRepository;
-        _schedulerRepository = scheduleRepository;
-        _patientRepository = patientRepository;
-        _patient = patientRepository.GetPatientByEmail(performingAppointment.PatientEmail);
+        _medicalRecordService = medicalRecordService;
+        _scheduleService = scheduleService;
+        _patientService = patientService;
+        _patient = _patientService.GetByEmail(performingAppointment.PatientEmail);
         assignRoom();
 
         CancelCommand = new DelegateCommand(o => CloseWindow());
@@ -101,10 +101,10 @@ public class PerformAppointmentViewModel : ViewModelBase
 
     private void assignRoom()
     {
-        foreach (var room in _roomRepository.GetAll())
+        foreach (var room in _roomService.GetAll())
         {
             var checkRoom = true;
-            foreach (var appointment in _schedulerRepository.GetAllAppointments())
+            foreach (var appointment in _scheduleService.GetAllAppointments())
                 if (room.Id == appointment.Room && _appointment.Time.Overlap(appointment.Time))
                     checkRoom = false;
             if (!checkRoom) continue;
@@ -123,9 +123,9 @@ public class PerformAppointmentViewModel : ViewModelBase
     {
         if (_patient != null)
         {
-            var medicalR = _medicalRecordRepository.GetById(_patient.Email);
+            var medicalR = _medicalRecordService.GetById(_patient.Email);
             var window = new ChangeMedicalRecordView
-                { DataContext = new MedicalRecordViewModel(medicalR, _medicalRecordRepository) };
+                { DataContext = new MedicalRecordViewModel(medicalR, _medicalRecordService) };
             window.Show();
         }
         else
@@ -137,7 +137,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     public void ShowDEquipmentSpentDialog()
     {
         var window = new DEquipmentSpentView
-            { DataContext = new DEquipmentSpentViewModel(_inventoryRepository, _roomId) };
+            { DataContext = new DEquipmentSpentViewModel(_inventoryService, _roomId) };
         window.Show();
     }
 
@@ -150,12 +150,12 @@ public class PerformAppointmentViewModel : ViewModelBase
             var patientAllergens = Allergens.Trim().Split(",").ToList();
             var doctorOpinion = Opinion.Trim();
             var anamnesisKeyWord = KeyWord;
-            if (_schedulerRepository.CheckPerformingAppointmentData(patientSymptoms, doctorOpinion, patientAllergens,
+            if (_scheduleService.CheckPerformingAppointmentData(patientSymptoms, doctorOpinion, patientAllergens,
                     anamnesisKeyWord))
             {
                 CloseWindow();
                 ShowDEquipmentSpentDialog();
-                _schedulerRepository.ChangePerformingAppointment(_appointment.Id, patientSymptoms, doctorOpinion,
+                _scheduleService.ChangePerformingAppointment(_appointment.Id, patientSymptoms, doctorOpinion,
                     patientAllergens, anamnesisKeyWord, _roomId);
             }
             else

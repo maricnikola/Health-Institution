@@ -8,5 +8,6 @@ public interface IMedicalRecordRepository : IRepository<MedicalRecord>
     void ChangeRecord(string patientEmail, int newHeight, int newWeight, List<string> newDeseaseHistory);
     bool CheckDataForChanges(int newWeight, int newHeight, List<string> newDeseaseHistory);
 
+    public string FileName();
     public MedicalRecord? GetById(string id);
 }

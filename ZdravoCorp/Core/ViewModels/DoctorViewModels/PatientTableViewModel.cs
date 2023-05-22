@@ -5,10 +5,11 @@ using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
-using ZdravoCorp.Core.Repositories.ScheduleRepo;
-using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.PatientServices;
+using ZdravoCorp.Core.Services.ScheduleServices;
+using ZdravoCorp.Core.Services.MedicalRecordServices;
 using ZdravoCorp.View.DoctorView;
+using ZdravoCorp.Core.Services.DoctorServices;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -18,27 +19,27 @@ public class PatientTableViewModel : ViewModelBase
 
 
     private readonly Doctor _doctor;
-    private readonly DoctorRepository _doctorRepository;
-    private readonly MedicalRecordRepository _medicalRecordRepository;
-    private readonly PatientRepository _patientRepository;
+    private readonly IDoctorService _doctorService;
+    private readonly IMedicalRecordService _medicalRecordService;
+    private readonly IPatientService _patientService;
     private ObservableCollection<PatientsViewModel> _patients;
-    private readonly ScheduleRepository _scheduleRepository;
+    private readonly IScheduleService _scheduleService;
 
     private ObservableCollection<PatientsViewModel> _searchedPatients;
 
     // public ObservableCollection<PatientsViewModel> Patients => _patients; 
     private string _searchText = "";
 
-    public PatientTableViewModel(User user, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository,
-        PatientRepository patientRepository, MedicalRecordRepository medicalRecordRepository)
+    public PatientTableViewModel(User user, IScheduleService scheduleService, IDoctorService doctorService,
+        IPatientService patientService, IMedicalRecordService medicalRecordService)
     {
-        _scheduleRepository = scheduleRepository;
-        _doctorRepository = doctorRepository;
-        _doctor = _doctorRepository.GetByEmail(user.Email);
-        _patientRepository = patientRepository;
-        _medicalRecordRepository = medicalRecordRepository;
+        _scheduleService = scheduleService;
+        _doctorService = doctorService;
+        _doctor = _doctorService.GetByEmail(user.Email);
+        _patientService = patientService;
+        _medicalRecordService = medicalRecordService;
 
-        var patinets = _patientRepository.Patients;
+        var patinets = _patientService.GetAll();
 
         _Allpatients = new ObservableCollection<PatientsViewModel>();
         foreach (var patient in patinets) _Allpatients.Add(new PatientsViewModel(patient));
@@ -98,13 +99,13 @@ public class PatientTableViewModel : ViewModelBase
         var patient = SelectedPatient;
         if (patient != null)
         {
-            var _patient = _patientRepository.GetPatientByEmail(patient.Email);
-            var isExamined = _scheduleRepository.IsPatientExamined(_patient, _doctor);
+            var _patient = _patientService.GetByEmail(patient.Email);
+            var isExamined = _scheduleService.IsPatientExamined(_patient, _doctor);
             if (isExamined)
             {
-                var medicalR = _medicalRecordRepository.GetById(patient.Email);
+                var medicalR = _medicalRecordService.GetById(patient.Email);
                 var window = new ChangeMedicalRecordView
-                    { DataContext = new MedicalRecordViewModel(medicalR, _medicalRecordRepository) };
+                    { DataContext = new MedicalRecordViewModel(medicalR, _medicalRecordService) };
                 window.Show();
             }
             else

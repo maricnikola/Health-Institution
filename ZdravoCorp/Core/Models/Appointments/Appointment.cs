@@ -44,12 +44,13 @@ public class Appointment
     public Appointment(AppointmentDTO appointmentDto)
     {
         Doctor = appointmentDto.Doctor;
-        Anamnesis = appointmentDto.Anamnesis;
-        IsCanceled = appointmentDto.IsCanceled;
+        Anamnesis = null;
+        IsCanceled = false;
         PatientEmail = appointmentDto.PatientEmail;
         Id = appointmentDto.Id;
-        Room = appointmentDto.Room;
+        Room = null;
         Status = appointmentDto.Status;
-        Time = appointmentDto.Time;
+        var endTime = appointmentDto.Date.AddMinutes(15);
+        Time = new TimeSlot(appointmentDto.Date, endTime);
     }
 }
