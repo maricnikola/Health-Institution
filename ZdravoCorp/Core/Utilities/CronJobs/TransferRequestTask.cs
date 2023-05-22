@@ -21,10 +21,18 @@ public class TransferRequestTask : IJob
         _transfer = (TransferDTO)dataMap["transfer"];
         _inventoryService = (IInventoryService)dataMap["invser"];
         _transferService = (ITransferService)dataMap["transser"];
-        _inventoryService.UpdateInventoryItem(new Transfer(_transfer));
+        if (_inventoryService.UpdateInventoryItem(new Transfer(_transfer)))
+        {
+            _transferService.UpdateStatus(_transfer.Id, Transfer.TransferStatus.Completed);
+        }
+
+        else
+        {
+            _transferService.UpdateStatus(_transfer.Id, Transfer.TransferStatus.Failed);
+        }
 
 
-        _transferService.Delete(_transfer.Id);
+
 
         return Task.CompletedTask;
     }

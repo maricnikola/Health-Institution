@@ -102,6 +102,8 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
     {
         return SelectedDate != null && SelectedHour != null && SelectedMinute != null && SelectedRoom != null &&
                Quantity != 0 && Quantity < _quantity;
+        
+        // TODO not valid need checking
     }
 
     private void Cancel()
@@ -115,7 +117,7 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
         var when = new DateTime(tempDate.Year, tempDate.Month, tempDate.Day, (int)SelectedHour, (int)SelectedMinute, 0);
 
         var newTransfer = new TransferDTO(IDGenerator.GetId(), _roomService.GetById(_sourceRoomId),
-            _roomService.GetById(SelectedRoom.Id), when, Quantity, InventoryItemId, _inventoryItem.Equipment.Name);
+            _roomService.GetById(SelectedRoom.Id), when, Quantity, InventoryItemId, _inventoryItem.Equipment.Name, Transfer.TransferStatus.Pending);
         _transferService.AddTransfer(newTransfer);
         JobScheduler.TransferRequestTaskScheduler(newTransfer);
         OnRequestClose?.Invoke(this, new EventArgs());
