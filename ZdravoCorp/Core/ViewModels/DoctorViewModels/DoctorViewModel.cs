@@ -22,7 +22,7 @@ public class DoctorViewModel : ViewModelBase
     private readonly ScheduleRepository _scheduleRepository;
     private readonly User _user;
 
-    public DoctorViewModel(User user, RepositoryManager repositoryManager)
+    public DoctorViewModel(User user)
     {
         _inventoryRepository = repositoryManager.InventoryRepository;
         _roomRepository = repositoryManager.RoomRepository;

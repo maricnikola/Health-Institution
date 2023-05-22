@@ -93,6 +93,5 @@ public class DEquipmentTransferWindowViewModel : ViewModelBase
     {
         _inventoryService.UpdateDestinationInventoryItem(SelectedRoom.ItemId, InventoryItemId, _moveQuantity);
         OnRequestClose(this, new EventArgs());
-        _inventoryRepository.OnRequestUpdate.Invoke(this, new EventArgs());
     }
 }

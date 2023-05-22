@@ -38,8 +38,8 @@ public class DEquipmentPaneViewModel : ViewModelBase
         BindingOperations.EnableCollectionSynchronization(_dynamicInventory, _lock);
         BindingOperations.EnableCollectionSynchronization(_orders, _lock2);
 
-        _inventoryRepository.OnRequestUpdate += (s, e) => RefreshInventory();
-        _orderRepository.OnRequestUpdate += (s, e) => RefreshOrders();
+        _inventoryService.DataChanged += (s, e) => RefreshInventory();
+        _orderService.DataChanged += (s, e) => RefreshOrders();
         foreach (var inventoryItem in _inventoryService.GetDynamicGrouped())
             if (inventoryItem.Quantity < 5)
                 _dynamicInventory.Add(new DynamicInventoryViewModel(inventoryItem));

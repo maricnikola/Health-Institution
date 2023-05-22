@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ZdravoCorp.Core.Models.Inventory;
 using ZdravoCorp.Core.Models.Transfers;
 
@@ -8,6 +9,7 @@ public interface IInventoryService
 {
     public List<InventoryItem>? GetAll();
     public InventoryItem? GetById(int id);
+    public event EventHandler DataChanged;
     public void AddInventoryItem(InventoryItemDTO inventoryItemDto);
     public void AddFromOrder(InventoryItem inventoryItem);
 
