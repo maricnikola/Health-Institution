@@ -8,22 +8,24 @@ using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.DoctorServices;
+using ZdravoCorp.Core.Services.MedicalRecordServices;
+using ZdravoCorp.Core.Services.ScheduleServices;
 
 namespace ZdravoCorp.Core.ViewModels.NurseViewModel;
 
 public class UrgentAppointmentViewModel : ViewModelBase
 {
-    private DoctorRepository _doctorRepository;
-    private MedicalRecordRepository _medicalRecordRepository;
+    private IDoctorService _doctorService;
+    private IMedicalRecordService _medicalRecordService;
+    private IScheduleService _scheduleService;
 
-    private ScheduleRepository _scheduleRepository;
-
-    public UrgentAppointmentViewModel(MedicalRecordRepository medicalRecordRepository,
-        ScheduleRepository scheduleRepository, DoctorRepository doctorRepository)
+    public UrgentAppointmentViewModel(IMedicalRecordService medicalRecordService,
+        IScheduleService scheduleService, IDoctorService doctorService)
     {
-        _medicalRecordRepository = medicalRecordRepository;
-        _doctorRepository = doctorRepository;
-        _scheduleRepository = scheduleRepository;
+        _medicalRecordService = medicalRecordService;
+        _doctorService = doctorService;
+        _scheduleService = scheduleService;
         FindUrgentAppointmentCommand = new DelegateCommand(o => FindUrgentAppointment());
         SpecializationTypes = new ObservableCollection<string>();
         SpecializationTypes.Add(Doctor.SpecializationType.Surgeon.ToString());
