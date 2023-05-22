@@ -27,7 +27,7 @@ public interface IScheduleService
     Appointment? CreateAppointment(TimeSlot time, Doctor doctor, string email);
     void CreateOperation(TimeSlot time, Doctor doctor, MedicalRecord medicalRecord);
     Appointment? ChangeAppointment(int id, TimeSlot time, Doctor doctor, string email);
-    void CancelAppointment(AppointmentDTO appointment);
+    void CancelAppointment(int id);
     Appointment CancelAppointmentByDoctor(AppointmentDTO appointment);
     bool IsAppointmentInList(Appointment appointment);
     List<Appointment> GetAppointmentsForShow(DateTime date);

@@ -64,7 +64,7 @@ public class ScheduleService : IScheduleService
     public List<Appointment> GetPatientsOldAppointments(string patientMail)
     {
         return _scheduleRepository.GetAllAppointments().Where(appointment =>
-            appointment.PatientEmail == patientMail && appointment.Time.end < DateTime.Now).ToList();
+            appointment.PatientEmail == patientMail && appointment.Time.End < DateTime.Now).ToList();
     }
     public List<Appointment> GetDoctorAppointments(string doctorsMail)
     {
@@ -98,7 +98,7 @@ public class ScheduleService : IScheduleService
     public Appointment? CreateAppointment(TimeSlot time, Doctor doctor, string email)
     {
         if (!isDoctorAvailable(time, doctor.Email) || !isPatientAvailable(time, email) ||
-            time.start <= DateTime.Now) return null;
+            time.Start <= DateTime.Now) return null;
         var id = IDGenerator.GetId();
         var appointment = new Appointment(id, time, doctor, email);
         _scheduleRepository.InsertAppointment(appointment);
@@ -113,7 +113,7 @@ public class ScheduleService : IScheduleService
     }
     public Appointment? ChangeAppointment(int id, TimeSlot time, Doctor doctor, string email)
     {
-        if (time.start <= DateTime.Now) return null;
+        if (time.Start <= DateTime.Now) return null;
         var appointment = new Appointment(id, time, doctor, email);
         if (IsAppointmentInList(appointment))
         {
@@ -133,9 +133,9 @@ public class ScheduleService : IScheduleService
         return null;
     }
 
-    public void CancelAppointment(AppointmentDTO appointmentDTO)
+    public void CancelAppointment(int id)
     {
-        Appointment appointment = new Appointment(appointmentDTO);
+        var appointment = GetAppointmentById(id);
         var isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now) > 24;
         if (!IsAppointmentInList(appointment) || !isOnTime) return;
         _scheduleRepository.DeleteAppointment(GetAppointmentById(appointment.Id));
@@ -146,7 +146,8 @@ public class ScheduleService : IScheduleService
 
     public Appointment CancelAppointmentByDoctor(AppointmentDTO appointmentDTO)
     {
-        Appointment appointment = new Appointment(appointmentDTO);
+        var appointment = GetAppointmentById(appointmentDTO.Id);
+        //Appointment appointment = new Appointment(appointmentDTO);
         if (!IsAppointmentInList(appointment)) return null;
         _scheduleRepository.DeleteAppointment(GetAppointmentById(appointment.Id));
         appointment.IsCanceled = true;
@@ -158,7 +159,7 @@ public class ScheduleService : IScheduleService
     {
         return _scheduleRepository.GetAllAppointments().Any(ap =>
             ap.PatientEmail == appointment.PatientEmail && ap.Doctor.Email == appointment.Doctor.Email &&
-            ap.Time.start == appointment.Time.start && ap.Time.end == appointment.Time.end);
+            ap.Time.Start == appointment.Time.Start && ap.Time.End == appointment.Time.End);
     }
 
     public List<Appointment> GetAppointmentsForShow(DateTime date)
@@ -169,7 +170,7 @@ public class ScheduleService : IScheduleService
     public bool IsForShow(Appointment appointment, DateTime date)
     {
         var dateEnd = date.AddDays(3);
-        return appointment.Time.start > date && appointment.Time.start < dateEnd;
+        return appointment.Time.Start > date && appointment.Time.Start < dateEnd;
     }
 
     public HashSet<TimeSlot> FindOccupiedTimeSlotsForDoctor(string doctorsMail, List<TimeSlot> timeLimitation)
@@ -188,23 +189,23 @@ public class ScheduleService : IScheduleService
     {
         foreach (var day in allDays)
         {
-            if (day.start < DateTime.Now)
+            if (day.Start < DateTime.Now)
             {
-                if (day.end < DateTime.Now)
+                if (day.End < DateTime.Now)
                     continue;
-                day.start = TimeSlot.GiveFirstDevisibleBy15(DateTime.Now);
+                day.Start = TimeSlot.GiveFirstDevisibleBy15(DateTime.Now);
             }
 
-            while (day.start != day.end)
+            while (day.Start != day.End)
             {
-                var slotForAppointment = new TimeSlot(day.start, day.start.AddMinutes(15));
+                var slotForAppointment = new TimeSlot(day.Start, day.Start.AddMinutes(15));
                 if (!doctorsTimeSlots.Contains(slotForAppointment))
                 {
                     if (isDoctorAvailable(slotForAppointment, doctorsMail)) return slotForAppointment;
-                    day.start = day.start.AddMinutes(15);
+                    day.Start = day.Start.AddMinutes(15);
                     continue;
                 }
-                day.start = day.start.AddMinutes(15);
+                day.Start = day.Start.AddMinutes(15);
             }
         }
         return null;
@@ -214,7 +215,7 @@ public class ScheduleService : IScheduleService
         List<TimeSlot>? alreadyUsed = null)
     {
         if (alreadyUsed == null) alreadyUsed = new List<TimeSlot>();
-        var wantedTimeCopy = new TimeSlot(wantedTime.start, wantedTime.end);
+        var wantedTimeCopy = new TimeSlot(wantedTime.Start, wantedTime.End);
         var allDays = wantedTimeCopy.GiveSameTimeUntileSomeDay(lastDate);
         var doctorsTimeSlots = FindOccupiedTimeSlotsForDoctor(doctorsMail, allDays);
         foreach (var used in alreadyUsed) doctorsTimeSlots.Add(used);

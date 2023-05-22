@@ -9,6 +9,7 @@ using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.ViewModels.PatientViewModel;
@@ -24,23 +25,23 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
     private int _endHours;
     private int _endMinutes;
     private readonly Patient _patient;
-    private readonly List<Appointment> _possibleAppointments;
+    private readonly List<AppointmentDTO> _possibleAppointments;
 
     private string _priority;
-    private readonly ScheduleRepository _scheduleRepository;
+    private readonly IScheduleService _scheduleService;
 
     private int _startHours;
     private int _startMinutes;
 
-    public AdvancedMakeAppointmentViewModel(DoctorRepository doctorRepository, ScheduleRepository scheduleRepository,
+    public AdvancedMakeAppointmentViewModel(DoctorRepository doctorRepository, IScheduleService scheduleService,
         Patient patient, ObservableCollection<AppointmentViewModel> allAppointments)
     {
-        _scheduleRepository = scheduleRepository;
+        _scheduleService = scheduleService;
         _doctorRepository = doctorRepository;
         _doctors = new ObservableCollection<string>();
         _patient = patient;
         Appointments = new ObservableCollection<AppointmentViewModel>();
-        _possibleAppointments = new List<Appointment>();
+        _possibleAppointments = new List<AppointmentDTO>();
         PossibleMinutes = new[] { 00, 15, 30, 45 };
         PossibleHours = new[]
             { 00, 01, 02, 03, 04, 05, 06, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
@@ -160,7 +161,7 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
             if (Priority.Equals("Doctor"))
             {
                 var fittingAppointments =
-                    _scheduleRepository.FindAppointmentsByDoctorPriority(doctor, wantedTimeSlot, lastDate,
+                    _scheduleService.FindAppointmentsByDoctorPriority(doctor, wantedTimeSlot, lastDate,
                         _patient.Email);
                 foreach (var singleAppointment in fittingAppointments)
                 {
@@ -171,7 +172,7 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
             else
             {
                 var possibleAppointments =
-                    _scheduleRepository.FindAppointmentsByTimePriority(doctor, wantedTimeSlot, lastDate, _patient.Email,
+                    _scheduleService.FindAppointmentsByTimePriority(doctor, wantedTimeSlot, lastDate, _patient.Email,
                         _doctorRepository);
                 foreach (var singleAppointment in possibleAppointments)
                 {
@@ -192,10 +193,10 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
         if (selectedAppointment != null)
             foreach (var appointment in _possibleAppointments.Where(appointment =>
                          appointment.Id == selectedAppointment.Id))
-                if (_scheduleRepository.isDoctorAvailable(appointment.Time, appointment.Doctor.Email) &&
-                    _scheduleRepository.isPatientAvailable(appointment.Time, appointment.Doctor.Email))
+                if (_scheduleService.isDoctorAvailable(appointment.Time, appointment.Doctor.Email) &&
+                    _scheduleService.isPatientAvailable(appointment.Time, appointment.Doctor.Email))
                 {
-                    _scheduleRepository.InsertAppointment(appointment);
+                    _scheduleService.AddAppointment(appointment);
                     allAppointments.Add(selectedAppointment);
                     return;
                 }

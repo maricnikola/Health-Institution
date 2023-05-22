@@ -7,6 +7,7 @@ using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.ViewModels;
@@ -21,14 +22,14 @@ public class MakeAppointmentViewModel : ViewModelBase
     private int _hours;
     private int _minutes;
     private readonly Patient _patient;
-    private readonly ScheduleRepository _scheduleRepository;
+    private readonly IScheduleService _scheduleService;
 
 
-    public MakeAppointmentViewModel(ScheduleRepository scheduleRepository,
+    public MakeAppointmentViewModel(IScheduleService scheduleService,
         ObservableCollection<AppointmentViewModel> Appointments, DoctorRepository doctorRepository, Patient patient)
     {
         _doctorRepository = doctorRepository;
-        _scheduleRepository = scheduleRepository;
+        _scheduleService = scheduleService;
         _patient = patient;
         _doctors = new ObservableCollection<string>();
         PossibleMinutes = new[] { 00, 15, 30, 45 };
@@ -105,7 +106,7 @@ public class MakeAppointmentViewModel : ViewModelBase
             var doctor = _doctorRepository.GetByEmail(mail);
 
 
-            var appointment = _scheduleRepository.CreateAppointment(time, doctor, _patient.Email);
+            var appointment = _scheduleService.CreateAppointment(time, doctor, _patient.Email);
             if (appointment != null)
                 Appointments.Add(new AppointmentViewModel(appointment));
             else

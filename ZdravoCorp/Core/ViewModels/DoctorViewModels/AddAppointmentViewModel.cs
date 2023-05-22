@@ -9,6 +9,7 @@ using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
@@ -19,7 +20,7 @@ public class AddAppointmentViewModel : ViewModelBase
     private readonly Doctor _dr;
     private MedicalRecordRepository _medicalRepository;
     private readonly PatientRepository _patientRepository;
-    private readonly ScheduleRepository _scheduleRepository;
+    private readonly IScheduleService _scheduleService;
 
     private DateTime _startDate = DateTime.Now + TimeSpan.FromHours(1);
 
@@ -30,7 +31,7 @@ public class AddAppointmentViewModel : ViewModelBase
     private string _username;
 
 
-    public AddAppointmentViewModel(ScheduleRepository scheduleRepository, DoctorRepository doctorRepository,
+    public AddAppointmentViewModel(IScheduleService scheduleService, DoctorRepository doctorRepository,
         ObservableCollection<AppointmentViewModel> appointment, PatientRepository patientRepository, Doctor doctor,
         MedicalRecordRepository medicalRepository, DateTime date)
     {
@@ -41,7 +42,7 @@ public class AddAppointmentViewModel : ViewModelBase
         PossibleHours = new[]
             { 00, 01, 02, 03, 04, 05, 06, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
 
-        _scheduleRepository = scheduleRepository;
+        _scheduleService = scheduleService;
         _patientRepository = patientRepository;
         var _controller = new PatientRepository();
         var patients = _controller.Patients;
@@ -126,12 +127,12 @@ public class AddAppointmentViewModel : ViewModelBase
             var mail = tokens[1];
             var patient = _patientRepository.GetPatientByEmail(mail);
 
-            var appointment = _scheduleRepository.CreateAppointment(time, _dr, mail);
+            var appointment = _scheduleService.CreateAppointment(time, _dr, mail);
 
             if (appointment != null)
             {
                 CloseWindow();
-                if (_scheduleRepository.IsForShow(appointment, date))
+                if (_scheduleService.IsForShow(appointment, date))
                     Appointments.Add(new AppointmentViewModel(appointment));
             }
             else
