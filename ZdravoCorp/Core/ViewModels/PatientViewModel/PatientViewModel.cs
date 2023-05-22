@@ -8,6 +8,7 @@ using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
 using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.MedicalRecordServices;
+using ZdravoCorp.Core.Services.PatientServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Utilities;
 
@@ -18,6 +19,8 @@ public class PatientViewModel : ViewModelBase
     private object _currentView;
     private readonly IDoctorService _doctorService;
     private readonly IMedicalRecordService _medicalRecordService;
+    private readonly IPatientService _patientService;
+
     private readonly Patient _patient;
     private readonly IScheduleService _scheduleService;
 
@@ -30,7 +33,9 @@ public class PatientViewModel : ViewModelBase
         _doctorService = Injector.Container.Resolve<IDoctorService>();
         _medicalRecordService = Injector.Container.Resolve<IMedicalRecordService>();
         _scheduleService = Injector.Container.Resolve<IScheduleService>();
+        _patientService = Injector.Container.Resolve<IPatientService>();
 
+        _patient = _patientService.GetByEmail(user.Email);
         LoadAppointmentsCommand = new DelegateCommand(o => LoadAppointments());
         LoadMedicalRecordCommand = new DelegateCommand(o => LoadMedicalRecord());
         LoadOldAppointmentsCommand = new DelegateCommand(o => LoadOldAppointments());
@@ -59,9 +64,8 @@ public class PatientViewModel : ViewModelBase
 
     public void LoadMedicalRecord()
     {
-        return;
-        //CurrentView =
-        //    new MedicalRecordViewModel(_medicalRecordService.GetById(_patient.Email), _medicalRecordRepository);
+        CurrentView =
+            new MedicalRecordViewModel(_medicalRecordService.GetById(_patient.Email), _medicalRecordService);
     }
 
     public void LoadOldAppointments()
