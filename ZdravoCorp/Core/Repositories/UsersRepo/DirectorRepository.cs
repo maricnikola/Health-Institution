@@ -40,4 +40,21 @@ public class DirectorRepository : ISerializable, IDirectorRepository
     {
         Director = token.ToObject<Director>();
     }
+
+    public IEnumerable<Director> GetAll()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Insert(Director entity)
+    {
+        Director = entity;
+    }
+
+    public Director? GetByEmail(string email)
+    {
+        if (Director?.Email == email)
+            return Director;
+        return null;
+    }
 }

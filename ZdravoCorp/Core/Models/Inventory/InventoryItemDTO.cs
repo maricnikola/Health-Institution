@@ -18,4 +18,11 @@ public class InventoryItemDTO
         Room = room;
         Equipment = equipment;
     }
+    public InventoryItemDTO(int id, int quantity, int room, Equipment? equipment)
+    {
+        Id = id;
+        Quantity = quantity;
+        Room.Id = room;
+        Equipment = equipment;
+    }
 }

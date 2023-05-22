@@ -37,12 +37,10 @@ public class RoomRepository : ISerializable, IRoomRepository
     public void Insert(Room newRoom)
     {
         _rooms.Add(newRoom);
+        Serializer.Save(this);
     }
 
-    public IEnumerable<Room> GetAllExcept(int roomId)
-    {
-        return _rooms.Where(room => room.Id != roomId);
-    }
+
 
 
     public IEnumerable<Room> GetAll()
@@ -55,10 +53,13 @@ public class RoomRepository : ISerializable, IRoomRepository
     public void Delete(Room entity)
     {
         _rooms.Remove(entity);
+        Serializer.Save(this);
     }
 
     public Room? GetById(int id)
     {
         return _rooms.FirstOrDefault(room => room.Id == id);
     }
+
+
 }

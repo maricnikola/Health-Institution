@@ -6,10 +6,6 @@ using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
-public interface IPatientRepository
-{
-    Patient? GetPatientByEmail(string email);
-}
 
 public class PatientRepository : ISerializable, IPatientRepository
 {
@@ -44,8 +40,18 @@ public class PatientRepository : ISerializable, IPatientRepository
     {
         Patients.Add(patient);
     }
+    
+    public IEnumerable<Patient> GetAll()
+    {
+        return Patients;
+    }
 
-    public Patient? GetPatientByEmail(string email)
+    public void Insert(Patient entity)
+    {
+        Patients.Add(entity);
+    }
+
+    public Patient? GetByEmail(string email)
     {
         return Patients.FirstOrDefault(patient => patient.Email == email);
     }

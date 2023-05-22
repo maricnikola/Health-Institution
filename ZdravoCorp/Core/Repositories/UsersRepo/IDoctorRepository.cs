@@ -3,10 +3,6 @@ using ZdravoCorp.Core.Models.Users;
 
 namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
-public interface IDoctorRepository
+public interface IDoctorRepository : IUserRepository<Doctor>
 {
-    Doctor? GetByEmail(string email);
-    List<Doctor> GetAll();
-    List<Doctor> GetAllWithCertainSpecialization(Doctor.SpecializationType specialization);
-    List<Doctor> GetAllSpecialized(Doctor.SpecializationType specializationType);
 }

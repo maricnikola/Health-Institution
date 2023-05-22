@@ -6,6 +6,8 @@ using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Repositories.InventoryRepo;
 using ZdravoCorp.Core.Repositories.RoomRepo;
+using ZdravoCorp.Core.Services.InventoryServices;
+using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.View.DirectorView;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
@@ -14,20 +16,20 @@ public class MoveDEquipmentViewModel : ViewModelBase
 {
     private ObservableCollection<InventoryViewModel> _allInventory;
     private ObservableCollection<InventoryViewModel> _inventory;
-    private readonly InventoryRepository _inventoryRepository;
+    private readonly IInventoryService _inventoryService;
+    private readonly IRoomService _roomService;
     private readonly object _lock;
-    private RoomRepository _roomRepository;
     private string _searchText = "";
 
-    public MoveDEquipmentViewModel(InventoryRepository inventoryRepository, RoomRepository roomRepository)
+    public MoveDEquipmentViewModel(IInventoryService inventoryService, IRoomService roomService)
     {
         _lock = new object();
-        _roomRepository = roomRepository;
-        _inventoryRepository = inventoryRepository;
-        _inventoryRepository.OnRequestUpdate += (s, e) => UpdateTable(true);
+        _inventoryService = inventoryService;
+        _roomService = roomService;
+        _inventoryService.DataChanged += (s, e) => UpdateTable(true);
         _allInventory = new ObservableCollection<InventoryViewModel>();
         MoveSelectedInventoryItem = new DelegateCommand(o => MoveInventoryItem(), o => IsInventoryItemSelected());
-        foreach (var inventoryItem in _inventoryRepository.GetDynamic())
+        foreach (var inventoryItem in _inventoryService.GetDynamic())
             if (inventoryItem.Quantity <= 5)
                 _allInventory.Add(new InventoryViewModel(inventoryItem));
 
@@ -71,7 +73,7 @@ public class MoveDEquipmentViewModel : ViewModelBase
             if (newAdded)
             {
                 _allInventory = new ObservableCollection<InventoryViewModel>();
-                foreach (var inventoryItem in _inventoryRepository.GetDynamic())
+                foreach (var inventoryItem in _inventoryService.GetDynamic())
                     if (inventoryItem.Quantity <= 5)
                         _allInventory.Add(new InventoryViewModel(inventoryItem));
             }
@@ -99,7 +101,7 @@ public class MoveDEquipmentViewModel : ViewModelBase
             var inventoryItemId = SelectedInventoryItemVm.Id;
             var roomId = SelectedInventoryItemVm.Room;
             var vm = new DEquipmentTransferWindowViewModel(inventoryItemId, roomId, SelectedInventoryItemVm.Quantity,
-                _inventoryRepository);
+                _inventoryService);
 
             var transferWindow = new DynamicTransferWindowView { DataContext = vm };
             vm.OnRequestClose += (s, e) => transferWindow.Close();

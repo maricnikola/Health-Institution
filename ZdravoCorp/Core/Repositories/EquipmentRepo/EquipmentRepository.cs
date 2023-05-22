@@ -42,11 +42,13 @@ public class EquipmentRepository : ISerializable, IEquipmentRepository
     public void Insert(Equipment newEquipment)
     {
         _equipment?.Add(newEquipment);
+        Serializer.Save(this);
     }
 
     public void Delete(Equipment entity)
     {
         _equipment.Remove(entity);
+        Serializer.Save(this);
     }
 
     public Equipment? GetById(int id)

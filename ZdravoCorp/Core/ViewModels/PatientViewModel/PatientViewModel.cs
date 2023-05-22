@@ -16,11 +16,11 @@ public class PatientViewModel : ViewModelBase
     private readonly Patient _patient;
     private readonly ScheduleRepository _scheduleRepository;
 
-    public PatientViewModel(Patient patient, RepositoryManager _repositoryManager)
+    public PatientViewModel(User user)
     {
         _scheduleRepository = _repositoryManager.ScheduleRepository;
         _doctorRepository = _repositoryManager.DoctorRepository;
-        _patient = patient;
+        _patient = _patientService.GeTPatientByEmail(user.Email);
         _medicalRecordRepository = _repositoryManager.MedicalRecordRepository;
         LoadAppointmentsCommand = new DelegateCommand(o => LoadAppointments());
         LoadMedicalRecordCommand = new DelegateCommand(o => LoadMedicalRecord());

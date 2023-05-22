@@ -4,33 +4,34 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Repositories.InventoryRepo;
+using ZdravoCorp.Core.Services.InventoryServices;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
 public class DEquipmentTransferWindowViewModel : ViewModelBase
 
 {
-    private readonly InventoryRepository _inventoryRepository;
+    private readonly IInventoryService _inventoryService;
     private int _maxMoveQuantity;
     private int _moveQuantity;
     private ObservableCollection<SourceRoomViewModel> _rooms;
 
 
     public DEquipmentTransferWindowViewModel(int inventoryItemId, int roomId, int quantity,
-        InventoryRepository inventoryRepository)
+        IInventoryService inventoryService)
     {
         _rooms = new ObservableCollection<SourceRoomViewModel>();
-        _inventoryRepository = inventoryRepository;
+        _inventoryService = inventoryService;
         InventoryItemId = inventoryItemId;
         DestinationRoom = roomId;
         Quantity = quantity;
         MoveQuantity = 0;
         MaxMoveQuantity = -1;
-        var inventoryItem = _inventoryRepository.GetById(inventoryItemId);
+        var inventoryItem = _inventoryService.GetById(inventoryItemId);
         RoomType = inventoryItem?.Room.Type.ToString();
         Item = inventoryItem.Equipment.Name;
 
-        foreach (var item in _inventoryRepository.LocateItem(inventoryItem)) _rooms.Add(new SourceRoomViewModel(item));
+        foreach (var item in _inventoryService.LocateItemInOtherRooms(inventoryItem)) _rooms.Add(new SourceRoomViewModel(item));
         ConfirmTransfer = new DelegateCommand(o => Confirm(), o => CanConfirm());
         CancelTransfer = new DelegateCommand(o => Cancel());
     }
@@ -90,8 +91,7 @@ public class DEquipmentTransferWindowViewModel : ViewModelBase
     private void Confirm()
 
     {
-        _inventoryRepository.UpdateDestinationInventoryItem(SelectedRoom.ItemId, InventoryItemId, _moveQuantity);
+        _inventoryService.UpdateDestinationInventoryItem(SelectedRoom.ItemId, InventoryItemId, _moveQuantity);
         OnRequestClose(this, new EventArgs());
-        _inventoryRepository.OnRequestUpdate.Invoke(this, new EventArgs());
     }
 }

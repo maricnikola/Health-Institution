@@ -7,6 +7,9 @@ using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Repositories.InventoryRepo;
 using ZdravoCorp.Core.Repositories.RoomRepo;
 using ZdravoCorp.Core.Repositories.TransfersRepo;
+using ZdravoCorp.Core.Services.InventoryServices;
+using ZdravoCorp.Core.Services.RoomServices;
+using ZdravoCorp.Core.Services.TransferServices;
 using ZdravoCorp.View.DirectorView;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
@@ -15,29 +18,29 @@ public class MoveEquipmentViewModel : ViewModelBase
 {
     private readonly ObservableCollection<InventoryViewModel> _allInventory;
     private ObservableCollection<InventoryViewModel> _inventory;
-    private readonly InventoryRepository _inventoryRepository;
+    private readonly IInventoryService _inventoryService;
     private readonly object _lock;
     private readonly object _lock2;
-    private readonly RoomRepository _roomRepository;
+    private readonly IRoomService _roomService;
     private string _searchText = "";
     private InventoryViewModel? _selectedInventoryItemVm;
-    private readonly TransferRepository _transferRepository;
+    private readonly ITransferService _transferService;
     private ObservableCollection<TransferViewModel> _transfers;
 
-    public MoveEquipmentViewModel(InventoryRepository inventoryRepository, RoomRepository roomRepository,
-        TransferRepository transferRepository)
+    public MoveEquipmentViewModel(IInventoryService inventoryService, IRoomService roomService,
+       ITransferService transferService)
     {
         _lock = new object();
         _lock2 = new object();
-        _roomRepository = roomRepository;
-        _inventoryRepository = inventoryRepository;
-        _transferRepository = transferRepository;
-        _inventoryRepository.OnRequestUpdate += (s, e) => UpdateTable(true);
-        _transferRepository.OnRequestUpdate += (s, e) => UpdateTransfers();
+        _inventoryService = inventoryService;
+        _roomService = roomService;
+        _transferService = transferService;
+        _inventoryService.DataChanged += (s, e) => UpdateTable(true);
+        _transferService.DataChanged += (s, e) => UpdateTransfers();
         _allInventory = new ObservableCollection<InventoryViewModel>();
         _transfers = new ObservableCollection<TransferViewModel>();
         MoveSelectedInventoryItem = new DelegateCommand(o => MoveInventoryItem(), o => IsInventoryItemSelected());
-        foreach (var inventoryItem in _inventoryRepository.GetNonDynamic())
+        foreach (var inventoryItem in _inventoryService.GetNonDynamic())
             _allInventory.Add(new InventoryViewModel(inventoryItem));
 
         _inventory = _allInventory;
@@ -97,7 +100,7 @@ public class MoveEquipmentViewModel : ViewModelBase
         lock (_lock)
         {
             if (newAdded)
-                foreach (var inventoryItem in _inventoryRepository.GetNonDynamic())
+                foreach (var inventoryItem in _inventoryService.GetNonDynamic())
                     _allInventory.Add(new InventoryViewModel(inventoryItem));
             Inventory = UpdateTableFromSearch();
         }
@@ -120,7 +123,7 @@ public class MoveEquipmentViewModel : ViewModelBase
         lock (_lock2)
         {
             _transfers = new ObservableCollection<TransferViewModel>();
-            foreach (var transfer in _transferRepository.GetAll()) _transfers.Add(new TransferViewModel(transfer));
+            foreach (var transfer in _transferService.GetAll()) _transfers.Add(new TransferViewModel(transfer));
 
             Transfers = _transfers;
         }
@@ -133,10 +136,9 @@ public class MoveEquipmentViewModel : ViewModelBase
             var inventoryItemId = SelectedInventoryItemVm.Id;
             var roomId = SelectedInventoryItemVm.Room;
             var vm = new EquipmentTransferWindowViewModel(inventoryItemId, roomId, SelectedInventoryItemVm.Quantity,
-                _roomRepository, _inventoryRepository, _transferRepository);
+                _roomService, _inventoryService, _transferService);
 
             var transferWindow = new EquipmentTransferWindowView { DataContext = vm };
-            vm.OnRequestUpdate += (s, e) => UpdateTransfers();
             vm.OnRequestClose += (s, e) => transferWindow.Close();
             transferWindow.Show();
         }

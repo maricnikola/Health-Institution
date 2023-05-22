@@ -2,8 +2,11 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using Autofac;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories;
+using ZdravoCorp.Core.Services.UserServices;
+using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.Core.Utilities.Counters;
 using ZdravoCorp.Core.ViewModels.DirectorViewModel;
 using ZdravoCorp.Core.ViewModels.DoctorViewModels;
@@ -18,14 +21,14 @@ namespace ZdravoCorp.View;
 
 public partial class LoginDialog : Window, INotifyPropertyChanged
 {
-    private readonly RepositoryManager _repositoryManager;
     private string? _email;
     private string? _password;
+    private IUserService _userService;
 
-    public LoginDialog(RepositoryManager repositoryManager)
+    public LoginDialog()
     {
-        _repositoryManager = repositoryManager;
         InitializeComponent();
+        _userService = Injector.Container.Resolve<IUserService>();
         DataContext = this;
     }
 
@@ -70,13 +73,12 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             case User.UserType.Director:
                 //start director view
                 Application.Current.MainWindow = new DirectorWindow
-                    { DataContext = new DirectorViewModel(_repositoryManager) };
+                    { DataContext = new DirectorViewModel() };
                 ;
                 break;
             case User.UserType.Patient:
                 //start patient view
                 var state = user.UserState;
-                var patient = _repositoryManager.PatientRepository.GetPatientByEmail(user.Email);
                 var counterDictionary = new CounterDictionary();
                 if (counterDictionary.IsForBlock(user.Email))
                 {
@@ -87,7 +89,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
                 {
                     Application.Current.MainWindow = new PatientWindow
                     {
-                        DataContext = new PatientViewModel(patient, _repositoryManager)
+                        DataContext = new PatientViewModel(user)
                     };
                 }
 
@@ -95,25 +97,25 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             case User.UserType.Nurse:
                 //start nurse view
                 Application.Current.MainWindow = new NurseWindow
-                    { DataContext = new NurseViewModel(_repositoryManager) };
+                    { DataContext = new NurseViewModel() };
                 break;
             case User.UserType.Doctor:
                 //start doctor view
                 Application.Current.MainWindow = new DoctorWindow
-                    { DataContext = new DoctorViewModel(user, _repositoryManager) };
+                    { DataContext = new DoctorViewModel(user) };
                 break;
         }
     }
 
     private User? GetLoggedUser()
     {
-        if (!_repositoryManager.UserRepository.ValidateEmail(Email))
+        if (!_userService.ValidateEmail(Email))
         {
             MessageBox.Show("Invalid Email", "Error", MessageBoxButton.OK);
             return null;
         }
 
-        var user = _repositoryManager.UserRepository.GetByEmail(Email);
+        var user = _userService.GetByEmail(Email);
         if (user != null && user.ValidatePassword(Password)) return user;
         MessageBox.Show("Invalid Password", "Error", MessageBoxButton.OK);
         return null;

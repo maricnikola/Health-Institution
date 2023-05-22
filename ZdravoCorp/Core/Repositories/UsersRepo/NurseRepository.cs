@@ -39,6 +39,16 @@ public class NurseRepository : ISerializable, INurseRepository
         _nurses.Add(nurse);
     }
 
+    public IEnumerable<Nurse> GetAll()
+    {
+        return _nurses;
+    }
+
+    public void Insert(Nurse entity)
+    {
+        _nurses.Add(entity);
+    }
+
     public Nurse? GetByEmail(string email)
     {
         return _nurses.FirstOrDefault(nurse => nurse.Email == email);
