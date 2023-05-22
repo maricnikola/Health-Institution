@@ -1,4 +1,5 @@
-﻿using ZdravoCorp.Core.Models.AnamnesisReport;
+﻿using System;
+using ZdravoCorp.Core.Models.AnamnesisReport;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.View;
@@ -8,23 +9,18 @@ namespace ZdravoCorp.Core.Models.Appointments;
 public class AppointmentDTO
 {
     public int Id { get; set; }
-    public TimeSlot Time { get; set; }
+    public DateTime Date { get; set; }
     public Doctor Doctor { get; set; }
     public string PatientEmail { get; set; }
-    public Anamnesis Anamnesis { get; set; }
-    public int? Room { get; set; }
-    public bool IsCanceled { get; set; }
+    public string Anamnesis { get; set; }
     public bool Status { get; set; }
 
-    public AppointmentDTO(int id, TimeSlot time, Doctor doctor, string patientEmail, Anamnesis anamnesis, int? room, bool isCanceled, bool status)
+    public AppointmentDTO(int id, DateTime date, Doctor doctor, string patientEmail, string anamnesis)
     {
         Id = id;
-        Time = time;
+        Date = date;
         Doctor = doctor;
         PatientEmail = patientEmail;
         Anamnesis = anamnesis;
-        Room = room;
-        IsCanceled = isCanceled;
-        Status = status;
     }
 }

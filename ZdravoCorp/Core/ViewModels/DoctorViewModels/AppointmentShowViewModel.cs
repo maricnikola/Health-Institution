@@ -3,12 +3,15 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
+using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.InventoryRepo;
 using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
 using ZdravoCorp.Core.Repositories.RoomRepo;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.PatientServices;
+using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Services.MedicalRecordServices;
 using ZdravoCorp.View;
 using ZdravoCorp.View.DoctorView;
@@ -24,18 +27,18 @@ public class AppointmentShowViewModel : ViewModelBase
     private readonly DoctorRepository _doctorRepository;
     private readonly InventoryRepository _inventoryRepository;
     private readonly IMedicalRecordService _medicalRecordService;
-    private readonly PatientRepository _patientRepository;
+    private readonly IPatientService _patientService;
     private readonly RoomRepository _roomRepository;
-    private readonly ScheduleRepository _scheduleRepository;
+    private readonly IScheduleService _scheduleService;
     private int counterViews;
 
     public AppointmentShowViewModel(User user, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository,
-        PatientRepository patientRepository, IMedicalRecordService medicalRecordService,
+        IPatientService patientService, IMedicalRecordService medicalRecordService,
         InventoryRepository inventoryRepository, RoomRepository roomRepository)
     {
         counterViews = 0;
-        _patientRepository = patientRepository;
-        _scheduleRepository = scheduleRepository;
+        _patientService = patientService;
+        _scheduleService = scheduleService;
         _inventoryRepository = inventoryRepository;
         _roomRepository = roomRepository;
 
@@ -87,7 +90,7 @@ public class AppointmentShowViewModel : ViewModelBase
         var addAp = new AddAppointmentView
         {
             DataContext = new AddAppointmentViewModel(_scheduleRepository, _doctorRepository, Appointments,
-                _patientRepository, _doctor, _medicalRecordService, _dateAppointment)
+                _patientService, _doctor, _medicalRecordService, _dateAppointment)
         };
         addAp.Show();
     }
@@ -97,7 +100,7 @@ public class AppointmentShowViewModel : ViewModelBase
         var appointmentViewModel = SelectedAppointments;
         if (appointmentViewModel != null)
         {
-            var appointment = _scheduleRepository.GetAppointmentById(appointmentViewModel.Id);
+            var appointment = _scheduleService.GetAppointmentById(appointmentViewModel.Id);
             if (appointment.Status)
             {
                 MessageBox.Show("Appointment is performed", "Error", MessageBoxButton.OK);
@@ -105,11 +108,11 @@ public class AppointmentShowViewModel : ViewModelBase
             }
 
             var patientMail = appointmentViewModel.PatientMail;
-            var patient = _patientRepository.GetPatientByEmail(patientMail);
+            var patient = _patientService.GetByEmail(patientMail);
             var changeAp = new DrChangeAppointmentView
             {
-                DataContext = new DrChangeAppointmentViewModel(SelectedAppointments, _scheduleRepository,
-                    _doctorRepository, Appointments, _patientRepository, _doctor, patient, appointmentViewModel,
+                DataContext = new DrChangeAppointmentViewModel(SelectedAppointments, _scheduleService,
+                    _doctorRepository, Appointments, _patientService, _doctor, patient, appointmentViewModel,
                     _dateAppointment)
             };
             changeAp.Show();
@@ -125,14 +128,16 @@ public class AppointmentShowViewModel : ViewModelBase
         var selectedAppointment = SelectedAppointments;
         if (selectedAppointment != null)
         {
-            var appointment = _scheduleRepository.GetAppointmentById(selectedAppointment.Id);
+            var appointment = _scheduleService.GetAppointmentById(selectedAppointment.Id);
+            var appointmentDto = new AppointmentDTO(appointment.Id, appointment.Time.Start, appointment.Doctor,
+                appointment.PatientEmail, appointment.Anamnesis.KeyWord);
             if (appointment.Status)
             {
                 MessageBox.Show("Appointment is performed", "Error", MessageBoxButton.OK);
                 return;
             }
 
-            var cancelAppointment = _scheduleRepository.CancelAppointmentByDoctor(appointment);
+            var cancelAppointment = _scheduleService.CancelAppointmentByDoctor(appointmentDto);
             if (cancelAppointment != null)
                 Appointments.Remove(GetById(selectedAppointment.Id, Appointments));
             else
@@ -154,7 +159,7 @@ public class AppointmentShowViewModel : ViewModelBase
 
     public void SearchAppointments()
     {
-        var showAppointments = _scheduleRepository.GetAppointmentsForShow(_dateAppointment);
+        var showAppointments = _scheduleService.GetAppointmentsForShow(_dateAppointment);
         Appointments.Clear();
         foreach (var appointment in showAppointments)
             if (!appointment.IsCanceled && appointment.Doctor.Email.Equals(_doctor.Email))
@@ -182,14 +187,14 @@ public class AppointmentShowViewModel : ViewModelBase
         var appointment = SelectedAppointments;
         if (appointment != null)
         {
-            var checkPerformAppointment = _scheduleRepository.CanPerformAppointment(appointment.Id);
-            var appointmentPerforming = _scheduleRepository.GetAppointmentById(appointment.Id);
+            var checkPerformAppointment = _scheduleService.CanPerformAppointment(appointment.Id);
+            var appointmentPerforming = _scheduleService.GetAppointmentById(appointment.Id);
             if (checkPerformAppointment && !appointmentPerforming.Status)
             {
                 var window = new PerformAppointmentView
                 {
                     DataContext = new PerformAppointmentViewModel(appointmentPerforming, _scheduleRepository,
-                        _patientRepository, _medicalRecordService, _inventoryRepository, _roomRepository)
+                        _patientService, _medicalRecordService, _inventoryRepository, _roomRepository)
                 };
                 window.Show();
             }

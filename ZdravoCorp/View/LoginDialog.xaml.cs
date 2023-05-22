@@ -71,13 +71,13 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
         switch (user.Type)
         {
             case User.UserType.Director:
-                //start director view
+                //Start director view
                 Application.Current.MainWindow = new DirectorWindow
                     { DataContext = new DirectorViewModel() };
                 ;
                 break;
             case User.UserType.Patient:
-                //start patient view
+                //Start patient view
                 var state = user.UserState;
                 var counterDictionary = new CounterDictionary();
                 if (counterDictionary.IsForBlock(user.Email))
@@ -95,12 +95,12 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
 
                 break;
             case User.UserType.Nurse:
-                //start nurse view
+                //Start nurse view
                 Application.Current.MainWindow = new NurseWindow
                     { DataContext = new NurseViewModel() };
                 break;
             case User.UserType.Doctor:
-                //start doctor view
+                //Start doctor view
                 Application.Current.MainWindow = new DoctorWindow
                     { DataContext = new DoctorViewModel(user) };
                 break;

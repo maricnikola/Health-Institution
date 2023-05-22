@@ -15,12 +15,10 @@ public class AppointmentViewModel : ViewModelBase
     }
 
     public int Id => _appointment.Id;
-    public string DoctorName => _appointment.Doctor.FullName;
-
+    public string DoctorName => _appointment.Doctor.Email;
     public string PatientName => _appointment.PatientEmail;
-    public DateTime Date => _appointment.Time.start;
+    public DateTime Date => _appointment.Time.Start;
     public string Anamnesis => _appointment.Anamnesis.KeyWord;
     public string PatientMail => _appointment.PatientEmail;
-
     public string Specialization => _appointment.Doctor.Specialization.ToString();
 }

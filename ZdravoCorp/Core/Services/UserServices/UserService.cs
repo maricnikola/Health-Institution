@@ -17,7 +17,6 @@ public class UserService : IUserService
     }
     
     public void AddUser(UserDTO userDto)
-    
     {
         _userRepository.Insert(new User(userDto));
     }
@@ -32,18 +31,4 @@ public class UserService : IUserService
         return _userRepository.GetAll().FirstOrDefault(user => user.Email == email) != null;
     }
     
-    public List<Doctor> GetAllWithCertainSpecialization(Doctor.SpecializationType specialization)
-    {
-        var wantedDoctors = new List<Doctor>();
-        foreach (var doctor in _doctorRepository.GetAll())
-            if (doctor.Specialization == specialization)
-                wantedDoctors.Add(doctor);
-        return wantedDoctors;
-    }
-
-    public List<Doctor> GetAllSpecialized(Doctor.SpecializationType specializationType)
-    {
-        var suitableDoctors = _doctorRepository.GetAll().Where(doctor => doctor.Specialization == specializationType);
-        return suitableDoctors.ToList();
-    }
 }
