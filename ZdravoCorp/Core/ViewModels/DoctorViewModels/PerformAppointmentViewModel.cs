@@ -5,15 +5,12 @@ using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.Repositories.InventoryRepo;
-using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
-using ZdravoCorp.Core.Repositories.RoomRepo;
-using ZdravoCorp.Core.Repositories.ScheduleRepo;
-using ZdravoCorp.Core.Repositories.UsersRepo;
 using ZdravoCorp.Core.Services.PatientServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Services.MedicalRecordServices;
 using ZdravoCorp.View.DoctorView;
+using ZdravoCorp.Core.Services.InventoryServices;
+using ZdravoCorp.Core.Services.RoomServices;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -22,7 +19,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     private string _allergens;
     private readonly Appointment _appointment;
     private AppointmentViewModel _appointmentViewModel;
-    private readonly InventoryRepository _inventoryRepository;
+    private readonly IInventoryService _inventoryService;
 
     private string _keyWord;
     private readonly IMedicalRecordService _medicalRecordService;
@@ -31,7 +28,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     private readonly Patient? _patient;
     private IPatientService _patientService;
     private int _roomId;
-    private readonly RoomRepository _roomRepository;
+    private readonly IRoomService _roomService;
     private readonly IScheduleService _scheduleService;
 
 
@@ -40,10 +37,10 @@ public class PerformAppointmentViewModel : ViewModelBase
 
     public PerformAppointmentViewModel(Appointment performingAppointment, IScheduleService scheduleService,
         IPatientService patientService, IMedicalRecordService medicalRecordService,
-        InventoryRepository inventoryRepository, RoomRepository roomRepository)
+        IInventoryService inventoryService, IRoomService roomService)
     {
-        _roomRepository = roomRepository;
-        _inventoryRepository = inventoryRepository;
+        _roomService = roomService;
+        _inventoryService = inventoryService;
         _appointment = performingAppointment;
         _medicalRecordService = medicalRecordService;
         _scheduleService = scheduleService;
@@ -104,7 +101,7 @@ public class PerformAppointmentViewModel : ViewModelBase
 
     private void assignRoom()
     {
-        foreach (var room in _roomRepository.GetAll())
+        foreach (var room in _roomService.GetAll())
         {
             var checkRoom = true;
             foreach (var appointment in _scheduleService.GetAllAppointments())
@@ -140,7 +137,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     public void ShowDEquipmentSpentDialog()
     {
         var window = new DEquipmentSpentView
-            { DataContext = new DEquipmentSpentViewModel(_inventoryRepository, _roomId) };
+            { DataContext = new DEquipmentSpentViewModel(_inventoryService, _roomId) };
         window.Show();
     }
 

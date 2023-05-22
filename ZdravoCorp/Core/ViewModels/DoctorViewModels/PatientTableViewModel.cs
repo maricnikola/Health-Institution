@@ -5,13 +5,11 @@ using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
-using ZdravoCorp.Core.Repositories.ScheduleRepo;
-using ZdravoCorp.Core.Repositories.UsersRepo;
 using ZdravoCorp.Core.Services.PatientServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Services.MedicalRecordServices;
 using ZdravoCorp.View.DoctorView;
+using ZdravoCorp.Core.Services.DoctorServices;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -21,7 +19,7 @@ public class PatientTableViewModel : ViewModelBase
 
 
     private readonly Doctor _doctor;
-    private readonly DoctorRepository _doctorRepository;
+    private readonly IDoctorService _doctorService;
     private readonly IMedicalRecordService _medicalRecordService;
     private readonly IPatientService _patientService;
     private ObservableCollection<PatientsViewModel> _patients;
@@ -32,12 +30,12 @@ public class PatientTableViewModel : ViewModelBase
     // public ObservableCollection<PatientsViewModel> Patients => _patients; 
     private string _searchText = "";
 
-    public PatientTableViewModel(User user, IScheduleService scheduleService, DoctorRepository doctorRepository,
+    public PatientTableViewModel(User user, IScheduleService scheduleService, IDoctorService doctorService,
         IPatientService patientService, IMedicalRecordService medicalRecordService)
     {
         _scheduleService = scheduleService;
-        _doctorRepository = doctorRepository;
-        _doctor = _doctorRepository.GetByEmail(user.Email);
+        _doctorService = doctorService;
+        _doctor = _doctorService.GetByEmail(user.Email);
         _patientService = patientService;
         _medicalRecordService = medicalRecordService;
 

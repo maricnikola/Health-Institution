@@ -5,16 +5,14 @@ using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.Repositories.InventoryRepo;
-using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
-using ZdravoCorp.Core.Repositories.RoomRepo;
-using ZdravoCorp.Core.Repositories.ScheduleRepo;
-using ZdravoCorp.Core.Repositories.UsersRepo;
 using ZdravoCorp.Core.Services.PatientServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Services.MedicalRecordServices;
 using ZdravoCorp.View;
 using ZdravoCorp.View.DoctorView;
+using ZdravoCorp.Core.Services.DoctorServices;
+using ZdravoCorp.Core.Services.InventoryServices;
+using ZdravoCorp.Core.Services.RoomServices;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -24,28 +22,28 @@ public class AppointmentShowViewModel : ViewModelBase
 
     private DateTime _dateAppointment = DateTime.Now + TimeSpan.FromHours(1);
     private readonly Doctor _doctor;
-    private readonly DoctorRepository _doctorRepository;
-    private readonly InventoryRepository _inventoryRepository;
+    private readonly IDoctorService _doctorService;
+    private readonly IInventoryService _inventoryService;
     private readonly IMedicalRecordService _medicalRecordService;
     private readonly IPatientService _patientService;
-    private readonly RoomRepository _roomRepository;
+    private readonly IRoomService _roomService;
     private readonly IScheduleService _scheduleService;
     private int counterViews;
 
-    public AppointmentShowViewModel(User user, ScheduleRepository scheduleRepository, DoctorRepository doctorRepository,
+    public AppointmentShowViewModel(User user, IScheduleService scheduleService, IDoctorService doctorService,
         IPatientService patientService, IMedicalRecordService medicalRecordService,
-        InventoryRepository inventoryRepository, RoomRepository roomRepository)
+        IInventoryService inventoryService, IRoomService roomService)
     {
         counterViews = 0;
         _patientService = patientService;
         _scheduleService = scheduleService;
-        _inventoryRepository = inventoryRepository;
-        _roomRepository = roomRepository;
+        _inventoryService = inventoryService;
+        _roomService = roomService;
 
-        _doctorRepository = doctorRepository;
-        _doctor = _doctorRepository.GetByEmail(user.Email);
+        _doctorService = doctorService;
+        _doctor = _doctorService.GetByEmail(user.Email);
 
-        var appointments = _scheduleRepository.GetDoctorAppointments(_doctor.Email);
+        var appointments = _scheduleService.GetDoctorAppointments(_doctor.Email);
         _medicalRecordService = medicalRecordService;
 
         Appointments = new ObservableCollection<AppointmentViewModel>();
@@ -89,7 +87,7 @@ public class AppointmentShowViewModel : ViewModelBase
     {
         var addAp = new AddAppointmentView
         {
-            DataContext = new AddAppointmentViewModel(_scheduleRepository, _doctorRepository, Appointments,
+            DataContext = new AddAppointmentViewModel(_scheduleService, _doctorService, Appointments,
                 _patientService, _doctor, _medicalRecordService, _dateAppointment)
         };
         addAp.Show();
@@ -112,7 +110,7 @@ public class AppointmentShowViewModel : ViewModelBase
             var changeAp = new DrChangeAppointmentView
             {
                 DataContext = new DrChangeAppointmentViewModel(SelectedAppointments, _scheduleService,
-                    _doctorRepository, Appointments, _patientService, _doctor, patient, appointmentViewModel,
+                    _doctorService, Appointments, _patientService, _doctor, patient, appointmentViewModel,
                     _dateAppointment)
             };
             changeAp.Show();
@@ -193,8 +191,8 @@ public class AppointmentShowViewModel : ViewModelBase
             {
                 var window = new PerformAppointmentView
                 {
-                    DataContext = new PerformAppointmentViewModel(appointmentPerforming, _scheduleRepository,
-                        _patientService, _medicalRecordService, _inventoryRepository, _roomRepository)
+                    DataContext = new PerformAppointmentViewModel(appointmentPerforming, _scheduleService,
+                        _patientService, _medicalRecordService, _inventoryService, _roomService)
                 };
                 window.Show();
             }

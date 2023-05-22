@@ -1,12 +1,14 @@
-﻿using System.Windows.Input;
+﻿using Autofac;
+using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.Repositories;
-using ZdravoCorp.Core.Repositories.InventoryRepo;
-using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
-using ZdravoCorp.Core.Repositories.RoomRepo;
-using ZdravoCorp.Core.Repositories.ScheduleRepo;
-using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.DoctorServices;
+using ZdravoCorp.Core.Services.InventoryServices;
+using ZdravoCorp.Core.Services.MedicalRecordServices;
+using ZdravoCorp.Core.Services.PatientServices;
+using ZdravoCorp.Core.Services.RoomServices;
+using ZdravoCorp.Core.Services.ScheduleServices;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -14,30 +16,33 @@ public class DoctorViewModel : ViewModelBase
 {
     private object _currentView;
     private readonly Doctor _doctor;
-    private readonly DoctorRepository _doctorRepository;
-    private readonly InventoryRepository _inventoryRepository;
-    private readonly MedicalRecordRepository _medicalRecordRepository;
-    private readonly PatientRepository _patientRepository;
-    private readonly RoomRepository _roomRepository;
-    private readonly ScheduleRepository _scheduleRepository;
+    private readonly IDoctorService _doctorService;
+    private readonly IInventoryService _inventoryService;
+    private readonly IMedicalRecordService _medicalRecordService;
+    private readonly IPatientService _patientService;
+    private readonly IRoomService _roomService;
+    private readonly IScheduleService _scheduleService;
     private readonly User _user;
 
     public DoctorViewModel(User user)
     {
-        _inventoryRepository = repositoryManager.InventoryRepository;
-        _roomRepository = repositoryManager.RoomRepository;
-        _doctorRepository = repositoryManager.DoctorRepository;
-        _scheduleRepository = repositoryManager.ScheduleRepository;
-        _doctor = _doctorRepository.GetByEmail(user.Email);
-        _patientRepository = repositoryManager.PatientRepository;
-        var appointments = _scheduleRepository.GetDoctorAppointments(_doctor.Email);
-        _medicalRecordRepository = repositoryManager.MedicalRecordRepository;
-
+        _doctorService = Injector.Container.Resolve<IDoctorService>();
+        _inventoryService = Injector.Container.Resolve<IInventoryService>();
+        _medicalRecordService = Injector.Container.Resolve<IMedicalRecordService>();    
+        _patientService = Injector.Container.Resolve<IPatientService>();    
+        _roomService = Injector.Container.Resolve<IRoomService>();
+        _scheduleService = Injector.Container.Resolve<IScheduleService>();
+        _doctor = _doctorService.GetByEmail(user.Email);
+        
+        var appointments = _scheduleService.GetDoctorAppointments(_doctor.Email);
         _user = user;
+
+       
+
         LoadAppointmentCommand = new DelegateCommand(o => LoadAppointments());
         LoadPatientsCommand = new DelegateCommand(o => LoadPatinets());
-        _currentView = new AppointmentShowViewModel(_user, _scheduleRepository, _doctorRepository, _patientRepository,
-            _medicalRecordRepository, _inventoryRepository, _roomRepository);
+        _currentView = new AppointmentShowViewModel(_user, _scheduleService, _doctorService, _patientService,
+            _medicalRecordService, _inventoryService, _roomService);
     }
 
     public ICommand LoadAppointmentCommand { get; private set; }
@@ -56,13 +61,13 @@ public class DoctorViewModel : ViewModelBase
 
     public void LoadAppointments()
     {
-        CurrentView = new AppointmentShowViewModel(_user, _scheduleRepository, _doctorRepository, _patientRepository,
-            _medicalRecordRepository, _inventoryRepository, _roomRepository);
+        CurrentView = new AppointmentShowViewModel(_user, _scheduleService, _doctorService, _patientService,
+            _medicalRecordService, _inventoryService, _roomService);
     }
 
     public void LoadPatinets()
     {
-        CurrentView = new PatientTableViewModel(_user, _scheduleRepository, _doctorRepository, _patientRepository,
-            _medicalRecordRepository);
+        CurrentView = new PatientTableViewModel(_user, _scheduleService, _doctorService, _patientService,
+            _medicalRecordService);
     }
 }

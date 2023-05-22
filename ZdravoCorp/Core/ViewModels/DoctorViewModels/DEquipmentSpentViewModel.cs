@@ -4,7 +4,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
+using ZdravoCorp.Core.Models.Inventory;
 using ZdravoCorp.Core.Repositories.InventoryRepo;
+using ZdravoCorp.Core.Services.InventoryServices;
 using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
@@ -13,15 +15,15 @@ namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 public class DEquipmentSpentViewModel : ViewModelBase
 {
     private ObservableCollection<DynamicInventoryViewModel> _dynamicInventory;
-    private readonly InventoryRepository _inventoryRepository;
+    private readonly IInventoryService _inventoryService;
     private readonly int _roomId;
 
-    public DEquipmentSpentViewModel(InventoryRepository inventoryRepository, int roomId)
+    public DEquipmentSpentViewModel(IInventoryService inventoryService, int roomId)
     {
         _roomId = roomId;
         _dynamicInventory = new ObservableCollection<DynamicInventoryViewModel>();
-        _inventoryRepository = inventoryRepository;
-        foreach (var inventoryItem in _inventoryRepository.GetDynamic())
+        _inventoryService = inventoryService;
+        foreach (var inventoryItem in _inventoryService.GetDynamic())
             if (inventoryItem.RoomId == _roomId)
                 _dynamicInventory.Add(new DynamicInventoryViewModel(inventoryItem));
         ConfirmSpentQuantity = new DelegateCommand(o => ConfirmChanges());
@@ -58,8 +60,10 @@ public class DEquipmentSpentViewModel : ViewModelBase
                 break;
             }
 
-            _inventoryRepository.GetById(inventoryItem.Id).Quantity -= inventoryItem.OrderQuantity;
-            Serializer.Save(_inventoryRepository);
+            var inventoryI = _inventoryService.GetById(inventoryItem.Id);
+            inventoryI.Quantity -= inventoryItem.OrderQuantity;
+            var inventoryDto = new InventoryItemDTO(inventoryI.Id, inventoryI.Quantity, inventoryI.RoomId, inventoryI.Equipment);
+            _inventoryService.Update(inventoryDto.Id, inventoryDto);
         }
 
         if (correctnessCheck) CloseWindow();

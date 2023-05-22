@@ -13,6 +13,7 @@ using ZdravoCorp.Core.Services.PatientServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Services.MedicalRecordServices;
 using ZdravoCorp.Core.Utilities;
+using ZdravoCorp.Core.Services.DoctorServices;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -20,7 +21,7 @@ public class AddAppointmentViewModel : ViewModelBase
 {
     private readonly DateTime _date;
     private readonly Doctor _dr;
-    private IMedicalRecordService _medicalRecordService;
+    private readonly IMedicalRecordService _medicalRecordService;
     private readonly IPatientService _patientService;
     private readonly IScheduleService _scheduleService;
 
@@ -33,7 +34,7 @@ public class AddAppointmentViewModel : ViewModelBase
     private string _username;
 
 
-    public AddAppointmentViewModel(IScheduleService scheduleService, DoctorRepository doctorRepository,
+    public AddAppointmentViewModel(IScheduleService scheduleService, IDoctorService doctorService,
         ObservableCollection<AppointmentViewModel> appointment, IPatientService patientService, Doctor doctor,
         IMedicalRecordService medicalRecordService, DateTime date)
     {
