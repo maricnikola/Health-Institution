@@ -20,11 +20,9 @@ public class JobScheduler
     private static IOrderService _orderService;
     private static ITransferService _transferService;
 
-    public JobScheduler(IInventoryService inventoryService, ITransferService transferService, IOrderService orderService)
+    public JobScheduler()
     {
-        _inventoryService = inventoryService;
-        _orderService = orderService;
-        _transferService = transferService;
+
         _builder = new StdSchedulerFactory();
         _scheduler = StdSchedulerFactory.GetDefaultScheduler().Result;
         _scheduler.Start();
@@ -35,13 +33,13 @@ public class JobScheduler
     {
         foreach (var order in _orderService.GetAll())
             if (order.Status == Order.OrderStatus.Pending)
-                DEquipmentTaskScheduler(order);
+                DEquipmentTaskScheduler(new OrderDTO(order.Id, order.Items, order.OrderTime, order.ArrivalTime, order.Status));
 
-        foreach (var transfer in _transferService.GetAll()) TransferRequestTaskScheduler(transfer);
+        foreach (var transfer in _transferService.GetAll()) TransferRequestTaskScheduler(new TransferDTO(transfer.Id, transfer.From, transfer.To, transfer.When, transfer.Quantity, transfer.InventoryId, transfer.InventoryItemName));
     }
 
     // dynamic equipment order task
-    public static void DEquipmentTaskScheduler(Order order)
+    public static void DEquipmentTaskScheduler(OrderDTO order)
     {
         var job = JobBuilder.Create<DEquipmentExecuteOrder>()
             .WithIdentity("DEquipmentTask" + order.OrderTime, "Orders").Build();
@@ -65,7 +63,7 @@ public class JobScheduler
 
     // equipment transfer task
 
-    public static void TransferRequestTaskScheduler(Transfer transfer)
+    public static void TransferRequestTaskScheduler(TransferDTO transfer)
     {
         var job = JobBuilder.Create<TransferRequestTask>()
             .WithIdentity("TrasferRequest" + transfer.Id, "Transfers").Build();

@@ -28,9 +28,12 @@ public class InventoryService : IInventoryService
         return _inventoryRepository.GetById(id);
     }
 
+    public event EventHandler? DataChanged;
+
     public void AddInventoryItem(InventoryItemDTO inventoryItemDto)
     {
         _inventoryRepository.Insert(new InventoryItem(inventoryItemDto));
+        DataChanged?.Invoke(this, new EventArgs());
     }
 
     public void Update(int id, InventoryItemDTO inventoryItemDto)
@@ -43,12 +46,14 @@ public class InventoryService : IInventoryService
 
         _inventoryRepository.Delete(oldInventoryItem);
         _inventoryRepository.Insert(new InventoryItem(inventoryItemDto));
+        DataChanged?.Invoke(this, new EventArgs());
     }
     
 
     public void Delete(int id)
     {
         _inventoryRepository.Delete(_inventoryRepository.GetById(id));
+        DataChanged?.Invoke(this, new EventArgs());
     }
     
 
@@ -63,6 +68,7 @@ public class InventoryService : IInventoryService
     {
         _inventoryRepository.Insert(inventoryItem);
         _inventoryRepository.LoadRoomsAndEquipment();
+        DataChanged?.Invoke(this, new EventArgs());
     }
 
     public List<InventoryItem> GetNonDynamic()
@@ -111,6 +117,7 @@ public class InventoryService : IInventoryService
         newInventoryItem.Room = transfer.To;
         newInventoryItem.RoomId = transfer.To.Id;
         _inventoryRepository.Insert(newInventoryItem);
+        DataChanged?.Invoke(this, new EventArgs());
     }
 
     public void UpdateDestinationInventoryItem(int source, int destination, int quantity)
@@ -123,5 +130,6 @@ public class InventoryService : IInventoryService
         }
         destinationItem.Quantity += quantity;
         sourceItem.Quantity -= quantity;
+        DataChanged?.Invoke(this, new EventArgs());
     }
 }

@@ -12,6 +12,9 @@ public class TransferService : ITransferService
     {
         _transferRepository = transferRepository;
     }
+
+    public event EventHandler? DataChanged;
+
     public List<Transfer> GetAll()
     {
         return _transferRepository.GetAll() as List<Transfer> ?? throw new InvalidOperationException();
@@ -25,6 +28,7 @@ public class TransferService : ITransferService
     public void AddTransfer(TransferDTO transferDto)
     {
         _transferRepository.Insert(new Transfer(transferDto));
+        DataChanged?.Invoke(this, new EventArgs());
     }
 
     public void Update(int id, TransferDTO transferDto)
@@ -36,10 +40,12 @@ public class TransferService : ITransferService
         }
         _transferRepository.Delete(oldTransfer);
         _transferRepository.Insert(new Transfer(transferDto));
+        DataChanged?.Invoke(this, new EventArgs());
     }
 
     public void Delete(int id)
     {
         _transferRepository.Delete(_transferRepository.GetById(id));
+        DataChanged?.Invoke(this, new EventArgs());
     }
 }

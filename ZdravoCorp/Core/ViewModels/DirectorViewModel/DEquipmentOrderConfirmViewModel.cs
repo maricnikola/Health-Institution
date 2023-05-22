@@ -50,7 +50,6 @@ public class DEquipmentOrderConfirmViewModel
             Order.OrderStatus.Pending);
         _orderService.AddOrder(newOrder);
         JobScheduler.DEquipmentTaskScheduler(newOrder);
-        _orderService.OnRequestUpdate.(this, new EventArgs());
         OnRequestClose?.Invoke(this, new EventArgs());
     }
 }

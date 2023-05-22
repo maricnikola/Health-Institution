@@ -15,4 +15,6 @@ public interface IOrderService
     public void Update(int id, OrderDTO orderDto);
 
     public void Delete(int id);
+
+    public event EventHandler DataChanged;
 }

@@ -44,7 +44,7 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
         _quantity = quantity;
         Quantity = 0;
         MaxQuantity = "Quantity(max " + _quantity + "):";
-        _inventoryItem = _inventoryRepository.GetById(inventoryItemId);
+        _inventoryItem = _inventoryService.GetById(inventoryItemId);
         ConfirmTransfer = new DelegateCommand(o => Confirm(), o => CanConfirm());
         CancelTransfer = new DelegateCommand(o => Cancel());
         foreach (var room in _roomService.GetAllExcept(_inventoryItem.RoomId)) _rooms.Add(new RoomViewModel(room));
@@ -87,7 +87,7 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
 
     public int InventoryItemId { get; set; }
     public event EventHandler? OnRequestClose;
-    public event EventHandler? OnRequestUpdate;
+    //public event EventHandler? OnRequestUpdate;
 
     private void InitComboBoxes()
     {
@@ -118,7 +118,6 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
             _roomService.GetById(SelectedRoom.Id), when, Quantity, InventoryItemId, _inventoryItem.Equipment.Name);
         _transferService.AddTransfer(newTransfer);
         JobScheduler.TransferRequestTaskScheduler(newTransfer);
-        OnRequestUpdate?.Invoke(this, new EventArgs());
         OnRequestClose?.Invoke(this, new EventArgs());
     }
 }

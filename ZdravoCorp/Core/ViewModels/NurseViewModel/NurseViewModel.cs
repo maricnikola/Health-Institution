@@ -16,7 +16,7 @@ public class NurseViewModel : ViewModelBase
     private readonly PatientRepository _patientRepository;
     private readonly ScheduleRepository _scheduleRepository;
 
-    public NurseViewModel(RepositoryManager repositoryManager)
+    public NurseViewModel()
     {
         _patientRepository = repositoryManager.PatientRepository;
         _medicalRecordRepository = repositoryManager.MedicalRecordRepository;

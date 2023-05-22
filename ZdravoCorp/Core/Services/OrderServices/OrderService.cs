@@ -28,11 +28,13 @@ public class OrderService : IOrderService
     public void AddOrder(OrderDTO orderDto)
     {
         _orderRepository.Insert(new Order(orderDto));
+        DataChanged?.Invoke(this, new EventArgs());
     }
 
     public void UpdateStatus(int id, Order.OrderStatus status)
     {
         _orderRepository.GetById(id).Status = status;
+        DataChanged?.Invoke(this, new EventArgs());
     }
 
     public void Update(int id, OrderDTO orderDto)
@@ -44,6 +46,7 @@ public class OrderService : IOrderService
         }
         _orderRepository.Delete(oldOrder);
         _orderRepository.Insert(new Order(orderDto));
+        DataChanged?.Invoke(this, new EventArgs());
     }
 
    
@@ -51,5 +54,8 @@ public class OrderService : IOrderService
     public void Delete(int id)
     {
         throw new System.NotImplementedException();
+        DataChanged?.Invoke(this, new EventArgs());
     }
+
+    public event EventHandler? DataChanged;
 }

@@ -16,13 +16,10 @@ public partial class App : Application
         Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
         var idg = new IDGenerator();
         Injector.Configure();
+        var scheduler = new JobScheduler();
+
         
-        var repositoryManager = new RepositoryManager();
-        var scheduler = new JobScheduler(repositoryManager.InventoryRepository, repositoryManager.TransferRepository,
-            repositoryManager.OrderRepository);
-
-
-        var dialog = new LoginDialog(repositoryManager);
+        var dialog = new LoginDialog();
 
         if (dialog.ShowDialog() == true)
         {

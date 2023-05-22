@@ -12,21 +12,19 @@ namespace ZdravoCorp.Core.Utilities.CronJobs;
 public class TransferRequestTask : IJob
 {
     private IInventoryService _inventoryService;
-    private Transfer _transfer;
+    private TransferDTO _transfer;
     private ITransferService _transferService;
 
     public Task Execute(IJobExecutionContext context)
     {
         var dataMap = context.JobDetail.JobDataMap;
-        _transfer = (Transfer)dataMap["transfer"];
+        _transfer = (TransferDTO)dataMap["transfer"];
         _inventoryService = (IInventoryService)dataMap["invser"];
         _transferService = (ITransferService)dataMap["transser"];
-        _inventoryService.UpdateInventoryItem(_transfer);
+        _inventoryService.UpdateInventoryItem(new Transfer(_transfer));
 
 
         _transferService.Delete(_transfer.Id);
-        _transferRepository.OnRequestUpdate(this, new EventArgs());
-        _inventoryRepository.OnRequestUpdate(this, new EventArgs());
 
         return Task.CompletedTask;
     }
