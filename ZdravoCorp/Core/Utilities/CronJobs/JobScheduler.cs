@@ -1,4 +1,5 @@
 ﻿using System;
+using Autofac;
 using Quartz;
 using Quartz.Impl;
 using ZdravoCorp.Core.Models.Orders;
@@ -22,7 +23,9 @@ public class JobScheduler
 
     public JobScheduler()
     {
-
+        _inventoryService = Injector.Container.Resolve<IInventoryService>();
+        _orderService = Injector.Container.Resolve<IOrderService>();
+        _transferService = Injector.Container.Resolve<ITransferService>();
         _builder = new StdSchedulerFactory();
         _scheduler = StdSchedulerFactory.GetDefaultScheduler().Result;
         _scheduler.Start();

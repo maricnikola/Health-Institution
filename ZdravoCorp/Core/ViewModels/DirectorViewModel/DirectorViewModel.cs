@@ -30,6 +30,9 @@ public class DirectorViewModel : ViewModelBase
     {
         _equipmentService = Injector.Container.Resolve<IEquipmentService>();
         _inventoryService = Injector.Container.Resolve<IInventoryService>();
+        _orderService = Injector.Container.Resolve<IOrderService>();
+        _roomService = Injector.Container.Resolve<IRoomService>();
+        _transferService = Injector.Container.Resolve<ITransferService>();
         ViewEquipmentCommand = new DelegateCommand(o => EquipmentView());
         MoveEquipmentCommand = new DelegateCommand(o => MoveEquipmentView());
         ViewDynamicEquipmentCommand = new DelegateCommand(o => DynamicEquipmentView());
