@@ -9,6 +9,7 @@ using ZdravoCorp.Core.Models.MedicalRecords;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.PatientServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Utilities;
 
@@ -20,7 +21,7 @@ internal class DrChangeAppointmentViewModel : ViewModelBase
     private readonly DateTime _date;
     private readonly Doctor _dr;
     private readonly Patient _patient;
-    private PatientRepository _patientRepository;
+    private IPatientService _patientService;
     private readonly IScheduleService _scheduleService;
 
 
@@ -32,7 +33,7 @@ internal class DrChangeAppointmentViewModel : ViewModelBase
 
     public DrChangeAppointmentViewModel(AppointmentViewModel appointmentModel, IScheduleService scheduleService,
         DoctorRepository doctorRepository, ObservableCollection<AppointmentViewModel> appointment,
-        PatientRepository patientRepository, Doctor doctor, Patient patient, AppointmentViewModel appointmentSelected,
+        IPatientService patientService, Doctor doctor, Patient patient, AppointmentViewModel appointmentSelected,
         DateTime date)
     {
         _dr = doctor;
@@ -40,7 +41,7 @@ internal class DrChangeAppointmentViewModel : ViewModelBase
         _patient = patient;
         _appointmentModel = appointmentSelected;
         _scheduleService = scheduleService;
-        _patientRepository = patientRepository;
+        _patientService = patientService;
         _date = date;
         var _controller = new PatientRepository();
         var patients = _controller.Patients;

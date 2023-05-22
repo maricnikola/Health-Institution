@@ -9,6 +9,7 @@ using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Utilities;
 
@@ -21,11 +22,11 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
     private DateTime _date = DateTime.Now + TimeSpan.FromHours(1);
 
     private string _doctorName;
-    private readonly DoctorRepository _doctorRepository;
+    private readonly IDoctorService _doctorService;
     private int _endHours;
     private int _endMinutes;
     private readonly Patient _patient;
-    private readonly List<AppointmentDTO> _possibleAppointments;
+    private readonly List<Appointment> _possibleAppointments;
 
     private string _priority;
     private readonly IScheduleService _scheduleService;
@@ -33,20 +34,20 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
     private int _startHours;
     private int _startMinutes;
 
-    public AdvancedMakeAppointmentViewModel(DoctorRepository doctorRepository, IScheduleService scheduleService,
+    public AdvancedMakeAppointmentViewModel(IDoctorService doctorService, IScheduleService scheduleService,
         Patient patient, ObservableCollection<AppointmentViewModel> allAppointments)
     {
         _scheduleService = scheduleService;
-        _doctorRepository = doctorRepository;
+        _doctorService= doctorService;
         _doctors = new ObservableCollection<string>();
         _patient = patient;
         Appointments = new ObservableCollection<AppointmentViewModel>();
-        _possibleAppointments = new List<AppointmentDTO>();
+        _possibleAppointments = new List<Appointment>();
         PossibleMinutes = new[] { 00, 15, 30, 45 };
         PossibleHours = new[]
             { 00, 01, 02, 03, 04, 05, 06, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
         PriorityOptions = new[] { "Doctor", "Time" };
-        var doctors = doctorRepository.GetAll();
+        var doctors = _doctorService.GetAll();
         foreach (var doctor in doctors) _doctors.Add(doctor.FullName + "-" + doctor.Email);
 
         RecommendAppointmentCommand = new DelegateCommand(o => RecommendAppointments());
@@ -156,7 +157,7 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
 
             var tokens = DoctorName.Split("-");
             var doctorsMail = tokens[1];
-            var doctor = _doctorRepository.GetByEmail(doctorsMail);
+            var doctor = _doctorService.GetByEmail(doctorsMail);
 
             if (Priority.Equals("Doctor"))
             {
@@ -173,7 +174,7 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
             {
                 var possibleAppointments =
                     _scheduleService.FindAppointmentsByTimePriority(doctor, wantedTimeSlot, lastDate, _patient.Email,
-                        _doctorRepository);
+                        _doctorService);
                 foreach (var singleAppointment in possibleAppointments)
                 {
                     _possibleAppointments.Add(singleAppointment);
@@ -196,7 +197,9 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
                 if (_scheduleService.isDoctorAvailable(appointment.Time, appointment.Doctor.Email) &&
                     _scheduleService.isPatientAvailable(appointment.Time, appointment.Doctor.Email))
                 {
-                    _scheduleService.AddAppointment(appointment);
+                    var appointmentDto = new AppointmentDTO(appointment.Id, appointment.Time.Start, appointment.Doctor,
+                        appointment.PatientEmail, appointment.Anamnesis.KeyWord);
+                    _scheduleService.AddAppointment(appointmentDto);
                     allAppointments.Add(selectedAppointment);
                     return;
                 }

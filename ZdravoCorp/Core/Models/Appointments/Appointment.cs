@@ -50,6 +50,7 @@ public class Appointment
         Id = appointmentDto.Id;
         Room = null;
         Status = appointmentDto.Status;
-        Time = appointmentDto.Time;
+        var endTime = appointmentDto.Date.AddMinutes(15);
+        Time = new TimeSlot(appointmentDto.Date, endTime);
     }
 }

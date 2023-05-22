@@ -36,6 +36,14 @@ public class User
         UserState = userState;
     }
 
+    public User(UserDTO userDto)
+    {
+        Type = userDto.Type;
+        Email = userDto.Email;
+        Password = null;
+        UserState = userDto.UserState;
+    }
+
     public UserType Type { get; set; }
     public string Email { get; set; }
     public string? Password { private get; set; }

@@ -1,5 +1,7 @@
-﻿namespace ZdravoCorp.Core.Repositories.UsersRepo;
+﻿using ZdravoCorp.Core.Models.Users;
 
-public interface IDirectorRepository
+namespace ZdravoCorp.Core.Repositories.UsersRepo;
+
+public interface IDirectorRepository : IUserRepository<Director>
 {
 }

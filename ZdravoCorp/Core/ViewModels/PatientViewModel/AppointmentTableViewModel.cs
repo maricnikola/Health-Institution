@@ -8,6 +8,7 @@ using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.View;
 using ZdravoCorp.View.PatientV;
@@ -20,7 +21,7 @@ public class AppointmentTableViewModel : ViewModelBase
     private readonly List<Appointment> _allAppointments;
     private ObservableCollection<AppointmentViewModel> _appointments;
     private readonly IScheduleService _scheduleService;
-    private readonly DoctorRepository _doctorRepository;
+    private readonly IDoctorService _doctorService;
     private readonly Patient _patient;
 
 
@@ -29,12 +30,12 @@ public class AppointmentTableViewModel : ViewModelBase
     }
 
     public AppointmentTableViewModel(IScheduleService scheduleService,
-        DoctorRepository doctorRepository, Patient patient)
+        IDoctorService doctorService, Patient patient)
     {
         _patient = patient;
         _scheduleService = scheduleService;
         _appointments = new ObservableCollection<AppointmentViewModel>();
-        _doctorRepository = doctorRepository;
+        _doctorService= doctorService;
         _allAppointments = _scheduleService.GetPatientAppointments(_patient.Email);
         UpdateTable(_allAppointments);
         NewAppointmentCommand = new DelegateCommand(o => NewAppointment());
@@ -79,7 +80,7 @@ public class AppointmentTableViewModel : ViewModelBase
                 var window = new ChangeAppointmentView
                 {
                     DataContext = new ChangeAppointmentViewModel(selectedAppointment,
-                        _scheduleService, Appointments, _doctorRepository, _patient)
+                        _scheduleService, Appointments, _doctorService, _patient)
                 };
                 window.Show();
             }
@@ -99,7 +100,7 @@ public class AppointmentTableViewModel : ViewModelBase
         var window = new MakeAppointmentView
         {
             DataContext = new MakeAppointmentViewModel(_scheduleService, Appointments,
-                _doctorRepository, _patient)
+                _doctorService, _patient)
         };
         //var window = new MakeAppointmentView(_doctorRepository, _scheduleService, Appointments, _patient);
         window.Show();
@@ -132,7 +133,7 @@ public class AppointmentTableViewModel : ViewModelBase
     {
         var window = new AdvancedMakeAppointmentView
         {
-            DataContext = new AdvancedMakeAppointmentViewModel(_doctorRepository, _scheduleService, _patient, Appointments)
+            DataContext = new AdvancedMakeAppointmentViewModel(_doctorService, _scheduleService, _patient, Appointments)
         };
         window.Show();
     }

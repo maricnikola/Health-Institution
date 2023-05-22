@@ -6,7 +6,7 @@ using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
-public class UserRepository : ISerializable, IUserRepository
+public class UserRepository : ISerializable, IUserRepository<User>
 {
     private readonly string _fileName = @".\..\..\..\Data\users.json";
     private List<User> _users;
@@ -40,19 +40,25 @@ public class UserRepository : ISerializable, IUserRepository
         _users = token.ToObject<List<User>>();
     }
 
+    public IEnumerable<User> GetAll()
+    {
+        return _users;
+    }
+
     public void Insert(User user)
     {
         _users.Add(user);
     }
 
+    public void Delete(User entity)
+    {
+        _users.Remove(entity);
+    }
+    
 
     public User? GetByEmail(string email)
     {
         return _users.FirstOrDefault(user => user.Email == email);
     }
 
-    public bool ValidateEmail(string email)
-    {
-        return _users.Exists(user => user.Email == email);
-    }
 }

@@ -1,6 +1,16 @@
-﻿namespace ZdravoCorp.Core.Services.TransferServices;
+﻿using System.Collections.Generic;
+using ZdravoCorp.Core.Models.Transfers;
+
+namespace ZdravoCorp.Core.Services.TransferServices;
 
 public interface ITransferService
 {
+    public List<Transfer> GetAll();
+    public Transfer? GetById(int id);
+    public void AddTransfer(TransferDTO transferDtoDto);
+
+    public void Update(int id, TransferDTO transferDto);
+
+    public void Delete(int id);
     
 }

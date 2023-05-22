@@ -9,6 +9,7 @@ using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.PatientServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Utilities;
 
@@ -19,7 +20,7 @@ public class AddAppointmentViewModel : ViewModelBase
     private readonly DateTime _date;
     private readonly Doctor _dr;
     private MedicalRecordRepository _medicalRepository;
-    private readonly PatientRepository _patientRepository;
+    private readonly IPatientService _patientService;
     private readonly IScheduleService _scheduleService;
 
     private DateTime _startDate = DateTime.Now + TimeSpan.FromHours(1);
@@ -32,7 +33,7 @@ public class AddAppointmentViewModel : ViewModelBase
 
 
     public AddAppointmentViewModel(IScheduleService scheduleService, DoctorRepository doctorRepository,
-        ObservableCollection<AppointmentViewModel> appointment, PatientRepository patientRepository, Doctor doctor,
+        ObservableCollection<AppointmentViewModel> appointment, IPatientService patientService, Doctor doctor,
         MedicalRecordRepository medicalRepository, DateTime date)
     {
         _dr = doctor;
@@ -43,7 +44,7 @@ public class AddAppointmentViewModel : ViewModelBase
             { 00, 01, 02, 03, 04, 05, 06, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
 
         _scheduleService = scheduleService;
-        _patientRepository = patientRepository;
+        _patientService = patientService;
         var _controller = new PatientRepository();
         var patients = _controller.Patients;
 
@@ -125,7 +126,7 @@ public class AddAppointmentViewModel : ViewModelBase
 
             var tokens = dm.Split("-");
             var mail = tokens[1];
-            var patient = _patientRepository.GetPatientByEmail(mail);
+            var patient = _patientService.GetByEmail(mail);
 
             var appointment = _scheduleService.CreateAppointment(time, _dr, mail);
 

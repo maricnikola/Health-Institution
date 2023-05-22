@@ -8,6 +8,9 @@ using ZdravoCorp.Core.Models.Transfers;
 using ZdravoCorp.Core.Repositories.InventoryRepo;
 using ZdravoCorp.Core.Repositories.RoomRepo;
 using ZdravoCorp.Core.Repositories.TransfersRepo;
+using ZdravoCorp.Core.Services.InventoryServices;
+using ZdravoCorp.Core.Services.RoomServices;
+using ZdravoCorp.Core.Services.TransferServices;
 using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.Core.Utilities.CronJobs;
 
@@ -18,23 +21,24 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
 {
     private int _inputQuantity;
     private readonly InventoryItem _inventoryItem;
-    private readonly InventoryRepository _inventoryRepository;
-
+    private readonly IInventoryService _inventoryService;
+    private readonly ITransferService _transferService;
+    private readonly IRoomService _roomService;
     private readonly int _quantity;
 
-    private readonly RoomRepository _roomRepository;
+    
     private ObservableCollection<RoomViewModel> _rooms;
     private readonly int _sourceRoomId;
-    private readonly TransferRepository _transferRepository;
+    
 
 
     public EquipmentTransferWindowViewModel(int inventoryItemId, int roomId, int quantity,
-        RoomRepository roomRepository, InventoryRepository inventoryRepository, TransferRepository transferRepository)
+        IRoomService roomService, IInventoryService inventoryService, ITransferService transferService)
     {
         _rooms = new ObservableCollection<RoomViewModel>();
-        _roomRepository = roomRepository;
-        _inventoryRepository = inventoryRepository;
-        _transferRepository = transferRepository;
+        _roomService = roomService;
+        _inventoryService = inventoryService;
+        _transferService = transferService;
         InventoryItemId = inventoryItemId;
         _sourceRoomId = roomId;
         _quantity = quantity;
@@ -43,7 +47,7 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
         _inventoryItem = _inventoryRepository.GetById(inventoryItemId);
         ConfirmTransfer = new DelegateCommand(o => Confirm(), o => CanConfirm());
         CancelTransfer = new DelegateCommand(o => Cancel());
-        foreach (var room in _roomRepository.GetAllExcept(_inventoryItem.RoomId)) _rooms.Add(new RoomViewModel(room));
+        foreach (var room in _roomService.GetAllExcept(_inventoryItem.RoomId)) _rooms.Add(new RoomViewModel(room));
 
         InitComboBoxes();
     }
@@ -110,10 +114,9 @@ public class EquipmentTransferWindowViewModel : ViewModelBase
         var tempDate = (DateTime)SelectedDate;
         var when = new DateTime(tempDate.Year, tempDate.Month, tempDate.Day, (int)SelectedHour, (int)SelectedMinute, 0);
 
-        var newTransfer = new Transfer(IDGenerator.GetId(), _roomRepository.GetById(_sourceRoomId),
-            _roomRepository.GetById(SelectedRoom.Id), when, Quantity, InventoryItemId, _inventoryItem.Equipment.Name);
-        _transferRepository.Insert(newTransfer);
-        Serializer.Save(_transferRepository);
+        var newTransfer = new TransferDTO(IDGenerator.GetId(), _roomService.GetById(_sourceRoomId),
+            _roomService.GetById(SelectedRoom.Id), when, Quantity, InventoryItemId, _inventoryItem.Equipment.Name);
+        _transferService.AddTransfer(newTransfer);
         JobScheduler.TransferRequestTaskScheduler(newTransfer);
         OnRequestUpdate?.Invoke(this, new EventArgs());
         OnRequestClose?.Invoke(this, new EventArgs());

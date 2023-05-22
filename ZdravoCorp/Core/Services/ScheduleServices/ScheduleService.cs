@@ -11,6 +11,8 @@ using ZdravoCorp.Core.Models.Operations;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.DoctorServices;
+using ZdravoCorp.Core.Services.UserServices;
 using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.Core.Utilities.Counters;
 
@@ -231,9 +233,9 @@ public class ScheduleService : IScheduleService
     }
 
     public List<Appointment> FindAppointmentsByTimePriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate, string patientMail,
-        DoctorRepository doctorRepository)
+        IDoctorService doctorService)
     {
-        var pairsTimeSlotDoctor = FindAvailableTimeSlotsByTimePriority(doctor, wantedTime, lastDate, doctorRepository);
+        var pairsTimeSlotDoctor = FindAvailableTimeSlotsByTimePriority(doctor, wantedTime, lastDate, doctorService);
         return pairsTimeSlotDoctor
             .Select(pair => new Appointment(IDGenerator.GetId(), pair.Item1, pair.Item2, patientMail)).ToList();
     }
@@ -270,12 +272,12 @@ public class ScheduleService : IScheduleService
     }
 
     public List<Tuple<TimeSlot, Doctor>> FindAvailableTimeSlotsByTimePriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate,
-        DoctorRepository doctorRepository)
+        IDoctorService doctorService)
     {
         var availablePairs = new List<Tuple<TimeSlot, Doctor>>();
         var availableTimeSlot = FindAvailableTimeslotsForOneDoctor(doctor.Email, wantedTime, lastDate);
         if (availableTimeSlot == null)
-            availablePairs = GetNearesThreeSlotsByTimePriority(doctor, wantedTime, lastDate, doctorRepository);
+            availablePairs = GetNearesThreeSlotsByTimePriority(doctor, wantedTime, lastDate, doctorService);
         else
             availablePairs.Add(new Tuple<TimeSlot, Doctor>(availableTimeSlot, doctor));
 
@@ -283,11 +285,11 @@ public class ScheduleService : IScheduleService
     }
 
     public List<Tuple<TimeSlot, Doctor>> GetNearesThreeSlotsByTimePriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate,
-        DoctorRepository doctorRepository)
+        IDoctorService doctorService)
     {
         var nearestThreeSlots = new List<Tuple<TimeSlot, Doctor>>();
 
-        foreach (var sameSpecDoctor in doctorRepository.GetAllWithCertainSpecialization(doctor.Specialization))
+        foreach (var sameSpecDoctor in doctorService.GetAllWithCertainSpecialization(doctor.Specialization))
         {
             var finedSlots = new List<TimeSlot>();
             for (var i = 0; i < 3; i++)
@@ -303,7 +305,7 @@ public class ScheduleService : IScheduleService
             }
         }
 
-        foreach (var anyDoctor in doctorRepository.GetAll())
+        foreach (var anyDoctor in doctorService.GetAll())
         {
             if (anyDoctor.Specialization == doctor.Specialization) continue;
             var finedSlots = new List<TimeSlot>();

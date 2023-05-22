@@ -5,6 +5,7 @@ using ZdravoCorp.Core.Models.MedicalRecords;
 using ZdravoCorp.Core.Models.Operations;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Services.ScheduleServices;
@@ -42,7 +43,7 @@ public interface IScheduleService
         string patientMail);
 
     List<Appointment> FindAppointmentsByTimePriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate,
-        string patientMail, DoctorRepository doctorRepository);
+        string patientMail, IDoctorService doctorService);
 
     List<TimeSlot> FindAvailableTimeSlotsByDoctorPriority(string doctorMail, TimeSlot wantedTime, DateTime lastDate);
 
@@ -50,10 +51,10 @@ public interface IScheduleService
         DateTime lastDate);
 
     List<Tuple<TimeSlot, Doctor>> FindAvailableTimeSlotsByTimePriority(Doctor doctor, TimeSlot wantedTime,
-        DateTime lastDate, DoctorRepository doctorRepository);
+        DateTime lastDate, IDoctorService doctorService);
 
     List<Tuple<TimeSlot, Doctor>> GetNearesThreeSlotsByTimePriority(Doctor doctor,
-        TimeSlot wantedTime, DateTime lastDate, DoctorRepository doctorRepository);
+        TimeSlot wantedTime, DateTime lastDate, IDoctorService doctorService);
 
     bool IsPatientExamined(Patient patient, Doctor doctor);
     bool CanPerformAppointment(int id);
