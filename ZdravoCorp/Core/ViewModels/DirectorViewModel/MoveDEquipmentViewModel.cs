@@ -26,7 +26,7 @@ public class MoveDEquipmentViewModel : ViewModelBase
         _lock = new object();
         _inventoryService = inventoryService;
         _roomService = roomService;
-        _inventoryRepository.OnRequestUpdate += (s, e) => UpdateTable(true);
+        _inventoryService.DataChanged += (s, e) => UpdateTable(true);
         _allInventory = new ObservableCollection<InventoryViewModel>();
         MoveSelectedInventoryItem = new DelegateCommand(o => MoveInventoryItem(), o => IsInventoryItemSelected());
         foreach (var inventoryItem in _inventoryService.GetDynamic())

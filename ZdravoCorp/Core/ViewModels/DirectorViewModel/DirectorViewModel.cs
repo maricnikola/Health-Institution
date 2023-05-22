@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using Autofac;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Repositories;
 using ZdravoCorp.Core.Repositories.EquipmentRepo;
@@ -11,6 +12,7 @@ using ZdravoCorp.Core.Services.InventoryServices;
 using ZdravoCorp.Core.Services.OrderServices;
 using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Services.TransferServices;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
@@ -24,9 +26,10 @@ public class DirectorViewModel : ViewModelBase
     private readonly IRoomService _roomService;
     private readonly ITransferService _transferService;
 
-    public DirectorViewModel(RepositoryManager _repositoryManager)
+    public DirectorViewModel()
     {
-        // TODO initialize services
+        _equipmentService = Injector.Container.Resolve<IEquipmentService>();
+        _inventoryService = Injector.Container.Resolve<IInventoryService>();
         ViewEquipmentCommand = new DelegateCommand(o => EquipmentView());
         MoveEquipmentCommand = new DelegateCommand(o => MoveEquipmentView());
         ViewDynamicEquipmentCommand = new DelegateCommand(o => DynamicEquipmentView());

@@ -26,9 +26,9 @@ public class EquipmentPaneViewModel : ViewModelBase
     {
         _lock = new object();
         _inventoryService = inventoryService;
-        _inventoryRepository.OnRequestUpdate += (s, e) => UpdateTable();
+        _inventoryService.DataChanged += (s, e) => UpdateTable();
         _allInventory = new ObservableCollection<InventoryViewModel>();
-        foreach (var inventoryItem in _inventoryRepository.GetAll())
+        foreach (var inventoryItem in _inventoryService.GetAll())
             _allInventory.Add(new InventoryViewModel(inventoryItem));
         _inventory = _allInventory;
         EquipmentTypes = new ObservableCollection<string>();

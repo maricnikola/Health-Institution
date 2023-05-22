@@ -13,21 +13,18 @@ namespace ZdravoCorp.Core.Utilities.CronJobs;
 public class DEquipmentExecuteOrder : IJob
 {
     private IInventoryService _inventoryService;
-    private Order _order;
+    private OrderDTO _order;
     private IOrderService _orderService;
 
     public Task Execute(IJobExecutionContext context)
     {
         var dataMap = context.JobDetail.JobDataMap;
-        _order = (Order)dataMap["order"];
+        _order = (OrderDTO)dataMap["order"];
         _inventoryService = (IInventoryService)dataMap["invser"];
         _orderService = (IOrderService)dataMap["ordser"];
         foreach (var item in _order.Items)
             _inventoryService.AddFromOrder(new InventoryItem(IDGenerator.GetId(), item.Value, 999, item.Key));
         _orderService.UpdateStatus(_order.Id, Order.OrderStatus.Completed);
-        _inventoryRepository.OnRequestUpdate?.Invoke(this, new EventArgs());
-        _orderRepository.OnRequestUpdate?.Invoke(this, new EventArgs());
-
 
         return Task.CompletedTask;
     }

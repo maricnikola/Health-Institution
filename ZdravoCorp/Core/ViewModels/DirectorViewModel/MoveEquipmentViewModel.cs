@@ -35,8 +35,8 @@ public class MoveEquipmentViewModel : ViewModelBase
         _inventoryService = inventoryService;
         _roomService = roomService;
         _transferService = transferService;
-        _inventoryRepository.OnRequestUpdate += (s, e) => UpdateTable(true);
-        _transferRepository.OnRequestUpdate += (s, e) => UpdateTransfers();
+        _inventoryService.DataChanged += (s, e) => UpdateTable(true);
+        _transferService.DataChanged += (s, e) => UpdateTransfers();
         _allInventory = new ObservableCollection<InventoryViewModel>();
         _transfers = new ObservableCollection<TransferViewModel>();
         MoveSelectedInventoryItem = new DelegateCommand(o => MoveInventoryItem(), o => IsInventoryItemSelected());
@@ -136,10 +136,9 @@ public class MoveEquipmentViewModel : ViewModelBase
             var inventoryItemId = SelectedInventoryItemVm.Id;
             var roomId = SelectedInventoryItemVm.Room;
             var vm = new EquipmentTransferWindowViewModel(inventoryItemId, roomId, SelectedInventoryItemVm.Quantity,
-                _roomRepository, _inventoryRepository, _transferRepository);
+                _roomService, _inventoryService, _transferService);
 
             var transferWindow = new EquipmentTransferWindowView { DataContext = vm };
-            vm.OnRequestUpdate += (s, e) => UpdateTransfers();
             vm.OnRequestClose += (s, e) => transferWindow.Close();
             transferWindow.Show();
         }
