@@ -12,8 +12,9 @@ public static class Injector
     {
         var builder = new ContainerBuilder();
 
-        builder.RegisterModule<ServicesModule>();
+        
         builder.RegisterModule<RepositoriesModule>();
+        builder.RegisterModule<ServicesModule>();
         Container = builder.Build();
         return Container;
     }

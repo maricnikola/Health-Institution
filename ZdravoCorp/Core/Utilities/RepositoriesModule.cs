@@ -16,10 +16,11 @@ public class RepositoriesModule : Autofac.Module
     protected override void Load(ContainerBuilder builder)
     {
        builder.RegisterType<EquipmentRepository>().As<IEquipmentRepository>();
+       builder.RegisterType<RoomRepository>().As<IRoomRepository>();
        builder.RegisterType<InventoryRepository>().As<IInventoryRepository>();
        builder.RegisterType<MedicalRecordRepository>().As<IMedicalRecordRepository>();
        builder.RegisterType<OrderRepository>().As<IOrderRepository>();
-       builder.RegisterType<RoomRepository>().As<IRoomRepository>();
+       
        builder.RegisterType<ScheduleRepository>().As<IScheduleRepository>();
        builder.RegisterType<TransferRepository>().As<ITransferRepository>();
        builder.RegisterType<UserRepository>().As<IUserRepository<User>>();

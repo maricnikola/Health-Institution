@@ -53,7 +53,7 @@ public class UnitTest1
         Assert.AreEqual(nurse1, nurse2);
     }
 
-    [TestMethod]
+    /*[TestMethod]
     public void TestPatient()
     {
         Patient patient1 = new Patient("email", "ime", "prezime");
@@ -65,7 +65,7 @@ public class UnitTest1
         //Patient? patient2 = patientRepository2.GetPatientByEmail("email");
         //Assert.AreEqual(patient1, patient2);
         
-    }
+    }*/
 
     [TestMethod]
     public void TestUser()

@@ -12,15 +12,15 @@ namespace ZdravoCorp.Core.Repositories.InventoryRepo;
 
 public class InventoryRepository : ISerializable, IInventoryRepository
 {
-    private readonly EquipmentRepository _equipmentRepository;
+    private readonly IEquipmentRepository _equipmentRepository;
     private readonly string _fileName = @".\..\..\..\Data\inventory.json";
-    private readonly RoomRepository _roomRepository;
+    private readonly IRoomRepository _roomRepository;
     private List<InventoryItem>? _inventory;
 
 
     public EventHandler OnRequestUpdate = null!;
 
-    public InventoryRepository(RoomRepository roomRepository, EquipmentRepository equipmentRepository)
+    public InventoryRepository(IRoomRepository roomRepository, IEquipmentRepository equipmentRepository)
     {
         _roomRepository = roomRepository;
         _equipmentRepository = equipmentRepository;
