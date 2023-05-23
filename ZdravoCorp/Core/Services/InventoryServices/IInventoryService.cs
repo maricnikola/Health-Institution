@@ -22,7 +22,7 @@ public interface IInventoryService
     List<InventoryItem> GetDynamic();
     List<InventoryItem> GetDynamicGrouped();
     
-    void UpdateInventoryItem(Transfer transfer);
+    bool UpdateInventoryItem(Transfer transfer);
     void UpdateDestinationInventoryItem(int source, int destination, int quantity);
     
 

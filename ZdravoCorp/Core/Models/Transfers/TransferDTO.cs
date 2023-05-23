@@ -14,8 +14,9 @@ public class TransferDTO
     public int InventoryId { get; set; }
     public string? InventoryItemName { get; set; }
 
+    public Transfer.TransferStatus Status { get; set; }
 
-    public TransferDTO(int id, Room from, Room to, DateTime when, int quantity, int inventoryId, string? inventoryItemName)
+    public TransferDTO(int id, Room from, Room to, DateTime when, int quantity, int inventoryId, string? inventoryItemName, Transfer.TransferStatus status)
     {
         Id = id;
         From = from;
@@ -24,5 +25,6 @@ public class TransferDTO
         Quantity = quantity;
         InventoryId = inventoryId;
         InventoryItemName = inventoryItemName;
+        Status = status;
     }
 }

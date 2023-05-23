@@ -16,7 +16,7 @@ namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
 public class MoveEquipmentViewModel : ViewModelBase
 {
-    private readonly ObservableCollection<InventoryViewModel> _allInventory;
+    private  ObservableCollection<InventoryViewModel> _allInventory;
     private ObservableCollection<InventoryViewModel> _inventory;
     private readonly IInventoryService _inventoryService;
     private readonly object _lock;
@@ -100,8 +100,12 @@ public class MoveEquipmentViewModel : ViewModelBase
         lock (_lock)
         {
             if (newAdded)
+            {
+                _allInventory = new ObservableCollection<InventoryViewModel>();
                 foreach (var inventoryItem in _inventoryService.GetNonDynamic())
                     _allInventory.Add(new InventoryViewModel(inventoryItem));
+            }
+
             Inventory = UpdateTableFromSearch();
         }
     }

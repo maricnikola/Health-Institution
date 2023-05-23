@@ -13,6 +13,8 @@ public interface ITransferService
 
     public void Update(int id, TransferDTO transferDto);
 
+    public void UpdateStatus(int id, Transfer.TransferStatus status);
+
     public void Delete(int id);
     
 }

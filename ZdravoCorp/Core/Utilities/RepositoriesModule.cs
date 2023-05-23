@@ -15,18 +15,18 @@ public class RepositoriesModule : Autofac.Module
 {
     protected override void Load(ContainerBuilder builder)
     {
-       builder.RegisterType<EquipmentRepository>().As<IEquipmentRepository>();
-       builder.RegisterType<RoomRepository>().As<IRoomRepository>();
-       builder.RegisterType<InventoryRepository>().As<IInventoryRepository>();
-       builder.RegisterType<MedicalRecordRepository>().As<IMedicalRecordRepository>();
-       builder.RegisterType<OrderRepository>().As<IOrderRepository>();
+       builder.RegisterType<EquipmentRepository>().As<IEquipmentRepository>().SingleInstance();
+       builder.RegisterType<RoomRepository>().As<IRoomRepository>().SingleInstance();
+       builder.RegisterType<InventoryRepository>().As<IInventoryRepository>().SingleInstance();
+       builder.RegisterType<MedicalRecordRepository>().As<IMedicalRecordRepository>().SingleInstance();
+       builder.RegisterType<OrderRepository>().As<IOrderRepository>().SingleInstance();
        
-       builder.RegisterType<ScheduleRepository>().As<IScheduleRepository>();
-       builder.RegisterType<TransferRepository>().As<ITransferRepository>();
-       builder.RegisterType<UserRepository>().As<IUserRepository<User>>();
-       builder.RegisterType<DoctorRepository>().As<IDoctorRepository>();
-       builder.RegisterType<NurseRepository>().As<INurseRepository>();
-       builder.RegisterType<DirectorRepository>().As<IDirectorRepository>();
-       builder.RegisterType<PatientRepository>().As<IPatientRepository>();
+       builder.RegisterType<ScheduleRepository>().As<IScheduleRepository>().SingleInstance();
+       builder.RegisterType<TransferRepository>().As<ITransferRepository>().SingleInstance();
+       builder.RegisterType<UserRepository>().As<IUserRepository<User>>().SingleInstance();
+       builder.RegisterType<DoctorRepository>().As<IDoctorRepository>().SingleInstance();
+       builder.RegisterType<NurseRepository>().As<INurseRepository>().SingleInstance();
+       builder.RegisterType<DirectorRepository>().As<IDirectorRepository>().SingleInstance();
+       builder.RegisterType<PatientRepository>().As<IPatientRepository>().SingleInstance();
     }
 }
