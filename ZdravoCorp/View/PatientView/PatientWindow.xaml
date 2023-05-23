@@ -22,6 +22,9 @@
         <DataTemplate DataType="{x:Type viewModels:SearchDoctorsViewModel}">
             <patientV:SearchDoctorsView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:AllNotificationsViewModel}">
+            <patientV:AllNotificationsView />
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -43,6 +46,8 @@
                          Style="{DynamicResource ToggleTheme}" Command="{Binding LoadOldAppointmentsCommand}" />
             <RadioButton Content="Search doctors" FontSize="13" Height="50" Foreground="WhiteSmoke"
                          Style="{DynamicResource ToggleTheme}" Command="{Binding LoadDoctorsCommand}" />
+            <RadioButton Content="Notifications" FontSize="13" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding LoadNotificationsCommand}" />
         </StackPanel>
         <ContentControl Grid.RowSpan="2" Background="#29262e" Content="{Binding Path=CurrentView}" Grid.Row="0"
                         Grid.Column="1" Margin="10" />

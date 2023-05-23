@@ -3,6 +3,7 @@ using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.EquipmentRepo;
 using ZdravoCorp.Core.Repositories.InventoryRepo;
 using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
+using ZdravoCorp.Core.Repositories.NotificationRepo;
 using ZdravoCorp.Core.Repositories.OrderRepo;
 using ZdravoCorp.Core.Repositories.RoomRepo;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
@@ -20,7 +21,6 @@ public class RepositoriesModule : Autofac.Module
        builder.RegisterType<InventoryRepository>().As<IInventoryRepository>().SingleInstance();
        builder.RegisterType<MedicalRecordRepository>().As<IMedicalRecordRepository>().SingleInstance();
        builder.RegisterType<OrderRepository>().As<IOrderRepository>().SingleInstance();
-       
        builder.RegisterType<ScheduleRepository>().As<IScheduleRepository>().SingleInstance();
        builder.RegisterType<TransferRepository>().As<ITransferRepository>().SingleInstance();
        builder.RegisterType<UserRepository>().As<IUserRepository<User>>().SingleInstance();
@@ -28,5 +28,6 @@ public class RepositoriesModule : Autofac.Module
        builder.RegisterType<NurseRepository>().As<INurseRepository>().SingleInstance();
        builder.RegisterType<DirectorRepository>().As<IDirectorRepository>().SingleInstance();
        builder.RegisterType<PatientRepository>().As<IPatientRepository>().SingleInstance();
+       builder.RegisterType<NotificationRepository>().As<INotificationRepository>().SingleInstance();
     }
 }

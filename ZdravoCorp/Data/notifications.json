@@ -1,0 +1,14 @@
+﻿[
+  {
+    "Id": 550,
+    "When": "2023-05-31T01:15:00",
+    "Message": "Create appointment!",
+    "UserEmail": "@sreten.pejovic@gmail.com"
+  },
+  {
+    "Id": 551,
+    "When": "2023-05-30T01:15:00",
+    "Message": "Find doctor Vrabac!",
+    "UserEmail": "@sreten.pejovic@gmail.com"
+  }
+]
