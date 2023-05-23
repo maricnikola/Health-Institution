@@ -8,6 +8,8 @@ using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.DoctorServices;
+using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.View;
 using ZdravoCorp.View.PatientV;
 using ZdravoCorp.View.PatientView;
@@ -18,8 +20,8 @@ public class AppointmentTableViewModel : ViewModelBase
 {
     private readonly List<Appointment> _allAppointments;
     private ObservableCollection<AppointmentViewModel> _appointments;
-    private readonly ScheduleRepository _controller;
-    private readonly DoctorRepository _doctorRepository;
+    private readonly IScheduleService _scheduleService;
+    private readonly IDoctorService _doctorService;
     private readonly Patient _patient;
 
 
@@ -27,14 +29,14 @@ public class AppointmentTableViewModel : ViewModelBase
     {
     }
 
-    public AppointmentTableViewModel(ScheduleRepository scheduleRepository,
-        DoctorRepository doctorRepository, Patient patient)
+    public AppointmentTableViewModel(IScheduleService scheduleService,
+        IDoctorService doctorService, Patient patient)
     {
         _patient = patient;
-        _controller = scheduleRepository;
+        _scheduleService = scheduleService;
         _appointments = new ObservableCollection<AppointmentViewModel>();
-        _doctorRepository = doctorRepository;
-        _allAppointments = _controller.GetPatientAppointments(_patient.Email);
+        _doctorService= doctorService;
+        _allAppointments = _scheduleService.GetPatientAppointments(_patient.Email);
         UpdateTable(_allAppointments);
         NewAppointmentCommand = new DelegateCommand(o => NewAppointment());
         ChangeAppointmentCommand = new DelegateCommand(o => ChangeAppointmentComm());
@@ -56,7 +58,7 @@ public class AppointmentTableViewModel : ViewModelBase
         set
         {
             _appointments = value;
-            UpdateTable(_controller.GetPatientAppointments(_patient.Email));
+            UpdateTable(_scheduleService.GetPatientAppointments(_patient.Email));
         }
     }
 
@@ -71,14 +73,14 @@ public class AppointmentTableViewModel : ViewModelBase
         var selectedAppointment = SelectedAppointment;
         if (selectedAppointment != null)
         {
-            var appointment = _controller.GetAppointmentById(selectedAppointment.Id);
+            var appointment = _scheduleService.GetAppointmentById(selectedAppointment.Id);
             var isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now) > 24;
             if (isOnTime)
             {
                 var window = new ChangeAppointmentView
                 {
                     DataContext = new ChangeAppointmentViewModel(selectedAppointment,
-                        _controller, Appointments, _doctorRepository, _patient)
+                        _scheduleService, Appointments, _doctorService, _patient)
                 };
                 window.Show();
             }
@@ -97,10 +99,10 @@ public class AppointmentTableViewModel : ViewModelBase
     {
         var window = new MakeAppointmentView
         {
-            DataContext = new MakeAppointmentViewModel(_controller, Appointments,
-                _doctorRepository, _patient)
+            DataContext = new MakeAppointmentViewModel(_scheduleService, Appointments,
+                _doctorService, _patient)
         };
-        //var window = new MakeAppointmentView(_doctorRepository, _controller, Appointments, _patient);
+        //var window = new MakeAppointmentView(_doctorRepository, _scheduleService, Appointments, _patient);
         window.Show();
     }
 
@@ -109,11 +111,11 @@ public class AppointmentTableViewModel : ViewModelBase
         var selectedAppointment = SelectedAppointment;
         if (selectedAppointment != null)
         {
-            var appointment = _controller.GetAppointmentById(selectedAppointment.Id);
+            var appointment = _scheduleService.GetAppointmentById(selectedAppointment.Id);
             var isOnTime = appointment.Time.GetTimeBeforeStart(DateTime.Now) > 24;
             if (isOnTime)
             {
-                _controller.CancelAppointment(appointment);
+                _scheduleService.CancelAppointment(appointment.Id);
                 Appointments.Remove(GetById(selectedAppointment.Id, Appointments));
             }
             else
@@ -131,7 +133,7 @@ public class AppointmentTableViewModel : ViewModelBase
     {
         var window = new AdvancedMakeAppointmentView
         {
-            DataContext = new AdvancedMakeAppointmentViewModel(_doctorRepository, _controller, _patient, Appointments)
+            DataContext = new AdvancedMakeAppointmentViewModel(_doctorService, _scheduleService, _patient, Appointments)
         };
         window.Show();
     }

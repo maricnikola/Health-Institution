@@ -6,7 +6,8 @@ using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
-public class PatientRepository : ISerializable
+
+public class PatientRepository : ISerializable, IPatientRepository
 {
     private readonly string _fileName = @".\..\..\..\Data\patients.json";
 
@@ -39,8 +40,18 @@ public class PatientRepository : ISerializable
     {
         Patients.Add(patient);
     }
+    
+    public IEnumerable<Patient> GetAll()
+    {
+        return Patients;
+    }
 
-    public Patient? GetPatientByEmail(string email)
+    public void Insert(Patient entity)
+    {
+        Patients.Add(entity);
+    }
+
+    public Patient? GetByEmail(string email)
     {
         return Patients.FirstOrDefault(patient => patient.Email == email);
     }

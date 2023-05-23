@@ -8,6 +8,8 @@ using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.DoctorServices;
+using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.View.PatientView;
 using static ZdravoCorp.Core.Models.Users.Doctor;
 
@@ -17,10 +19,10 @@ public class OldAppointmentsViewModel : ViewModelBase
 {
     private readonly ObservableCollection<AppointmentViewModel> _allAppointments;
     private ObservableCollection<AppointmentViewModel> _appointments;
-    private DoctorRepository _doctorRepository;
+    private IDoctorService _doctorService;
     private ObservableCollection<AppointmentViewModel> _filteredAppointments;
     private readonly Patient _patient;
-    private readonly ScheduleRepository _scheduleRepository;
+    private readonly IScheduleService _scheduleService;
     private string _searchText = "";
     private string _selectedDoctor = "None";
 
@@ -29,14 +31,14 @@ public class OldAppointmentsViewModel : ViewModelBase
     //public ObservableCollection<AppointmentViewModel> Appointments => _appointments;
     public List<Appointment> CompleteAppointments;
 
-    public OldAppointmentsViewModel(ScheduleRepository scheduleRepository,
-        DoctorRepository doctorRepository, Patient patient)
+    public OldAppointmentsViewModel(IScheduleService scheduleService,
+        IDoctorService doctorService, Patient patient)
     {
         _patient = patient;
-        _scheduleRepository = scheduleRepository;
+        _scheduleService = scheduleService;
         _allAppointments = new ObservableCollection<AppointmentViewModel>();
-        _doctorRepository = doctorRepository;
-        CompleteAppointments = _scheduleRepository.GetPatientsOldAppointments(_patient.Email);
+        _doctorService = doctorService;
+        CompleteAppointments = _scheduleService.GetPatientsOldAppointments(_patient.Email);
         PossibleDoctors = new HashSet<string>();
         PossibleDoctors.Add("None");
         PossibleSpecializations = new HashSet<string>();

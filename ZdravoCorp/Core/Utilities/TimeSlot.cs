@@ -2,40 +2,40 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ZdravoCorp.Core.TimeSlots;
+namespace ZdravoCorp.Core.Utilities;
 
 public class TimeSlot : IEquatable<TimeSlot> //will be some functions for time
 {
     public TimeSlot(DateTime start, DateTime end)
     {
-        this.start = start;
-        this.end = end;
+        this.Start = start;
+        this.End = end;
     }
 
-    public DateTime start { get; set; }
-    public DateTime end { get; set; }
+    public DateTime Start { get; set; }
+    public DateTime End { get; set; }
 
     public bool Equals(TimeSlot? other)
     {
         if (other == null) return false;
-        return start.Year == other.start.Year && start.Month == other.start.Month &&
-               start.Day == other.start.Day && start.Hour == other.start.Hour &&
-               start.Minute == other.start.Minute;
+        return Start.Year == other.Start.Year && Start.Month == other.Start.Month &&
+               Start.Day == other.Start.Day && Start.Hour == other.Start.Hour &&
+               Start.Minute == other.Start.Minute;
     }
 
     public bool Overlap(TimeSlot time)
     {
-        return start >= time.end || end <= time.start;
+        return Start >= time.End || End <= time.Start;
     }
 
     public int GetTimeBeforeStart(DateTime time)
     {
-        return (start - time).Days * 24 + (start - time).Hours;
+        return (Start - time).Days * 24 + (Start - time).Hours;
     }
 
     public bool IsInsideSingleSlot(TimeSlot time)
     {
-        return start >= time.start && end <= time.end;
+        return Start >= time.Start && End <= time.End;
     }
 
     public bool IsInsideListOfSlots(IEnumerable<TimeSlot> slots)
@@ -47,10 +47,10 @@ public class TimeSlot : IEquatable<TimeSlot> //will be some functions for time
     {
         var allSlots = new List<TimeSlot>();
         var current = this;
-        while (current.start < lastDate)
+        while (current.Start < lastDate)
         {
             allSlots.Add(current);
-            current = new TimeSlot(current.start.AddDays(1), current.end.AddDays(1));
+            current = new TimeSlot(current.Start.AddDays(1), current.End.AddDays(1));
         }
 
         return allSlots;
@@ -58,12 +58,12 @@ public class TimeSlot : IEquatable<TimeSlot> //will be some functions for time
 
     public TimeSlot ExtendButStayOnSameDay(TimeSpan amount)
     {
-        var adjustedStart = start.Add(-1 * amount);
-        var adjustedEnd = end.Add(amount);
+        var adjustedStart = Start.Add(-1 * amount);
+        var adjustedEnd = End.Add(amount);
 
-        if (adjustedStart.Date < start.Date) adjustedStart = start;
+        if (adjustedStart.Date < Start.Date) adjustedStart = Start;
 
-        if (adjustedEnd.Date > end.Date) adjustedEnd = end.Date.AddDays(1).AddSeconds(-1);
+        if (adjustedEnd.Date > End.Date) adjustedEnd = End.Date.AddDays(1).AddSeconds(-1);
 
         return new TimeSlot(adjustedStart, adjustedEnd);
     }
@@ -80,11 +80,11 @@ public class TimeSlot : IEquatable<TimeSlot> //will be some functions for time
         unchecked
         {
             var hash = 17;
-            hash = hash * 23 + start.Year.GetHashCode();
-            hash = hash * 23 + start.Month.GetHashCode();
-            hash = hash * 23 + start.Day.GetHashCode();
-            hash = hash * 23 + start.Hour.GetHashCode();
-            hash = hash * 23 + start.Minute.GetHashCode();
+            hash = hash * 23 + Start.Year.GetHashCode();
+            hash = hash * 23 + Start.Month.GetHashCode();
+            hash = hash * 23 + Start.Day.GetHashCode();
+            hash = hash * 23 + Start.Hour.GetHashCode();
+            hash = hash * 23 + Start.Minute.GetHashCode();
             return hash;
         }
     }
@@ -92,8 +92,8 @@ public class TimeSlot : IEquatable<TimeSlot> //will be some functions for time
     public bool IsNow()
     {
         var nowTime = DateTime.Now;
-        var interval = start - nowTime;
-        var notPassed = !(start.CompareTo(DateTime.Now) < 0);
+        var interval = Start - nowTime;
+        var notPassed = !(Start.CompareTo(DateTime.Now) < 0);
         return interval.TotalMinutes < 15 && notPassed;
     }
 
@@ -113,6 +113,6 @@ public class TimeSlot : IEquatable<TimeSlot> //will be some functions for time
 
     public bool IsBefore()
     {
-        return start.CompareTo(start) < 0;
+        return Start.CompareTo(Start) < 0;
     }
 }

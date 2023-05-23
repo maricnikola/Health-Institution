@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Models.Transfers;
 using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.TransfersRepo;
 
-public class TransferRepository : ISerializable
+public class TransferRepository : ISerializable, ITransferRepository
 {
     private readonly string _fileName = @".\..\..\..\Data\transfers.json";
     private List<Transfer>? _transfers;
@@ -35,19 +36,31 @@ public class TransferRepository : ISerializable
         _transfers = token.ToObject<List<Transfer>>();
     }
 
-    public List<Transfer> GetAll()
+    public IEnumerable<Transfer> GetAll()
     {
         return _transfers;
     }
 
-    public void Add(Transfer transfer)
+    public void Insert(Transfer transfer)
     {
         _transfers.Add(transfer);
+        Serializer.Save(this);
     }
 
-    public void Remove(Transfer transfer)
+    public void Delete(Transfer transfer)
     {
         _transfers.Remove(transfer);
+        Serializer.Save(this);
+    }
+
+    public Transfer GetById(int id)
+    {
+        return _transfers.FirstOrDefault(transfer => transfer.Id == id);
+    }
+
+    public void UpdateStatus(int id, Transfer.TransferStatus status)
+    {
+        GetById(id).Status = status;
         Serializer.Save(this);
     }
 }

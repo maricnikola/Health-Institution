@@ -1,53 +1,61 @@
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using ZdravoCorp.Core.Models.Users;
 
 namespace ZdravoCorp.Core.Models.MedicalRecords;
 
 public class MedicalRecord
 {
-    public Patient user;
+    public Patient Patient { get; set; }
+    public int Height { get; set; }
+    public int Weight { get; set; }
+    public List<string> DiseaseHistory { get; set; }
 
-    public MedicalRecord()
-    {
-    }
-
+    
     public MedicalRecord(Patient patient)
     {
-        user = patient;
-        height = 0;
-        weight = 0;
-        deseaseHistory = new List<string>();
+        Patient = patient;
+        Height = 0;
+        Weight = 0;
+        DiseaseHistory = new List<string>();
     }
 
     public MedicalRecord(Patient patient, int h, int w)
     {
-        user = patient;
-        height = h;
-        weight = w;
-        deseaseHistory = new List<string>();
+        Patient = patient;
+        Height = h;
+        Weight = w;
+        DiseaseHistory = new List<string>();
     }
 
-    public MedicalRecord(Patient patient, int height, int weight, List<string> deseaseHistory)
+    [JsonConstructor]
+    public MedicalRecord(Patient patient, int height, int weight, List<string> diseaseHistory)
     {
-        user = patient;
-        this.height = height;
-        this.weight = weight;
-        this.deseaseHistory = deseaseHistory;
+        Patient = patient;
+        Height = height;
+        Weight = weight;
+        DiseaseHistory = diseaseHistory;
     }
 
-    public int height { get; set; }
-    public int weight { get; set; }
-    public List<string> deseaseHistory { get; set; }
+
 
     public override string ToString()
     {
-        return "Patient : " + user + "height : " + height + "weight : " + weight;
+        return "Patient : " + Patient + "Height : " + Height + "Weight : " + Weight;
     }
 
     public string DiseaseHistoryToString()
     {
-        var result = deseaseHistory.Any() ? string.Join(",", deseaseHistory) : string.Empty;
+        var result = DiseaseHistory.Any() ? string.Join(",", DiseaseHistory) : string.Empty;
         return result;
+    }
+
+    public MedicalRecord(MedicalRecordDTO medicalRecordDto)
+    {
+        DiseaseHistory = medicalRecordDto.DiseaseHistory;
+        Patient = medicalRecordDto.Patient;
+        Height = medicalRecordDto.Height;
+        Weight = medicalRecordDto.Weight;
     }
 }

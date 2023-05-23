@@ -33,7 +33,8 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Order Quantity" Binding="{Binding OrderQuantity}" Width="150" />
+                <DataGridTextColumn Header="Order Quantity" Binding="{Binding OrderQuantityString, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=
+                True }" Width="150" />
 
             </DataGrid.Columns>
         </DataGrid>

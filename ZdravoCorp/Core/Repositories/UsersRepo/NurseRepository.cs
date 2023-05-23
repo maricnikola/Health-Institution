@@ -6,7 +6,7 @@ using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
-public class NurseRepository : ISerializable
+public class NurseRepository : ISerializable, INurseRepository
 {
     private readonly string _fileName = @".\..\..\..\Data\nurses.json";
     private List<Nurse?> _nurses;
@@ -39,7 +39,17 @@ public class NurseRepository : ISerializable
         _nurses.Add(nurse);
     }
 
-    public Nurse? GetNurseByEmail(string email)
+    public IEnumerable<Nurse> GetAll()
+    {
+        return _nurses;
+    }
+
+    public void Insert(Nurse entity)
+    {
+        _nurses.Add(entity);
+    }
+
+    public Nurse? GetByEmail(string email)
     {
         return _nurses.FirstOrDefault(nurse => nurse.Email == email);
     }

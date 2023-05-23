@@ -4,7 +4,7 @@ using System.IO;
 using System.Text.Json;
 using Newtonsoft.Json;
 
-namespace ZdravoCorp.Core.Counters;
+namespace ZdravoCorp.Core.Utilities.Counters;
 
 public class CounterDictionary
 {

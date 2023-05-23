@@ -22,7 +22,7 @@
                 <DataGrid Height="200" ItemsSource="{Binding Rooms, UpdateSourceTrigger=PropertyChanged}"
                           SelectionMode="Single"
                           IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,0" Name="Rooms"
-                          SelectedItem="{Binding SelectedRoom, Mode=TwoWay}">
+                          SelectedItem="{Binding SelectedRoom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Room" Width="50" x:Name="Name" Binding="{Binding Id}" />
                         <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" />
@@ -61,7 +61,7 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Label Content="Item:" />
-                        <TextBlock Grid.Column="1" TextAlignment="Center" Padding="5" Text="{Binding Item}" />
+                        <TextBlock Grid.Column="1" TextAlignment="Center" Padding="5" Text="{Binding MItem}" />
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -75,7 +75,7 @@
                 </StackPanel>
                 <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="30">
                     <Label Foreground="WhiteSmoke" Content="Quantity:" />
-                    <TextBox Text="{Binding MoveQuantity}" Width="50" Margin="5" Height="25" />
+                    <TextBox Text="{Binding MoveQuantityString, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Width="50" Margin="5" Height="25" />
 
                 </StackPanel>
             </Grid>

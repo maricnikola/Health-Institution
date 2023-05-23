@@ -7,6 +7,9 @@ using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Repositories.EquipmentRepo;
 using ZdravoCorp.Core.Repositories.InventoryRepo;
 using ZdravoCorp.Core.Repositories.OrderRepo;
+using ZdravoCorp.Core.Services.EquipmentServices;
+using ZdravoCorp.Core.Services.InventoryServices;
+using ZdravoCorp.Core.Services.OrderServices;
 using ZdravoCorp.View.DirectorView;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
@@ -14,34 +17,34 @@ namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 public class DEquipmentPaneViewModel : ViewModelBase
 {
     private ObservableCollection<DynamicInventoryViewModel> _dynamicInventory;
-    private readonly EquipmentRepository _equipmentRepository;
-    private readonly InventoryRepository _inventoryRepository;
+    private readonly IEquipmentService _equipmentService;
+    private readonly IInventoryService _inventoryService;
+    private readonly IOrderService _orderService;
     private readonly object _lock;
     private readonly object _lock2;
-    private readonly OrderRepository _orderRepository;
+    
     private ObservableCollection<OrderViewModel> _orders;
 
-    public DEquipmentPaneViewModel(InventoryRepository inventoryRepository, OrderRepository orderRepository,
-        EquipmentRepository equipmentRepository)
+    public DEquipmentPaneViewModel(IInventoryService inventoryService, IEquipmentService equipmentService, IOrderService orderService)
     {
         _lock = new object();
         _lock2 = new object();
         _dynamicInventory = new ObservableCollection<DynamicInventoryViewModel>();
-        _inventoryRepository = inventoryRepository;
-        _equipmentRepository = equipmentRepository;
-        _orderRepository = orderRepository;
+        _equipmentService = equipmentService;
+        _inventoryService = inventoryService;
+        _orderService = orderService;
         _orders = new ObservableCollection<OrderViewModel>();
 
         BindingOperations.EnableCollectionSynchronization(_dynamicInventory, _lock);
         BindingOperations.EnableCollectionSynchronization(_orders, _lock2);
 
-        _inventoryRepository.OnRequestUpdate += (s, e) => RefreshInventory();
-        _orderRepository.OnRequestUpdate += (s, e) => RefreshOrders();
-        foreach (var inventoryItem in _inventoryRepository.GetDynamicGrouped())
+        _inventoryService.DataChanged += (s, e) => RefreshInventory();
+        _orderService.DataChanged += (s, e) => RefreshOrders();
+        foreach (var inventoryItem in _inventoryService.GetDynamicGrouped())
             if (inventoryItem.Quantity < 5)
                 _dynamicInventory.Add(new DynamicInventoryViewModel(inventoryItem));
 
-        CreateOrder = new DelegateCommand(o => OrderConfirmDialog());
+        CreateOrder = new DelegateCommand(o => OrderConfirmDialog(), o =>CanOrder() );
         RefreshOrders();
     }
 
@@ -73,7 +76,7 @@ public class DEquipmentPaneViewModel : ViewModelBase
         lock (_lock)
         {
             var updateInventory = new ObservableCollection<DynamicInventoryViewModel>();
-            foreach (var inventoryItem in _inventoryRepository.GetDynamicGrouped())
+            foreach (var inventoryItem in _inventoryService.GetDynamicGrouped())
                 if (inventoryItem.Quantity < 5)
                     updateInventory.Add(new DynamicInventoryViewModel(inventoryItem));
 
@@ -87,7 +90,7 @@ public class DEquipmentPaneViewModel : ViewModelBase
         {
             var updateOrders = new ObservableCollection<OrderViewModel>();
             string items;
-            foreach (var order in _orderRepository.GetOrders())
+            foreach (var order in _orderService.GetAll())
                 updateOrders.Add(new OrderViewModel(order, ParseItemsDictionary(order.Items)));
 
             Orders = updateOrders;
@@ -98,15 +101,29 @@ public class DEquipmentPaneViewModel : ViewModelBase
     {
         var parsedItems = "";
         foreach (var (key, value) in items)
-            parsedItems += _equipmentRepository.GetById(key).Name + " : " + value + "   ";
+            parsedItems += _equipmentService.GetById(key).Name + " : " + value + "   ";
 
         return parsedItems;
     }
 
+    private bool CanOrder()
+    {
+        foreach (var item in DynamicInventory)
+        {
+            if (item.IsChecked &&  int.TryParse(item.OrderQuantityString, out int value))
+            {
+                item.OrderQuantity = value;
+                if (value > 0)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
     private void OrderConfirmDialog()
     {
-        var vm = new DEquipmentOrderConfirmViewModel(DynamicInventory.Where(item => item.IsChecked), _orderRepository,
-            _inventoryRepository);
+        var vm = new DEquipmentOrderConfirmViewModel(DynamicInventory.Where(item => item.IsChecked), _orderService);
         var confirmDialog = new DynamicOrderConfirmView { DataContext = vm };
         vm.OnRequestClose += (s, e) => confirmDialog.Close();
         confirmDialog.Show();

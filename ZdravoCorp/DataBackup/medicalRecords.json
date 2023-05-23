@@ -1,28 +1,29 @@
 [
   {
-    "deseaseHistory": [
-      "tuberkuloza",
-      "fraktura lobanje"
-    ],
-    "height": 187,
-    "user": {
+    "Patient": {
       "Email": "sreten.pejovic@gmail.com",
       "FirstName": "Sreten",
       "LastName": "Pejovic"
     },
-    "weight": 82
+    "Weight": 187,
+    "Height": 82,
+    "DiseaseHistory": [
+      "tuberkuloza",
+      "fraktura lobanje"
+    ]
   },
   {
-    "user": {
+    "Patient": {
       "Email": "marko.stojanovic@gmail.com",
       "FirstName": "Marko",
       "LastName": "Stojanovic"
     },
-    "height": 190,
-    "weight": 110,
-    "deseaseHistory": [
+    "Height": 190,
+    "Weight": 130,
+    "DiseaseHistory": [
       "tuberkuloza",
-      "upala mozga"
+      "upala mozga",
+      " alkoholizam"
     ]
   }
 ]

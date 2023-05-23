@@ -7,9 +7,11 @@ using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.MedicalRecords;
 using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
-using ZdravoCorp.Core.TimeSlots;
+using ZdravoCorp.Core.Services.DoctorServices;
+using ZdravoCorp.Core.Services.PatientServices;
+using ZdravoCorp.Core.Services.ScheduleServices;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -19,8 +21,8 @@ internal class DrChangeAppointmentViewModel : ViewModelBase
     private readonly DateTime _date;
     private readonly Doctor _dr;
     private readonly Patient _patient;
-    private PatientRepository _patientRepository;
-    private readonly ScheduleRepository _scheduleRepository;
+    private IPatientService _patientService;
+    private readonly IScheduleService _scheduleService;
 
 
     private DateTime _startDateChange;
@@ -29,17 +31,17 @@ internal class DrChangeAppointmentViewModel : ViewModelBase
     private int _startTimeMinutes;
 
 
-    public DrChangeAppointmentViewModel(AppointmentViewModel appointmentModel, ScheduleRepository scheduleRepository,
-        DoctorRepository doctorRepository, ObservableCollection<AppointmentViewModel> appointment,
-        PatientRepository patientRepository, Doctor doctor, Patient patient, AppointmentViewModel appointmentSelected,
+    public DrChangeAppointmentViewModel(AppointmentViewModel appointmentModel, IScheduleService scheduleService,
+        IDoctorService doctorService, ObservableCollection<AppointmentViewModel> appointment,
+        IPatientService patientService, Doctor doctor, Patient patient, AppointmentViewModel appointmentSelected,
         DateTime date)
     {
         _dr = doctor;
         _appointmentModel = appointmentModel;
         _patient = patient;
         _appointmentModel = appointmentSelected;
-        _scheduleRepository = scheduleRepository;
-        _patientRepository = patientRepository;
+        _scheduleService = scheduleService;
+        _patientService = patientService;
         _date = date;
         var _controller = new PatientRepository();
         var patients = _controller.Patients;
@@ -120,13 +122,13 @@ internal class DrChangeAppointmentViewModel : ViewModelBase
             var medicalRecord = new MedicalRecord(_patient);
 
 
-            var appointment = _scheduleRepository.ChangeAppointment(_appointmentModel.Id, time, _dr, _patient.Email);
+            var appointment = _scheduleService.ChangeAppointment(_appointmentModel.Id, time, _dr, _patient.Email);
 
 
             if (appointment != null)
             {
                 CloseWindow();
-                if (_scheduleRepository.IsForShow(appointment, _date))
+                if (_scheduleService.IsForShow(appointment, _date))
                 {
                     Appointments.Remove(_appointmentModel);
                     Appointments.Add(new AppointmentViewModel(appointment));

@@ -22,6 +22,15 @@ public class Order
         Status = status;
     }
 
+    public Order(OrderDTO orderDto)
+    {
+        Id=orderDto.Id;
+        Items = orderDto.Items;
+        OrderTime = orderDto.OrderTime;
+        ArrivalTime = orderDto.ArrivalTime;
+        Status = orderDto.Status;
+    }
+
     public int Id { get; set; }
     public Dictionary<int, int> Items { get; set; }
     public DateTime OrderTime { get; set; }

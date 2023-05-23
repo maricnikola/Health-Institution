@@ -17,7 +17,7 @@
                   IsReadOnly="True" AutoGenerateColumns="False" Margin="10" BorderThickness="0"
                   HeadersVisibility="None" GridLinesVisibility="None">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Item" Width="100" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="MItem" Width="100" Binding="{Binding Name}" />
                 <DataGridTextColumn Header="Quantity" Binding="{Binding OrderQuantity}" />
 
             </DataGrid.Columns>

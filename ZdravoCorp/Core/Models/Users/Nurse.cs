@@ -19,6 +19,12 @@ public class Nurse
 
     [JsonIgnore] public string FullName => string.Format("Nurse {0} {1}", FirstName, LastName);
 
+    public Nurse(NurseDTO nurseDto)
+    {
+        Email=nurseDto.Email;
+        FirstName=nurseDto.FirstName;
+        LastName=nurseDto.LastName;
+    }
 
     protected bool Equals(Nurse other)
     {

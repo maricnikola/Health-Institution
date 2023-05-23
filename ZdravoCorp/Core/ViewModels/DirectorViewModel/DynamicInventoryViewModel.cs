@@ -1,8 +1,9 @@
-﻿using ZdravoCorp.Core.Models.Inventory;
+﻿using System.ComponentModel;
+using ZdravoCorp.Core.Models.Inventory;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
-public class DynamicInventoryViewModel : ViewModelBase
+public class DynamicInventoryViewModel : ViewModelBase, IDataErrorInfo
 {
     private readonly InventoryItem _inventoryItem;
 
@@ -20,4 +21,23 @@ public class DynamicInventoryViewModel : ViewModelBase
     public int Quantity => _inventoryItem.Quantity;
     public bool IsChecked { get; set; }
     public int OrderQuantity { get; set; }
+    public string OrderQuantityString { get; set; }
+
+    public string Error { get; }
+
+    public string this[string columnName]
+    {
+        get
+        {
+            if (columnName == "OrderQuantityString")
+            {
+                if (string.IsNullOrEmpty(OrderQuantityString) || !int.TryParse(OrderQuantityString, out int value))
+                    
+                    return "Error";
+            }
+
+            return null;
+        }
+        
+    }
 }

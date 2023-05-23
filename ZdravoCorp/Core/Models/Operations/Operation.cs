@@ -3,7 +3,7 @@ using ZdravoCorp.Core.Models.Equipments;
 using ZdravoCorp.Core.Models.MedicalRecords;
 using ZdravoCorp.Core.Models.Rooms;
 using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.TimeSlots;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Models.Operations;
 
@@ -30,4 +30,14 @@ public class Operation
     public MedicalRecord MedicalRecord { get; set; }
     public Room? Room { get; set; }
     public List<Equipment>? Equipment { get; set; }
+
+    public Operation(OperationDTO operationDto)
+    {
+        Doctor = operationDto.Doctor;
+        MedicalRecord = operationDto.MedicalRecord;
+        Equipment = operationDto.Equipment;
+        Id = operationDto.Id;
+        Room = operationDto.Room;
+        Time = operationDto.Time;
+    }
 }
