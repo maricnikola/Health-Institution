@@ -118,6 +118,7 @@ public class ChangeAppointmentViewModel : ViewModelBase
             {
                 Appointments.Remove(GetById(appointment.Id, Appointments));
                 Appointments.Add(new AppointmentViewModel(appointment));
+                MessageBox.Show("Appointment changed seccessfully", "Success", MessageBoxButton.OK);
             }
             else
             {

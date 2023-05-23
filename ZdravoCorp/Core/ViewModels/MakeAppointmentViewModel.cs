@@ -111,7 +111,10 @@ public class MakeAppointmentViewModel : ViewModelBase
 
             var appointment = _scheduleService.CreateAppointment(time, doctor, _patient.Email);
             if (appointment != null)
+            {
                 Appointments.Add(new AppointmentViewModel(appointment));
+                MessageBox.Show("Appointment created seccessfully", "Success", MessageBoxButton.OK);
+            }
             else
                 MessageBox.Show("Invalid Appointment", "Error", MessageBoxButton.OK);
         }
