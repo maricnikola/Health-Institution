@@ -26,6 +26,7 @@ public class RoomService : IRoomService
     public void AddRoom(RoomDTO roomDto)
     {
         _roomRepository.Insert(new Room(roomDto));
+        DataChanged?.Invoke(this, new EventArgs());
     }
 
     public void Update(int id, RoomDTO roomDto)
@@ -37,16 +38,20 @@ public class RoomService : IRoomService
         }
         _roomRepository.Delete(oldRoom);
         _roomRepository.Insert(new Room(roomDto));
+        DataChanged?.Invoke(this, new EventArgs());
     }
     
 
     public void Delete(int id)
     {
         _roomRepository.Delete(_roomRepository.GetById(id));
+        DataChanged?.Invoke(this, new EventArgs());
     }
 
     public IEnumerable<Room> GetAllExcept(int roomId)
     {
         return _roomRepository.GetAll().Where(room => room.Id != roomId);
     }
+
+    public event EventHandler? DataChanged;
 }

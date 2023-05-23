@@ -6,37 +6,41 @@ namespace ZdravoCorp.Core.Models.Rooms;
 public class Room
 {
     [JsonConstructor]
-    public Room(int id, RoomType type)
+    public Room(int id, RoomType type, bool isUnderRenovation)
     {
         Id = id;
         Type = type;
+        IsUnderRenovation = isUnderRenovation;
     }
 
     public Room(RoomDTO roomDto)
     {
         Id=roomDto.Id;
         Type = roomDto.Type;
+        IsUnderRenovation = roomDto.IsUnderRenovation;
     }
 
     public int Id { get; set; }
     public RoomType Type { get; set; }
+    
+    public bool IsUnderRenovation { get; set; }
 
     protected bool Equals(Room other)
     {
-        return Id == other.Id && Type == other.Type;
+        return Id == other.Id && Type == other.Type && IsUnderRenovation == other.IsUnderRenovation;
     }
 
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
+        if (obj.GetType() != this.GetType()) return false;
         return Equals((Room)obj);
     }
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Id, (int)Type);
+        return HashCode.Combine(Id, (int)Type, IsUnderRenovation);
     }
 }
 

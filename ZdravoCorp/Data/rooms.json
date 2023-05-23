@@ -1,50 +1,62 @@
 [
   {
     "Id": 101,
-    "Type": "OperationRoom"
+    "Type": "OperationRoom",
+    "IsUnderRenovation" : false
   },
   {
     "Id": 102,
-    "Type": "OperationRoom"
+    "Type": "OperationRoom",
+    "IsUnderRenovation" : false
   },
   {
     "Id": 111,
-    "Type": "ExaminationRoom"
+    "Type": "ExaminationRoom",
+    "IsUnderRenovation" : false
   },
   {
     "Id": 112,
-    "Type": "ExaminationRoom"
+    "Type": "ExaminationRoom",
+    "IsUnderRenovation" : false
   },
   {
     "Id": 113,
-    "Type": "ExaminationRoom"
+    "Type": "ExaminationRoom",
+    "IsUnderRenovation" : false
   },
   {
     "Id": 114,
-    "Type": "ExaminationRoom"
+    "Type": "ExaminationRoom",
+    "IsUnderRenovation" : false
   },
   {
     "Id": 150,
-    "Type": "PatientRoom"
+    "Type": "PatientRoom",
+    "IsUnderRenovation" : false
   },
   {
     "Id": 151,
-    "Type": "PatientRoom"
+    "Type": "PatientRoom",
+    "IsUnderRenovation" : false
   },
   {
     "Id": 152,
-    "Type": "PatientRoom"
+    "Type": "PatientRoom",
+    "IsUnderRenovation" : false
   },
   {
     "Id": 153,
-    "Type": "PatientRoom"
+    "Type": "PatientRoom",
+    "IsUnderRenovation" : false
   },
   {
     "Id": 999,
-    "Type": "StockRoom"
+    "Type": "StockRoom",
+    "IsUnderRenovation" : false
   },
   {
     "Id": 888,
-    "Type": "WaitingRoom"
+    "Type": "WaitingRoom",
+    "IsUnderRenovation" : false
   }
 ]

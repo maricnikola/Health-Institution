@@ -21,6 +21,9 @@
         <DataTemplate DataType="{x:Type director:MoveDEquipmentViewModel}">
             <directorView:DynamicMoveView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type director:RenovationsViewModel}">
+            <directorView:RenovationView />
+        </DataTemplate>
 
     </Window.Resources>
     <Grid>
@@ -42,6 +45,8 @@
             <RadioButton Content="Move Equipment" Height="50" Foreground="WhiteSmoke"
                          Style="{DynamicResource ToggleTheme}" Command="{Binding MoveEquipmentCommand}" />
             <RadioButton Content="Move Dynamic Equipment" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding MoveDynamicEquipmentCommand}" />
+            <RadioButton Content="Room Renovation" Height="50" Foreground="WhiteSmoke"
                          Style="{DynamicResource ToggleTheme}" Command="{Binding MoveDynamicEquipmentCommand}" />
 
         </StackPanel>

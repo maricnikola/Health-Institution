@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using ZdravoCorp.Core.Repositories.RenovationRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
 using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.EquipmentServices;
@@ -7,6 +8,7 @@ using ZdravoCorp.Core.Services.MedicalRecordServices;
 using ZdravoCorp.Core.Services.NurseServices;
 using ZdravoCorp.Core.Services.OrderServices;
 using ZdravoCorp.Core.Services.PatientServices;
+using ZdravoCorp.Core.Services.RenovationServices;
 using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Services.TransferServices;
@@ -29,5 +31,8 @@ public class ServicesModule : Autofac.Module
         builder.RegisterType<TransferService>().As<ITransferService>();
         builder.RegisterType<UserService>().As<IUserService>();
         builder.RegisterType<PatientService>().As<IPatientService>();
+        builder.RegisterType<RenovationService>().As<IRenovationService>();
+        
+        
     }
 }

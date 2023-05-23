@@ -14,4 +14,11 @@ public class RoomViewModel : ViewModelBase
 
     public int Id => _room.Id;
     public string Type => _room.Type.ToString();
+
+    public string IsUnderRenovation => _room.IsUnderRenovation.ToString();
+
+    public override string ToString()
+    {
+        return $"{nameof(Id)}: {Id}, {nameof(Type)}: {Type}, {nameof(IsUnderRenovation)}: {IsUnderRenovation}";
+    }
 }

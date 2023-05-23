@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ZdravoCorp.Core.Models.Rooms;
 
 namespace ZdravoCorp.Core.Services.RoomServices;
@@ -13,4 +14,5 @@ public interface IRoomService
 
     public void Delete(int id);
     IEnumerable<Room> GetAllExcept(int roomId);
+    public event EventHandler DataChanged;
 }
