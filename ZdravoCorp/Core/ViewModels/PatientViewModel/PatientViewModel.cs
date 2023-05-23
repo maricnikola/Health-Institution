@@ -39,12 +39,14 @@ public class PatientViewModel : ViewModelBase
         LoadAppointmentsCommand = new DelegateCommand(o => LoadAppointments());
         LoadMedicalRecordCommand = new DelegateCommand(o => LoadMedicalRecord());
         LoadOldAppointmentsCommand = new DelegateCommand(o => LoadOldAppointments());
+        LoadDoctorsCommand = new DelegateCommand(o => LoadDoctors());
         _currentView = new AppointmentTableViewModel(_scheduleService, _doctorService, _patient);
     }
 
     public ICommand LoadAppointmentsCommand { get; set; }
     public ICommand LoadMedicalRecordCommand { get; set; }
     public ICommand LoadOldAppointmentsCommand { get; set; }
+    public ICommand LoadDoctorsCommand { get; set; }
 
 
     public object CurrentView
@@ -72,4 +74,10 @@ public class PatientViewModel : ViewModelBase
     {
         CurrentView = new OldAppointmentsViewModel(_scheduleService, _doctorService, _patient);
     }
+
+    public void LoadDoctors()
+    {
+        CurrentView = new SearchDoctorsViewModel(_doctorService,_scheduleService,_patient);
+    }
+
 }
