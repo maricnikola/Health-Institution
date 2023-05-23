@@ -1,0 +1,38 @@
+﻿<Window x:Class="ZdravoCorp.View.DoctorView.AddSpecialistsRefferalView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ZdravoCorp.View.DoctorView"
+        mc:Ignorable="d"
+      Title="Specialists Refferal"  Height="200" Width="300"
+          Background="#29262e">
+    <Grid Margin="0,0,0,-1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <RadioButton Content="Specialization" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}"/>
+            <RadioButton Content="Doctor" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <ComboBox  Width="100" Margin="10 10 0 10"/>
+            <ComboBox  Width="100" Margin="10 10 0 10"/>
+        </StackPanel>
+        
+        <Grid Grid.Row="2" Grid.Column="0" Margin="25 30 10 10">
+            <Button Padding="5" Content="Instruct"/>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="1" Margin="25 30 10 10">
+            <Button Padding="5" Content="Cancel" Command="{Binding CloseDialog}"/>
+        </Grid>
+    </Grid>
+</Window>

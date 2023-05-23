@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ZdravoCorp.Core.Models.SpecialistsRefferals;
-using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.SpecialistsRefferalsRepo;
 
 namespace ZdravoCorp.Core.Services.SpecialistsRefferalServices;
 
 public class SpecialistsRefferalService: ISpecialistsRefferalService
 {
-    private SpecialistsRefferalRepository _specialistsRefferalRepository;
+    private ISpecialistsRefferalRepository _specialistsRefferalRepository;
 
-    public SpecialistsRefferalService(SpecialistsRefferalRepository specialistsRefferalRepository)
+    public SpecialistsRefferalService(ISpecialistsRefferalRepository specialistsRefferalRepository)
     {
         _specialistsRefferalRepository = specialistsRefferalRepository;
     }
