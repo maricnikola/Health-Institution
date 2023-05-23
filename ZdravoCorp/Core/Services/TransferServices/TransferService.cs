@@ -46,6 +46,7 @@ public class TransferService : ITransferService
     public void UpdateStatus(int id, Transfer.TransferStatus status)
     {
         _transferRepository.UpdateStatus(id, status);
+        DataChanged?.Invoke(this, new EventArgs());
     }
 
     public void Delete(int id)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Repositories.InventoryRepo;
@@ -8,12 +9,13 @@ using ZdravoCorp.Core.Services.InventoryServices;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
-public class DEquipmentTransferWindowViewModel : ViewModelBase
+public class DEquipmentTransferWindowViewModel : ViewModelBase, IDataErrorInfo
 
 {
     private readonly IInventoryService _inventoryService;
     private int _maxMoveQuantity;
     private int _moveQuantity;
+    private string _moveQuantityString;
     private ObservableCollection<SourceRoomViewModel> _rooms;
 
 
@@ -29,7 +31,7 @@ public class DEquipmentTransferWindowViewModel : ViewModelBase
         MaxMoveQuantity = -1;
         var inventoryItem = _inventoryService.GetById(inventoryItemId);
         RoomType = inventoryItem?.Room.Type.ToString();
-        Item = inventoryItem.Equipment.Name;
+        MItem = inventoryItem.Equipment.Name;
 
         foreach (var item in _inventoryService.LocateItemInOtherRooms(inventoryItem)) _rooms.Add(new SourceRoomViewModel(item));
         ConfirmTransfer = new DelegateCommand(o => Confirm(), o => CanConfirm());
@@ -43,9 +45,9 @@ public class DEquipmentTransferWindowViewModel : ViewModelBase
     public int Quantity { get; set; }
     public int InventoryItemId { get; set; }
 
-    public int MoveQuantity
+    public string MoveQuantityString
     {
-        get => _moveQuantity;
+        get => _moveQuantityString;
         set
         {
             if (SelectedRoom != null)
@@ -53,16 +55,27 @@ public class DEquipmentTransferWindowViewModel : ViewModelBase
             else
                 _maxMoveQuantity = -1;
 
-            _moveQuantity = value;
+            _moveQuantityString = value;
             CommandManager.InvalidateRequerySuggested();
         }
+    }
+
+    public int MoveQuantity
+    {
+        get
+        {
+            if (int.TryParse(MoveQuantityString, out int value))
+                return value;
+            return 0;
+        }
+        set => _moveQuantity = value;
     }
 
 
     public int MaxMoveQuantity { get; set; }
     public int DestinationRoom { get; set; }
     public string RoomType { get; set; }
-    public string? Item { get; set; }
+    public string? MItem { get; set; }
 
     public IEnumerable<SourceRoomViewModel> Rooms
     {
@@ -80,7 +93,7 @@ public class DEquipmentTransferWindowViewModel : ViewModelBase
 
     private bool CanConfirm()
     {
-        return SelectedRoom != null && MoveQuantity <= _maxMoveQuantity;
+        return SelectedRoom != null && MoveQuantity > 0 && MoveQuantity <= _maxMoveQuantity;
     }
 
     private void Cancel()
@@ -93,5 +106,23 @@ public class DEquipmentTransferWindowViewModel : ViewModelBase
     {
         _inventoryService.UpdateDestinationInventoryItem(SelectedRoom.ItemId, InventoryItemId, _moveQuantity);
         OnRequestClose(this, new EventArgs());
+    }
+
+    public string Error { get; }
+
+    public string this[string columnName]
+    {
+        get
+        {
+            if (columnName == "MoveQuantityString")
+            {
+                if (string.IsNullOrEmpty(MoveQuantityString) || !int.TryParse(MoveQuantityString, out int value))
+                {
+                    return "error";
+                }
+            }
+
+            return null;
+        }
     }
 }
