@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="MakeAppointment" Height="450" Width="800">
     <Grid>
-        <ComboBox SelectedIndex="1" SelectedItem="{Binding DoctorName, UpdateSourceTrigger=PropertyChanged}"
+        <ComboBox SelectedItem="{Binding SelectedDoctor, UpdateSourceTrigger=PropertyChanged}"
                   ItemsSource="{Binding AllDoctors}" HorizontalAlignment="Left" Margin="155,129,0,0"
                   VerticalAlignment="Top" Width="337" Height="40" />
         <Label x:Name="_" Content="Create Appointment" HorizontalAlignment="Left" Margin="51,29,0,0"

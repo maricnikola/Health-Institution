@@ -24,5 +24,6 @@ namespace ZdravoCorp.View.PatientView
         {
             InitializeComponent();
         }
+
     }
 }

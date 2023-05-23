@@ -18,7 +18,7 @@ public class MakeAppointmentViewModel : ViewModelBase
     private readonly ObservableCollection<string> _doctors;
     private DateTime _date = DateTime.Now + TimeSpan.FromHours(1);
 
-    private string _doctorName;
+    private string _selectedDoctor;
     private readonly IDoctorService _doctorService;
     private int _hours;
     private int _minutes;
@@ -27,11 +27,13 @@ public class MakeAppointmentViewModel : ViewModelBase
 
 
     public MakeAppointmentViewModel(IScheduleService scheduleService,
-        ObservableCollection<AppointmentViewModel> Appointments, IDoctorService doctorService, Patient patient)
+        ObservableCollection<AppointmentViewModel> Appointments, IDoctorService doctorService, Patient patient, string doctorEmail)
     {
         _doctorService= doctorService;
         _scheduleService = scheduleService;
         _patient = patient;
+        var wantedDoctor = _doctorService.GetByEmail(doctorEmail);
+        _selectedDoctor = wantedDoctor?.FullName + "-" + wantedDoctor?.Email;
         _doctors = new ObservableCollection<string>();
         PossibleMinutes = new[] { 00, 15, 30, 45 };
         PossibleHours = new[]
@@ -49,12 +51,12 @@ public class MakeAppointmentViewModel : ViewModelBase
 
     public ICommand CreateAppointmentCommand { get; set; }
 
-    public string DoctorName
+    public string SelectedDoctor
     {
-        get => _doctorName;
+        get => _selectedDoctor;
         set
         {
-            _doctorName = value;
+            _selectedDoctor = value;
             OnPropertyChanged();
         }
     }
@@ -96,7 +98,7 @@ public class MakeAppointmentViewModel : ViewModelBase
             var h = Hours;
             var m = Minutes;
             var d = Date;
-            var dm = DoctorName;
+            var dm = SelectedDoctor;
 
             var start = new DateTime(d.Year, d.Month, d.Day, h, m, 0);
             var end = start.AddMinutes(15);

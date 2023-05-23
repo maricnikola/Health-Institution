@@ -20,7 +20,7 @@
                       IsReadOnly="True" AutoGenerateColumns="False" Width="600" Height="325">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Doctor" Width="180" x:Name="name" Binding="{Binding DoctorName}" />
-                    <DataGridTextColumn Header="Patient" Width="180" Binding="{Binding PatientName}" />
+                    <DataGridTextColumn Header="Patient" Width="180" Binding="{Binding PatientEmail}" />
                     <DataGridTextColumn Header="Date" Width="180" Binding="{Binding Date}" />
                     <DataGridTextColumn Header="ID" Width="190" Binding="{Binding Id}" />
 

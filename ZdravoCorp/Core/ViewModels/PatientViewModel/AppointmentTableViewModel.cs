@@ -100,7 +100,7 @@ public class AppointmentTableViewModel : ViewModelBase
         var window = new MakeAppointmentView
         {
             DataContext = new MakeAppointmentViewModel(_scheduleService, Appointments,
-                _doctorService, _patient)
+                _doctorService, _patient, "")
         };
         //var window = new MakeAppointmentView(_doctorRepository, _scheduleService, Appointments, _patient);
         window.Show();

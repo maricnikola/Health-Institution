@@ -19,6 +19,9 @@
         <DataTemplate DataType="{x:Type viewModels:OldAppointmentsViewModel}">
             <patientV:OldAppointmentsView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:SearchDoctorsViewModel}">
+            <patientV:SearchDoctorsView />
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
