@@ -9,10 +9,24 @@ public class FullAnamnesisViewModel : ViewModelBase
     public FullAnamnesisViewModel(Anamnesis anamnesis)
     {
         _anamnesis = anamnesis;
+        if (anamnesis == null)
+        {
+            KeyWord = "";
+            Symptoms = "";
+            Opinion = "";
+            Allergens = "";
+        }
+        else
+        {
+            KeyWord = anamnesis.KeyWord;
+            Symptoms = anamnesis.SymptomsToString();
+            Allergens = anamnesis.AllergensToString();
+            Opinion = anamnesis.Opinion;
+        }
     }
 
-    public string KeyWord => _anamnesis.KeyWord;
-    public string Opinion => _anamnesis.Opinion;
-    public string Symptoms => _anamnesis.SymptomsToString();
-    public string Allergens => _anamnesis.AllergensToString();
+    public string KeyWord { get; set; }
+    public string Opinion { get; set; }
+    public string Symptoms { get; set; }
+    public string Allergens { get; set; }
 }

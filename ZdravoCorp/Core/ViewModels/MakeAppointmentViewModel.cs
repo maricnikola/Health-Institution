@@ -7,7 +7,9 @@ using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
-using ZdravoCorp.Core.TimeSlots;
+using ZdravoCorp.Core.Services.DoctorServices;
+using ZdravoCorp.Core.Services.ScheduleServices;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.ViewModels;
 
@@ -17,24 +19,24 @@ public class MakeAppointmentViewModel : ViewModelBase
     private DateTime _date = DateTime.Now + TimeSpan.FromHours(1);
 
     private string _doctorName;
-    private readonly DoctorRepository _doctorRepository;
+    private readonly IDoctorService _doctorService;
     private int _hours;
     private int _minutes;
     private readonly Patient _patient;
-    private readonly ScheduleRepository _scheduleRepository;
+    private readonly IScheduleService _scheduleService;
 
 
-    public MakeAppointmentViewModel(ScheduleRepository scheduleRepository,
-        ObservableCollection<AppointmentViewModel> Appointments, DoctorRepository doctorRepository, Patient patient)
+    public MakeAppointmentViewModel(IScheduleService scheduleService,
+        ObservableCollection<AppointmentViewModel> Appointments, IDoctorService doctorService, Patient patient)
     {
-        _doctorRepository = doctorRepository;
-        _scheduleRepository = scheduleRepository;
+        _doctorService= doctorService;
+        _scheduleService = scheduleService;
         _patient = patient;
         _doctors = new ObservableCollection<string>();
         PossibleMinutes = new[] { 00, 15, 30, 45 };
         PossibleHours = new[]
             { 00, 01, 02, 03, 04, 05, 06, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
-        var doctors = doctorRepository.GetAll();
+        var doctors = _doctorService.GetAll();
         foreach (var doctor in doctors) _doctors.Add(doctor.FullName + "-" + doctor.Email);
 
         CreateAppointmentCommand = new DelegateCommand(o => CreateAppointment(Appointments));
@@ -102,10 +104,10 @@ public class MakeAppointmentViewModel : ViewModelBase
 
             var tokens = dm.Split("-");
             var mail = tokens[1];
-            var doctor = _doctorRepository.GetDoctorByEmail(mail);
+            var doctor = _doctorService.GetByEmail(mail);
 
 
-            var appointment = _scheduleRepository.CreateAppointment(time, doctor, _patient.Email);
+            var appointment = _scheduleService.CreateAppointment(time, doctor, _patient.Email);
             if (appointment != null)
                 Appointments.Add(new AppointmentViewModel(appointment));
             else

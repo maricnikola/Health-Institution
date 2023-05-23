@@ -6,7 +6,9 @@ using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.AnamnesisReport;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
-using ZdravoCorp.Core.TimeSlots;
+using ZdravoCorp.Core.Services.PatientServices;
+using ZdravoCorp.Core.Services.ScheduleServices;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.ViewModels.NurseViewModel;
 
@@ -17,18 +19,18 @@ public class PatientReceptionViewModel : ViewModelBase
     private string _deseaseHistory;
 
     private string _patientEmail;
-    private readonly PatientRepository _patientRepository;
-    private readonly ScheduleRepository _scheduleRepository;
+    private readonly IPatientService _patientService;
+    private readonly IScheduleService _scheduleService;
 
     private string _sympthomes;
 
 
-    public PatientReceptionViewModel(PatientRepository patientRepository, ScheduleRepository scheduleRepository)
+    public PatientReceptionViewModel(IPatientService patientService, IScheduleService scheduleService)
     {
         /*this._scheduleRepository = new ScheduleRepository();
         this._scheduleRepository.LoadAppointments();*/
-        _patientRepository = patientRepository;
-        _scheduleRepository = scheduleRepository;
+        _patientService = patientService;
+        _scheduleService = scheduleService;
         //_patientEmail = "nesto@gmail.com";
 
         SubmitButton_OnClick = new DelegateCommand(o => AddAnamnesis());
@@ -79,15 +81,15 @@ public class PatientReceptionViewModel : ViewModelBase
 
     public void AddAnamnesis()
     {
-        var pomoc = _patientRepository.GetPatientByEmail(_patientEmail);
-        if (_patientRepository.GetPatientByEmail(_patientEmail) != null)
+        var pomoc = _patientService.GetByEmail(_patientEmail);
+        if (_patientService.GetByEmail(_patientEmail) != null)
         {
             var sympthomeList = _sympthomes.Split(", ").ToList();
             var alergensList = _alergens.Split(", ").ToList();
             var anamnesis = new Anamnesis(sympthomeList, "doctors oppinion", "keyword", alergensList);
             //negde poslati ovu anamnezu...
             var interval = new TimeSlot(DateTime.Now, DateTime.Now.AddMinutes(15));
-            var appointment = _scheduleRepository.GetPatientsFirstAppointment(_patientEmail, interval);
+            var appointment = _scheduleService.GetPatientsFirstAppointment(_patientEmail, interval);
             if (appointment != null)
             {
                 appointment.Anamnesis = anamnesis;

@@ -34,4 +34,17 @@ public class Transfer
 
     public int InventoryId { get; set; }
     public string? InventoryItemName { get; set; }
+    
+    // TODO add status and change transfer task to execute only if there is enough quantity
+
+    public Transfer(TransferDTO transferDto)
+    {
+        From = transferDto.From;
+        InventoryId = transferDto.InventoryId;
+        Id = transferDto.Id;
+        To = transferDto.To;
+        InventoryItemName = transferDto.InventoryItemName;
+        Quantity = transferDto.Quantity;
+        When = transferDto.When;
+    }
 }

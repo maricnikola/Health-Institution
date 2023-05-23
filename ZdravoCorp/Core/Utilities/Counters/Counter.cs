@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace ZdravoCorp.Core.Counters;
+namespace ZdravoCorp.Core.Utilities.Counters;
 
 public class Counter
 {

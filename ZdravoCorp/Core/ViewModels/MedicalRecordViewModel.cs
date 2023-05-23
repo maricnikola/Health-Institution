@@ -5,6 +5,7 @@ using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.MedicalRecords;
 using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
+using ZdravoCorp.Core.Services.MedicalRecordServices;
 
 namespace ZdravoCorp.Core.ViewModels;
 
@@ -15,24 +16,24 @@ internal class MedicalRecordViewModel : ViewModelBase
     private string _diseaseHistory;
 
     private int _height;
-    private readonly MedicalRecordRepository _medicalRecordRepository;
+    private readonly IMedicalRecordService _medicalRecordService;
 
     private int _weight;
 
-    public MedicalRecordViewModel(MedicalRecord medicalRecord, MedicalRecordRepository medicalRecordRepository)
+    public MedicalRecordViewModel(MedicalRecord medicalRecord, IMedicalRecordService medicalRecordService)
     {
-        _medicalRecordRepository = medicalRecordRepository;
+        _medicalRecordService = medicalRecordService;
         _medicalRecord = medicalRecord;
-        _height = _medicalRecord.height;
-        _weight = _medicalRecord.weight;
+        _height = _medicalRecord.Height;
+        _weight = _medicalRecord.Weight;
         _diseaseHistory = medicalRecord.DiseaseHistoryToString();
         SaveCommand = new DelegateCommand(o => SaveChangesMedicalRecord());
         CloseCommand = new DelegateCommand(o => CloseWindow());
     }
 
-    public int PatientHeight => _medicalRecord.height;
-    public int PatientWeight => _medicalRecord.weight;
-    public string PatientName => _medicalRecord.user.FullName;
+    public int PatientHeight => _medicalRecord.Height;
+    public int PatientWeight => _medicalRecord.Weight;
+    public string PatientName => _medicalRecord.Patient.FullName;
     public string PatientDeseaseHistory => _medicalRecord.DiseaseHistoryToString();
 
     public ICommand SaveCommand { get; }
@@ -81,10 +82,10 @@ internal class MedicalRecordViewModel : ViewModelBase
             var height = Height;
             var weight = Weight;
             var diseasHistory = DiseaseHistory.Trim().Split(",").ToList();
-            var checkData = _medicalRecordRepository.CheckDataForChanges(weight, height, diseasHistory);
+            var checkData = _medicalRecordService.CheckDataForChanges(weight, height, diseasHistory);
             if (checkData)
             {
-                _medicalRecordRepository.ChangeRecord(_medicalRecord.user.Email, height, weight, diseasHistory);
+                _medicalRecordService.ChangeRecord(_medicalRecord.Patient.Email, height, weight, diseasHistory);
                 CloseWindow();
             }
             else

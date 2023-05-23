@@ -14,14 +14,12 @@ public partial class App : Application
     {
         //Disable shutdown when the dialog closes
         Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-        //Load functions for repositories
         var idg = new IDGenerator();
-        var repositoryManager = new RepositoryManager();
-        var scheduler = new JobScheduler(repositoryManager.InventoryRepository, repositoryManager.TransferRepository,
-            repositoryManager.OrderRepository);
+        Injector.Configure();
+        var scheduler = new JobScheduler();
 
-
-        var dialog = new LoginDialog(repositoryManager);
+        
+        var dialog = new LoginDialog();
 
         if (dialog.ShowDialog() == true)
         {

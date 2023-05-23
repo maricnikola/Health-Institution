@@ -42,7 +42,7 @@
                     <Button Command="{Binding PerformAppointmentCommand}" Padding="5" Content="Performing" Width="100" />
                 </Grid>
                 <Grid Grid.Column="1">
-                    <Button Command="{Binding AddAppointmentCommand}" Content="Add" Width="100" />
+                    <Button Command="{Binding AddAppointmentCommand}" Content="Insert" Width="100" />
                 </Grid>
                 <Grid Grid.Column="2" Margin="30 0 30 0">
                     <Button Command="{Binding ChangeAppointmentCommand}" Content="Change" Width="100" />

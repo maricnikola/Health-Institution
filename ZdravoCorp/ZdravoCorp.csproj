@@ -8,11 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Remove="App.xaml.cs"/>
+        <Compile Remove="App.xaml.cs" />
     </ItemGroup>
 
     <ItemGroup>
-        <ApplicationDefinition Remove="App.xaml"/>
+        <ApplicationDefinition Remove="App.xaml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -56,13 +56,19 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
-        <PackageReference Include="Quartz" Version="3.6.2"/>
+        <PackageReference Include="Autofac" Version="7.0.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Quartz" Version="3.6.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Core\ViewModels\GuiViewModels\" />
+      <Folder Include="Core\ViewModels\ModelViewModels\" />
     </ItemGroup>
 
     <ProjectExtensions>
         <VisualStudio>
-            <UserProperties/>
+            <UserProperties />
         </VisualStudio>
     </ProjectExtensions>
 

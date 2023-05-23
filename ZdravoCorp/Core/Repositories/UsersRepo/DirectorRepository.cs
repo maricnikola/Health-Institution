@@ -5,7 +5,7 @@ using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
-public class DirectorRepository : ISerializable
+public class DirectorRepository : ISerializable, IDirectorRepository
 {
     private readonly string _fileName = @".\..\..\..\Data\directors.json";
 
@@ -39,5 +39,22 @@ public class DirectorRepository : ISerializable
     public void Import(JToken token)
     {
         Director = token.ToObject<Director>();
+    }
+
+    public IEnumerable<Director> GetAll()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Insert(Director entity)
+    {
+        Director = entity;
+    }
+
+    public Director? GetByEmail(string email)
+    {
+        if (Director?.Email == email)
+            return Director;
+        return null;
     }
 }

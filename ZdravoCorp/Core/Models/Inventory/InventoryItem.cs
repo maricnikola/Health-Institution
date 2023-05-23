@@ -67,4 +67,13 @@ public class InventoryItem
     {
         return HashCode.Combine(Id, Quantity, Room, Equipment, EquipmentId, RoomId);
     }
+
+    public InventoryItem(InventoryItemDTO inventoryItemDto)
+    {
+        Id = inventoryItemDto.Id;
+        Equipment = inventoryItemDto.Equipment;
+        Quantity = inventoryItemDto.Quantity;
+        Room = inventoryItemDto.Room;
+        
+    }
 }

@@ -8,22 +8,24 @@ using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.DoctorServices;
+using ZdravoCorp.Core.Services.MedicalRecordServices;
+using ZdravoCorp.Core.Services.ScheduleServices;
 
 namespace ZdravoCorp.Core.ViewModels.NurseViewModel;
 
 public class UrgentAppointmentViewModel : ViewModelBase
 {
-    private DoctorRepository _doctorRepository;
-    private MedicalRecordRepository _medicalRecordRepository;
+    private IDoctorService _doctorService;
+    private IMedicalRecordService _medicalRecordService;
+    private IScheduleService _scheduleService;
 
-    private ScheduleRepository _scheduleRepository;
-
-    public UrgentAppointmentViewModel(MedicalRecordRepository medicalRecordRepository,
-        ScheduleRepository scheduleRepository, DoctorRepository doctorRepository)
+    public UrgentAppointmentViewModel(IMedicalRecordService medicalRecordService,
+        IScheduleService scheduleService, IDoctorService doctorService)
     {
-        _medicalRecordRepository = medicalRecordRepository;
-        _doctorRepository = doctorRepository;
-        _scheduleRepository = scheduleRepository;
+        _medicalRecordService = medicalRecordService;
+        _doctorService = doctorService;
+        _scheduleService = scheduleService;
         FindUrgentAppointmentCommand = new DelegateCommand(o => FindUrgentAppointment());
         SpecializationTypes = new ObservableCollection<string>();
         SpecializationTypes.Add(Doctor.SpecializationType.Surgeon.ToString());
@@ -31,7 +33,7 @@ public class UrgentAppointmentViewModel : ViewModelBase
         SpecializationTypes.Add(Doctor.SpecializationType.Neurologist.ToString());
         SpecializationTypes.Add(Doctor.SpecializationType.Urologist.ToString());
         SpecializationTypes.Add(Doctor.SpecializationType.Anesthesiologist.ToString());
-        //_specializationTypes.Add("Any");
+        //_specializationTypes.Insert("Any");
     }
 
     public ICommand FindUrgentAppointmentCommand { get; set; }
@@ -65,11 +67,11 @@ public class UrgentAppointmentViewModel : ViewModelBase
                 //TimeSlot compareTime = _scheduleRepository.FindAvailableTimeslotsForOneDoctor(suitableDoctor.Email, interval, now, null);
                 TimeSlot termin = _scheduleRepository.FindAvailableTimeslotsForOneDoctor(suitableDoctor.Email, interval, DateTime.Today);
                 if (termin != null) {
-                    termins.Add(new Tuple<TimeSlot, string>(termin, suitableDoctor.Email));
+                    termins.Insert(new Tuple<TimeSlot, string>(termin, suitableDoctor.Email));
                 }
                 termins.Sort((a, b) => a.Item1.IsBefore(b.Item1));
 
-                //allDoctorsAppointments.Add(_scheduleRepository.GetDoctorAppointments(suitableDoctor.Email));
+                //allDoctorsAppointments.Insert(_scheduleRepository.GetDoctorAppointments(suitableDoctor.Email));
             }
 
 

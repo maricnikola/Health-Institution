@@ -16,12 +16,18 @@ public class Director
     public string Email { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    [JsonIgnore] public string FullName => string.Format("Nurse {0} {1}", FirstName, LastName);
 
 
     protected bool Equals(Director other)
     {
         return Email == other.Email && FirstName == other.FirstName && LastName == other.LastName;
+    }
+
+    public Director(DirectorDTO directorDto)
+    {
+        Email= directorDto.Email;
+        FirstName = directorDto.FirstName;
+        LastName = directorDto.LastName;
     }
 
     public override bool Equals(object? obj)

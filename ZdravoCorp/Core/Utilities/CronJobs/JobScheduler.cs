@@ -1,4 +1,5 @@
 ﻿using System;
+using Autofac;
 using Quartz;
 using Quartz.Impl;
 using ZdravoCorp.Core.Models.Orders;
@@ -6,6 +7,9 @@ using ZdravoCorp.Core.Models.Transfers;
 using ZdravoCorp.Core.Repositories.InventoryRepo;
 using ZdravoCorp.Core.Repositories.OrderRepo;
 using ZdravoCorp.Core.Repositories.TransfersRepo;
+using ZdravoCorp.Core.Services.InventoryServices;
+using ZdravoCorp.Core.Services.OrderServices;
+using ZdravoCorp.Core.Services.TransferServices;
 
 namespace ZdravoCorp.Core.Utilities.CronJobs;
 
@@ -13,16 +17,15 @@ public class JobScheduler
 {
     private static ISchedulerFactory _builder;
     private static IScheduler _scheduler;
-    private static InventoryRepository _inventoryRepository;
-    private static OrderRepository _orderRepository;
-    private static TransferRepository _transferRepository;
+    private static IInventoryService _inventoryService;
+    private static IOrderService _orderService;
+    private static ITransferService _transferService;
 
-    public JobScheduler(InventoryRepository inventoryRepository, TransferRepository transferRepository,
-        OrderRepository orderRepository)
+    public JobScheduler()
     {
-        _orderRepository = orderRepository;
-        _inventoryRepository = inventoryRepository;
-        _transferRepository = transferRepository;
+        _inventoryService = Injector.Container.Resolve<IInventoryService>();
+        _orderService = Injector.Container.Resolve<IOrderService>();
+        _transferService = Injector.Container.Resolve<ITransferService>();
         _builder = new StdSchedulerFactory();
         _scheduler = StdSchedulerFactory.GetDefaultScheduler().Result;
         _scheduler.Start();
@@ -31,21 +34,21 @@ public class JobScheduler
 
     private void LoadScheduledTasks()
     {
-        foreach (var order in _orderRepository.GetOrders())
+        foreach (var order in _orderService.GetAll())
             if (order.Status == Order.OrderStatus.Pending)
-                DEquipmentTaskScheduler(order);
+                DEquipmentTaskScheduler(new OrderDTO(order.Id, order.Items, order.OrderTime, order.ArrivalTime, order.Status));
 
-        foreach (var transfer in _transferRepository.GetAll()) TransferRequestTaskScheduler(transfer);
+        foreach (var transfer in _transferService.GetAll()) TransferRequestTaskScheduler(new TransferDTO(transfer.Id, transfer.From, transfer.To, transfer.When, transfer.Quantity, transfer.InventoryId, transfer.InventoryItemName));
     }
 
     // dynamic equipment order task
-    public static void DEquipmentTaskScheduler(Order order)
+    public static void DEquipmentTaskScheduler(OrderDTO order)
     {
         var job = JobBuilder.Create<DEquipmentExecuteOrder>()
             .WithIdentity("DEquipmentTask" + order.OrderTime, "Orders").Build();
         job.JobDataMap["order"] = order;
-        job.JobDataMap["invrepo"] = _inventoryRepository;
-        job.JobDataMap["ordrepo"] = _orderRepository;
+        job.JobDataMap["invser"] = _inventoryService;
+        job.JobDataMap["ordser"] = _orderService;
         ITrigger trigger;
         if (order.ArrivalTime < DateTime.Now)
             trigger = TriggerBuilder.Create().WithIdentity("trigger" + order.ArrivalTime, "OrderTriggers")
@@ -63,13 +66,13 @@ public class JobScheduler
 
     // equipment transfer task
 
-    public static void TransferRequestTaskScheduler(Transfer transfer)
+    public static void TransferRequestTaskScheduler(TransferDTO transfer)
     {
         var job = JobBuilder.Create<TransferRequestTask>()
             .WithIdentity("TrasferRequest" + transfer.Id, "Transfers").Build();
         job.JobDataMap["transfer"] = transfer;
-        job.JobDataMap["invrepo"] = _inventoryRepository;
-        job.JobDataMap["transrepo"] = _transferRepository;
+        job.JobDataMap["invser"] = _inventoryService;
+        job.JobDataMap["transser"] = _transferService;
         ITrigger trigger;
         if (transfer.When < DateTime.Now)
             trigger = TriggerBuilder.Create()
