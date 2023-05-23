@@ -22,7 +22,7 @@
                 <DataGrid Height="200" ItemsSource="{Binding Rooms, UpdateSourceTrigger=PropertyChanged}"
                           SelectionMode="Single"
                           IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,0" Name="Rooms"
-                          SelectedItem="{Binding SelectedRoom, Mode=TwoWay}">
+                          SelectedItem="{Binding SelectedRoom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Room" Width="50" x:Name="Name" Binding="{Binding Id}" />
                         <DataGridTextColumn Header="Type" Binding="{Binding Type}" />
@@ -33,7 +33,7 @@
             </StackPanel>
             <StackPanel VerticalAlignment="Center" Grid.Column="1">
                 <Label Foreground="WhiteSmoke" Content="Choose transfer date, time and quantity:" />
-                <DatePicker SelectedDate="{Binding SelectedDate}" DisplayDateStart="1/01/23" Margin="10,0" />
+                <DatePicker SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="1/01/23" Margin="10,0" />
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -44,15 +44,15 @@
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <ComboBox ItemsSource="{Binding Hour}" SelectedItem="{Binding SelectedHour}" Grid.Row="1"
+                    <ComboBox ItemsSource="{Binding Hour, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedHour}" Grid.Row="1"
                               Width="60" />
                     <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Minute}"
-                              SelectedItem="{Binding SelectedMinute}" Width="60" />
+                              SelectedItem="{Binding SelectedMinute, UpdateSourceTrigger=PropertyChanged}" Width="60" />
                     <Label Foreground="WhiteSmoke" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center"
                            Content="Hour" />
                     <Label Foreground="WhiteSmoke" Grid.Column="1" Grid.Row="0" Content="Minutes"
                            HorizontalContentAlignment="Center" />
-                    <TextBox Grid.Row="2" Grid.Column="1" Height="30" Width="80" Text="{Binding Quantity}"
+                    <TextBox Grid.Row="2" Grid.Column="1" Height="30" Width="80" Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
                              Margin="0,30,0,0" />
                     <Label Foreground="WhiteSmoke" Content="{Binding MaxQuantity}" Grid.Row="2"
                            HorizontalContentAlignment="Left" Margin="0,30,0,0" />

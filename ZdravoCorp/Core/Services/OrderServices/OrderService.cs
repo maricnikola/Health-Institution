@@ -33,7 +33,7 @@ public class OrderService : IOrderService
 
     public void UpdateStatus(int id, Order.OrderStatus status)
     {
-        _orderRepository.GetById(id).Status = status;
+        _orderRepository.UpdateStatus(id, status);
         DataChanged?.Invoke(this, new EventArgs());
     }
 

@@ -56,4 +56,10 @@ public class OrderRepository : ISerializable, IOrderRepository
     {
         return _orders.FirstOrDefault(order => order.Id == id);
     }
+
+    public void UpdateStatus(int id, Order.OrderStatus status)
+    {
+       GetById(id).Status = status;
+       Serializer.Save(this);
+    }
 }
