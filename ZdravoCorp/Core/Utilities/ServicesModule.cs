@@ -6,6 +6,7 @@ using ZdravoCorp.Core.Services.InventoryServices;
 using ZdravoCorp.Core.Services.MedicalRecordServices;
 using ZdravoCorp.Core.Services.NurseServices;
 using ZdravoCorp.Core.Services.OrderServices;
+using ZdravoCorp.Core.Services.PatientServices;
 using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Services.TransferServices;
@@ -27,5 +28,6 @@ public class ServicesModule : Autofac.Module
         builder.RegisterType<ScheduleService>().As<IScheduleService>();
         builder.RegisterType<TransferService>().As<ITransferService>();
         builder.RegisterType<UserService>().As<IUserService>();
+        builder.RegisterType<PatientService>().As<IPatientService>();
     }
 }

@@ -198,7 +198,7 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
                     _scheduleService.isPatientAvailable(appointment.Time, appointment.Doctor.Email))
                 {
                     var appointmentDto = new AppointmentDTO(appointment.Id, appointment.Time.Start, appointment.Doctor,
-                        appointment.PatientEmail, appointment.Anamnesis.KeyWord);
+                        appointment.PatientEmail, appointment.Anamnesis);
                     _scheduleService.AddAppointment(appointmentDto);
                     allAppointments.Add(selectedAppointment);
                     return;

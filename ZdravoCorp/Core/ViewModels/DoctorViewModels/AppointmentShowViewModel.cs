@@ -128,7 +128,7 @@ public class AppointmentShowViewModel : ViewModelBase
         {
             var appointment = _scheduleService.GetAppointmentById(selectedAppointment.Id);
             var appointmentDto = new AppointmentDTO(appointment.Id, appointment.Time.Start, appointment.Doctor,
-                appointment.PatientEmail, appointment.Anamnesis.KeyWord);
+                appointment.PatientEmail, appointment.Anamnesis);
             if (appointment.Status)
             {
                 MessageBox.Show("Appointment is performed", "Error", MessageBoxButton.OK);
