@@ -1,0 +1,155 @@
+﻿<Window x:Class="ZdravoCorp.View.DirectorView.ScheduleRenovationWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:ZdravoCorp.View.DirectorView"
+        mc:Ignorable="d"
+        Background="#29262e"
+        Title="ScheduleRenovationWindowView" Height="600" Width="700">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Margin="20,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Background="WhiteSmoke" Margin="10" Height="50" Orientation="Vertical">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Selected Room:" />
+                    <TextBlock Grid.Column="1" TextAlignment="Center" Padding="5" Text="{Binding SelectedRoom}" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Room Type:" />
+                    <TextBlock Grid.Column="1" TextAlignment="Center" Padding="5" Text="{Binding RoomType}" />
+                </Grid>
+            </StackPanel>
+                <Separator Grid.Row="1" Foreground="LightGray" Opacity="50"></Separator>
+                <StackPanel Grid.Row="2" VerticalAlignment="Center" Margin="0,10,0,20">
+                    <Label Foreground="WhiteSmoke" Content="Choose renovation start date and time:" />
+                    <DatePicker SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="1/01/23" Margin="10,0" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <ComboBox ItemsSource="{Binding Hour, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedHour}" Grid.Row="1"
+                                  Width="60" />
+                        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Minute}"
+                                  SelectedItem="{Binding SelectedMinute, UpdateSourceTrigger=PropertyChanged}" Width="60" />
+                        <Label Foreground="WhiteSmoke" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center"
+                               Content="Hour" />
+                        <Label Foreground="WhiteSmoke" Grid.Column="1" Grid.Row="0" Content="Minutes"
+                               HorizontalContentAlignment="Center" />
+                    </Grid>
+
+                </StackPanel>
+                <Separator Grid.Row="3" Foreground="LightGray"></Separator>
+                <StackPanel Grid.Row="4" VerticalAlignment="Center" Margin="0,10,0,20">
+                    <Label Foreground="WhiteSmoke" Content="Choose renovation end date and time:" />
+                    <DatePicker SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="1/01/23" Margin="10,0" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <ComboBox ItemsSource="{Binding Hour, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedHour}" Grid.Row="1"
+                                  Width="60" />
+                        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Minute}"
+                                  SelectedItem="{Binding SelectedMinute, UpdateSourceTrigger=PropertyChanged}" Width="60" />
+                        <Label Foreground="WhiteSmoke" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center"
+                               Content="Hour" />
+                        <Label Foreground="WhiteSmoke" Grid.Column="1" Grid.Row="0" Content="Minutes"
+                               HorizontalContentAlignment="Center" />
+                    </Grid>
+
+                </StackPanel>
+                <Separator Grid.Row="5" Foreground="LightGray"></Separator>
+                <StackPanel Grid.Row="6" Orientation="Horizontal">
+                    <Label VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Room available in selected timespan:" Foreground="WhiteSmoke"></Label>
+                    <TextBlock  TextAlignment="Center" Height="30" Margin="20" Foreground="WhiteSmoke" Padding="6" Text="{Binding RoomAvailable}"/>
+                    
+                </StackPanel>
+                
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Margin="30" Background="WhiteSmoke">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Margin="20" HorizontalAlignment="Center">
+                            <Label Content="Split" Foreground="DimGray"></Label>
+                            <CheckBox Margin="10,5,0,0" IsEnabled="{Binding IsSplitEnabled , Mode=TwoWay}" IsChecked="{Binding IsSplitChecked, UpdateSourceTrigger=PropertyChanged}" ></CheckBox>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="20" HorizontalAlignment="Center">
+                            <Label Content="Second room type:" Foreground="Black"></Label>
+                            <ComboBox Margin="10,5,0,0" Width="110"></ComboBox>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="30" Background="WhiteSmoke">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="20" HorizontalAlignment="Center">
+                            <Label Content="Join" Foreground="DimGray"></Label>
+                            <CheckBox Margin="10,5,0,0" IsEnabled="{Binding IsJoinEnabled ,Mode=TwoWay}" IsChecked="{Binding IsJoinChecked, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="20" HorizontalAlignment="Center">
+                            <Label Content="Select room to join with:" Foreground="Black"></Label>
+                            <ComboBox Margin="10,5,0,0" Width="80"></ComboBox>
+                        </StackPanel>
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="20" HorizontalAlignment="Center">
+                            <Label Content="Selected room available:" Foreground="Black"></Label>
+                            <TextBlock  TextAlignment="Center" Height="30" Margin="20,0,0,0" Padding="6" Text="{Binding }"/>
+                        </StackPanel>
+                    </Grid>
+
+                </Grid>
+
+            </Grid>
+        </Grid>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="10" Orientation="Horizontal">
+            <Button Padding="5" Margin="20,0" Width="150" Content="Cancel" Command="{Binding CancelRenovation}" />
+            <Button Padding="5" Margin="20,0" Width="150" Content="Confirm" Command="{Binding ConfirmRenovation}" />
+        </StackPanel>
+    </Grid>
+</Window>

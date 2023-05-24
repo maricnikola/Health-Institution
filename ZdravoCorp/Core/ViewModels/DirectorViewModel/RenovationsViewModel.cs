@@ -23,6 +23,7 @@ public class RenovationsViewModel : ViewModelBase
     private RoomViewModel? _selectedRoom;
     private readonly IRenovationService _renovationService;
     private ObservableCollection<RenovationViewModel> _renovations;
+    public ICommand ScheduleRenovationCommand { get; }
 
     public RenovationsViewModel (IRoomService roomService, IRenovationService renovationService)
     {
@@ -39,6 +40,7 @@ public class RenovationsViewModel : ViewModelBase
 
         _rooms = _allRooms;
         UpdateRenovations();
+        ScheduleRenovationCommand = new DelegateCommand(o => ScheduleRenovation(), o => CanScheduleRenovation());
         BindingOperations.EnableCollectionSynchronization(_rooms, _lock);
         BindingOperations.EnableCollectionSynchronization(_renovations, _lock2);
     }
@@ -125,10 +127,19 @@ public class RenovationsViewModel : ViewModelBase
             Renovations = _renovations;
         }
     }
-    
 
-    private bool IsRoomSelected()
+
+    private bool CanScheduleRenovation()
     {
-        return SelectedRoom != null;
+        return SelectedRoom is { IsUnderRenovation: false };
+    }
+
+    private void ScheduleRenovation()
+    {
+        var vm = new ScheduleRenovationWindowViewModel(_renovationService, SelectedRoom.Id);
+        var scheduleRenovationWindow = new ScheduleRenovationWindowView { DataContext = vm };
+        vm.OnRequestClose += (s, e) => scheduleRenovationWindow.Close();
+        scheduleRenovationWindow.Show();
+
     }
 }

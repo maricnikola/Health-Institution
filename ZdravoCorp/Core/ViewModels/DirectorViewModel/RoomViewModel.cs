@@ -15,7 +15,7 @@ public class RoomViewModel : ViewModelBase
     public int Id => _room.Id;
     public string Type => _room.Type.ToString();
 
-    public string IsUnderRenovation => _room.IsUnderRenovation.ToString();
+    public bool IsUnderRenovation => _room.IsUnderRenovation;
 
     public override string ToString()
     {
