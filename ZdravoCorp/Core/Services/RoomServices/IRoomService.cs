@@ -15,4 +15,5 @@ public interface IRoomService
     public void Delete(int id);
     IEnumerable<Room> GetAllExcept(int roomId);
     public event EventHandler DataChanged;
+    public int[] GetAllIds();
 }

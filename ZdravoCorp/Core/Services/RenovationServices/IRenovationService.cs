@@ -8,7 +8,7 @@ public interface IRenovationService
 {
     public List<Renovation>? GetAll();
     public Renovation? GetById(int id);
-    public void AddOrder(RenovationDTO renovationDto);
+    public void AddRenovation(RenovationDTO renovationDto);
     public void UpdateStatus(int id, Renovation.RenovationStatus status);
 
     public void Update(int id, RenovationDTO renovationDto);

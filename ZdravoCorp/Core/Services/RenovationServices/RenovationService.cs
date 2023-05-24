@@ -24,7 +24,7 @@ public class RenovationService : IRenovationService
         return _renovationRepository.GetById(id);
     }
 
-    public void AddOrder(RenovationDTO renovationDto)
+    public void AddRenovation(RenovationDTO renovationDto)
     {
         _renovationRepository.Insert(new Renovation(renovationDto));
         DataChanged?.Invoke(this, new EventArgs());

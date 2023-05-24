@@ -136,7 +136,7 @@ public class RenovationsViewModel : ViewModelBase
 
     private void ScheduleRenovation()
     {
-        var vm = new ScheduleRenovationWindowViewModel(_renovationService, SelectedRoom.Id);
+        var vm = new ScheduleRenovationWindowViewModel(_renovationService, _roomService, SelectedRoom.Id);
         var scheduleRenovationWindow = new ScheduleRenovationWindowView { DataContext = vm };
         vm.OnRequestClose += (s, e) => scheduleRenovationWindow.Close();
         scheduleRenovationWindow.Show();

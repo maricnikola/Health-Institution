@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using ZdravoCorp.Core.Models.Rooms;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Models.Renovation;
 
@@ -8,19 +9,17 @@ public class Renovation
 {
     public int Id { get; set; }
     public Room Room { get; set; }
-    public DateTime Start { get; set; }
-    public DateTime Until { get; set; }
-    public Room Split { get; set; }
-    public Room Join { get; set; }
+    public TimeSlot Slot { get; set; }
+    public Room? Split { get; set; }
+    public Room? Join { get; set; }
     public RenovationStatus Status { get; set; }
 
     [JsonConstructor]
-    public Renovation(int id,Room room, DateTime start, DateTime until, Room split, Room join, RenovationStatus status)
+    public Renovation(int id,Room room, TimeSlot slot,  RenovationStatus status,Room? split=null, Room? join=null)
     {
         Id = id;
         Room = room;
-        Start = start;
-        Until = until;
+        Slot = slot;
         Split = split;
         Join = join;
         Status = status;
@@ -30,8 +29,7 @@ public class Renovation
     {
         Id = renovationDto.Id;
         Room = renovationDto.Room;
-        Start = renovationDto.Start;
-        Until = renovationDto.Until;
+        Slot = renovationDto.Slot;
         Split = renovationDto.Split;
         Join = renovationDto.Join;
         Status = renovationDto.Status;

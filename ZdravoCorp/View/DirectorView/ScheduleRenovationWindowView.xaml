@@ -4,6 +4,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:ZdravoCorp.View.DirectorView"
+        xmlns:directorViewModel="clr-namespace:ZdravoCorp.Core.ViewModels.DirectorViewModel"
+        d:DataContext="{d:DesignInstance Type=directorViewModel:ScheduleRenovationWindowViewModel}"
         mc:Ignorable="d"
         Background="#29262e"
         Title="ScheduleRenovationWindowView" Height="600" Width="700">
@@ -42,13 +44,13 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Label Content="Room Type:" />
-                    <TextBlock Grid.Column="1" TextAlignment="Center" Padding="5" Text="{Binding RoomType}" />
+                    <TextBlock Grid.Column="1" TextAlignment="Center" Padding="5" Text="{Binding SelectedRoomType}" />
                 </Grid>
             </StackPanel>
                 <Separator Grid.Row="1" Foreground="LightGray" Opacity="50"></Separator>
                 <StackPanel Grid.Row="2" VerticalAlignment="Center" Margin="0,10,0,20">
                     <Label Foreground="WhiteSmoke" Content="Choose renovation start date and time:" />
-                    <DatePicker SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="1/01/23" Margin="10,0" />
+                    <DatePicker SelectedDate="{Binding SelectedStartDate, UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="1/01/23" Margin="10,0" />
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -59,10 +61,10 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <ComboBox ItemsSource="{Binding Hour, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedHour}" Grid.Row="1"
+                        <ComboBox ItemsSource="{Binding Hours, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedStartHour, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1"
                                   Width="60" />
-                        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Minute}"
-                                  SelectedItem="{Binding SelectedMinute, UpdateSourceTrigger=PropertyChanged}" Width="60" />
+                        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Minutes}"
+                                  SelectedItem="{Binding SelectedStartMinute, UpdateSourceTrigger=PropertyChanged}" Width="60" />
                         <Label Foreground="WhiteSmoke" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center"
                                Content="Hour" />
                         <Label Foreground="WhiteSmoke" Grid.Column="1" Grid.Row="0" Content="Minutes"
@@ -73,7 +75,7 @@
                 <Separator Grid.Row="3" Foreground="LightGray"></Separator>
                 <StackPanel Grid.Row="4" VerticalAlignment="Center" Margin="0,10,0,20">
                     <Label Foreground="WhiteSmoke" Content="Choose renovation end date and time:" />
-                    <DatePicker SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="1/01/23" Margin="10,0" />
+                    <DatePicker SelectedDate="{Binding SelectedEndDate, UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="1/01/23" Margin="10,0" />
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -84,10 +86,10 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <ComboBox ItemsSource="{Binding Hour, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedHour}" Grid.Row="1"
+                        <ComboBox ItemsSource="{Binding Hours, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedEndHour, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1"
                                   Width="60" />
-                        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Minute}"
-                                  SelectedItem="{Binding SelectedMinute, UpdateSourceTrigger=PropertyChanged}" Width="60" />
+                        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Minutes}"
+                                  SelectedItem="{Binding SelectedEndMinute, UpdateSourceTrigger=PropertyChanged}" Width="60" />
                         <Label Foreground="WhiteSmoke" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center"
                                Content="Hour" />
                         <Label Foreground="WhiteSmoke" Grid.Column="1" Grid.Row="0" Content="Minutes"
@@ -98,7 +100,7 @@
                 <Separator Grid.Row="5" Foreground="LightGray"></Separator>
                 <StackPanel Grid.Row="6" Orientation="Horizontal">
                     <Label VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Room available in selected timespan:" Foreground="WhiteSmoke"></Label>
-                    <TextBlock  TextAlignment="Center" Height="30" Margin="20" Foreground="WhiteSmoke" Padding="6" Text="{Binding RoomAvailable}"/>
+                    <TextBlock Name="IsRoomAvailable" TextAlignment="Center" Height="30" Margin="20" Foreground="WhiteSmoke" Padding="6" Text="{Binding IsRoomAvailable}"/>
                     
                 </StackPanel>
                 
@@ -120,7 +122,7 @@
                         </StackPanel>
                         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="20" HorizontalAlignment="Center">
                             <Label Content="Second room type:" Foreground="Black"></Label>
-                            <ComboBox Margin="10,5,0,0" Width="110"></ComboBox>
+                            <ComboBox Margin="10,5,0,0" Width="110" SelectedItem="{Binding SplitRoomType, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding RoomTypes}"></ComboBox>
                         </StackPanel>
                     </Grid>
                     <Grid Grid.Row="1" Margin="30" Background="WhiteSmoke">
@@ -135,11 +137,11 @@
                         </StackPanel>
                         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="20" HorizontalAlignment="Center">
                             <Label Content="Select room to join with:" Foreground="Black"></Label>
-                            <ComboBox Margin="10,5,0,0" Width="80"></ComboBox>
+                            <ComboBox Margin="10,5,0,0" Width="80" SelectedItem="{Binding JoinRoomId, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding  JoinRoomList}"></ComboBox>
                         </StackPanel>
                         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="20" HorizontalAlignment="Center">
                             <Label Content="Selected room available:" Foreground="Black"></Label>
-                            <TextBlock  TextAlignment="Center" Height="30" Margin="20,0,0,0" Padding="6" Text="{Binding }"/>
+                            <TextBlock  TextAlignment="Center" Height="30" Margin="20,0,0,0" Padding="6" Text="{Binding IsJoinRoomAvailable }"/>
                         </StackPanel>
                     </Grid>
 

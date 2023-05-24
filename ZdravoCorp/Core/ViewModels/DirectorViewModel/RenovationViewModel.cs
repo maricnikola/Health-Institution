@@ -12,8 +12,8 @@ public class RenovationViewModel : ViewModelBase
     }
 
     public int Room => _renovation.Room.Id;
-    public string Start => _renovation.Start.ToString();
-    public string Until => _renovation.Until.ToString();
+    public string Start => _renovation.Slot.Start.ToString();
+    public string Until => _renovation.Slot.End.ToString();
 
     public string Split
     {

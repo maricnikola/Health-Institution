@@ -53,5 +53,10 @@ public class RoomService : IRoomService
         return _roomRepository.GetAll().Where(room => room.Id != roomId);
     }
 
+    public int[] GetAllIds()
+    {
+        return _roomRepository.GetAll().Select(room => room.Id).ToArray();
+    }
+
     public event EventHandler? DataChanged;
 }
