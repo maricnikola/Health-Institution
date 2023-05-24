@@ -7,6 +7,7 @@ using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Inventory;
 using ZdravoCorp.Core.Repositories.InventoryRepo;
 using ZdravoCorp.Core.Services.InventoryServices;
+using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
@@ -16,10 +17,12 @@ public class DEquipmentSpentViewModel : ViewModelBase
 {
     private ObservableCollection<DynamicInventoryViewModel> _dynamicInventory;
     private readonly IInventoryService _inventoryService;
+    private readonly IRoomService _roomService;
     private readonly int _roomId;
 
-    public DEquipmentSpentViewModel(IInventoryService inventoryService, int roomId)
+    public DEquipmentSpentViewModel(IInventoryService inventoryService,IRoomService roomService, int roomId)
     {
+        _roomService = roomService;
         _roomId = roomId;
         _dynamicInventory = new ObservableCollection<DynamicInventoryViewModel>();
         _inventoryService = inventoryService;
@@ -59,11 +62,7 @@ public class DEquipmentSpentViewModel : ViewModelBase
                 correctnessCheck = false;
                 break;
             }
-
-            var inventoryI = _inventoryService.GetById(inventoryItem.Id);
-            inventoryI.Quantity -= inventoryItem.OrderQuantity;
-            var inventoryDto = new InventoryItemDTO(inventoryI.Id, inventoryI.Quantity, inventoryI.RoomId, inventoryI.Equipment);
-            _inventoryService.Update(inventoryDto.Id, inventoryDto);
+            _inventoryService.UpdateSpentInventory(inventoryItem.Id, inventoryItem.OrderQuantity);
         }
 
         if (correctnessCheck) CloseWindow();

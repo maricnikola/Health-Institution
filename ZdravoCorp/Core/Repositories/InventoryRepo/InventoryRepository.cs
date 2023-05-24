@@ -98,4 +98,9 @@ public class InventoryRepository : ISerializable, IInventoryRepository
     {
         Serializer.Save(this);
     }
+    public void ChangeQuantity(InventoryItem inventoryItem, int quantity)
+    {
+        inventoryItem.Quantity -= quantity;
+        SaveChanges();
+    }
 }

@@ -51,7 +51,6 @@ public class AppointmentShowViewModel : ViewModelBase
         AddAppointmentCommand = new DelegateCommand(o => OpenAddDialog());
         ChangeAppointmentCommand = new DelegateCommand(o => OpenChangeDialog());
         CancelAppointmentCommand = new DelegateCommand(o => CancelAppointment());
-        SearchAppointmentCommand = new DelegateCommand(o => SearchAppointments());
         ViewMedicalRecordCommand = new DelegateCommand(o => ShowMedicalRecord());
         PerformAppointmentCommand = new DelegateCommand(o => ShowPerformingView());
     }
@@ -62,7 +61,6 @@ public class AppointmentShowViewModel : ViewModelBase
     public ICommand ChangeAppointmentCommand { get; }
     public ICommand AddAppointmentCommand { get; }
     public ICommand CancelAppointmentCommand { get; }
-    public ICommand SearchAppointmentCommand { get; }
     public ICommand ViewMedicalRecordCommand { get; }
     public ICommand PerformAppointmentCommand { get; }
 
@@ -80,6 +78,7 @@ public class AppointmentShowViewModel : ViewModelBase
             }
 
             OnPropertyChanged();
+            SearchAppointments();
         }
     }
 
@@ -128,7 +127,7 @@ public class AppointmentShowViewModel : ViewModelBase
         {
             var appointment = _scheduleService.GetAppointmentById(selectedAppointment.Id);
             var appointmentDto = new AppointmentDTO(appointment.Id, appointment.Time.Start, appointment.Doctor,
-                appointment.PatientEmail, appointment.Anamnesis);
+                appointment.PatientEmail, null);
             if (appointment.Status)
             {
                 MessageBox.Show("Appointment is performed", "Error", MessageBoxButton.OK);
@@ -192,9 +191,10 @@ public class AppointmentShowViewModel : ViewModelBase
                 var window = new PerformAppointmentView
                 {
                     DataContext = new PerformAppointmentViewModel(appointmentPerforming, _scheduleService,
-                        _patientService, _medicalRecordService, _inventoryService, _roomService)
+                        _patientService, _medicalRecordService, _inventoryService, _roomService,_doctorService)
                 };
                 window.Show();
+                DateAppointment = DateTime.Now + TimeSpan.FromHours(1);
             }
             else
             {
