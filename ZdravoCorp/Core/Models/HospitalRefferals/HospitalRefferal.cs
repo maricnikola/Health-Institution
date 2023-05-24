@@ -14,7 +14,7 @@ public class HospitalRefferal
     public string PatientMail { get; set; }
     public TimeSlot Time { get; set; }
     public string InitialTherapy { get; set; }
-    public string AdditionalTests { get; set; }
+    public string? AdditionalTests { get; set; }
 
     [JsonConstructor]
     public HospitalRefferal(int id, string patientMail, TimeSlot time, string initialTherapy,string additionalTests)

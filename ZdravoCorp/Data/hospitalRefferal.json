@@ -1,1 +1,22 @@
-﻿[]
+[
+  {
+    "Id": 486,
+    "PatientMail": "sreten.pejovic@gmail.com",
+    "Time": {
+      "Start": "2023-05-24T21:00:00",
+      "End": "2023-06-08T21:00:00"
+    },
+    "InitialTherapy": "aaasdfad",
+    "AdditionalTests": "aasda"
+  },
+  {
+    "Id": 487,
+    "PatientMail": "sreten.pejovic@gmail.com",
+    "Time": {
+      "Start": "2023-05-24T21:00:00",
+      "End": "2023-06-07T21:00:00"
+    },
+    "InitialTherapy": "asfdaa",
+    "AdditionalTests": null
+  }
+]

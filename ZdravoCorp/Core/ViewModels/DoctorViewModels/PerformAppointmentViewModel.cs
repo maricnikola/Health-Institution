@@ -15,6 +15,7 @@ using ZdravoCorp.Core.Services.SpecialistsRefferalServices;
 using ZdravoCorp.Core.Utilities;
 using Autofac;
 using ZdravoCorp.Core.Services.DoctorServices;
+using ZdravoCorp.Core.Services.HospitalRefferalServices;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -36,15 +37,17 @@ public class PerformAppointmentViewModel : ViewModelBase
     private readonly IRoomService _roomService;
     private readonly IScheduleService _scheduleService;
     private readonly IDoctorService _doctorService;
+    private readonly IHospitalRefferalService _hospitalRefferalService;
 
 
     private string _symptoms;
 
 
     public PerformAppointmentViewModel(Appointment performingAppointment, IScheduleService scheduleService,
-        IPatientService patientService, IMedicalRecordService medicalRecordService,
-        IInventoryService inventoryService, IRoomService roomService,IDoctorService doctorService)
+        IPatientService patientService, IMedicalRecordService medicalRecordService,IInventoryService inventoryService, 
+        IRoomService roomService,IDoctorService doctorService,IHospitalRefferalService hospitalRefferalService)
     {
+        _hospitalRefferalService = hospitalRefferalService;
         _doctorService = doctorService;
         _roomService = roomService;
         _specialistsRefferalService = Injector.Container.Resolve<ISpecialistsRefferalService>();
@@ -192,7 +195,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     public void ShowHospitalRefferal()
     {
         CloseWindow();
-        var window = new AddHospitalRefferalView() { DataContext = new AddHospitalRefferalViewModel(this) };
+        var window = new AddHospitalRefferalView() { DataContext = new AddHospitalRefferalViewModel(this,_appointment,_scheduleService,_hospitalRefferalService) };
         window.Show();
     }
 

@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
+using ZdravoCorp.Core.Models.Appointments;
+using ZdravoCorp.Core.Models.HospitalRefferals;
 using ZdravoCorp.Core.Services.HospitalRefferalServices;
+using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Services.SpecialistsRefferalServices;
 using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.View.DoctorView;
@@ -22,11 +25,17 @@ public class AddHospitalRefferalViewModel: ViewModelBase
     public ICommand Close { get; }
     public ICommand CreateRefferal { get; }
     public IHospitalRefferalService _hospitalRefferalService;
-    public AddHospitalRefferalViewModel(PerformAppointmentViewModel performAppointmentViewModel)
+    public IScheduleService _scheduleService;
+    private Appointment _appointment;
+    public AddHospitalRefferalViewModel(PerformAppointmentViewModel performAppointmentViewModel,Appointment appointment,
+        IScheduleService scheduleService,IHospitalRefferalService hospitalRefferalService)
     {
-        _hospitalRefferalService = Injector.Container.Resolve<IHospitalRefferalService>();
+        _appointment = appointment;
+        _scheduleService = scheduleService;
+        _hospitalRefferalService = hospitalRefferalService;
         _performAppointmentViewModel = performAppointmentViewModel;
         Close = new DelegateCommand(o => CloseWindow(true));
+        CreateRefferal = new DelegateCommand(o => CreateHospitalRefferal());
     }
 
     private int _duration;
@@ -76,6 +85,32 @@ public class AddHospitalRefferalViewModel: ViewModelBase
         {
             var performWindow = new PerformAppointmentView() { DataContext = _performAppointmentViewModel };
             performWindow.Show();
+        }
+    }
+    private void CreateHospitalRefferal()
+    {
+        try
+        {
+            int duration = Duration;
+            TimeSlot time = new TimeSlot(_appointment.Time.End, _appointment.Time.End.AddDays(duration));
+            string initialTherapy = InitialTherapy;
+            if(initialTherapy.Length < 5)
+            {
+                MessageBox.Show("Invalid data for hospital refferal", "Error", MessageBoxButton.OK);
+                return;
+            }
+            string additionTests = AdditionTests;
+            _hospitalRefferalService.AddRefferal(new HospitalRefferal(IDGenerator.GetId(),_appointment.PatientEmail,time, initialTherapy, additionTests));
+            CloseWindow(false);
+            _performAppointmentViewModel.ShowDEquipmentSpentDialog();
+            var appointmentDto = new AppointmentDTO(_appointment.Id, _appointment.Time.Start, _appointment.Doctor,
+            _appointment.PatientEmail, null);
+            _scheduleService.CancelAppointmentByDoctor(appointmentDto);
+        }
+        catch (Exception)
+        {
+
+            MessageBox.Show("Invalid data for hospital refferal", "Error", MessageBoxButton.OK);
         }
     }
 }

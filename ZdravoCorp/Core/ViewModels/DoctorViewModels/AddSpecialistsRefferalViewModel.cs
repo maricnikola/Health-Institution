@@ -143,17 +143,7 @@ public class AddSpecialistsRefferalViewModel : ViewModelBase
 
     private void CreateSpecialistsRefferal()
     {
-        if(!IsDoctorEnabled && !IsSpecialisationsEnabled)
-        {
-            MessageBox.Show("Invalid data for performing", "Error", MessageBoxButton.OK);
-            return;
-        }
-        if(IsDoctorEnabled && SelectedDoctor== null)
-        {
-            MessageBox.Show("Invalid data for performing", "Error", MessageBoxButton.OK);
-            return;
-        }
-        if(IsSpecialisationsEnabled && SelectedSpecialisation== null)
+        if (checkSelectedData())
         {
             MessageBox.Show("Invalid data for performing", "Error", MessageBoxButton.OK);
             return;
@@ -183,5 +173,11 @@ public class AddSpecialistsRefferalViewModel : ViewModelBase
         CloseWindow(false);
         _performAppointmentViewModel.ShowDEquipmentSpentDialog();
 
+    }
+
+    private bool checkSelectedData()
+    {
+        return (!IsDoctorEnabled && !IsSpecialisationsEnabled) || (IsDoctorEnabled && SelectedDoctor == null) 
+            || (IsSpecialisationsEnabled && SelectedSpecialisation == null);
     }
 }
