@@ -15,7 +15,7 @@ public class RenovationRepository : IRenovationRepository, ISerializable
     public RenovationRepository()
     {
         _renovations = new List<Renovation>();
-         //Serializer.Load(this);
+         Serializer.Load(this);
     }
     public IEnumerable<Renovation> GetAll()
     {

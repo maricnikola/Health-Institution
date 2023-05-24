@@ -11,6 +11,7 @@ public interface IRoomService
     public void AddRoom(RoomDTO roomDto);
 
     public void Update(int id, RoomDTO roomDto);
+    public bool UpdateRenovation(int id, bool status);
 
     public void Delete(int id);
     IEnumerable<Room> GetAllExcept(int roomId);

@@ -40,7 +40,21 @@ public class RoomService : IRoomService
         _roomRepository.Insert(new Room(roomDto));
         DataChanged?.Invoke(this, new EventArgs());
     }
-    
+
+    public bool UpdateRenovation(int id, bool status)
+    {
+        var room = GetById(id);
+
+        if (room == null)
+            throw new KeyNotFoundException();
+        if (room.IsUnderRenovation == status)
+            return false;
+        var roomDto = new RoomDTO(room.Id, room.Type, status);
+        Update(id, roomDto);
+        DataChanged?.Invoke(this, EventArgs.Empty);
+        return true;
+    }
+
 
     public void Delete(int id)
     {

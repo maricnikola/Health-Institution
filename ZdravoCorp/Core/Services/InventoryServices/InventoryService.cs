@@ -136,4 +136,23 @@ public class InventoryService : IInventoryService
         sourceItem.Quantity -= quantity;
         DataChanged?.Invoke(this, new EventArgs());
     }
+
+    public void MoveItemsToStockRoom(int roomId)
+    {
+        List<int> removeIds = new List<int>();
+        foreach (var item in _inventoryRepository.GetAll())
+        {
+            if (item.RoomId == roomId)
+            {
+                removeIds.Add(item.Id);
+                var newItem = new InventoryItemDTO(IDGenerator.GetId(), item.Quantity, 999, item.Equipment);
+                AddInventoryItem(newItem);
+            }
+        }
+
+        foreach (var id in removeIds)
+        {
+            Delete(id);
+        }
+    }
 }

@@ -39,6 +39,7 @@ public class Renovation
     {
         Pending,
         InProgress,
-        Finished
+        Finished,
+        Failed
     }
 }

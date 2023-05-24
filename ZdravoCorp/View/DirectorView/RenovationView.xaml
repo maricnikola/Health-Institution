@@ -6,7 +6,7 @@
              xmlns:directorViewModel="clr-namespace:ZdravoCorp.Core.ViewModels.DirectorViewModel"
              d:DataContext="{d:DesignInstance Type=directorViewModel:RenovationsViewModel}"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="700"
+             d:DesignHeight="300" d:DesignWidth="800"
              Background="#29262e">
 
         <Grid>
@@ -48,11 +48,11 @@
                   SelectionMode="Single"
                   IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,10" Name="RenovationsTable">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Room" Width="80" Binding="{Binding Room}" />
+                <DataGridTextColumn Header="Room" Width="50" Binding="{Binding Room}" />
                 <DataGridTextColumn Header="Start" Width="150" Binding="{Binding Start}" />
                 <DataGridTextColumn Header="Until" Width="150" Binding="{Binding Until}" />
-                <DataGridTextColumn Header="Split" Width="80" Binding="{Binding Split}" />
-                <DataGridTextColumn Header="Join" Width="80" Binding="{Binding Join}" />
+                <DataGridTextColumn Header="Split"  Binding="{Binding Split}" />
+                <DataGridTextColumn Header="Join"  Binding="{Binding Join}" />
                 <DataGridTextColumn Header="Status" Width="100" Binding="{Binding Status}" />
 
             </DataGrid.Columns>

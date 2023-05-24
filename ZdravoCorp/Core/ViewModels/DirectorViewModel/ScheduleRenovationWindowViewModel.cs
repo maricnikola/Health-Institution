@@ -10,6 +10,7 @@ using ZdravoCorp.Core.Services.RenovationServices;
 using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Utilities;
+using ZdravoCorp.Core.Utilities.CronJobs;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
@@ -152,6 +153,7 @@ public class ScheduleRenovationWindowViewModel : ViewModelBase
         var newRenovation = new RenovationDTO(IDGenerator.GetId(), _roomService.GetById(SelectedRoom),
             _renovationTimeSlot, Renovation.RenovationStatus.Pending, split, join);
         _renovationService.AddRenovation(newRenovation);
+        JobScheduler.RenovationTaskScheduler(newRenovation);
         OnRequestClose?.Invoke(this, EventArgs.Empty);
     }
 

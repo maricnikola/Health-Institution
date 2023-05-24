@@ -21,7 +21,7 @@ public class RenovationViewModel : ViewModelBase
         {
             if (_renovation.Split == null)
                 return " ";
-            return _renovation.Split.Id.ToString();
+            return _renovation.Split.Id.ToString() + " - "+ _renovation.Split.Type.ToString();
         }
     }
     
@@ -31,7 +31,7 @@ public class RenovationViewModel : ViewModelBase
         {
             if (_renovation.Join == null)
                 return " ";
-            return _renovation.Join.Id.ToString();
+            return _renovation.Join.Id.ToString() + " - " + _renovation.Join.Type.ToString();
         }
     }
     public string Status => _renovation.Status.ToString();

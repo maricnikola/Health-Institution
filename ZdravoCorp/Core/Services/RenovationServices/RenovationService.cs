@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ZdravoCorp.Core.Models.Renovation;
 using ZdravoCorp.Core.Repositories.RenovationRepo;
+using ZdravoCorp.Core.Services.RoomServices;
 
 namespace ZdravoCorp.Core.Services.RenovationServices;
 
@@ -53,6 +54,8 @@ public class RenovationService : IRenovationService
         _renovationRepository.Delete(GetById(id));
         DataChanged?.Invoke(this, new EventArgs());
     }
+
+
 
     public event EventHandler? DataChanged;
 }

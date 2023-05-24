@@ -14,6 +14,6 @@ public interface IRenovationService
     public void Update(int id, RenovationDTO renovationDto);
 
     public void Delete(int id);
-
+    
     public event EventHandler DataChanged;
 }
