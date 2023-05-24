@@ -7,7 +7,7 @@ using ZdravoCorp.Core.Models.HospitalRefferals;
 
 namespace ZdravoCorp.Core.Services.HospitalRefferalServices;
 
-public class IHospitalRefferalService
+public interface IHospitalRefferalService
 {
     public List<HospitalRefferal>? GetAll();
     public HospitalRefferal? GetById(int id);

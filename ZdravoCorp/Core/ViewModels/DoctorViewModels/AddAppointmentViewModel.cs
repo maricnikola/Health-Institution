@@ -6,8 +6,6 @@ using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
-using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
 using ZdravoCorp.Core.Services.PatientServices;
 using ZdravoCorp.Core.Services.ScheduleServices;

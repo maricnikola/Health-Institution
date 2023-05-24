@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.EquipmentRepo;
+using ZdravoCorp.Core.Repositories.HospitalRefferalsRepo;
 using ZdravoCorp.Core.Repositories.InventoryRepo;
 using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
 using ZdravoCorp.Core.Repositories.OrderRepo;
@@ -21,7 +22,9 @@ public class RepositoriesModule : Autofac.Module
        builder.RegisterType<InventoryRepository>().As<IInventoryRepository>().SingleInstance();
        builder.RegisterType<MedicalRecordRepository>().As<IMedicalRecordRepository>().SingleInstance();
        builder.RegisterType<OrderRepository>().As<IOrderRepository>().SingleInstance();
+
        builder.RegisterType<SpecialistsRefferalRepository>().As<ISpecialistsRefferalRepository>().SingleInstance();
+       builder.RegisterType<HospitalRefferalRepository>().As<IHospitalRefferalRepository>().SingleInstance();
 
        builder.RegisterType<ScheduleRepository>().As<IScheduleRepository>().SingleInstance();
        builder.RegisterType<TransferRepository>().As<ITransferRepository>().SingleInstance();

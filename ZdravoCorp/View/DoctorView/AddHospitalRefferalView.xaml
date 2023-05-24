@@ -5,8 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZdravoCorp.View.DoctorView"
         mc:Ignorable="d"
-        Title="AddHospitalRefferalView" Height="450" Width="800">
+        Title="Hospital Refferal" Height="270" Width="300"
+         Background="#29262e">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0" Margin="15 15 10 0">
+            <Label  Foreground="White" Content="Duration:"/>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1" Margin="10 20 10 0">
+            <TextBox Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" Width="150"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0" Margin="15 25 10 0">
+            <Label   Foreground="White" Content="Initial therapy:"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1"  Margin="10 20 10 0">
+            <TextBox Text="{Binding InitialTherapy, UpdateSourceTrigger=PropertyChanged}" Width="150" Height="40"/>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="0" Margin="15 15 10 0">
+            <Label  Foreground="White" Content="Addition tests:"/>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="1"   Margin="10 20 10 0">
+            <TextBox Text="{Binding AdditionTests, UpdateSourceTrigger=PropertyChanged}" Width="150" Height="40"/>
+        </Grid>
+
+        <Grid Grid.Row="3" Grid.Column="0" Margin="25 30 10 10">
+            <Button Command="{Binding CreateRefferal}" Padding="5" Content="Instruct"/>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="1" Margin="25 30 10 10">
+            <Button Padding="5" Content="Cancel" Command="{Binding Close}"/>
+        </Grid>
     </Grid>
 </Window>

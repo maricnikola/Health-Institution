@@ -192,7 +192,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     public void ShowHospitalRefferal()
     {
         CloseWindow();
-        var window = new AddHospitalRefferalView() { DataContext = new AddHospitalRefferalViewModel() };
+        var window = new AddHospitalRefferalView() { DataContext = new AddHospitalRefferalViewModel(this) };
         window.Show();
     }
 
