@@ -13,4 +13,7 @@ public interface INotificationService
     public Notification? GetById(int id);
     public void AddNotification(NotificationDTO notificationDto);
     public void Delete(int id);
+    public List<Notification> GetAllForUser(string userEmail);
+    public void UpdateStatus(int id, Notification.NotificationStatus status);
+
 }

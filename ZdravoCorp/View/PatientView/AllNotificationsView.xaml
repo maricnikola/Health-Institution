@@ -17,6 +17,6 @@
                 <DataGridTextColumn Header="Note" Width="300" Binding="{Binding Message}" />
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="New Notification" HorizontalAlignment="Left" Margin="136,36,0,0" VerticalAlignment="Top" Height="32" Width="123"/>
+        <Button Command="{Binding CreateNotificationCommand}" Content="New Notification" HorizontalAlignment="Left" Margin="136,36,0,0" VerticalAlignment="Top" Height="32" Width="123"/>
     </Grid>
 </UserControl>

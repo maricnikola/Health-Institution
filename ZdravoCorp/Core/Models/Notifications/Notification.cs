@@ -13,16 +13,24 @@ public class Notification
     public DateTime When { get; set; }
     public string Message { get; set; }
     public string UserEmail { get; set; }
+    public NotificationStatus Status { get; set; }
+
+    public enum NotificationStatus
+    {
+        Pending,
+        Completed
+    }
 
     //probably status
 
     [JsonConstructor]
-    public Notification(int id, DateTime when, string message, string userEmail)
+    public Notification(int id, DateTime when, string message, string userEmail,NotificationStatus status)
     {
         Id = id;
         When = when;
         Message = message;
         UserEmail = userEmail;
+        Status = status;
     }
 
     public Notification(NotificationDTO notificationDto)
@@ -31,5 +39,6 @@ public class Notification
         When = notificationDto.When;
         Message = notificationDto.Message;
         UserEmail = notificationDto.UserEmail;
+        Status = notificationDto.Status;
     }
 }

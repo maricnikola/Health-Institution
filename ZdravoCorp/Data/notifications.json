@@ -1,14 +1,1 @@
-﻿[
-  {
-    "Id": 550,
-    "When": "2023-05-31T01:15:00",
-    "Message": "Create appointment!",
-    "UserEmail": "@sreten.pejovic@gmail.com"
-  },
-  {
-    "Id": 551,
-    "When": "2023-05-30T01:15:00",
-    "Message": "Find doctor Vrabac!",
-    "UserEmail": "@sreten.pejovic@gmail.com"
-  }
-]
+[{"Id":550,"When":"2023-05-31T01:15:00","Message":"Create appointment!","UserEmail":"sreten.pejovic@gmail.com","Status":0},{"Id":551,"When":"2023-05-30T01:15:00","Message":"Find doctor Vrabac!","UserEmail":"sreten.pejovic@gmail.com","Status":0},{"Id":469,"When":"2023-05-25T00:00:00","Message":"Nahrani bebu","UserEmail":"sreten.pejovic@gmail.com","Status":0},{"Id":471,"When":"2023-06-01T00:00:00","Message":"sisaj zvezdooo","UserEmail":"sreten.pejovic@gmail.com","Status":0},{"Id":472,"When":"2023-05-24T15:24:00","Message":"aaa","UserEmail":"sreten.pejovic@gmail.com","Status":1},{"Id":475,"When":"2023-05-24T15:27:00","Message":"Napoji stoku","UserEmail":"sreten.pejovic@gmail.com","Status":1}]

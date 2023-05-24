@@ -34,4 +34,14 @@ public class NotificationService : INotificationService
     {
         _notificationRepository.Delete(GetById(id));
     }
+
+    public List<Notification> GetAllForUser(string userEmail)
+    {
+        return GetAll().Where(notification => notification.UserEmail == userEmail).ToList();
+    }
+
+    public void UpdateStatus(int id, Notification.NotificationStatus status)
+    {
+        _notificationRepository.UpdateStatus(id, status);
+    }
 }

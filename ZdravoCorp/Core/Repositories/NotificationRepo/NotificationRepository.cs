@@ -42,6 +42,12 @@ public class NotificationRepository : ISerializable, INotificationRepository
         return _notifications.FirstOrDefault(notification=> notification.Id == id);
     }
 
+    public void UpdateStatus(int id, Notification.NotificationStatus status)
+    {
+        GetById(id).Status = status;
+        Serializer.Save(this);
+    }
+
     public string FileName()
     {
         return _fileName;

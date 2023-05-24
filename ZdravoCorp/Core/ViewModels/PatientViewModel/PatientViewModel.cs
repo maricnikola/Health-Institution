@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Threading;
+using System.Windows.Input;
 using Autofac;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Users;
@@ -12,6 +13,7 @@ using ZdravoCorp.Core.Services.NotificationServices;
 using ZdravoCorp.Core.Services.PatientServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Utilities;
+using ZdravoCorp.Core.Utilities.CronJobs;
 
 namespace ZdravoCorp.Core.ViewModels.PatientViewModel;
 
@@ -28,10 +30,6 @@ public class PatientViewModel : ViewModelBase
 
     public PatientViewModel(User user)
     {
-        //_scheduleRepository = _repositoryManager.ScheduleRepository;
-        //_doctorRepository = _repositoryManager.DoctorRepository;
-        //_patient = _patientService.GeTPatientByEmail(user.Email);
-        //_medicalRecordRepository = _repositoryManager.MedicalRecordRepository;
         _doctorService = Injector.Container.Resolve<IDoctorService>();
         _medicalRecordService = Injector.Container.Resolve<IMedicalRecordService>();
         _scheduleService = Injector.Container.Resolve<IScheduleService>();
@@ -45,6 +43,8 @@ public class PatientViewModel : ViewModelBase
         LoadDoctorsCommand = new DelegateCommand(o => LoadDoctors());
         LoadNotificationsCommand = new DelegateCommand(o => LoadNotifications());
         _currentView = new AppointmentTableViewModel(_scheduleService, _doctorService, _patient);
+        JobScheduler.LoadUsersNotifications(user.Email);
+
     }
 
     public ICommand LoadAppointmentsCommand { get; set; }
@@ -87,7 +87,7 @@ public class PatientViewModel : ViewModelBase
 
     private void LoadNotifications()
     {
-        CurrentView = new AllNotificationsViewModel(_notificationService);
+        CurrentView = new AllNotificationsViewModel(_notificationService,_patient.Email);
     }
 
 }
