@@ -42,7 +42,6 @@ public class OldAppointmentsViewModel : ViewModelBase
         PossibleDoctors = new HashSet<string>();
         PossibleDoctors.Add("None");
         PossibleSpecializations = new HashSet<string>();
-        PossibleSpecializations.Add("None");
         LoadComboBoxCollecitons();
         foreach (var appointment in CompleteAppointments)
         {
@@ -135,17 +134,17 @@ public class OldAppointmentsViewModel : ViewModelBase
         return _allAppointments;
     }
 
-    public IEnumerable<AppointmentViewModel> Search(string inputText)
+    private IEnumerable<AppointmentViewModel> Search(string inputText)
     {
         return _allAppointments.Where(item => item.Anamnesis.ToLower().Contains(inputText.ToLower()));
     }
 
-    public IEnumerable<AppointmentViewModel> FilterByDoctor(string doctor)
+    private IEnumerable<AppointmentViewModel> FilterByDoctor(string doctor)
     {
         return _allAppointments.Where(item => item.DoctorName == doctor);
     }
 
-    public IEnumerable<AppointmentViewModel> FilterBySpecialization(string specialization)
+    private IEnumerable<AppointmentViewModel> FilterBySpecialization(string specialization)
     {
         return _allAppointments.Where(item => item.Specialization == specialization);
     }

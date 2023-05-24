@@ -12,10 +12,12 @@ public class AppointmentDTO
     public DateTime Date { get; set; }
     public Doctor Doctor { get; set; }
     public string PatientEmail { get; set; }
-    public string Anamnesis { get; set; }
+    public Anamnesis Anamnesis { get; set; }
     public bool Status { get; set; }
 
-    public AppointmentDTO(int id, DateTime date, Doctor doctor, string patientEmail, string anamnesis)
+
+
+    public AppointmentDTO(int id, DateTime date, Doctor doctor, string patientEmail, Anamnesis anamnesis)
     {
         Id = id;
         Date = date;

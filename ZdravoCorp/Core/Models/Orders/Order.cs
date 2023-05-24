@@ -25,6 +25,7 @@ public class Order
     public Order(OrderDTO orderDto)
     {
         Id=orderDto.Id;
+        Items = orderDto.Items;
         OrderTime = orderDto.OrderTime;
         ArrivalTime = orderDto.ArrivalTime;
         Status = orderDto.Status;

@@ -32,5 +32,6 @@ public class ServicesModule : Autofac.Module
         builder.RegisterType<ScheduleService>().As<IScheduleService>();
         builder.RegisterType<TransferService>().As<ITransferService>();
         builder.RegisterType<UserService>().As<IUserService>();
+        builder.RegisterType<PatientService>().As<IPatientService>();
     }
 }

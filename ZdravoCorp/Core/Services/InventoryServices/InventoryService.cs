@@ -103,13 +103,16 @@ public class InventoryService : IInventoryService
         return dynamicEquipment;
     }
 
-    public void UpdateInventoryItem(Transfer transfer)
+    public bool UpdateInventoryItem(Transfer transfer)
     {
         var old = _inventoryRepository.GetAll().FirstOrDefault(item => item.Id == transfer.InventoryId);
         if (old == null)
         {
             throw new KeyNotFoundException();
         }
+
+        if (old.Quantity < transfer.Quantity)
+            return false;
         var newInventoryItem = new InventoryItem(old);
         newInventoryItem.Id = IDGenerator.GetId();
         old.Quantity -= transfer.Quantity;
@@ -118,6 +121,7 @@ public class InventoryService : IInventoryService
         newInventoryItem.RoomId = transfer.To.Id;
         _inventoryRepository.Insert(newInventoryItem);
         DataChanged?.Invoke(this, new EventArgs());
+        return true;
     }
 
     public void UpdateDestinationInventoryItem(int source, int destination, int quantity)

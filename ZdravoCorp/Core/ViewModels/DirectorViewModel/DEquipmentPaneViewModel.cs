@@ -44,7 +44,7 @@ public class DEquipmentPaneViewModel : ViewModelBase
             if (inventoryItem.Quantity < 5)
                 _dynamicInventory.Add(new DynamicInventoryViewModel(inventoryItem));
 
-        CreateOrder = new DelegateCommand(o => OrderConfirmDialog());
+        CreateOrder = new DelegateCommand(o => OrderConfirmDialog(), o =>CanOrder() );
         RefreshOrders();
     }
 
@@ -104,6 +104,21 @@ public class DEquipmentPaneViewModel : ViewModelBase
             parsedItems += _equipmentService.GetById(key).Name + " : " + value + "   ";
 
         return parsedItems;
+    }
+
+    private bool CanOrder()
+    {
+        foreach (var item in DynamicInventory)
+        {
+            if (item.IsChecked &&  int.TryParse(item.OrderQuantityString, out int value))
+            {
+                item.OrderQuantity = value;
+                if (value > 0)
+                    return true;
+            }
+        }
+
+        return false;
     }
 
     private void OrderConfirmDialog()

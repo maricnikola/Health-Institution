@@ -57,4 +57,10 @@ public class TransferRepository : ISerializable, ITransferRepository
     {
         return _transfers.FirstOrDefault(transfer => transfer.Id == id);
     }
+
+    public void UpdateStatus(int id, Transfer.TransferStatus status)
+    {
+        GetById(id).Status = status;
+        Serializer.Save(this);
+    }
 }

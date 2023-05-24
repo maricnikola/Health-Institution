@@ -38,7 +38,9 @@ public class JobScheduler
             if (order.Status == Order.OrderStatus.Pending)
                 DEquipmentTaskScheduler(new OrderDTO(order.Id, order.Items, order.OrderTime, order.ArrivalTime, order.Status));
 
-        foreach (var transfer in _transferService.GetAll()) TransferRequestTaskScheduler(new TransferDTO(transfer.Id, transfer.From, transfer.To, transfer.When, transfer.Quantity, transfer.InventoryId, transfer.InventoryItemName));
+        foreach (var transfer in _transferService.GetAll())
+            if (transfer.Status == Transfer.TransferStatus.Pending)
+                TransferRequestTaskScheduler(new TransferDTO(transfer.Id, transfer.From, transfer.To, transfer.When, transfer.Quantity, transfer.InventoryId, transfer.InventoryItemName, transfer.Status));
     }
 
     // dynamic equipment order task

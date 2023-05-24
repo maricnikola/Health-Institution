@@ -17,4 +17,5 @@ public class TransferViewModel : ViewModelBase
     public string To => _transfer.To.Id.ToString();
     public string When => _transfer.When.ToString();
     public int Quantity => _transfer.Quantity;
+    public string Status => _transfer.Status.ToString();
 }
