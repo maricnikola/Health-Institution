@@ -161,7 +161,8 @@ public class ScheduleService : IScheduleService
     {
         return _scheduleRepository.GetAllAppointments().Any(ap =>
             ap.PatientEmail == appointment.PatientEmail && ap.Doctor.Email == appointment.Doctor.Email &&
-            ap.Time.Start == appointment.Time.Start && ap.Time.End == appointment.Time.End);
+            ap.Time.Start == appointment.Time.Start && ap.Time.End == appointment.Time.End && ap.Status== appointment.Status
+            && ap.IsCanceled == appointment.IsCanceled);
     }
 
     public List<Appointment> GetAppointmentsForShow(DateTime date)

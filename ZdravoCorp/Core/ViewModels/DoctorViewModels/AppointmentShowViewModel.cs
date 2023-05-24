@@ -191,9 +191,10 @@ public class AppointmentShowViewModel : ViewModelBase
                 var window = new PerformAppointmentView
                 {
                     DataContext = new PerformAppointmentViewModel(appointmentPerforming, _scheduleService,
-                        _patientService, _medicalRecordService, _inventoryService, _roomService)
+                        _patientService, _medicalRecordService, _inventoryService, _roomService,_doctorService)
                 };
                 window.Show();
+                DateAppointment = DateTime.Now + TimeSpan.FromHours(1);
             }
             else
             {

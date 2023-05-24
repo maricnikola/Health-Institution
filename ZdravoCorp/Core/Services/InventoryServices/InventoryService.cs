@@ -132,4 +132,9 @@ public class InventoryService : IInventoryService
         sourceItem.Quantity -= quantity;
         DataChanged?.Invoke(this, new EventArgs());
     }
+    public void UpdateSpentInventory(int id,int quantity)
+    {
+        var inventoryItem = _inventoryRepository.GetById(id);
+        _inventoryRepository.ChangeQuantity(inventoryItem, quantity);
+    }
 }

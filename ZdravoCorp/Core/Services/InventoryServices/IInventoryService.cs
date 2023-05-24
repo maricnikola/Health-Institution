@@ -24,7 +24,9 @@ public interface IInventoryService
     
     void UpdateInventoryItem(Transfer transfer);
     void UpdateDestinationInventoryItem(int source, int destination, int quantity);
-    
+    public void UpdateSpentInventory(int id,int quantity);
+
+
 
 
 

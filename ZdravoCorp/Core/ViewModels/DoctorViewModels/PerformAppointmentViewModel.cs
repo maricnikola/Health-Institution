@@ -14,6 +14,7 @@ using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Services.SpecialistsRefferalServices;
 using ZdravoCorp.Core.Utilities;
 using Autofac;
+using ZdravoCorp.Core.Services.DoctorServices;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -34,6 +35,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     private int _roomId;
     private readonly IRoomService _roomService;
     private readonly IScheduleService _scheduleService;
+    private readonly IDoctorService _doctorService;
 
 
     private string _symptoms;
@@ -41,8 +43,9 @@ public class PerformAppointmentViewModel : ViewModelBase
 
     public PerformAppointmentViewModel(Appointment performingAppointment, IScheduleService scheduleService,
         IPatientService patientService, IMedicalRecordService medicalRecordService,
-        IInventoryService inventoryService, IRoomService roomService)
+        IInventoryService inventoryService, IRoomService roomService,IDoctorService doctorService)
     {
+        _doctorService = doctorService;
         _roomService = roomService;
         _specialistsRefferalService = Injector.Container.Resolve<ISpecialistsRefferalService>();
         _inventoryService = inventoryService;
@@ -144,7 +147,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     public void ShowDEquipmentSpentDialog()
     {
         var window = new DEquipmentSpentView
-            { DataContext = new DEquipmentSpentViewModel(_inventoryService, _roomId) };
+            { DataContext = new DEquipmentSpentViewModel(_inventoryService, _roomService,_roomId) };
         window.Show();
     }
 
@@ -179,7 +182,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     public void ShowEntryRefferal()
     {
         CloseWindow();
-        var window = new AddSpecialistsRefferalView() { DataContext = new AddSpecialistsRefferalViewModel(this)};
+        var window = new AddSpecialistsRefferalView() { DataContext = new AddSpecialistsRefferalViewModel(this,_doctorService,_appointment.Doctor,_patient,_scheduleService, _appointment)};
         window.Show();
     }
 }

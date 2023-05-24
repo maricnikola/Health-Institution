@@ -10,25 +10,15 @@ namespace ZdravoCorp.Core.Models.SpecialistsRefferals;
 
 public class SpecialistsRefferal
 {
-    public enum SpecializationType
-    {
-        Psychologist,
-        Surgeon,
-        Neurologist,
-        Urologist,
-        Anesthesiologist
-    }
     public int Id { get; set; }
     public string PatientMail { get; set; } 
     public string DoctorMail { get; set; }
-    public SpecializationType Specialization { get; set; }
 
     [JsonConstructor]
-    public SpecialistsRefferal(int id,string patientMail, string doctorMail, SpecializationType specialization)
+    public SpecialistsRefferal(int id,string patientMail, string doctorMail)
     {
         Id = id;
         PatientMail = patientMail;
         DoctorMail = doctorMail;
-        Specialization = specialization;
     }
 }

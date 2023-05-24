@@ -16,7 +16,7 @@ public class SpecialistsRefferalRepository: ISerializable, ISpecialistsRefferalR
     public SpecialistsRefferalRepository()
     {
         _specialistsRefferals = new List<SpecialistsRefferal>();
-        SaveChanges();
+        Serializer.Load(this);
     }
 
     public void Insert(SpecialistsRefferal newSpecialistsRefferal)

@@ -18,18 +18,24 @@
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0" Grid.Column="0">
-            <RadioButton Content="Specialization" Height="50" Foreground="WhiteSmoke"
+            <RadioButton Command="{Binding  SpecialisationComboEnable}" Content="Specialization" Height="50" Foreground="WhiteSmoke"
                          Style="{DynamicResource ToggleTheme}"/>
-            <RadioButton Content="Doctor" Height="50" Foreground="WhiteSmoke"
+            <RadioButton Command="{Binding  DoctorComboEnable}" Content="Doctor" Height="50" Foreground="WhiteSmoke"
                          Style="{DynamicResource ToggleTheme}"/>
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="1">
-            <ComboBox  Width="100" Margin="10 10 0 10"/>
-            <ComboBox  Width="100" Margin="10 10 0 10"/>
+            <ComboBox  ItemsSource="{Binding SpecialisationsNames}"
+                        SelectedItem="{Binding SelectedSpecialisation,UpdateSourceTrigger=PropertyChanged}"
+                        IsEnabled="{Binding IsSpecialisationsEnabled }"
+                      Width="100" Margin="10 10 0 10"/>
+            <ComboBox  ItemsSource="{Binding DoctorNames}"
+                      SelectedItem="{Binding SelectedDoctor,UpdateSourceTrigger=PropertyChanged}"
+                      IsEnabled="{Binding IsDoctorEnabled}"
+                       Width="100" Margin="10 10 0 10"/>
         </StackPanel>
         
         <Grid Grid.Row="2" Grid.Column="0" Margin="25 30 10 10">
-            <Button Padding="5" Content="Instruct"/>
+            <Button Command="{Binding CreateRefferal}" Padding="5" Content="Instruct"/>
         </Grid>
         <Grid Grid.Row="2" Grid.Column="1" Margin="25 30 10 10">
             <Button Padding="5" Content="Cancel" Command="{Binding CloseDialog}"/>
