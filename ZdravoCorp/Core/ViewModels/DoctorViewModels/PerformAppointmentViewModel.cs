@@ -59,7 +59,9 @@ public class PerformAppointmentViewModel : ViewModelBase
         CancelCommand = new DelegateCommand(o => CloseWindow());
         MedicalRCommand = new DelegateCommand(o => ShowMedicalRecordDialog());
         PerformCommand = new DelegateCommand(o => SavePerformingAppointment());
-        EntryRefferal = new DelegateCommand(o => ShowEntryRefferal());
+        SpecialistsRefferal = new DelegateCommand(o => ShowSpecialistsRefferal());
+        HospitalRefferal = new DelegateCommand(o => ShowHospitalRefferal());
+        
     }
 
     public string PatientMail => _patient.Email;
@@ -67,7 +69,8 @@ public class PerformAppointmentViewModel : ViewModelBase
     public ICommand PerformCommand { get; }
     public ICommand CancelCommand { get; }
     public ICommand MedicalRCommand { get; }
-    public ICommand EntryRefferal { get; }
+    public ICommand SpecialistsRefferal { get; }
+    public ICommand HospitalRefferal { get; }
 
     public string Symptoms
     {
@@ -179,10 +182,18 @@ public class PerformAppointmentViewModel : ViewModelBase
         }
     }
 
-    public void ShowEntryRefferal()
+    public void ShowSpecialistsRefferal()
     {
         CloseWindow();
         var window = new AddSpecialistsRefferalView() { DataContext = new AddSpecialistsRefferalViewModel(this,_doctorService,_appointment.Doctor,_patient,_scheduleService, _appointment)};
         window.Show();
     }
+
+    public void ShowHospitalRefferal()
+    {
+        CloseWindow();
+        var window = new AddHospitalRefferalView() { DataContext = new AddHospitalRefferalViewModel() };
+        window.Show();
+    }
+
 }

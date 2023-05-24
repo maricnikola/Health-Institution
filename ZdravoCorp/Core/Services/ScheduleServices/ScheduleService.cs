@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Animation;
 using ZdravoCorp.Core.Models.AnamnesisReport;
 using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.MedicalRecords;
@@ -372,4 +373,5 @@ public class ScheduleService : IScheduleService
         return _scheduleRepository.GetAllAppointments().FirstOrDefault(appointment => appointment.PatientEmail.Equals(patientEmail) && appointment.Time.IsInsideSingleSlot(interval));
 
     }
+
 }

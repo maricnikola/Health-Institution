@@ -77,7 +77,11 @@
                     Width="100" />
         </Grid>
         <Grid Grid.Row="7" Grid.Column="0" Margin="15 10 0 15" >
-            <Button Command="{Binding EntryRefferal}" Content="Specialists refferal" Padding="4" />
+            <Button Width="150" Command="{Binding EntryRefferal}" Content="Specialists refferal" Padding="4" />
+        </Grid>
+
+        <Grid Grid.Row="7" Grid.Column="1" Margin="35 10 0 15">
+            <Button Width="150" Command="{Binding HospitalRefferal}" Content="hospital treatment" Padding="4"/>
         </Grid>
 
 
