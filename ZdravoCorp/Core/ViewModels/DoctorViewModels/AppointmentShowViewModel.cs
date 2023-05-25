@@ -75,12 +75,6 @@ public class AppointmentShowViewModel : ViewModelBase
         set
         {
             _dateAppointment = value;
-            if (_dateAppointment < DateTime.Today)
-            {
-                MessageBox.Show("Select date in future", "Error", MessageBoxButton.OK);
-                _dateAppointment = DateTime.Today;
-                return;
-            }
 
             OnPropertyChanged();
             SearchAppointments();

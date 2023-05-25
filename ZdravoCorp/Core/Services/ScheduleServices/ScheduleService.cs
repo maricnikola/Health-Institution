@@ -373,6 +373,15 @@ public class ScheduleService : IScheduleService
         return _scheduleRepository.GetAllAppointments().FirstOrDefault(appointment => appointment.PatientEmail.Equals(patientEmail) && appointment.Time.IsInsideSingleSlot(interval));
 
     }
-   
+    public bool CheckRoomAvailability(int roomId, TimeSlot time)
+    {
+        foreach (Appointment appointment in _scheduleRepository.GetAllAppointments())
+        {
+            if (appointment.Room == roomId && !time.Overlap(appointment.Time)) return false;
+
+        }
+        return true;
+    }
+
 
 }

@@ -119,11 +119,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     {
         foreach (var room in _roomService.GetAll())
         {
-            var checkRoom = true;
-            foreach (var appointment in _scheduleService.GetAllAppointments())
-                if (room.Id == appointment.Room && _appointment.Time.Overlap(appointment.Time))
-                    checkRoom = false;
-            if (!checkRoom) continue;
+            if (!_scheduleService.CheckRoomAvailability(room.Id, _appointment.Time)) continue;
             _roomId = room.Id;
             return;
         }
@@ -195,7 +191,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     public void ShowHospitalRefferal()
     {
         CloseWindow();
-        var window = new AddHospitalRefferalView() { DataContext = new AddHospitalRefferalViewModel(this,_appointment,_scheduleService,_hospitalRefferalService) };
+        var window = new AddHospitalRefferalView() { DataContext = new AddHospitalRefferalViewModel(this,_appointment,_scheduleService,_hospitalRefferalService,_roomService) };
         window.Show();
     }
 

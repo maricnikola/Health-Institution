@@ -11,6 +11,20 @@
     "FirstName": "Mirko",
     "LastName": "Vrabac",
     "Specialization": "Surgeon",
-    "Grade" :  4
+    "Grade": 4
+  },
+  {
+    "Email": "saran@gmail.com",
+    "FirstName": "Momcilo",
+    "LastName": "Saranovic",
+    "Specialization": "Anesthesiologist",
+    "Grade": 2
+  },
+  {
+    "Email": "guzina@gmail.com",
+    "FirstName": "Jovo",
+    "LastName": "Guzina",
+    "Specialization": "Neurologist",
+    "Grade": 6
   }
 ]

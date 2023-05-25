@@ -1,22 +1,13 @@
 [
   {
-    "Id": 486,
-    "PatientMail": "sreten.pejovic@gmail.com",
+    "Id": 498,
+    "PatientMail": "marko.stojanovic@gmail.com",
     "Time": {
-      "Start": "2023-05-24T21:00:00",
-      "End": "2023-06-08T21:00:00"
+      "Start": "2023-05-25T16:45:00",
+      "End": "2023-05-30T16:45:00"
     },
-    "InitialTherapy": "aaasdfad",
-    "AdditionalTests": "aasda"
-  },
-  {
-    "Id": 487,
-    "PatientMail": "sreten.pejovic@gmail.com",
-    "Time": {
-      "Start": "2023-05-24T21:00:00",
-      "End": "2023-06-07T21:00:00"
-    },
-    "InitialTherapy": "asfdaa",
-    "AdditionalTests": null
+    "InitialTherapy": "adfads",
+    "AdditionalTests": "asdfasdfa",
+    "RoomId": 102
   }
 ]

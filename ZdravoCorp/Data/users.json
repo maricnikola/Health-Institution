@@ -18,6 +18,18 @@
     "userstate": "NotBlocked"
   },
   {
+    "Type": "Doctor",
+    "Email": "guzina@gmail.com",
+    "Password": "1",
+    "userstate": "NotBlocked"
+  },
+  {
+    "Type": "Doctor",
+    "Email": "saran@gmail.com",
+    "Password": "1",
+    "userstate": "NotBlocked"
+  },
+  {
     "Type": "Nurse",
     "Email": "eva.ras@gmail.com",
     "Password": "eva44",
