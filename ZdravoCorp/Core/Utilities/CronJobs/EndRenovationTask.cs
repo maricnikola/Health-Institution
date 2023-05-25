@@ -16,26 +16,27 @@ public class EndRenovationTask : IJob
         _renovationDto = (RenovationDTO)dataMap["renovation"];
         _renovationService = (IRenovationService)dataMap["renser"];
         _manageRenovationService = (IManageRenovationService)dataMap["renman"];
+        bool success = true;
         if (_renovationDto.Split != null)
         {
-            _manageRenovationService.EndWithSplit(_renovationDto);
+            success = _manageRenovationService.EndWithSplit(_renovationDto);
         }else if (_renovationDto.Join != null)
         {
-            _manageRenovationService.EndWithJoin(_renovationDto);
+            success = _manageRenovationService.EndWithJoin(_renovationDto);
         }
         else
         {
-            if (_manageRenovationService.End(_renovationDto.Room.Id))
-            {
-                _renovationService.UpdateStatus(_renovationDto.Id, Renovation.RenovationStatus.Finished);
-            }
-            else
-            {
-                _renovationService.UpdateStatus(_renovationDto.Id, Renovation.RenovationStatus.Failed);
-            }
-            return Task.CompletedTask;
+            success = _manageRenovationService.End(_renovationDto.Room.Id);
         }
-        
+
+        if (success)
+        {
+            _renovationService.UpdateStatus(_renovationDto.Id, Renovation.RenovationStatus.Finished);
+        }
+        else
+        {
+            _renovationService.UpdateStatus(_renovationDto.Id, Renovation.RenovationStatus.Failed);
+        }
        
         
         return Task.CompletedTask;

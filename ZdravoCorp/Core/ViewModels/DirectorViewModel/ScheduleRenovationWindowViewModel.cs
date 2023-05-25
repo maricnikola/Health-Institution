@@ -166,7 +166,7 @@ public class ScheduleRenovationWindowViewModel : ViewModelBase
                 IsRoomAvailable = true;
                 if (IsJoinChecked)
                 {
-                    if (JoinRoomId != 0 && _scheduleService.CheckRoomAvailability(JoinRoomId, _renovationTimeSlot))
+                    if (JoinRoomId != 0 && !_roomService.GetById(JoinRoomId).IsUnderRenovation&&_scheduleService.CheckRoomAvailability(JoinRoomId, _renovationTimeSlot))
                     {
                         IsJoinRoomAvailable = true;
                         return true;

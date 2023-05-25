@@ -18,6 +18,8 @@ public class StartRenovationTask : IJob
         _manageRenovationService = (IManageRenovationService)dataMap["renman"];
         if (_manageRenovationService.StartRenovation(_renovationDto.Room.Id))
         {
+            if (_renovationDto.Join != null)
+                _manageRenovationService.StartRenovation(_renovationDto.Join.Id);
             _renovationService.UpdateStatus(_renovationDto.Id, Renovation.RenovationStatus.InProgress);
         }
         else
