@@ -33,7 +33,7 @@ public class ManageRenovationService : IManageRenovationService
         if (!_roomService.UpdateRenovation(renovationDto.Room.Id, false))
             return false;
         _roomService.AddRoom(new RoomDTO(renovationDto.Split.Id, renovationDto.Split.Type, false));
-        _inventoryService.MoveItemsToStockRoom(renovationDto.Room.Id);
+        _inventoryService.MoveItemsToStockRoom(renovationDto.Room.Id, _roomService.GetById(999));
         return true;
     }
 
@@ -41,8 +41,9 @@ public class ManageRenovationService : IManageRenovationService
     {
         if (!_roomService.UpdateRenovation(renovationDto.Room.Id, false))
             return false;
-        _inventoryService.MoveItemsToStockRoom(renovationDto.Room.Id);
-        _inventoryService.MoveItemsToStockRoom(renovationDto.Join.Id);
+        _inventoryService.MoveItemsToStockRoom(renovationDto.Room.Id, _roomService.GetById(999));
+        _inventoryService.MoveItemsToStockRoom(renovationDto.Join.Id,_roomService.GetById(999));
+        _roomService.UpdateRenovation(renovationDto.Join.Id, false);
         _roomService.Delete(renovationDto.Room.Id);
         return true;
     }

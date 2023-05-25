@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ZdravoCorp.Core.Models.Inventory;
+using ZdravoCorp.Core.Models.Rooms;
 using ZdravoCorp.Core.Models.Transfers;
 
 namespace ZdravoCorp.Core.Services.InventoryServices;
@@ -24,7 +25,7 @@ public interface IInventoryService
     
     bool UpdateInventoryItem(Transfer transfer);
     void UpdateDestinationInventoryItem(int source, int destination, int quantity);
-    public void MoveItemsToStockRoom(int roomId);
+    public void MoveItemsToStockRoom(int roomId, Room stockRoom);
 
 
 
