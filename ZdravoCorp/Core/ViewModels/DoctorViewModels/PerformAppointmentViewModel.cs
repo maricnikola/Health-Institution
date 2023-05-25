@@ -61,7 +61,7 @@ public class PerformAppointmentViewModel : ViewModelBase
 
         CancelCommand = new DelegateCommand(o => CloseWindow());
         MedicalRCommand = new DelegateCommand(o => ShowMedicalRecordDialog());
-        PerformCommand = new DelegateCommand(o => SavePerformingAppointment());
+        NextCommand = new DelegateCommand(o => SavePerformingAppointment());
         SpecialistsRefferal = new DelegateCommand(o => ShowSpecialistsRefferal());
         HospitalRefferal = new DelegateCommand(o => ShowHospitalRefferal());
         
@@ -69,7 +69,7 @@ public class PerformAppointmentViewModel : ViewModelBase
 
     public string PatientMail => _patient.Email;
     public string PatientName => _patient.FullName;
-    public ICommand PerformCommand { get; }
+    public ICommand NextCommand { get; }
     public ICommand CancelCommand { get; }
     public ICommand MedicalRCommand { get; }
     public ICommand SpecialistsRefferal { get; }
@@ -166,9 +166,9 @@ public class PerformAppointmentViewModel : ViewModelBase
                     anamnesisKeyWord))
             {
                 CloseWindow();
-                ShowDEquipmentSpentDialog();
-                _scheduleService.ChangePerformingAppointment(_appointment.Id, patientSymptoms, doctorOpinion,
-                    patientAllergens, anamnesisKeyWord, _roomId);
+                ShowPrescription();
+                //_scheduleService.ChangePerformingAppointment(_appointment.Id, patientSymptoms, doctorOpinion,
+                //    patientAllergens, anamnesisKeyWord, _roomId);
             }
             else
             {
@@ -192,6 +192,11 @@ public class PerformAppointmentViewModel : ViewModelBase
     {
         CloseWindow();
         var window = new AddHospitalRefferalView() { DataContext = new AddHospitalRefferalViewModel(this,_appointment,_scheduleService,_hospitalRefferalService,_roomService) };
+        window.Show();
+    }
+    public void ShowPrescription()
+    {
+        var window = new CreatePrescriptionsView() { DataContext = new CreatePrescriptionsViewModel(_appointment,_scheduleService,_inventoryService,_roomService,_roomId) };
         window.Show();
     }
 
