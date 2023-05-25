@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using ZdravoCorp.Core.Models.AnamnesisReport;
 using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.MedicalRecords;
 using ZdravoCorp.Core.Models.Operations;
+using ZdravoCorp.Core.Models.Presriptions;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.UsersRepo;
 using ZdravoCorp.Core.Services.DoctorServices;
@@ -62,8 +64,7 @@ public interface IScheduleService
     bool CheckPerformingAppointmentData(List<string> symptoms, string opinion, List<string> allergens,
         string keyWord);
 
-    void ChangePerformingAppointment(int id, List<string> symptoms, string opinion, List<string> allergens,
-        string keyWord, int roomId);
+    void ChangePerformingAppointment(int id,Anamnesis anamnesis ,int roomId,List<Prescription> prescriptions);
 
     bool checkListElementsLength(List<string> list);
 

@@ -1,4 +1,6 @@
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Windows.Documents;
 using ZdravoCorp.Core.Models.AnamnesisReport;
 using ZdravoCorp.Core.Models.Presriptions;
 using ZdravoCorp.Core.Models.Users;
@@ -41,9 +43,9 @@ public class Appointment
     public int? Room { get; set; }
     public bool IsCanceled { get; set; }
     public bool Status { get; set; }
-    public Prescription Prescription { get; set; }
+    public List<Prescription> Prescription { get; set; }
 
-    public Appointment(int id, TimeSlot t, Doctor doctor, string email, Anamnesis anamnesis, Prescription prescription)
+    public Appointment(int id, TimeSlot t, Doctor doctor, string email, Anamnesis anamnesis, List<Prescription> prescription)
     {
         Id = id;
         Time = t;

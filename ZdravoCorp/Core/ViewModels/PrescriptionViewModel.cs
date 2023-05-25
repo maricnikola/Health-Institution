@@ -18,7 +18,7 @@ public class PrescriptionViewModel
 
     public string Medicament => _prescription.Medicament;
     public int TimesADay => _prescription.TimesADay;
-    public string Instructions => _prescription.Instructions.ToString();
+    public string Instructions => _prescription.Instructions;
 
 
 }

@@ -9,6 +9,7 @@ using ZdravoCorp.Core.Models.AnamnesisReport;
 using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.MedicalRecords;
 using ZdravoCorp.Core.Models.Operations;
+using ZdravoCorp.Core.Models.Presriptions;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
@@ -351,13 +352,12 @@ public class ScheduleService : IScheduleService
         return keyWord.Trim().Length >= 2;
     }
 
-    public void ChangePerformingAppointment(int id, List<string> symptoms, string opinion, List<string> allergens, string keyWord, int roomId)
+    public void ChangePerformingAppointment(int id,Anamnesis anamnesis, int roomId,List<Prescription> prescriptions)
     {
         var appointment = GetAppointmentById(id);
         _scheduleRepository.DeleteAppointment(appointment);
-        var anamnesis = new Anamnesis(symptoms, opinion, keyWord, allergens);
         var performedAppointment = new Appointment(appointment.Id, appointment.Time, appointment.Doctor,
-            appointment.PatientEmail, anamnesis);
+            appointment.PatientEmail, anamnesis,prescriptions);
         performedAppointment.Status = true;
         performedAppointment.Room = roomId;
         _scheduleRepository.InsertAppointment(performedAppointment);

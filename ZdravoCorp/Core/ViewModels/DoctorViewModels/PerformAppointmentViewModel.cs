@@ -16,6 +16,7 @@ using ZdravoCorp.Core.Utilities;
 using Autofac;
 using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.HospitalRefferalServices;
+using ZdravoCorp.Core.Models.AnamnesisReport;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -38,6 +39,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     private readonly IScheduleService _scheduleService;
     private readonly IDoctorService _doctorService;
     private readonly IHospitalRefferalService _hospitalRefferalService;
+    private Anamnesis _anamnesis;
 
 
     private string _symptoms;
@@ -61,7 +63,7 @@ public class PerformAppointmentViewModel : ViewModelBase
 
         CancelCommand = new DelegateCommand(o => CloseWindow());
         MedicalRCommand = new DelegateCommand(o => ShowMedicalRecordDialog());
-        NextCommand = new DelegateCommand(o => SavePerformingAppointment());
+        NextCommand = new DelegateCommand(o => NextToPrescription());
         SpecialistsRefferal = new DelegateCommand(o => ShowSpecialistsRefferal());
         HospitalRefferal = new DelegateCommand(o => ShowHospitalRefferal());
         
@@ -154,7 +156,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     }
 
 
-    public void SavePerformingAppointment()
+    public void NextToPrescription()
     {
         try
         {
@@ -165,10 +167,10 @@ public class PerformAppointmentViewModel : ViewModelBase
             if (_scheduleService.CheckPerformingAppointmentData(patientSymptoms, doctorOpinion, patientAllergens,
                     anamnesisKeyWord))
             {
+                _anamnesis = new Anamnesis(patientSymptoms, doctorOpinion, anamnesisKeyWord, patientAllergens);
                 CloseWindow();
                 ShowPrescription();
-                //_scheduleService.ChangePerformingAppointment(_appointment.Id, patientSymptoms, doctorOpinion,
-                //    patientAllergens, anamnesisKeyWord, _roomId);
+     
             }
             else
             {
@@ -196,7 +198,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     }
     public void ShowPrescription()
     {
-        var window = new CreatePrescriptionsView() { DataContext = new CreatePrescriptionsViewModel(_appointment,_scheduleService,_inventoryService,_roomService,_roomId) };
+        var window = new CreatePrescriptionsView() { DataContext = new CreatePrescriptionsViewModel(_appointment,_scheduleService,_inventoryService,_roomService,_roomId,_anamnesis) };
         window.Show();
     }
 

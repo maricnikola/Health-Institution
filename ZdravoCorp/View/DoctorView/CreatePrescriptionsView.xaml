@@ -30,21 +30,24 @@
                 <Label  Foreground="White" Content="Medicament:"/>
             </Grid>
             <Grid Grid.Row="0" Grid.Column="1"  Margin="10 30 20 0">
-                <ComboBox ItemsSource="{Binding PossibleMedicaments}"
+                <ComboBox SelectedItem="{Binding SelectedMedicament, UpdateSourceTrigger=PropertyChanged}"
+                    ItemsSource="{Binding PossibleMedicaments}"
                     Width="150"/>
             </Grid>
             <Grid Grid.Row="1" Grid.Column="0"  Margin="10 30 20 0">
                 <Label  Foreground="White" Content="Times per day:"/>
             </Grid>
             <Grid Grid.Row="1" Grid.Column="1"  Margin="10 30 20 0">
-                <ComboBox ItemsSource="{Binding PossibleTimes}"
+                <ComboBox SelectedItem="{Binding SelectedTime,UpdateSourceTrigger=PropertyChanged}"
+                    ItemsSource="{Binding PossibleTimes}"
                     Width="150"/>
             </Grid>
             <Grid Grid.Row="2" Grid.Column="0" Margin="10 30 20 0">
                 <Label  Foreground="White" Content="Instructions:"/>
             </Grid>
             <Grid Grid.Row="2" Grid.Column="1"  Margin="10 30 20 0">
-                <ComboBox ItemsSource="{Binding PossibleInstructions}"
+                <ComboBox SelectedItem="{Binding SelectedInstruction, UpdateSourceTrigger=PropertyChanged}"
+                    ItemsSource="{Binding PossibleInstructions}"
                     Width="150"/>
             </Grid>
             <Grid Grid.Row="3" Grid.Column="0"  Margin="10 45 20 0">
@@ -60,6 +63,7 @@
                 <RowDefinition Height="300"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
+            
             <DataGrid SelectionMode="Single" Grid.Row="0"
                       ItemsSource="{Binding Prescriptions, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding SelectedPrescription,UpdateSourceTrigger=PropertyChanged}"
