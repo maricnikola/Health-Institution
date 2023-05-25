@@ -10,6 +10,8 @@ namespace ZdravoCorp.Core.Services.NotificationServices;
 public interface INotificationService
 {
     public List<Notification>? GetAll();
+
+    public event EventHandler DataChanged;
     public Notification? GetById(int id);
     public void AddNotification(NotificationDTO notificationDto);
     public void Delete(int id);

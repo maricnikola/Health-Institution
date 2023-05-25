@@ -5,6 +5,7 @@ using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Appointments;
@@ -21,16 +22,21 @@ public class AllNotificationsViewModel : ViewModelBase
     private INotificationService _notificationService;
     private ObservableCollection<NotificationViewModel> _notifications;
     private string _userEmail;
+    private readonly object _lock;
 
     public ICommand CreateNotificationCommand { get; set; }
     public AllNotificationsViewModel(INotificationService notificationService, string userEmail)
     {
+        _lock = new object();
         _notificationService = notificationService;
         _notifications = new ObservableCollection<NotificationViewModel>();
+        BindingOperations.EnableCollectionSynchronization(_notifications, _lock);
         _userEmail = userEmail;
+        _notificationService.DataChanged += (s, e) => RefreshNotifications();
         foreach (var notification in _notificationService.GetAllForUser(_userEmail))
         {
-            _notifications.Add(new NotificationViewModel(notification));
+            if (notification.Status==Notification.NotificationStatus.Pending)
+                _notifications.Add(new NotificationViewModel(notification));
         }
         CreateNotificationCommand = new DelegateCommand(o => CreateNotification());
     }
@@ -45,7 +51,17 @@ public class AllNotificationsViewModel : ViewModelBase
         }
     }
 
-    
+    private void RefreshNotifications()
+    {
+        lock (_lock)
+        {
+            var updatedNotifications = new ObservableCollection<NotificationViewModel>();
+            foreach (var notification in _notificationService.GetAllForUser(_userEmail))
+                if(notification.Status==Notification.NotificationStatus.Pending)
+                    updatedNotifications.Add(new NotificationViewModel(notification));
+            Notifications = updatedNotifications;
+        }
+    }
 
     private void CreateNotification()
     {

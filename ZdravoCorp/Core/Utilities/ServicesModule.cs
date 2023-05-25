@@ -19,17 +19,17 @@ public class ServicesModule : Autofac.Module
 {
     protected override void Load(ContainerBuilder builder)
     {
-        builder.RegisterType<DoctorService>().As<IDoctorService>();
-        builder.RegisterType<EquipmentService>().As<IEquipmentService>();
-        builder.RegisterType<InventoryService>().As<IInventoryService>();
-        builder.RegisterType<MedicalRecordService>().As<IMedicalRecordService>();
+        builder.RegisterType<DoctorService>().As<IDoctorService>().SingleInstance();
+        builder.RegisterType<EquipmentService>().As<IEquipmentService>().SingleInstance();
+        builder.RegisterType<InventoryService>().As<IInventoryService>().SingleInstance();
+        builder.RegisterType<MedicalRecordService>().As<IMedicalRecordService>().SingleInstance();
        // builder.RegisterType<NurseService>().As<INurseRepository>();
-        builder.RegisterType<OrderService>().As<IOrderService>();
-        builder.RegisterType<RoomService>().As<IRoomService>();
-        builder.RegisterType<ScheduleService>().As<IScheduleService>();
-        builder.RegisterType<TransferService>().As<ITransferService>();
-        builder.RegisterType<UserService>().As<IUserService>();
-        builder.RegisterType<PatientService>().As<IPatientService>();
-        builder.RegisterType<NotificationService>().As<INotificationService>();
+        builder.RegisterType<OrderService>().As<IOrderService>().SingleInstance();
+        builder.RegisterType<RoomService>().As<IRoomService>().SingleInstance();
+        builder.RegisterType<ScheduleService>().As<IScheduleService>().SingleInstance();
+        builder.RegisterType<TransferService>().As<ITransferService>().SingleInstance();
+        builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
+        builder.RegisterType<PatientService>().As<IPatientService>().SingleInstance();
+        builder.RegisterType<NotificationService>().As<INotificationService>().SingleInstance();
     }
 }
