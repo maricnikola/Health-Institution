@@ -1,1 +1,103 @@
-[{"Id":456,"Time":{"Start":"2023-05-25T16:45:00","End":"2023-05-25T17:00:00"},"Doctor":{"Email":"vrabac@gmail.com","FirstName":"Savo","LastName":"Oroz","Specialization":1,"Grade":0.0},"PatientEmail":"sreten.pejovic@gmail.com","Anamnesis":null,"Room":101,"IsCanceled":false,"Status":false,"Prescription":null},{"Id":495,"Time":{"Start":"2023-05-25T16:30:00","End":"2023-05-25T16:45:00"},"Doctor":{"Email":"savo.oroz@gmail.com","FirstName":"Savo","LastName":"Oroz","Specialization":1,"Grade":5.0},"PatientEmail":"marko.stojanovic@gmail.com","Anamnesis":null,"Room":null,"IsCanceled":true,"Status":false,"Prescription":null},{"Id":497,"Time":{"Start":"2023-05-25T16:30:00","End":"2023-05-25T16:45:00"},"Doctor":{"Email":"savo.oroz@gmail.com","FirstName":"Savo","LastName":"Oroz","Specialization":1,"Grade":5.0},"PatientEmail":"marko.stojanovic@gmail.com","Anamnesis":null,"Room":null,"IsCanceled":true,"Status":false,"Prescription":null},{"Id":499,"Time":{"Start":"2023-05-25T20:00:00","End":"2023-05-25T20:15:00"},"Doctor":{"Email":"savo.oroz@gmail.com","FirstName":"Savo","LastName":"Oroz","Specialization":1,"Grade":5.0},"PatientEmail":"sreten.pejovic@gmail.com","Anamnesis":{"Symptoms":["rqwerqwerq"],"Opinion":"qerqeqrerqewr","KeyWord":"rqwer","Allergens":["qwerqwerqe"]},"Room":101,"IsCanceled":false,"Status":true,"Prescription":[]}]
+[
+  {
+    "Id": 456,
+    "Time": {
+      "Start": "2023-05-25T16:45:00",
+      "End": "2023-05-25T17:00:00"
+    },
+    "Doctor": {
+      "Email": "vrabac@gmail.com",
+      "FirstName": "Savo",
+      "LastName": "Oroz",
+      "Specialization": 1,
+      "Grade": 0.0
+    },
+    "PatientEmail": "sreten.pejovic@gmail.com",
+    "Anamnesis": null,
+    "Room": 101,
+    "IsCanceled": false,
+    "Status": false,
+    "Prescription": null
+  },
+  {
+    "Id": 495,
+    "Time": {
+      "Start": "2023-05-25T16:30:00",
+      "End": "2023-05-25T16:45:00"
+    },
+    "Doctor": {
+      "Email": "savo.oroz@gmail.com",
+      "FirstName": "Savo",
+      "LastName": "Oroz",
+      "Specialization": 1,
+      "Grade": 5.0
+    },
+    "PatientEmail": "marko.stojanovic@gmail.com",
+    "Anamnesis": null,
+    "Room": null,
+    "IsCanceled": true,
+    "Status": false,
+    "Prescription": null
+  },
+  {
+    "Id": 497,
+    "Time": {
+      "Start": "2023-05-25T16:30:00",
+      "End": "2023-05-25T16:45:00"
+    },
+    "Doctor": {
+      "Email": "savo.oroz@gmail.com",
+      "FirstName": "Savo",
+      "LastName": "Oroz",
+      "Specialization": 1,
+      "Grade": 5.0
+    },
+    "PatientEmail": "marko.stojanovic@gmail.com",
+    "Anamnesis": null,
+    "Room": null,
+    "IsCanceled": true,
+    "Status": false,
+    "Prescription": null
+  },
+  {
+    "Id": 501,
+    "Time": {
+      "Start": "2023-05-25T21:45:00",
+      "End": "2023-05-25T22:00:00"
+    },
+    "Doctor": {
+      "Email": "savo.oroz@gmail.com",
+      "FirstName": "Savo",
+      "LastName": "Oroz",
+      "Specialization": 1,
+      "Grade": 5.0
+    },
+    "PatientEmail": "sreten.pejovic@gmail.com",
+    "Anamnesis": {
+      "Symptoms": [
+        "aaaaaaaaaaaaaaaa"
+      ],
+      "Opinion": "aaaaaaaaaaaaaaaa",
+      "KeyWord": "sssss",
+      "Allergens": [
+        "jabuka",
+        "cocaine"
+      ]
+    },
+    "Room": 101,
+    "IsCanceled": false,
+    "Status": true,
+    "Prescription": [
+      {
+        "Medicament": "Paracetamol",
+        "TimesADay": 3,
+        "Instructions": "BeforeMeal"
+      },
+      {
+        "Medicament": "Aspirin",
+        "TimesADay": 1,
+        "Instructions": "BeforeMeal"
+      }
+    ]
+  }
+]

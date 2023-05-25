@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,9 +11,12 @@ using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.AnamnesisReport;
 using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.Presriptions;
+using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.InventoryServices;
+using ZdravoCorp.Core.Services.MedicamentServices;
 using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
+using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.View.DoctorView;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
@@ -27,17 +31,21 @@ public class CreatePrescriptionsViewModel : ViewModelBase
     private Appointment _appointment;
     private IInventoryService _inventoryService;
     private IRoomService _roomService;
+    private IMedicamentService _medicamentService;
     private Anamnesis _anamnesis;
     private int _roomId;
     public CreatePrescriptionsViewModel(Appointment appointment,IScheduleService scheduleService,
         IInventoryService inventoryService,IRoomService roomService,int roomId,Anamnesis anamnesis)
     {
+        _medicamentService = Injector.Container.Resolve<IMedicamentService>();
+        
         _anamnesis = anamnesis;
         _prescriptions = new List<Prescription>();
         Prescriptions = new ObservableCollection<PrescriptionViewModel>();
         PossibleTimes = new[] { 1, 2, 3, 4, 5, 6 };
-        PossibleInstructions = new[] { "beforeMeal", "afterMeal", "duringMeal", "notImportant" };
-        PossibleMedicaments = new[] { "paracetamol", "probiotik", "antibiotik", "brufen" };
+        PossibleInstructions = new[] { "BeforeMeal", "AfterMeal", "DuringMeal", "NotImportant" };
+        PossibleMedicaments = _medicamentService.GetAllMedicamentNames().ToArray();
+        //PossibleMedicaments = new[] { "paracetamol", "probiotik", "antibiotik", "brufen" };
         _inventoryService = inventoryService;
         _roomService = roomService;
         _roomId = roomId;
@@ -52,6 +60,7 @@ public class CreatePrescriptionsViewModel : ViewModelBase
     public ICommand Add { get; }
     public ICommand Delete { get; }
 
+    
     public int[] PossibleTimes { get; }
     public string[] PossibleInstructions { get; }
     public string[] PossibleMedicaments { get; }
@@ -104,7 +113,8 @@ public class CreatePrescriptionsViewModel : ViewModelBase
             MessageBox.Show("Invalid data for prescription", "Error", MessageBoxButton.OK);
             return;
         }
-        var PrescriptionModel = new PrescriptionViewModel(new Prescription(SelectedMedicament, SelectedTime, SelectedInstruction));
+        var prescriptoion = new Prescription(SelectedMedicament, SelectedTime, SelectedInstruction);
+        var PrescriptionModel = new PrescriptionViewModel(prescriptoion);
         foreach (var prescription in Prescriptions)
         {
             if (PrescriptionModel.Instructions == prescription.Instructions && PrescriptionModel.Medicament == prescription.Medicament
@@ -114,6 +124,21 @@ public class CreatePrescriptionsViewModel : ViewModelBase
                 return;
             }
         }
+        var components  = _medicamentService.GetByName(prescriptoion.Medicament).Components;
+        foreach (var allergen in _anamnesis.Allergens)
+        {
+            if (components.Contains(allergen))
+            {
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to add a prescription even " +
+                    "though the patient is allergic?", "Error", MessageBoxButton.YesNo);
+
+                if (result == MessageBoxResult.No)
+                {
+                    return;
+                }
+            }
+        }
+        _prescriptions.Add(prescriptoion);
         Prescriptions.Add(PrescriptionModel);
   
 
@@ -128,6 +153,14 @@ public class CreatePrescriptionsViewModel : ViewModelBase
         {
             MessageBox.Show("None selected", "Error", MessageBoxButton.OK);
             return;
+        }
+        foreach(Prescription prescription in _prescriptions)
+        {
+            if(SelectedPrescription.Instructions == prescription.Instructions && SelectedPrescription.Medicament == prescription.Medicament
+                && SelectedPrescription.TimesADay == prescription.TimesADay){
+                _prescriptions.Remove(prescription);
+                break;
+            }
         }
         Prescriptions.Remove(SelectedPrescription);
     }
