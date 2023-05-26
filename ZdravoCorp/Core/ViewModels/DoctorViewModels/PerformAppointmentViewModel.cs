@@ -15,6 +15,8 @@ using ZdravoCorp.Core.Services.SpecialistsRefferalServices;
 using ZdravoCorp.Core.Utilities;
 using Autofac;
 using ZdravoCorp.Core.Services.DoctorServices;
+using ZdravoCorp.Core.Services.HospitalRefferalServices;
+using ZdravoCorp.Core.Models.AnamnesisReport;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -36,15 +38,18 @@ public class PerformAppointmentViewModel : ViewModelBase
     private readonly IRoomService _roomService;
     private readonly IScheduleService _scheduleService;
     private readonly IDoctorService _doctorService;
+    private readonly IHospitalRefferalService _hospitalRefferalService;
+    private Anamnesis _anamnesis;
 
 
     private string _symptoms;
 
 
     public PerformAppointmentViewModel(Appointment performingAppointment, IScheduleService scheduleService,
-        IPatientService patientService, IMedicalRecordService medicalRecordService,
-        IInventoryService inventoryService, IRoomService roomService,IDoctorService doctorService)
+        IPatientService patientService, IMedicalRecordService medicalRecordService,IInventoryService inventoryService, 
+        IRoomService roomService,IDoctorService doctorService,IHospitalRefferalService hospitalRefferalService)
     {
+        _hospitalRefferalService = hospitalRefferalService;
         _doctorService = doctorService;
         _roomService = roomService;
         _specialistsRefferalService = Injector.Container.Resolve<ISpecialistsRefferalService>();
@@ -58,16 +63,19 @@ public class PerformAppointmentViewModel : ViewModelBase
 
         CancelCommand = new DelegateCommand(o => CloseWindow());
         MedicalRCommand = new DelegateCommand(o => ShowMedicalRecordDialog());
-        PerformCommand = new DelegateCommand(o => SavePerformingAppointment());
-        EntryRefferal = new DelegateCommand(o => ShowEntryRefferal());
+        NextCommand = new DelegateCommand(o => NextToPrescription());
+        SpecialistsRefferal = new DelegateCommand(o => ShowSpecialistsRefferal());
+        HospitalRefferal = new DelegateCommand(o => ShowHospitalRefferal());
+        
     }
 
     public string PatientMail => _patient.Email;
     public string PatientName => _patient.FullName;
-    public ICommand PerformCommand { get; }
+    public ICommand NextCommand { get; }
     public ICommand CancelCommand { get; }
     public ICommand MedicalRCommand { get; }
-    public ICommand EntryRefferal { get; }
+    public ICommand SpecialistsRefferal { get; }
+    public ICommand HospitalRefferal { get; }
 
     public string Symptoms
     {
@@ -113,11 +121,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     {
         foreach (var room in _roomService.GetAll())
         {
-            var checkRoom = true;
-            foreach (var appointment in _scheduleService.GetAllAppointments())
-                if (room.Id == appointment.Room && _appointment.Time.Overlap(appointment.Time))
-                    checkRoom = false;
-            if (!checkRoom) continue;
+            if (!_scheduleService.CheckRoomAvailability(room.Id, _appointment.Time)) continue;
             _roomId = room.Id;
             return;
         }
@@ -152,7 +156,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     }
 
 
-    public void SavePerformingAppointment()
+    public void NextToPrescription()
     {
         try
         {
@@ -163,10 +167,10 @@ public class PerformAppointmentViewModel : ViewModelBase
             if (_scheduleService.CheckPerformingAppointmentData(patientSymptoms, doctorOpinion, patientAllergens,
                     anamnesisKeyWord))
             {
+                _anamnesis = new Anamnesis(patientSymptoms, doctorOpinion, anamnesisKeyWord, patientAllergens);
                 CloseWindow();
-                ShowDEquipmentSpentDialog();
-                _scheduleService.ChangePerformingAppointment(_appointment.Id, patientSymptoms, doctorOpinion,
-                    patientAllergens, anamnesisKeyWord, _roomId);
+                ShowPrescription();
+     
             }
             else
             {
@@ -179,10 +183,23 @@ public class PerformAppointmentViewModel : ViewModelBase
         }
     }
 
-    public void ShowEntryRefferal()
+    public void ShowSpecialistsRefferal()
     {
         CloseWindow();
         var window = new AddSpecialistsRefferalView() { DataContext = new AddSpecialistsRefferalViewModel(this,_doctorService,_appointment.Doctor,_patient,_scheduleService, _appointment)};
         window.Show();
     }
+
+    public void ShowHospitalRefferal()
+    {
+        CloseWindow();
+        var window = new AddHospitalRefferalView() { DataContext = new AddHospitalRefferalViewModel(this,_appointment,_scheduleService,_hospitalRefferalService,_roomService) };
+        window.Show();
+    }
+    public void ShowPrescription()
+    {
+        var window = new CreatePrescriptionsView() { DataContext = new CreatePrescriptionsViewModel(_appointment,_scheduleService,_inventoryService,_roomService,_roomId,_anamnesis) };
+        window.Show();
+    }
+
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using ZdravoCorp.Core.Models.SpecialistsRefferals;
 using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Utilities;
-using ZdravoCorp.Core.Models.Inventory;
 using System.Linq;
 
 namespace ZdravoCorp.Core.Repositories.SpecialistsRefferalsRepo;
