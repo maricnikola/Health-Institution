@@ -114,11 +114,14 @@ public class CreatePrescriptionsViewModel : ViewModelBase
         }
         set
         {
-            _expirationDate = value;
-            if(_expirationDate < DateTime.Today)
+            if (value < DateTime.Today)
             {
                 MessageBox.Show("Select a date in the future.", "Error", MessageBoxButton.OK);
-                return;
+                _expirationDate = DateTime.Today;
+            }
+            else
+            {
+                _expirationDate = value;
             }
             OnPropertyChanged(nameof(ExpirationDate));
         }
