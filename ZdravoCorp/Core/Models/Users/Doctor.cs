@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 namespace ZdravoCorp.Core.Models.Users;
 
 public class Doctor
-
 {
     public enum SpecializationType
     {
@@ -19,15 +18,17 @@ public class Doctor
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public SpecializationType Specialization { get; set; }
+    public double Grade { get; set; }
 
 
     [JsonConstructor]
-    public Doctor(string email, string firstName, string lastName, SpecializationType specialization)
+    public Doctor(string email, string firstName, string lastName, SpecializationType specialization, double grade)
     {
         Email = email;
         FirstName = firstName;
         LastName = lastName;
         Specialization = specialization;
+        Grade = grade;
     }
 
     public Doctor(DoctorDTO doctorDto)
@@ -36,6 +37,7 @@ public class Doctor
         FirstName = doctorDto.FirstName;
         LastName = doctorDto.LastName;
         Specialization = doctorDto.Specialization;
+        Grade = doctorDto.Grade;
     }
 
 

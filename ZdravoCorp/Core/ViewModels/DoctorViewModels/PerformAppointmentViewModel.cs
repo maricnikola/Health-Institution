@@ -11,6 +11,10 @@ using ZdravoCorp.Core.Services.MedicalRecordServices;
 using ZdravoCorp.View.DoctorView;
 using ZdravoCorp.Core.Services.InventoryServices;
 using ZdravoCorp.Core.Services.RoomServices;
+using ZdravoCorp.Core.Services.SpecialistsRefferalServices;
+using ZdravoCorp.Core.Utilities;
+using Autofac;
+using ZdravoCorp.Core.Services.DoctorServices;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -22,6 +26,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     private readonly IInventoryService _inventoryService;
 
     private string _keyWord;
+    private ISpecialistsRefferalService _specialistsRefferalService;
     private readonly IMedicalRecordService _medicalRecordService;
 
     private string _opinion;
@@ -30,6 +35,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     private int _roomId;
     private readonly IRoomService _roomService;
     private readonly IScheduleService _scheduleService;
+    private readonly IDoctorService _doctorService;
 
 
     private string _symptoms;
@@ -37,9 +43,11 @@ public class PerformAppointmentViewModel : ViewModelBase
 
     public PerformAppointmentViewModel(Appointment performingAppointment, IScheduleService scheduleService,
         IPatientService patientService, IMedicalRecordService medicalRecordService,
-        IInventoryService inventoryService, IRoomService roomService)
+        IInventoryService inventoryService, IRoomService roomService,IDoctorService doctorService)
     {
+        _doctorService = doctorService;
         _roomService = roomService;
+        _specialistsRefferalService = Injector.Container.Resolve<ISpecialistsRefferalService>();
         _inventoryService = inventoryService;
         _appointment = performingAppointment;
         _medicalRecordService = medicalRecordService;
@@ -51,6 +59,7 @@ public class PerformAppointmentViewModel : ViewModelBase
         CancelCommand = new DelegateCommand(o => CloseWindow());
         MedicalRCommand = new DelegateCommand(o => ShowMedicalRecordDialog());
         PerformCommand = new DelegateCommand(o => SavePerformingAppointment());
+        EntryRefferal = new DelegateCommand(o => ShowEntryRefferal());
     }
 
     public string PatientMail => _patient.Email;
@@ -58,6 +67,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     public ICommand PerformCommand { get; }
     public ICommand CancelCommand { get; }
     public ICommand MedicalRCommand { get; }
+    public ICommand EntryRefferal { get; }
 
     public string Symptoms
     {
@@ -137,7 +147,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     public void ShowDEquipmentSpentDialog()
     {
         var window = new DEquipmentSpentView
-            { DataContext = new DEquipmentSpentViewModel(_inventoryService, _roomId) };
+            { DataContext = new DEquipmentSpentViewModel(_inventoryService, _roomService,_roomId) };
         window.Show();
     }
 
@@ -167,5 +177,12 @@ public class PerformAppointmentViewModel : ViewModelBase
         {
             MessageBox.Show("Invalid data for performing", "Error", MessageBoxButton.OK);
         }
+    }
+
+    public void ShowEntryRefferal()
+    {
+        CloseWindow();
+        var window = new AddSpecialistsRefferalView() { DataContext = new AddSpecialistsRefferalViewModel(this,_doctorService,_appointment.Doctor,_patient,_scheduleService, _appointment)};
+        window.Show();
     }
 }

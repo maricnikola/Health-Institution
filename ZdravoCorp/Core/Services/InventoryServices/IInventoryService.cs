@@ -27,6 +27,9 @@ public interface IInventoryService
     void UpdateDestinationInventoryItem(int source, int destination, int quantity);
     public void MoveItemsToStockRoom(int roomId, Room stockRoom);
 
+    public void UpdateSpentInventory(int id,int quantity);
+
+
 
 
 

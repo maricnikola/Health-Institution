@@ -3,12 +3,14 @@
     "Email": "savo.oroz@gmail.com",
     "FirstName": "Savo",
     "LastName": "Oroz",
-    "Specialization": "Surgeon"
+    "Specialization": "Surgeon",
+    "Grade" :  5
   },
   {
     "Email": "vrabac@gmail.com",
     "FirstName": "Mirko",
     "LastName": "Vrabac",
-    "Specialization": "Surgeon"
+    "Specialization": "Surgeon",
+    "Grade" :  4
   }
 ]

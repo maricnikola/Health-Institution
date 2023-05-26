@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
@@ -19,15 +20,12 @@ public class ChangeAppointmentViewModel : ViewModelBase
     private readonly AppointmentViewModel _appointmentViewModel;
     private DateTime _date = DateTime.Now + TimeSpan.FromHours(1);
 
-    private string _doctorName;
+    private string _selectedDoctor;
     private readonly IDoctorService _doctorService;
     private int _hours;
     private int _minutes;
     private readonly Patient _patient;
     private readonly IScheduleService _scheduleService;
-
-    public int Inx;
-
 
     public ChangeAppointmentViewModel(AppointmentViewModel appointmentViewModel, IScheduleService scheduleService,
         ObservableCollection<AppointmentViewModel> Appointments, IDoctorService doctorService, Patient patient)
@@ -43,8 +41,7 @@ public class ChangeAppointmentViewModel : ViewModelBase
         var doctors = _doctorService.GetAll();
         foreach (var doctor in doctors) _doctors.Add(doctor.FullName + "-" + doctor.Email);
 
-        Inx = 0;
-        _doctorName = _appointmentViewModel.DoctorName;
+        _selectedDoctor = _appointmentViewModel.DoctorName+ "-" + _appointmentViewModel.DoctorEmail;
         _date = _appointmentViewModel.Date;
         _hours = _appointmentViewModel.Date.Hour;
         _minutes = _appointmentViewModel.Date.Minute;
@@ -58,12 +55,12 @@ public class ChangeAppointmentViewModel : ViewModelBase
 
     public ICommand ChangeAppointmentCommand { get; set; }
 
-    public string DoctorName
+    public string SelectedDoctor
     {
-        get => _doctorName;
+        get => _selectedDoctor;
         set
         {
-            _doctorName = value;
+            _selectedDoctor = value;
             OnPropertyChanged();
         }
     }
@@ -98,14 +95,14 @@ public class ChangeAppointmentViewModel : ViewModelBase
         }
     }
 
-    public void ChangeAppointmentComm(ObservableCollection<AppointmentViewModel> Appointments)
+    private void ChangeAppointmentComm(ObservableCollection<AppointmentViewModel> Appointments)
     {
         try
         {
             var h = Hours;
             var m = Minutes;
             var d = Date;
-            var dm = DoctorName;
+            var dm = SelectedDoctor;
 
             var start = new DateTime(d.Year, d.Month, d.Day, h, m, 0);
             var end = start.AddMinutes(15);
@@ -121,6 +118,7 @@ public class ChangeAppointmentViewModel : ViewModelBase
             {
                 Appointments.Remove(GetById(appointment.Id, Appointments));
                 Appointments.Add(new AppointmentViewModel(appointment));
+                MessageBox.Show("Appointment changed seccessfully", "Success", MessageBoxButton.OK);
             }
             else
             {
@@ -133,11 +131,8 @@ public class ChangeAppointmentViewModel : ViewModelBase
         }
     }
 
-    public AppointmentViewModel GetById(int id, ObservableCollection<AppointmentViewModel> Appointments)
+    private AppointmentViewModel GetById(int id, ObservableCollection<AppointmentViewModel> Appointments)
     {
-        foreach (var appointmentViewModel in Appointments)
-            if (appointmentViewModel.Id == id)
-                return appointmentViewModel;
-        return null;
+        return Appointments.FirstOrDefault(appointmentViewModel => appointmentViewModel.Id == id);
     }
 }
