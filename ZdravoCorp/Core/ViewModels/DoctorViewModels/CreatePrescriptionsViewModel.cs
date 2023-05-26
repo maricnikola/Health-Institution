@@ -34,6 +34,7 @@ public class CreatePrescriptionsViewModel : ViewModelBase
     private IMedicamentService _medicamentService;
     private Anamnesis _anamnesis;
     private int _roomId;
+    private List<int> _hourlyRates = new List<int>();
     public CreatePrescriptionsViewModel(Appointment appointment,IScheduleService scheduleService,
         IInventoryService inventoryService,IRoomService roomService,int roomId,Anamnesis anamnesis)
     {
@@ -104,23 +105,54 @@ public class CreatePrescriptionsViewModel : ViewModelBase
             OnPropertyChanged(nameof(SelectedMedicament));
         }
     }
-   
+    private DateTime _expirationDate = DateTime.Today;
+    public DateTime ExpirationDate
+    {
+        get
+        {
+            return _expirationDate;
+        }
+        set
+        {
+            _expirationDate = value;
+            if(_expirationDate < DateTime.Today)
+            {
+                MessageBox.Show("Select a date in the future.", "Error", MessageBoxButton.OK);
+                return;
+            }
+            OnPropertyChanged(nameof(ExpirationDate));
+        }
+    }
+    private string _hours;
+    public string Hours
+    {
+        get
+        {
+            return _hours;
+        }
+        set
+        {
+            _hours = value;
+            OnPropertyChanged(nameof(Hours));
+        }
+    }
+
 
     public void AddPrescription()
     {
-        if (checkPrescriptionData())
+        if (!checkPrescriptionData())
         {
             MessageBox.Show("Invalid data for prescription", "Error", MessageBoxButton.OK);
             return;
         }
-        var prescriptoion = new Prescription(SelectedMedicament, SelectedTime, SelectedInstruction);
+
+        var prescriptoion = new Prescription(SelectedMedicament, SelectedTime, SelectedInstruction,ExpirationDate,_hourlyRates);
         var PrescriptionModel = new PrescriptionViewModel(prescriptoion);
         foreach (var prescription in Prescriptions)
         {
-            if (PrescriptionModel.Instructions == prescription.Instructions && PrescriptionModel.Medicament == prescription.Medicament
-                && PrescriptionModel.TimesADay == prescription.TimesADay)
+            if (PrescriptionModel.Medicament == prescription.Medicament)
             {
-                MessageBox.Show("Prescription already exists", "Error", MessageBoxButton.OK);
+                MessageBox.Show("Medicament already exists", "Error", MessageBoxButton.OK);
                 return;
             }
         }
@@ -145,7 +177,21 @@ public class CreatePrescriptionsViewModel : ViewModelBase
     }
     private bool checkPrescriptionData()
     {
-        return SelectedInstruction == null  || SelectedMedicament == null || SelectedTime == null;
+        if (ExpirationDate == DateTime.Today || SelectedInstruction == null || SelectedMedicament == null
+            || SelectedTime == null) return false;
+        try
+        {
+            List<string> hourlyRates = Hours.Split(",").ToList();
+            _hourlyRates = hourlyRates.Select(s => int.Parse(s)).ToList();
+            if (hourlyRates.Count != SelectedTime) return false;
+            if (_hourlyRates.Count != _hourlyRates.Distinct().Count()) return false;
+            if (!_hourlyRates.All(num => num <= 23 && num >= 0)) return false; 
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+        return true;
     }
     public void DeletePrescription()
     {

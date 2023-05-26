@@ -21,6 +21,8 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
@@ -50,10 +52,23 @@
                     ItemsSource="{Binding PossibleInstructions}"
                     Width="150"/>
             </Grid>
-            <Grid Grid.Row="3" Grid.Column="0"  Margin="10 45 20 0">
+            <Grid Grid.Row="3" Grid.Column="0" Margin="10 30 20 0">
+                <Label  Foreground="White" Content="Expiration date:"/>
+            </Grid>
+            <Grid Grid.Row="3" Grid.Column="1"  Margin="10 30 20 0">
+                <DatePicker SelectedDate="{Binding ExpirationDate}"  Width="150"/>
+            </Grid>
+            <Grid Grid.Row="4" Grid.Column="0" Margin="10 30 20 0">
+                <Label  Foreground="White" Content="Hours:"/>
+            </Grid>
+            <Grid Grid.Row="4" Grid.Column="1"  Margin="10 30 20 0">
+                <TextBox Text="{Binding Hours}"  Width="150"/>
+            </Grid>
+            
+            <Grid Grid.Row="5" Grid.Column="0"  Margin="10 45 20 0">
                 <Button Command="{Binding Add}" Padding="4" Content="Add" Width="100"/>
             </Grid>
-            <Grid Grid.Row="3" Grid.Column="1"  Margin="10 45 20 0">
+            <Grid Grid.Row="5" Grid.Column="1"  Margin="10 45 20 0">
                 <Button Command="{Binding Delete}" Padding="4" Content="Delete" Width="100"/>
             </Grid>
             
