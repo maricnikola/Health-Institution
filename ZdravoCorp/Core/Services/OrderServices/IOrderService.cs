@@ -6,7 +6,6 @@ namespace ZdravoCorp.Core.Services.OrderServices;
 
 public interface IOrderService
 {
-    public event EventHandler OnRequestUpdate;
     public List<Order>? GetAll();
     public Order? GetById(int id);
     public void AddOrder(OrderDTO orderDto);

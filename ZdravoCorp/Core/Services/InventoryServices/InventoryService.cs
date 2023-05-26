@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ZdravoCorp.Core.Models.Inventory;
+using ZdravoCorp.Core.Models.Rooms;
 using ZdravoCorp.Core.Models.Transfers;
 using ZdravoCorp.Core.Repositories.InventoryRepo;
 using ZdravoCorp.Core.Utilities;
@@ -140,5 +141,29 @@ public class InventoryService : IInventoryService
     {
         var inventoryItem = _inventoryRepository.GetById(id);
         _inventoryRepository.ChangeQuantity(inventoryItem, quantity);
+    }
+
+    public void MoveItemsToStockRoom(int roomId, Room stockRoom)
+    {
+        var removeIds = new List<int>();
+        var newItems = new List<InventoryItemDTO>();
+        foreach (var item in _inventoryRepository.GetAll())
+        {
+            if (item.RoomId == roomId)
+            {
+                removeIds.Add(item.Id);
+                newItems.Add(new InventoryItemDTO(IDGenerator.GetId(), item.Quantity, stockRoom, item.Equipment));
+            }
+        }
+
+        foreach (var id in removeIds)
+        {
+            Delete(id);
+        }
+
+        foreach (var item in newItems)
+        {
+            AddInventoryItem(item);
+        }
     }
 }

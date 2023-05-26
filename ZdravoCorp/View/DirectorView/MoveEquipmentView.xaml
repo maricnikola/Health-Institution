@@ -49,7 +49,7 @@
                   SelectionMode="Single"
                   IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,10" Name="Transfers">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="MItem" Width="100" Binding="{Binding Item}" />
+                <DataGridTextColumn Header="Item" Width="100" Binding="{Binding Item}" />
                 <DataGridTextColumn Header="From" Width="100" Binding="{Binding From}" />
                 <DataGridTextColumn Header="To" Width="100" Binding="{Binding To}" />
                 <DataGridTextColumn Header="When" Width="150" Binding="{Binding When}" />
