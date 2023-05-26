@@ -143,7 +143,7 @@ public class CreatePrescriptionsViewModel : ViewModelBase
 
     public void AddPrescription()
     {
-        if (!checkPrescriptionData())
+        if (!CheckPrescriptionData())
         {
             MessageBox.Show("Invalid data for prescription", "Error", MessageBoxButton.OK);
             return;
@@ -178,7 +178,7 @@ public class CreatePrescriptionsViewModel : ViewModelBase
   
 
     }
-    private bool checkPrescriptionData()
+    private bool CheckPrescriptionData()
     {
         if (ExpirationDate == DateTime.Today || SelectedInstruction == null || SelectedMedicament == null
             || SelectedTime == null) return false;

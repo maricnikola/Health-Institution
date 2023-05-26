@@ -80,28 +80,28 @@ public class ScheduleService : IScheduleService
         return _scheduleRepository.GetAllOperations().Where(operation => operation.Doctor.Email == doctorsMail).ToList();
     }
 
-    public bool isDoctorAvailable(TimeSlot timeslot, string doctorsMail)
+    public bool IsDoctorAvailable(TimeSlot timeslot, string doctorsMail)
     {
         var appointments = GetDoctorAppointments(doctorsMail);
         var operations = GetDoctorOperations(doctorsMail);
-        return checkAvailability(appointments, operations, timeslot);
+        return CheckAvailability(appointments, operations, timeslot);
     }
 
-    public bool isPatientAvailable(TimeSlot timeslot, string patientMail)
+    public bool IsPatientAvailable(TimeSlot timeslot, string patientMail)
     {
         var appointments = GetPatientAppointments(patientMail);
         var operations = GetPatientOperations(patientMail);
-        return checkAvailability(appointments, operations, timeslot);
+        return CheckAvailability(appointments, operations, timeslot);
     }
 
-    public bool checkAvailability(List<Appointment> appointments, List<Operation> operations, TimeSlot timeslot)
+    public bool CheckAvailability(List<Appointment> appointments, List<Operation> operations, TimeSlot timeslot)
     {
-        return !appointments.Any(appointment => !appointment.Time.Overlap(timeslot) && !appointment.IsCanceled) && operations.All(operation => operation.Time.Overlap(timeslot) || operation.IsCanceled);
+        return !appointments.Any(appointment => appointment.Time.Overlap(timeslot) && !appointment.IsCanceled) && operations.All(operation => operation.Time.Overlap(timeslot) || operation.IsCanceled);
     }
 
     public Appointment? CreateAppointment(TimeSlot time, Doctor doctor, string email)
     {
-        if (!isDoctorAvailable(time, doctor.Email) || !isPatientAvailable(time, email) ||
+        if (!IsDoctorAvailable(time, doctor.Email) || !IsPatientAvailable(time, email) ||
             time.Start <= DateTime.Now) return null;
         var id = IDGenerator.GetId();
         var appointment = new Appointment(id, time, doctor, email);
@@ -111,7 +111,7 @@ public class ScheduleService : IScheduleService
 
     public void CreateOperation(TimeSlot time, Doctor doctor, MedicalRecord medicalRecord)
     {
-        if (!isDoctorAvailable(time, doctor.Email) || !isPatientAvailable(time, medicalRecord.Patient.Email)) return;
+        if (!IsDoctorAvailable(time, doctor.Email) || !IsPatientAvailable(time, medicalRecord.Patient.Email)) return;
         var operation = new Operation(0, time, doctor, medicalRecord);
         _scheduleRepository.InsertOperation(operation);
     }
@@ -127,7 +127,7 @@ public class ScheduleService : IScheduleService
 
         var toGo = GetAppointmentById(id);
         _scheduleRepository.DeleteAppointment(GetAppointmentById(id));
-        if (isDoctorAvailable(time, doctor.Email) && isPatientAvailable(time, email))
+        if (IsDoctorAvailable(time, doctor.Email) && IsPatientAvailable(time, email))
         {
             _scheduleRepository.InsertAppointment(appointment);
             //  _counterDictionary.AddCancelation(appointment.PatientEmail, DateTime.Now);
@@ -206,7 +206,7 @@ public class ScheduleService : IScheduleService
                 var slotForAppointment = new TimeSlot(day.Start, day.Start.AddMinutes(15));
                 if (!doctorsTimeSlots.Contains(slotForAppointment))
                 {
-                    if (isDoctorAvailable(slotForAppointment, doctorsMail)) return slotForAppointment;
+                    if (IsDoctorAvailable(slotForAppointment, doctorsMail)) return slotForAppointment;
                     day.Start = day.Start.AddMinutes(15);
                     continue;
                 }
@@ -346,9 +346,9 @@ public class ScheduleService : IScheduleService
 
     public bool CheckPerformingAppointmentData(List<string> symptoms, string opinion, List<string> allergens, string keyWord)
     {
-        if (checkListElementsLength(symptoms)) return false;
+        if (CheckListElementsLength(symptoms)) return false;
         if (opinion.Trim().Length < 10) return false;
-        if (checkListElementsLength(allergens)) return false;
+        if (CheckListElementsLength(allergens)) return false;
         return keyWord.Trim().Length >= 2;
     }
 
@@ -363,7 +363,7 @@ public class ScheduleService : IScheduleService
         _scheduleRepository.InsertAppointment(performedAppointment);
     }
 
-    public bool checkListElementsLength(List<string> list)
+    public bool CheckListElementsLength(List<string> list)
     {
         return list.Any(l => l.Trim().Length < 5);
     }
@@ -377,7 +377,7 @@ public class ScheduleService : IScheduleService
     {
         foreach (Appointment appointment in _scheduleRepository.GetAllAppointments())
         {
-            if (appointment.Room == roomId && !time.Overlap(appointment.Time)) return false;
+            if (appointment.Room == roomId && time.Overlap(appointment.Time)) return false;
 
         }
         return true;
