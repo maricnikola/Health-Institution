@@ -13,6 +13,9 @@ using ZdravoCorp.View.DoctorView;
 using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.InventoryServices;
 using ZdravoCorp.Core.Services.RoomServices;
+using ZdravoCorp.Core.Services.HospitalRefferalServices;
+using ZdravoCorp.Core.Utilities;
+using Autofac;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -28,12 +31,14 @@ public class AppointmentShowViewModel : ViewModelBase
     private readonly IPatientService _patientService;
     private readonly IRoomService _roomService;
     private readonly IScheduleService _scheduleService;
+    private readonly IHospitalRefferalService _hospitalRefferalService;
     private int counterViews;
 
     public AppointmentShowViewModel(User user, IScheduleService scheduleService, IDoctorService doctorService,
         IPatientService patientService, IMedicalRecordService medicalRecordService,
         IInventoryService inventoryService, IRoomService roomService)
     {
+        _hospitalRefferalService = Injector.Container.Resolve<IHospitalRefferalService>();
         counterViews = 0;
         _patientService = patientService;
         _scheduleService = scheduleService;
@@ -51,7 +56,6 @@ public class AppointmentShowViewModel : ViewModelBase
         AddAppointmentCommand = new DelegateCommand(o => OpenAddDialog());
         ChangeAppointmentCommand = new DelegateCommand(o => OpenChangeDialog());
         CancelAppointmentCommand = new DelegateCommand(o => CancelAppointment());
-        SearchAppointmentCommand = new DelegateCommand(o => SearchAppointments());
         ViewMedicalRecordCommand = new DelegateCommand(o => ShowMedicalRecord());
         PerformAppointmentCommand = new DelegateCommand(o => ShowPerformingView());
     }
@@ -62,7 +66,6 @@ public class AppointmentShowViewModel : ViewModelBase
     public ICommand ChangeAppointmentCommand { get; }
     public ICommand AddAppointmentCommand { get; }
     public ICommand CancelAppointmentCommand { get; }
-    public ICommand SearchAppointmentCommand { get; }
     public ICommand ViewMedicalRecordCommand { get; }
     public ICommand PerformAppointmentCommand { get; }
 
@@ -72,14 +75,9 @@ public class AppointmentShowViewModel : ViewModelBase
         set
         {
             _dateAppointment = value;
-            if (_dateAppointment < DateTime.Today)
-            {
-                MessageBox.Show("Select date in future", "Error", MessageBoxButton.OK);
-                _dateAppointment = DateTime.Today;
-                return;
-            }
 
             OnPropertyChanged();
+            SearchAppointments();
         }
     }
 
@@ -88,7 +86,7 @@ public class AppointmentShowViewModel : ViewModelBase
         var addAp = new AddAppointmentView
         {
             DataContext = new AddAppointmentViewModel(_scheduleService, _doctorService, Appointments,
-                _patientService, _doctor, _medicalRecordService, _dateAppointment)
+                _patientService, _doctor, _medicalRecordService, _dateAppointment,_hospitalRefferalService)
         };
         addAp.Show();
     }
@@ -128,7 +126,7 @@ public class AppointmentShowViewModel : ViewModelBase
         {
             var appointment = _scheduleService.GetAppointmentById(selectedAppointment.Id);
             var appointmentDto = new AppointmentDTO(appointment.Id, appointment.Time.Start, appointment.Doctor,
-                appointment.PatientEmail, appointment.Anamnesis);
+                appointment.PatientEmail, null);
             if (appointment.Status)
             {
                 MessageBox.Show("Appointment is performed", "Error", MessageBoxButton.OK);
@@ -191,10 +189,11 @@ public class AppointmentShowViewModel : ViewModelBase
             {
                 var window = new PerformAppointmentView
                 {
-                    DataContext = new PerformAppointmentViewModel(appointmentPerforming, _scheduleService,
-                        _patientService, _medicalRecordService, _inventoryService, _roomService)
+                    DataContext = new PerformAppointmentViewModel(appointmentPerforming, _scheduleService,_patientService,
+                    _medicalRecordService, _inventoryService, _roomService,_doctorService,_hospitalRefferalService)
                 };
                 window.Show();
+                DateAppointment = DateTime.Now + TimeSpan.FromHours(1);
             }
             else
             {

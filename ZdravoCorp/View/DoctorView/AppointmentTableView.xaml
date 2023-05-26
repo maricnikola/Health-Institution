@@ -21,10 +21,7 @@
                     <Grid Grid.Column="0" Margin="10 0 100 0">
                         <DatePicker SelectedDate="{Binding DateAppointment}" />
                     </Grid>
-                    <Grid Grid.Column="1">
-                        <Button Command="{Binding SearchAppointmentCommand}" Width="100" Margin="300 0 0 0"
-                                Content="Search" />
-                    </Grid>
+                    
 
                 </Grid>
 
@@ -61,7 +58,7 @@
                       IsReadOnly="True" AutoGenerateColumns="False" Width="600" Height="325">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Doctor" Width="200" x:Name="name" Binding="{Binding DoctorName}" />
-                    <DataGridTextColumn Header="Patient" Width="200" Binding="{Binding PatientName}" />
+                    <DataGridTextColumn Header="Patient" Width="200" Binding="{Binding PatientEmail}" />
                     <DataGridTextColumn Header="Date" Width="200" Binding="{Binding Date}" />
 
                 </DataGrid.Columns>

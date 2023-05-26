@@ -6,7 +6,7 @@
         xmlns:director="clr-namespace:ZdravoCorp.Core.ViewModels.DirectorViewModel"
         xmlns:directorView="clr-namespace:ZdravoCorp.View.DirectorView"
         mc:Ignorable="d"
-        Title="DirectorWindow" Height="600" Width="920"
+        Title="DirectorWindow" Height="600" Width="1020"
         Background="#29262e">
     <Window.Resources>
         <DataTemplate DataType="{x:Type director:EquipmentPaneViewModel}">
@@ -20,6 +20,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type director:MoveDEquipmentViewModel}">
             <directorView:DynamicMoveView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type director:RenovationsViewModel}">
+            <directorView:RenovationView />
         </DataTemplate>
 
     </Window.Resources>
@@ -43,6 +46,8 @@
                          Style="{DynamicResource ToggleTheme}" Command="{Binding MoveEquipmentCommand}" />
             <RadioButton Content="Move Dynamic Equipment" Height="50" Foreground="WhiteSmoke"
                          Style="{DynamicResource ToggleTheme}" Command="{Binding MoveDynamicEquipmentCommand}" />
+            <RadioButton Content="Room Renovation" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding RenovationCommand}" />
 
         </StackPanel>
         <ContentControl Grid.RowSpan="2" Background="#29262e" Content="{Binding Path=CurrentView}" Grid.Row="0"

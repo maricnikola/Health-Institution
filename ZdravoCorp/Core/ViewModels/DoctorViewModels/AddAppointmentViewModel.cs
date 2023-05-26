@@ -6,14 +6,14 @@ using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
-using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
 using ZdravoCorp.Core.Services.PatientServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Services.MedicalRecordServices;
 using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.Core.Services.DoctorServices;
+using ZdravoCorp.Core.Services.HospitalRefferalServices;
+using ZdravoCorp.Core.Models.Appointments;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -24,6 +24,7 @@ public class AddAppointmentViewModel : ViewModelBase
     private readonly IMedicalRecordService _medicalRecordService;
     private readonly IPatientService _patientService;
     private readonly IScheduleService _scheduleService;
+    private readonly IHospitalRefferalService _hospitalRefferalService;
 
     private DateTime _startDate = DateTime.Now + TimeSpan.FromHours(1);
 
@@ -36,7 +37,7 @@ public class AddAppointmentViewModel : ViewModelBase
 
     public AddAppointmentViewModel(IScheduleService scheduleService, IDoctorService doctorService,
         ObservableCollection<AppointmentViewModel> appointment, IPatientService patientService, Doctor doctor,
-        IMedicalRecordService medicalRecordService, DateTime date)
+        IMedicalRecordService medicalRecordService, DateTime date,IHospitalRefferalService hospitalRefferalService)
     {
         _dr = doctor;
         _medicalRecordService = medicalRecordService;
@@ -45,6 +46,7 @@ public class AddAppointmentViewModel : ViewModelBase
         PossibleHours = new[]
             { 00, 01, 02, 03, 04, 05, 06, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
 
+        _hospitalRefferalService = hospitalRefferalService;
         _scheduleService = scheduleService;
         _patientService = patientService;
         var _controller = new PatientRepository();
@@ -130,6 +132,12 @@ public class AddAppointmentViewModel : ViewModelBase
             var mail = tokens[1];
             var patient = _patientService.GetByEmail(mail);
 
+            var patientInHospital = _hospitalRefferalService.IsPatientOnHospitalTreatment(patient.Email,time);
+            if (patientInHospital)
+            {
+                MessageBox.Show("Patient is on hospital treatment", "Error", MessageBoxButton.OK);
+                return;
+            }
             var appointment = _scheduleService.CreateAppointment(time, _dr, mail);
 
             if (appointment != null)

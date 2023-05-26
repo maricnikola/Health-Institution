@@ -53,7 +53,7 @@ public class OrderService : IOrderService
 
     public void Delete(int id)
     {
-        throw new System.NotImplementedException();
+        _orderRepository.Delete(GetById(id));
         DataChanged?.Invoke(this, new EventArgs());
     }
 

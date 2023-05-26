@@ -9,4 +9,5 @@ public interface IInventoryRepository : IRepository<InventoryItem>
 
     void LoadRoomsAndEquipment();
     void SaveChanges();
+    void ChangeQuantity(InventoryItem inventoryItem, int quantity);
 }

@@ -8,6 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Core\Models\Prescriptions\**" />
+      <EmbeddedResource Remove="Core\Models\Prescriptions\**" />
+      <None Remove="Core\Models\Prescriptions\**" />
+      <Page Remove="Core\Models\Prescriptions\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <Compile Remove="App.xaml.cs" />
     </ItemGroup>
 

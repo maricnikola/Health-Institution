@@ -8,6 +8,7 @@ using ZdravoCorp.Core.Services.MedicalRecordServices;
 using ZdravoCorp.Core.Services.PatientServices;
 using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
+using ZdravoCorp.Core.Services.SpecialistsRefferalServices;
 using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
@@ -22,6 +23,7 @@ public class DoctorViewModel : ViewModelBase
     private readonly IPatientService _patientService;
     private readonly IRoomService _roomService;
     private readonly IScheduleService _scheduleService;
+    private readonly ISpecialistsRefferalService _specialistsRefferalService;
     private readonly User _user;
 
     public DoctorViewModel(User user)
@@ -32,6 +34,7 @@ public class DoctorViewModel : ViewModelBase
         _patientService = Injector.Container.Resolve<IPatientService>();    
         _roomService = Injector.Container.Resolve<IRoomService>();
         _scheduleService = Injector.Container.Resolve<IScheduleService>();
+        _specialistsRefferalService = Injector.Container.Resolve<ISpecialistsRefferalService>();
         _doctor = _doctorService.GetByEmail(user.Email);
         
         var appointments = _scheduleService.GetDoctorAppointments(_doctor.Email);

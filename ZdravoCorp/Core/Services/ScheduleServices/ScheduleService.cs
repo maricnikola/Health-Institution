@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Animation;
 using ZdravoCorp.Core.Models.AnamnesisReport;
 using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.MedicalRecords;
 using ZdravoCorp.Core.Models.Operations;
+using ZdravoCorp.Core.Models.Presriptions;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
@@ -161,7 +163,8 @@ public class ScheduleService : IScheduleService
     {
         return _scheduleRepository.GetAllAppointments().Any(ap =>
             ap.PatientEmail == appointment.PatientEmail && ap.Doctor.Email == appointment.Doctor.Email &&
-            ap.Time.Start == appointment.Time.Start && ap.Time.End == appointment.Time.End);
+            ap.Time.Start == appointment.Time.Start && ap.Time.End == appointment.Time.End && ap.Status== appointment.Status
+            && ap.IsCanceled == appointment.IsCanceled);
     }
 
     public List<Appointment> GetAppointmentsForShow(DateTime date)
@@ -349,13 +352,12 @@ public class ScheduleService : IScheduleService
         return keyWord.Trim().Length >= 2;
     }
 
-    public void ChangePerformingAppointment(int id, List<string> symptoms, string opinion, List<string> allergens, string keyWord, int roomId)
+    public void ChangePerformingAppointment(int id,Anamnesis anamnesis, int roomId,List<Prescription> prescriptions)
     {
         var appointment = GetAppointmentById(id);
         _scheduleRepository.DeleteAppointment(appointment);
-        var anamnesis = new Anamnesis(symptoms, opinion, keyWord, allergens);
         var performedAppointment = new Appointment(appointment.Id, appointment.Time, appointment.Doctor,
-            appointment.PatientEmail, anamnesis);
+            appointment.PatientEmail, anamnesis,prescriptions);
         performedAppointment.Status = true;
         performedAppointment.Room = roomId;
         _scheduleRepository.InsertAppointment(performedAppointment);
@@ -371,4 +373,15 @@ public class ScheduleService : IScheduleService
         return _scheduleRepository.GetAllAppointments().FirstOrDefault(appointment => appointment.PatientEmail.Equals(patientEmail) && appointment.Time.IsInsideSingleSlot(interval));
 
     }
+    public bool CheckRoomAvailability(int roomId, TimeSlot time)
+    {
+        foreach (Appointment appointment in _scheduleRepository.GetAllAppointments())
+        {
+            if (appointment.Room == roomId && !time.Overlap(appointment.Time)) return false;
+
+        }
+        return true;
+    }
+
+
 }

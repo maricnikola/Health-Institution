@@ -26,6 +26,7 @@ public class RoomService : IRoomService
     public void AddRoom(RoomDTO roomDto)
     {
         _roomRepository.Insert(new Room(roomDto));
+        DataChanged?.Invoke(this, new EventArgs());
     }
 
     public void Update(int id, RoomDTO roomDto)
@@ -37,16 +38,39 @@ public class RoomService : IRoomService
         }
         _roomRepository.Delete(oldRoom);
         _roomRepository.Insert(new Room(roomDto));
+        DataChanged?.Invoke(this, new EventArgs());
     }
-    
+
+    public bool UpdateRenovation(int id, bool status)
+    {
+        var room = GetById(id);
+
+        if (room == null)
+            throw new KeyNotFoundException();
+        if (room.IsUnderRenovation == status)
+            return false;
+        var roomDto = new RoomDTO(room.Id, room.Type, status);
+        Update(id, roomDto);
+        DataChanged?.Invoke(this, EventArgs.Empty);
+        return true;
+    }
+
 
     public void Delete(int id)
     {
         _roomRepository.Delete(_roomRepository.GetById(id));
+        DataChanged?.Invoke(this, new EventArgs());
     }
 
     public IEnumerable<Room> GetAllExcept(int roomId)
     {
         return _roomRepository.GetAll().Where(room => room.Id != roomId);
     }
+
+    public int[] GetAllIds()
+    {
+        return _roomRepository.GetAll().Select(room => room.Id).ToArray();
+    }
+
+    public event EventHandler? DataChanged;
 }
