@@ -69,5 +69,6 @@ public interface IScheduleService
 
 
     Appointment GetPatientsFirstAppointment(string patientEmail, TimeSlot interval);
+    public bool CheckRoomAvailability(int roomId, TimeSlot time);
 
 }
