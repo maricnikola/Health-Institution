@@ -42,6 +42,6 @@ public class HospitalRefferalService : IHospitalRefferalService
     public bool IsPatientOnHospitalTreatment(string patientEmail,TimeSlot time)
     {
         return _hospitalRefferalRepository.GetAll().Any(refferal =>
-                patientEmail.Equals(refferal.PatientMail) && !time.Overlap(refferal.Time));
+                patientEmail.Equals(refferal.PatientMail) && time.Overlap(refferal.Time));
     }
 }
