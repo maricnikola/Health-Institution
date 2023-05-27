@@ -92,6 +92,8 @@ public class AllNotificationsViewModel : ViewModelBase
             foreach (var notification in _notificationService.GetAllForUser(_userEmail))
                 if(notification.Status==Notification.NotificationStatus.Pending)
                     updatedNotifications.Add(new NotificationViewModel(notification));
+                else
+                    _notificationService.Delete(notification.Id);
             Notifications = updatedNotifications;
         }
     }
@@ -118,7 +120,7 @@ public class AllNotificationsViewModel : ViewModelBase
 
     private bool CheckTimeInput()
     {
-        if (Hours < 0 || Hours > 24 || Minutes < 0 || Minutes > 59)
+        if (Hours < 0 || Hours > 23 || Minutes < 0 || Minutes > 59)
         {
             MessageBox.Show("Bad Time", "Error", MessageBoxButton.OK);
             return true;

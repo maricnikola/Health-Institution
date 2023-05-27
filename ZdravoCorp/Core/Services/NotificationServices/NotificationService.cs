@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.Notifications;
 using ZdravoCorp.Core.Models.Presriptions;
@@ -97,5 +98,6 @@ public class NotificationService : INotificationService
             _notificationRepository.UpdateTime(notification.Id, when);
         }
         JobScheduler.RefreshScheduledTasks(email);
+        DataChanged.Invoke(this, new EventArgs());
     }
 }
