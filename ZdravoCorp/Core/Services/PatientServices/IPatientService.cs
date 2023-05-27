@@ -14,4 +14,5 @@ public interface IPatientService
     public void AddPatient(PatientDTO patient);
     public void Update(string email, PatientDTO patientDto);
     public void Delete(string email);
+    public void ChangeTimeForNotification(string email, TimeSpan newTimeSpan);
 }

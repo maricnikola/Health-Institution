@@ -73,26 +73,33 @@ public class CreateNotificationViewModel : ViewModelBase
 
     private void CreateNotification()
     {
-        if (Hours < 0 || Hours > 24 || Minutes < 0 || Minutes > 60)
-        {
-            MessageBox.Show("Bad Time", "Error", MessageBoxButton.OK);
-            return;
-        }
-        if (Message == "")
-        {
-            MessageBox.Show("No message written", "Error", MessageBoxButton.OK);
-            return;
-        }
         var when = new DateTime(Date.Year, Date.Month, Date.Day, Hours, Minutes, 0);
-        if (when < DateTime.Now)
-        {
-            MessageBox.Show("That the past!", "Error", MessageBoxButton.OK);
-            return;
-        }
-        var notificationDto = new NotificationDTO(IDGenerator.GetId(), when, Message, _userEmail,Notification.NotificationStatus.Pending);
+        if (CheckInput(when)) return;
+        var notificationDto = new NotificationDTO(IDGenerator.GetId(), when, Message, _userEmail,Notification.NotificationStatus.Pending, "User made");
         _notificationService.AddNotification(notificationDto);
         _notifications.Add(new NotificationViewModel(new Notification(notificationDto)));
         JobScheduler.NotificationTaskScheduler(notificationDto);
     }
 
+    private bool CheckInput(DateTime when)
+    {
+
+        if (Hours < 0 || Hours > 24 || Minutes < 0 || Minutes > 60)
+        {
+            MessageBox.Show("Bad Time", "Error", MessageBoxButton.OK);
+            return true;
+        }
+
+        if (Message == "")
+        {
+            MessageBox.Show("No message written", "Error", MessageBoxButton.OK);
+            return true;
+        }
+
+        when = new DateTime(Date.Year, Date.Month, Date.Day, Hours, Minutes, 0);
+        if (when >= DateTime.Now) return false;
+        MessageBox.Show("That the past!", "Error", MessageBoxButton.OK);
+        return true;
+
+    }
 }

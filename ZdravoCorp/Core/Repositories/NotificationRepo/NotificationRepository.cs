@@ -48,6 +48,12 @@ public class NotificationRepository : ISerializable, INotificationRepository
         Serializer.Save(this);
     }
 
+    public void UpdateTime(int id, DateTime when)
+    {
+        GetById(id).When = when;
+        Serializer.Save(this);
+    }
+
     public string FileName()
     {
         return _fileName;

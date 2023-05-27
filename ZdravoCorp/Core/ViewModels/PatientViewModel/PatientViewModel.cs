@@ -87,7 +87,7 @@ public class PatientViewModel : ViewModelBase
 
     private void LoadNotifications()
     {
-        CurrentView = new AllNotificationsViewModel(_notificationService,_patient.Email);
+        CurrentView = new AllNotificationsViewModel(_notificationService,_patientService,_patient.Email);
     }
 
 }

@@ -15,5 +15,7 @@ public interface INotificationRepository : IRepository<Notification>
     void Delete(Notification notification);
     Notification GetById(int id);
     void UpdateStatus(int id, Notification.NotificationStatus status);
+    void UpdateTime(int id, DateTime when);
+
 
 }

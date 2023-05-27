@@ -18,4 +18,5 @@ public class NotificationViewModel : ViewModelBase
 
     public DateTime When =>_notification.When;
     public string Message => _notification.Message;
+    public string Source => _notification.Source;
 }

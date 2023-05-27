@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Models.Users;
@@ -54,5 +55,11 @@ public class PatientRepository : ISerializable, IPatientRepository
     public Patient? GetByEmail(string email)
     {
         return Patients.FirstOrDefault(patient => patient.Email == email);
+    }
+
+    public void UpdateNotificationTime(string email, TimeSpan newTimeSpan)
+    {
+        GetByEmail(email)!.NotificationTime=newTimeSpan;
+        Serializer.Save(this);
     }
 }

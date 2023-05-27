@@ -42,7 +42,14 @@ public class JobScheduler
         LoadScheduledTasks();
     }
 
-    private void LoadScheduledTasks()
+    public static void RefreshScheduledTasks(string username)
+    {
+        _scheduler.Clear();
+        LoadScheduledTasks();
+        LoadUsersNotifications(username);
+    }
+
+    private static void LoadScheduledTasks()
     {
         foreach (var order in _orderService.GetAll())
             if (order.Status == Order.OrderStatus.Pending)
@@ -61,7 +68,7 @@ public class JobScheduler
     {
         foreach (var notification in _notificationService.GetAllForUser(userEmail))
             if (notification.Status == Notification.NotificationStatus.Pending)
-                NotificationTaskScheduler(new NotificationDTO(notification.Id, notification.When, notification.Message, notification.UserEmail, notification.Status));
+                NotificationTaskScheduler(new NotificationDTO(notification.Id, notification.When, notification.Message, notification.UserEmail, notification.Status,notification.Source));
     }
 
     // dynamic equipment order task
