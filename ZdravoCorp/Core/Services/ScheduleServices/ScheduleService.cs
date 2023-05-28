@@ -99,12 +99,12 @@ public class ScheduleService : IScheduleService
         return !appointments.Any(appointment => appointment.Time.Overlap(timeslot) && !appointment.IsCanceled) && operations.All(operation => operation.Time.Overlap(timeslot) || operation.IsCanceled);
     }
 
-    public Appointment? CreateAppointment(TimeSlot time, Doctor doctor, string email)
+    public Appointment? CreateAppointment(TimeSlot time, Doctor doctor, string email,int roomId)
     {
         if (!IsDoctorAvailable(time, doctor.Email) || !IsPatientAvailable(time, email) ||
             time.Start <= DateTime.Now) return null;
         var id = IDGenerator.GetId();
-        var appointment = new Appointment(id, time, doctor, email);
+        var appointment = new Appointment(id, time, doctor, email,roomId);
         _scheduleRepository.InsertAppointment(appointment);
         return appointment;
     }
@@ -352,7 +352,8 @@ public class ScheduleService : IScheduleService
         return keyWord.Trim().Length >= 2;
     }
 
-    public void ChangePerformingAppointment(int id,Anamnesis anamnesis, int roomId,List<Prescription> prescriptions)
+    
+    public void ChangePerformingAppointment(int id,Anamnesis anamnesis,List<Prescription> prescriptions,int roomId)
     {
         var appointment = GetAppointmentById(id);
         _scheduleRepository.DeleteAppointment(appointment);

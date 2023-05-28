@@ -14,6 +14,7 @@ using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.HospitalRefferalServices;
 using ZdravoCorp.Core.Models.Appointments;
+using ZdravoCorp.Core.Services.RoomServices;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -25,6 +26,8 @@ public class AddAppointmentViewModel : ViewModelBase
     private readonly IPatientService _patientService;
     private readonly IScheduleService _scheduleService;
     private readonly IHospitalRefferalService _hospitalRefferalService;
+    private readonly IRoomService _roomService;
+    private int _roomId;
 
     private DateTime _startDate = DateTime.Now + TimeSpan.FromHours(1);
 
@@ -37,8 +40,9 @@ public class AddAppointmentViewModel : ViewModelBase
 
     public AddAppointmentViewModel(IScheduleService scheduleService, IDoctorService doctorService,
         ObservableCollection<AppointmentViewModel> appointment, IPatientService patientService, Doctor doctor,
-        IMedicalRecordService medicalRecordService, DateTime date,IHospitalRefferalService hospitalRefferalService)
+        IMedicalRecordService medicalRecordService, DateTime date,IHospitalRefferalService hospitalRefferalService,IRoomService roomService)
     {
+        _roomService = roomService;
         _dr = doctor;
         _medicalRecordService = medicalRecordService;
         _date = date;
@@ -108,7 +112,16 @@ public class AddAppointmentViewModel : ViewModelBase
 
     public ICommand AddCommand { get; }
     public ICommand CancelCommand { get; }
-
+    private void AssignRoom(TimeSlot time)
+    {
+        foreach (var room in _roomService.GetAll())
+        {
+            if (room.IsUnderRenovation || room.Type != Models.Rooms.RoomType.ExaminationRoom
+                || !_scheduleService.CheckRoomAvailability(room.Id,time)) continue;
+            _roomId = room.Id;
+            return;
+        }
+    }
     private void CloseWindow()
     {
         var activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
@@ -138,10 +151,12 @@ public class AddAppointmentViewModel : ViewModelBase
                 MessageBox.Show("Patient is on hospital treatment", "Error", MessageBoxButton.OK);
                 return;
             }
-            var appointment = _scheduleService.CreateAppointment(time, _dr, mail);
+            AssignRoom(time);
+            var appointment = _scheduleService.CreateAppointment(time, _dr, mail,_roomId);
 
             if (appointment != null)
             {
+                
                 CloseWindow();
                 if (_scheduleService.IsForShow(appointment, date))
                     Appointments.Add(new AppointmentViewModel(appointment));

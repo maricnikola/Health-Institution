@@ -8,6 +8,7 @@ using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
 using ZdravoCorp.Core.Services.DoctorServices;
+using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Utilities;
 
@@ -24,12 +25,16 @@ public class MakeAppointmentViewModel : ViewModelBase
     private int _minutes;
     private readonly Patient _patient;
     private readonly IScheduleService _scheduleService;
+    private readonly IRoomService _roomService;
+    private int _roomId;
 
 
     public MakeAppointmentViewModel(IScheduleService scheduleService,
-        ObservableCollection<AppointmentViewModel> Appointments, IDoctorService doctorService, Patient patient, string doctorEmail)
+        ObservableCollection<AppointmentViewModel> Appointments, IDoctorService doctorService, Patient patient, 
+        string doctorEmail,IRoomService roomService)
     {
         _doctorService= doctorService;
+        _roomService = roomService;
         _scheduleService = scheduleService;
         _patient = patient;
         var wantedDoctor = _doctorService.GetByEmail(doctorEmail);
@@ -90,7 +95,16 @@ public class MakeAppointmentViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
-
+    private void AssignRoom(TimeSlot time)
+    {
+        foreach (var room in _roomService.GetAll())
+        {
+            if (room.IsUnderRenovation || room.Type != Models.Rooms.RoomType.ExaminationRoom
+                || !_scheduleService.CheckRoomAvailability(room.Id, time)) continue;
+            _roomId = room.Id;
+            return;
+        }
+    }
     private void CreateAppointment(ObservableCollection<AppointmentViewModel> Appointments)
     {
         try
@@ -108,8 +122,8 @@ public class MakeAppointmentViewModel : ViewModelBase
             var mail = tokens[1];
             var doctor = _doctorService.GetByEmail(mail);
 
-
-            var appointment = _scheduleService.CreateAppointment(time, doctor, _patient.Email);
+            AssignRoom(time);
+            var appointment = _scheduleService.CreateAppointment(time, doctor, _patient.Email,_roomId);
             if (appointment != null)
             {
                 Appointments.Add(new AppointmentViewModel(appointment));

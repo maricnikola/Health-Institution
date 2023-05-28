@@ -86,7 +86,7 @@ public class AppointmentShowViewModel : ViewModelBase
         var addAp = new AddAppointmentView
         {
             DataContext = new AddAppointmentViewModel(_scheduleService, _doctorService, Appointments,
-                _patientService, _doctor, _medicalRecordService, _dateAppointment,_hospitalRefferalService)
+                _patientService, _doctor, _medicalRecordService, _dateAppointment,_hospitalRefferalService,_roomService)
         };
         addAp.Show();
     }

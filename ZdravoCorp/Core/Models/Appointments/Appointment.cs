@@ -20,7 +20,18 @@ public class Appointment
         Room = null;
         IsCanceled = false;
     }
-
+    public Appointment(int id, TimeSlot t, Doctor doctor, string email,int roomId)
+    {
+        Id = id;
+        Time = t;
+        Doctor = doctor;
+        PatientEmail = email;
+        Anamnesis = null;
+        Room = roomId;
+        IsCanceled = false;
+        Status = false;
+        Prescription = null;
+    }
     [JsonConstructor]
     public Appointment(int id, TimeSlot t, Doctor doctor, string email, Anamnesis anamnesis)
     {

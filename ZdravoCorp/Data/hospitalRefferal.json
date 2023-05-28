@@ -1,13 +1,13 @@
 [
   {
-    "Id": 509,
-    "PatientMail": "sreten.pejovic@gmail.com",
+    "Id": 575,
+    "PatientMail": "vukasin.buca@gmail.com",
     "Time": {
-      "Start": "2023-05-26T19:00:00",
-      "End": "2023-06-10T19:00:00"
+      "Start": "2023-05-28T23:00:00",
+      "End": "2023-06-02T23:00:00"
     },
-    "InitialTherapy": "ggagagagagag",
-    "AdditionalTests": null,
-    "RoomId": 101
+    "InitialTherapy": "asdafafaasf",
+    "AdditionalTests": "aaaaaa",
+    "RoomId": 150
   }
 ]
