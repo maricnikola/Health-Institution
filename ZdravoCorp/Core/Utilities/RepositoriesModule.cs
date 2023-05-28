@@ -5,6 +5,7 @@ using ZdravoCorp.Core.Repositories.HospitalRefferalsRepo;
 using ZdravoCorp.Core.Repositories.InventoryRepo;
 using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
 using ZdravoCorp.Core.Repositories.MedicamentsRepo;
+using ZdravoCorp.Core.Repositories.NotificationRepo;
 using ZdravoCorp.Core.Repositories.OrderRepo;
 using ZdravoCorp.Core.Repositories.RenovationRepo;
 using ZdravoCorp.Core.Repositories.RoomRepo;
@@ -36,5 +37,6 @@ public class RepositoriesModule : Autofac.Module
         builder.RegisterType<NurseRepository>().As<INurseRepository>().SingleInstance();
         builder.RegisterType<DirectorRepository>().As<IDirectorRepository>().SingleInstance();
         builder.RegisterType<PatientRepository>().As<IPatientRepository>().SingleInstance();
+        builder.RegisterType<NotificationRepository>().As<INotificationRepository>().SingleInstance();
     }
 }
