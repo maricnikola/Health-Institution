@@ -2,6 +2,7 @@
 using Autofac;
 using Quartz;
 using Quartz.Impl;
+using ZdravoCorp.Core.Models.Notifications;
 using ZdravoCorp.Core.Models.Orders;
 using ZdravoCorp.Core.Models.Renovation;
 using ZdravoCorp.Core.Models.Transfers;
@@ -9,6 +10,7 @@ using ZdravoCorp.Core.Repositories.InventoryRepo;
 using ZdravoCorp.Core.Repositories.OrderRepo;
 using ZdravoCorp.Core.Repositories.TransfersRepo;
 using ZdravoCorp.Core.Services.InventoryServices;
+using ZdravoCorp.Core.Services.NotificationServices;
 using ZdravoCorp.Core.Services.OrderServices;
 using ZdravoCorp.Core.Services.RenovationServices;
 using ZdravoCorp.Core.Services.TransferServices;
@@ -24,6 +26,7 @@ public class JobScheduler
     private static ITransferService _transferService;
     private static IRenovationService _renovationService;
     private static IManageRenovationService _manageRenovationService;
+    private static INotificationService _notificationService;
 
     public JobScheduler()
     {
@@ -32,18 +35,25 @@ public class JobScheduler
         _transferService = Injector.Container.Resolve<ITransferService>();
         _renovationService = Injector.Container.Resolve<IRenovationService>();
         _manageRenovationService = Injector.Container.Resolve<IManageRenovationService>();
+        _notificationService = Injector.Container.Resolve<INotificationService>();
         _builder = new StdSchedulerFactory();
         _scheduler = StdSchedulerFactory.GetDefaultScheduler().Result;
         _scheduler.Start();
         LoadScheduledTasks();
     }
 
-    private void LoadScheduledTasks()
+    public static void RefreshScheduledTasks(string username)
+    {
+        _scheduler.Clear();
+        LoadScheduledTasks();
+        LoadUsersNotifications(username);
+    }
+
+    private static void LoadScheduledTasks()
     {
         foreach (var order in _orderService.GetAll())
             if (order.Status == Order.OrderStatus.Pending)
                 DEquipmentTaskScheduler(new OrderDTO(order.Id, order.Items, order.OrderTime, order.ArrivalTime, order.Status));
-
         foreach (var transfer in _transferService.GetAll())
             if (transfer.Status == Transfer.TransferStatus.Pending)
                 TransferRequestTaskScheduler(new TransferDTO(transfer.Id, transfer.From, transfer.To, transfer.When, transfer.Quantity, transfer.InventoryId, transfer.InventoryItemName, transfer.Status));
@@ -52,6 +62,13 @@ public class JobScheduler
             if (renovation.Status == Renovation.RenovationStatus.Pending || renovation.Status == Renovation.RenovationStatus.InProgress)
                 RenovationTaskScheduler(new RenovationDTO(renovation.Id, renovation.Room, renovation.Slot, renovation.Status, renovation.Split, renovation.Join));
         }
+    }
+
+    public static void LoadUsersNotifications(string userEmail)
+    {
+        foreach (var notification in _notificationService.GetAllForUser(userEmail))
+            if (notification.Status == Notification.NotificationStatus.Pending)
+                NotificationTaskScheduler(new NotificationDTO(notification.Id, notification.When, notification.Message, notification.UserEmail, notification.Status,notification.Source));
     }
 
     // dynamic equipment order task
@@ -152,5 +169,27 @@ public class JobScheduler
 
         _scheduler.ScheduleJob(endJob, endTrigger);
         
+    }
+
+    public static void NotificationTaskScheduler(NotificationDTO notification)
+    {
+        var job = JobBuilder.Create<NotificationExecute>()
+            .WithIdentity("NotificationTasak" + notification.Id, "Notifications").Build();
+        job.JobDataMap["notification"] = notification;
+        job.JobDataMap["notserv"] = _notificationService;
+        ITrigger trigger;
+        if (notification.When<DateTime.Now)
+            trigger = TriggerBuilder.Create()
+                .WithIdentity("notification trigger" + notification.When, "NotificationTriggers").StartNow().ForJob(job)
+                .Build();
+        else
+            trigger = TriggerBuilder.Create()
+                .WithIdentity("notification trigger" + notification.When, "NotificationTriggers").WithCronSchedule(
+                    "0 " + notification.When.Minute + " " + notification.When.Hour + " " + notification.When.Day + " " +
+                    notification.When.Month + " ? " + notification.When.Year,
+                    x => x.InTimeZone(TimeZoneInfo.Local).WithMisfireHandlingInstructionFireAndProceed()).ForJob(job)
+                .Build();
+
+        _scheduler.ScheduleJob(job, trigger);
     }
 }

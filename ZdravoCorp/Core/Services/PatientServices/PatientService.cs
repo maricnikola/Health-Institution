@@ -39,4 +39,9 @@ public class PatientService : IPatientService
     {
         throw new NotImplementedException();
     }
+
+    public void ChangeTimeForNotification(string email, TimeSpan newTimeSpan)
+    {
+        _patientRepository.UpdateNotificationTime(email,newTimeSpan);
+    }
 }

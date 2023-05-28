@@ -10,13 +10,18 @@ using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.AnamnesisReport;
 using ZdravoCorp.Core.Models.Appointments;
+using ZdravoCorp.Core.Models.Notifications;
 using ZdravoCorp.Core.Models.Presriptions;
+using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.InventoryServices;
 using ZdravoCorp.Core.Services.MedicamentServices;
+using ZdravoCorp.Core.Services.NotificationServices;
+using ZdravoCorp.Core.Services.PatientServices;
 using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Utilities;
+using ZdravoCorp.Core.Utilities.CronJobs;
 using ZdravoCorp.View.DoctorView;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
@@ -32,12 +37,16 @@ public class CreatePrescriptionsViewModel : ViewModelBase
     private IInventoryService _inventoryService;
     private IRoomService _roomService;
     private IMedicamentService _medicamentService;
+    private IPatientService _patientService;
+    private INotificationService _notificationService;
     private Anamnesis _anamnesis;
     private List<int> _hourlyRates = new List<int>();
     public CreatePrescriptionsViewModel(Appointment appointment,IScheduleService scheduleService,
         IInventoryService inventoryService,IRoomService roomService,Anamnesis anamnesis)
     {
         _medicamentService = Injector.Container.Resolve<IMedicamentService>();
+        _patientService = Injector.Container.Resolve<IPatientService>();
+        _notificationService = Injector.Container.Resolve<INotificationService>();
         
         _anamnesis = anamnesis;
         _prescriptions = new List<Prescription>();
@@ -221,6 +230,9 @@ public class CreatePrescriptionsViewModel : ViewModelBase
         }
         CloseWindow();
         _scheduleService.ChangePerformingAppointment(_appointment.Id,_anamnesis,_prescriptions, (int)_appointment.Room);
+
+        var patient = _patientService.GetByEmail(_appointment.PatientEmail);
+        _notificationService.CreateNotificationsFromPrescriptions(_prescriptions,patient.NotificationTime,patient.Email);
         ShowDEquipmentSpentDialog();
     }
     public void ShowDEquipmentSpentDialog()
@@ -234,4 +246,5 @@ public class CreatePrescriptionsViewModel : ViewModelBase
         var activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
         activeWindow?.Close();
     }
+
 }
