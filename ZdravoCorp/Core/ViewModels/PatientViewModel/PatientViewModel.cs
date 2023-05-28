@@ -45,7 +45,7 @@ public class PatientViewModel : ViewModelBase
         LoadOldAppointmentsCommand = new DelegateCommand(o => LoadOldAppointments());
         LoadDoctorsCommand = new DelegateCommand(o => LoadDoctors());
         LoadNotificationsCommand = new DelegateCommand(o => LoadNotifications());
-        _currentView = new AppointmentTableViewModel(_scheduleService, _doctorService, _patient);
+        _currentView = new AppointmentTableViewModel(_scheduleService, _doctorService, _patient,_roomService);
         JobScheduler.LoadUsersNotifications(user.Email);
 
     }

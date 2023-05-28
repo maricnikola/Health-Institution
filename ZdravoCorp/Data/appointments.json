@@ -1,44 +1,5 @@
 [
   {
-    "Id": 524,
-    "Time": {
-      "Start": "2023-05-28T22:15:00",
-      "End": "2023-05-28T22:30:00"
-    },
-    "Doctor": {
-      "Email": "savo.oroz@gmail.com",
-      "FirstName": "Savo",
-      "LastName": "Oroz",
-      "Specialization": 1,
-      "Grade": 5.0
-    },
-    "PatientEmail": "marko.stojanovic@gmail.com",
-    "Anamnesis": {
-      "Symptoms": [
-        "aaaaaaaaaaaaafasdf"
-      ],
-      "Opinion": "dafdsfadsfadsfasdf",
-      "KeyWord": "adsfasdfassdfasdfa",
-      "Allergens": [
-        "asdfasdfassdfassdfa"
-      ]
-    },
-    "Room": 111,
-    "IsCanceled": false,
-    "Status": true,
-    "Prescription": [
-      {
-        "Medicament": "Paracetamol",
-        "TimesADay": 1,
-        "Instructions": "BeforeMeal",
-        "ExpirationDate": "2023-05-31T00:00:00",
-        "HourlyRates": [
-          1
-        ]
-      }
-    ]
-  },
-  {
     "Id": 525,
     "Time": {
       "Start": "2023-06-01T10:00:00",
@@ -95,6 +56,86 @@
     "Anamnesis": null,
     "Room": 111,
     "IsCanceled": false,
+    "Status": false,
+    "Prescription": null
+  },
+  {
+    "Id": 563,
+    "Time": {
+      "Start": "2023-05-28T22:30:00",
+      "End": "2023-05-28T22:45:00"
+    },
+    "Doctor": {
+      "Email": "savo.oroz@gmail.com",
+      "FirstName": "Savo",
+      "LastName": "Oroz",
+      "Specialization": 1,
+      "Grade": 5.0
+    },
+    "PatientEmail": "vukasin.buca@gmail.com",
+    "Anamnesis": {
+      "Symptoms": [
+        "asdfadfasdf"
+      ],
+      "Opinion": "asdfasdfadsfasdfa",
+      "KeyWord": "smrtt",
+      "Allergens": [
+        "jabuka"
+      ]
+    },
+    "Room": 111,
+    "IsCanceled": false,
+    "Status": true,
+    "Prescription": [
+      {
+        "Medicament": "Aspirin",
+        "TimesADay": 2,
+        "Instructions": "AfterMeal",
+        "ExpirationDate": "2023-05-31T00:00:00",
+        "HourlyRates": [
+          5,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 572,
+    "Time": {
+      "Start": "2023-05-28T22:45:00",
+      "End": "2023-05-28T23:00:00"
+    },
+    "Doctor": {
+      "Email": "vrabac@gmail.com",
+      "FirstName": "Mirko",
+      "LastName": "Vrabac",
+      "Specialization": 1,
+      "Grade": 4.0
+    },
+    "PatientEmail": "cvetko.novak@gmail.com",
+    "Anamnesis": null,
+    "Room": 111,
+    "IsCanceled": true,
+    "Status": false,
+    "Prescription": null
+  },
+  {
+    "Id": 574,
+    "Time": {
+      "Start": "2023-05-28T22:45:00",
+      "End": "2023-05-28T23:00:00"
+    },
+    "Doctor": {
+      "Email": "vrabac@gmail.com",
+      "FirstName": "Mirko",
+      "LastName": "Vrabac",
+      "Specialization": 1,
+      "Grade": 4.0
+    },
+    "PatientEmail": "vukasin.buca@gmail.com",
+    "Anamnesis": null,
+    "Room": 112,
+    "IsCanceled": true,
     "Status": false,
     "Prescription": null
   }

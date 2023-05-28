@@ -141,7 +141,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     public void ShowDEquipmentSpentDialog()
     {
         var window = new DEquipmentSpentView
-            { DataContext = new DEquipmentSpentViewModel(_inventoryService, _roomService,_roomId) };
+            { DataContext = new DEquipmentSpentViewModel(_inventoryService, _roomService, (int)_appointment.Room) };
         window.Show();
     }
 
