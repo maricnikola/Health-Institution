@@ -25,7 +25,7 @@ public class TimeSlot : IEquatable<TimeSlot> //will be some functions for time
 
     public bool Overlap(TimeSlot time)
     {
-        return Start > time.End || End < time.Start;
+        return Start < time.End && time.Start < End;
     }
 
     public int GetTimeBeforeStart(DateTime time)

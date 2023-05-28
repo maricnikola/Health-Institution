@@ -34,7 +34,7 @@ public class AddHospitalRefferalViewModel: ViewModelBase
         _scheduleService = scheduleService;
         _hospitalRefferalService = hospitalRefferalService;
         _performAppointmentViewModel = performAppointmentViewModel;
-        assignRoom();
+        AssignRoom();
         Close = new DelegateCommand(o => CloseWindow(true));
         CreateRefferal = new DelegateCommand(o => CreateHospitalRefferal());
     }
@@ -88,11 +88,12 @@ public class AddHospitalRefferalViewModel: ViewModelBase
             performWindow.Show();
         }
     }
-    private void assignRoom()
+    private void AssignRoom()
     {
         foreach (var room in _roomService.GetAll())
         {
-            if (!_scheduleService.CheckRoomAvailability(room.Id, _appointment.Time)) continue;
+            if (room.IsUnderRenovation || room.Type != Models.Rooms.RoomType.PatientRoom 
+                || !_scheduleService.CheckRoomAvailability(room.Id, _appointment.Time)) continue;
             _roomId = room.Id;
             return;
         }
