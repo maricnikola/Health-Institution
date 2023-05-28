@@ -27,7 +27,7 @@ public interface IScheduleService
     bool IsDoctorAvailable(TimeSlot timeslot, string doctorsMail);
     bool IsPatientAvailable(TimeSlot timeslot, string patientMail);
     bool CheckAvailability(List<Appointment> appointments, List<Operation> operations, TimeSlot timeslot);
-    Appointment? CreateAppointment(TimeSlot time, Doctor doctor, string email);
+    Appointment? CreateAppointment(TimeSlot time, Doctor doctor, string email,int roomId);
     void CreateOperation(TimeSlot time, Doctor doctor, MedicalRecord medicalRecord);
     Appointment? ChangeAppointment(int id, TimeSlot time, Doctor doctor, string email);
     void CancelAppointment(int id);
@@ -64,7 +64,7 @@ public interface IScheduleService
     bool CheckPerformingAppointmentData(List<string> symptoms, string opinion, List<string> allergens,
         string keyWord);
 
-    void ChangePerformingAppointment(int id,Anamnesis anamnesis ,int roomId,List<Prescription> prescriptions);
+    void ChangePerformingAppointment(int id,Anamnesis anamnesis,List<Prescription> prescriptions,int roomId);
 
     bool CheckListElementsLength(List<string> list);
 

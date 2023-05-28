@@ -59,7 +59,6 @@ public class PerformAppointmentViewModel : ViewModelBase
         _scheduleService = scheduleService;
         _patientService = patientService;
         _patient = _patientService.GetByEmail(performingAppointment.PatientEmail);
-        AssignRoom();
 
         CancelCommand = new DelegateCommand(o => CloseWindow());
         MedicalRCommand = new DelegateCommand(o => ShowMedicalRecordDialog());
@@ -117,16 +116,6 @@ public class PerformAppointmentViewModel : ViewModelBase
         }
     }
 
-    private void AssignRoom()
-    {
-        foreach (var room in _roomService.GetAll())
-        {
-            if (room.IsUnderRenovation || room.Type != Models.Rooms.RoomType.ExaminationRoom
-                || !_scheduleService.CheckRoomAvailability(room.Id, _appointment.Time)) continue;
-            _roomId = room.Id;
-            return;
-        }
-    }
 
     private void CloseWindow()
     {
@@ -199,7 +188,7 @@ public class PerformAppointmentViewModel : ViewModelBase
     }
     public void ShowPrescription()
     {
-        var window = new CreatePrescriptionsView() { DataContext = new CreatePrescriptionsViewModel(_appointment,_scheduleService,_inventoryService,_roomService,_roomId,_anamnesis) };
+        var window = new CreatePrescriptionsView() { DataContext = new CreatePrescriptionsViewModel(_appointment,_scheduleService,_inventoryService,_roomService,_anamnesis) };
         window.Show();
     }
 

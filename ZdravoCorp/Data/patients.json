@@ -8,5 +8,25 @@
     "Email": "marko.stojanovic@gmail.com",
     "FirstName": "Marko",
     "LastName": "Stojanovic"
+  },
+  {
+    "Email": "vukasin.buca@gmail.com",
+    "FirstName": "Vukasin",
+    "LastName": "Buca"
+  },
+  {
+    "Email": "cvetko.novak@gmail.com",
+    "FirstName": "Cvetko",
+    "LastName": "Novak"
+  },
+  {
+    "Email": "nikola.trajkovic@gmail.com",
+    "FirstName": "Nikola",
+    "LastName": "Trajkovic"
+  },
+  {
+    "Email": "rade.pejanovic@gmail.com",
+    "FirstName": "Rade",
+    "LastName": "Pejanovic"
   }
 ]

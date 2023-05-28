@@ -9,6 +9,7 @@ using ZdravoCorp.Core.Repositories.UsersRepo;
 using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.MedicalRecordServices;
 using ZdravoCorp.Core.Services.PatientServices;
+using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Utilities;
 
@@ -23,6 +24,7 @@ public class PatientViewModel : ViewModelBase
 
     private readonly Patient _patient;
     private readonly IScheduleService _scheduleService;
+    private IRoomService _roomService;
 
     public PatientViewModel(User user)
     {
@@ -34,13 +36,14 @@ public class PatientViewModel : ViewModelBase
         _medicalRecordService = Injector.Container.Resolve<IMedicalRecordService>();
         _scheduleService = Injector.Container.Resolve<IScheduleService>();
         _patientService = Injector.Container.Resolve<IPatientService>();
+        _roomService = Injector.Container.Resolve<IRoomService>();
 
         _patient = _patientService.GetByEmail(user.Email);
         LoadAppointmentsCommand = new DelegateCommand(o => LoadAppointments());
         LoadMedicalRecordCommand = new DelegateCommand(o => LoadMedicalRecord());
         LoadOldAppointmentsCommand = new DelegateCommand(o => LoadOldAppointments());
         LoadDoctorsCommand = new DelegateCommand(o => LoadDoctors());
-        _currentView = new AppointmentTableViewModel(_scheduleService, _doctorService, _patient);
+        _currentView = new AppointmentTableViewModel(_scheduleService, _doctorService, _patient,_roomService);
     }
 
     public ICommand LoadAppointmentsCommand { get; set; }
@@ -61,7 +64,7 @@ public class PatientViewModel : ViewModelBase
 
     public void LoadAppointments()
     {
-        CurrentView = new AppointmentTableViewModel(_scheduleService, _doctorService, _patient);
+        CurrentView = new AppointmentTableViewModel(_scheduleService, _doctorService, _patient,_roomService);
     }
 
     public void LoadMedicalRecord()
@@ -77,7 +80,7 @@ public class PatientViewModel : ViewModelBase
 
     public void LoadDoctors()
     {
-        CurrentView = new SearchDoctorsViewModel(_doctorService,_scheduleService,_patient);
+        CurrentView = new SearchDoctorsViewModel(_doctorService,_scheduleService,_patient,_roomService);
     }
 
 }

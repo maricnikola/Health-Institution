@@ -46,5 +46,29 @@
     "Email": "marko.stojanovic@gmail.com",
     "Password": "koks33",
     "UserState": "NotBlocked"
+  },
+  {
+    "Type": "Patient",
+    "Email": "nikola.trajkovic@gmail.com",
+    "Password": "1",
+    "UserState": "NotBlocked"
+  },
+  {
+    "Type": "Patient",
+    "Email": "rade.pejanovic@gmail.com",
+    "Password": "1",
+    "UserState": "NotBlocked"
+  },
+  {
+    "Type": "Patient",
+    "Email": "vukasin.buca@gmail.com",
+    "Password": "1",
+    "UserState": "NotBlocked"
+  },
+  {
+    "Type": "Patient",
+    "Email": "cvetko.novak@gmail.com",
+    "Password": "1",
+    "UserState": "NotBlocked"
   }
 ]

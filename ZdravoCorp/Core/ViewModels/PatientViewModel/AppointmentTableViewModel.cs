@@ -9,6 +9,7 @@ using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
 using ZdravoCorp.Core.Services.DoctorServices;
+using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.View;
 using ZdravoCorp.View.PatientV;
@@ -23,6 +24,7 @@ public class AppointmentTableViewModel : ViewModelBase
     private readonly IScheduleService _scheduleService;
     private readonly IDoctorService _doctorService;
     private readonly Patient _patient;
+    private readonly IRoomService _roomService;
 
 
     public AppointmentTableViewModel()
@@ -30,8 +32,9 @@ public class AppointmentTableViewModel : ViewModelBase
     }
 
     public AppointmentTableViewModel(IScheduleService scheduleService,
-        IDoctorService doctorService, Patient patient)
+        IDoctorService doctorService, Patient patient,IRoomService roomService)
     {
+        _roomService = roomService;
         _patient = patient;
         _scheduleService = scheduleService;
         _appointments = new ObservableCollection<AppointmentViewModel>();
@@ -100,7 +103,7 @@ public class AppointmentTableViewModel : ViewModelBase
         var window = new MakeAppointmentView
         {
             DataContext = new MakeAppointmentViewModel(_scheduleService, Appointments,
-                _doctorService, _patient, "")
+                _doctorService, _patient, "",_roomService)
         };
         //var window = new MakeAppointmentView(_doctorRepository, _scheduleService, Appointments, _patient);
         window.Show();
