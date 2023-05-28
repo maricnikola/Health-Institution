@@ -194,8 +194,8 @@ public class AdvancedMakeAppointmentViewModel : ViewModelBase
         if (selectedAppointment != null)
             foreach (var appointment in _possibleAppointments.Where(appointment =>
                          appointment.Id == selectedAppointment.Id))
-                if (_scheduleService.isDoctorAvailable(appointment.Time, appointment.Doctor.Email) &&
-                    _scheduleService.isPatientAvailable(appointment.Time, appointment.Doctor.Email))
+                if (_scheduleService.IsDoctorAvailable(appointment.Time, appointment.Doctor.Email) &&
+                    _scheduleService.IsPatientAvailable(appointment.Time, appointment.Doctor.Email))
                 {
                     var appointmentDto = new AppointmentDTO(appointment.Id, appointment.Time.Start, appointment.Doctor,
                         appointment.PatientEmail, appointment.Anamnesis);

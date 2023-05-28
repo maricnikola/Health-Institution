@@ -30,7 +30,7 @@ public class SearchDoctorsViewModel : ViewModelBase
     private string _lastNameSearchText = "";
     private string _selectedSpecialization = "None";
 
-    private HashSet<string> PossibleSpecializations { get; }
+    public HashSet<string> PossibleSpecializations { get; }
     public DrViewModel SelectedDoctor { get; set; }
 
     public ICommand CreateAppointmentWithSelectedDoctorCommand { get; set; }

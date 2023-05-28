@@ -59,7 +59,7 @@ public class PerformAppointmentViewModel : ViewModelBase
         _scheduleService = scheduleService;
         _patientService = patientService;
         _patient = _patientService.GetByEmail(performingAppointment.PatientEmail);
-        assignRoom();
+        AssignRoom();
 
         CancelCommand = new DelegateCommand(o => CloseWindow());
         MedicalRCommand = new DelegateCommand(o => ShowMedicalRecordDialog());
@@ -117,11 +117,12 @@ public class PerformAppointmentViewModel : ViewModelBase
         }
     }
 
-    private void assignRoom()
+    private void AssignRoom()
     {
         foreach (var room in _roomService.GetAll())
         {
-            if (!_scheduleService.CheckRoomAvailability(room.Id, _appointment.Time)) continue;
+            if (room.IsUnderRenovation || room.Type != Models.Rooms.RoomType.ExaminationRoom
+                || !_scheduleService.CheckRoomAvailability(room.Id, _appointment.Time)) continue;
             _roomId = room.Id;
             return;
         }
