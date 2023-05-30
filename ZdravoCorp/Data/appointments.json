@@ -252,5 +252,44 @@
         ]
       }
     ]
+  },
+  {
+    "Id": 658,
+    "Time": {
+      "Start": "2023-05-30T20:00:00",
+      "End": "2023-05-30T20:15:00"
+    },
+    "Doctor": {
+      "Email": "savo.oroz@gmail.com",
+      "FirstName": "Savo",
+      "LastName": "Oroz",
+      "Specialization": 1,
+      "Grade": 5.0
+    },
+    "PatientEmail": "nikola.trajkovic@gmail.com",
+    "Anamnesis": {
+      "Symptoms": [
+        "aaaaaaaaaaaaa"
+      ],
+      "Opinion": "aaaaaaaaaaaaaaaaa",
+      "KeyWord": "sssss",
+      "Allergens": [
+        "jabuka"
+      ]
+    },
+    "Room": 111,
+    "IsCanceled": false,
+    "Status": true,
+    "Prescription": [
+      {
+        "Medicament": "Aspirin",
+        "TimesADay": 1,
+        "Instructions": "BeforeMeal",
+        "ExpirationDate": "2023-06-03T00:00:00",
+        "HourlyRates": [
+          14
+        ]
+      }
+    ]
   }
 ]
