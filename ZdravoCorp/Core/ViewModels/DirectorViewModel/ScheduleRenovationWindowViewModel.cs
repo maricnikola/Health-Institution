@@ -174,7 +174,6 @@ public class ScheduleRenovationWindowViewModel : ViewModelBase
 
                     IsJoinRoomAvailable = false;
                     return false;
-
                 }
                 else
                 {
@@ -182,7 +181,6 @@ public class ScheduleRenovationWindowViewModel : ViewModelBase
                     return true;
                 }
             }
-            
         }
         IsRoomAvailable = false;
         return false;
@@ -194,7 +192,7 @@ public class ScheduleRenovationWindowViewModel : ViewModelBase
             SelectedStartDate.Value.Day, SelectedStartHour, SelectedStartMinute, 0);
         DateTime end = new DateTime(SelectedEndDate.Value.Year, SelectedEndDate.Value.Month, SelectedEndDate.Value.Day,
             SelectedEndHour, SelectedEndMinute, 0);
-        if (start > end || start < DateTime.Now || end < DateTime.Now)
+        if (start >= end || start < DateTime.Now || end < DateTime.Now)
             return false;
         _renovationTimeSlot = new TimeSlot(start, end);
         return true;

@@ -12,7 +12,7 @@ using ZdravoCorp.View.DirectorView;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
-public class MoveDEquipmentViewModel : ViewModelBase
+public class MoveDynamicEquipmentViewModel : ViewModelBase
 {
     private ObservableCollection<InventoryViewModel> _allInventory;
     private ObservableCollection<InventoryViewModel> _inventory;
@@ -21,7 +21,7 @@ public class MoveDEquipmentViewModel : ViewModelBase
     private readonly object _lock;
     private string _searchText = "";
 
-    public MoveDEquipmentViewModel(IInventoryService inventoryService, IRoomService roomService)
+    public MoveDynamicEquipmentViewModel(IInventoryService inventoryService, IRoomService roomService)
     {
         _lock = new object();
         _inventoryService = inventoryService;
@@ -89,7 +89,7 @@ public class MoveDEquipmentViewModel : ViewModelBase
         return _allInventory;
     }
 
-    public IEnumerable<InventoryViewModel> Search(string inputText)
+    private IEnumerable<InventoryViewModel> Search(string inputText)
     {
         return _allInventory.Where(item => item.ToString().Contains(inputText));
     }
@@ -100,7 +100,7 @@ public class MoveDEquipmentViewModel : ViewModelBase
         {
             var inventoryItemId = SelectedInventoryItemVm.Id;
             var roomId = SelectedInventoryItemVm.Room;
-            var vm = new DEquipmentTransferWindowViewModel(inventoryItemId, roomId, SelectedInventoryItemVm.Quantity,
+            var vm = new DynamicEquipmentTransferWindowViewModel(inventoryItemId, roomId, SelectedInventoryItemVm.Quantity,
                 _inventoryService);
 
             var transferWindow = new DynamicTransferWindowView { DataContext = vm };

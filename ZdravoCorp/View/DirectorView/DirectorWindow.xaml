@@ -12,13 +12,13 @@
         <DataTemplate DataType="{x:Type director:EquipmentPaneViewModel}">
             <directorView:EquipmentView />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type director:DEquipmentPaneViewModel}">
+        <DataTemplate DataType="{x:Type director:DynamicEquipmentPaneViewModel}">
             <directorView:DynamicOrderView />
         </DataTemplate>
         <DataTemplate DataType="{x:Type director:MoveEquipmentViewModel}">
             <directorView:MoveEquipmentView />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type director:MoveDEquipmentViewModel}">
+        <DataTemplate DataType="{x:Type director:MoveDynamicEquipmentViewModel}">
             <directorView:DynamicMoveView />
         </DataTemplate>
         <DataTemplate DataType="{x:Type director:RenovationsViewModel}">
