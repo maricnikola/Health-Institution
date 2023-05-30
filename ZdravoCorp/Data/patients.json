@@ -2,31 +2,37 @@
   {
     "Email": "sreten.pejovic@gmail.com",
     "FirstName": "Sreten",
-    "LastName": "Pejovic"
+    "LastName": "Pejovic",
+    "NotificationTime": "03:06:00"
   },
   {
     "Email": "marko.stojanovic@gmail.com",
     "FirstName": "Marko",
-    "LastName": "Stojanovic"
+    "LastName": "Stojanovic",
+    "NotificationTime": "01:00:00"
   },
   {
     "Email": "vukasin.buca@gmail.com",
     "FirstName": "Vukasin",
-    "LastName": "Buca"
+    "LastName": "Buca",
+    "NotificationTime": "01:00:00"
   },
   {
     "Email": "cvetko.novak@gmail.com",
     "FirstName": "Cvetko",
-    "LastName": "Novak"
+    "LastName": "Novak",
+    "NotificationTime": "01:00:00"
   },
   {
     "Email": "nikola.trajkovic@gmail.com",
     "FirstName": "Nikola",
-    "LastName": "Trajkovic"
+    "LastName": "Trajkovic",
+    "NotificationTime": "01:00:00"
   },
   {
     "Email": "rade.pejanovic@gmail.com",
     "FirstName": "Rade",
-    "LastName": "Pejanovic"
+    "LastName": "Pejanovic",
+    "NotificationTime": "01:00:00"
   }
 ]
