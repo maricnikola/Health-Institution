@@ -14,7 +14,7 @@ using ZdravoCorp.View.DirectorView;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
-public class DEquipmentPaneViewModel : ViewModelBase
+public class DynamicEquipmentPaneViewModel : ViewModelBase
 {
     private ObservableCollection<DynamicInventoryViewModel> _dynamicInventory;
     private readonly IEquipmentService _equipmentService;
@@ -25,7 +25,7 @@ public class DEquipmentPaneViewModel : ViewModelBase
     
     private ObservableCollection<OrderViewModel> _orders;
 
-    public DEquipmentPaneViewModel(IInventoryService inventoryService, IEquipmentService equipmentService, IOrderService orderService)
+    public DynamicEquipmentPaneViewModel(IInventoryService inventoryService, IEquipmentService equipmentService, IOrderService orderService)
     {
         _lock = new object();
         _lock2 = new object();
@@ -123,7 +123,7 @@ public class DEquipmentPaneViewModel : ViewModelBase
 
     private void OrderConfirmDialog()
     {
-        var vm = new DEquipmentOrderConfirmViewModel(DynamicInventory.Where(item => item.IsChecked), _orderService);
+        var vm = new DynamicEquipmentOrderConfirmViewModel(DynamicInventory.Where(item => item.IsChecked), _orderService);
         var confirmDialog = new DynamicOrderConfirmView { DataContext = vm };
         vm.OnRequestClose += (s, e) => confirmDialog.Close();
         confirmDialog.Show();

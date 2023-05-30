@@ -11,12 +11,12 @@ using ZdravoCorp.Core.Utilities.CronJobs;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
-public class DEquipmentOrderConfirmViewModel
+public class DynamicEquipmentOrderConfirmViewModel
 
 {
     private readonly IOrderService _orderService;
 
-    public DEquipmentOrderConfirmViewModel(IEnumerable<DynamicInventoryViewModel> selectedForOrder,
+    public DynamicEquipmentOrderConfirmViewModel(IEnumerable<DynamicInventoryViewModel> selectedForOrder,
         IOrderService orderService)
     {
         _orderService = orderService;
