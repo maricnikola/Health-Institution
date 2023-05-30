@@ -14,10 +14,14 @@
     },
     "PatientEmail": "sreten.pejovic@gmail.com",
     "Anamnesis": {
-      "Symptoms": [ "mucnina" ],
+      "Symptoms": [
+        "mucnina"
+      ],
       "Opinion": "trovanje hranom",
       "KeyWord": "trovanje",
-      "Allergens": [ "dfsafasdfasdf" ]
+      "Allergens": [
+        "dfsafasdfasdf"
+      ]
     },
     "Room": 111,
     "IsCanceled": false,
@@ -39,10 +43,14 @@
     },
     "PatientEmail": "sreten.pejovic@gmail.com",
     "Anamnesis": {
-      "Symptoms": [ "vrtoglavica" ],
+      "Symptoms": [
+        "vrtoglavica"
+      ],
       "Opinion": "blagi potres mozga",
       "KeyWord": "potres mozga",
-      "Allergens": [ "dfsafasdfasdf" ]
+      "Allergens": [
+        "dfsafasdfasdf"
+      ]
     },
     "Room": 111,
     "IsCanceled": false,
@@ -64,10 +72,14 @@
     },
     "PatientEmail": "sreten.pejovic@gmail.com",
     "Anamnesis": {
-      "Symptoms": [ "sdfsdfsafsafsa" ],
+      "Symptoms": [
+        "sdfsdfsafsafsa"
+      ],
       "Opinion": "sdfasdfasfas",
       "KeyWord": "dgfdsfasf",
-      "Allergens": [ "dfsafasdfasdf" ]
+      "Allergens": [
+        "dfsafasdfasdf"
+      ]
     },
     "Room": 112,
     "IsCanceled": false,
@@ -89,10 +101,14 @@
     },
     "PatientEmail": "sreten.pejovic@gmail.com",
     "Anamnesis": {
-      "Symptoms": [ "sdfsdfsafsafsa" ],
+      "Symptoms": [
+        "sdfsdfsafsafsa"
+      ],
       "Opinion": "sdfasdfasfas",
       "KeyWord": "dgfdsfasf",
-      "Allergens": [ "dfsafasdfasdf" ]
+      "Allergens": [
+        "dfsafasdfasdf"
+      ]
     },
     "Room": 111,
     "IsCanceled": false,
@@ -114,10 +130,14 @@
     },
     "PatientEmail": "vukasin.buca@gmail.com",
     "Anamnesis": {
-      "Symptoms": [ "asdfadfasdf" ],
+      "Symptoms": [
+        "asdfadfasdf"
+      ],
       "Opinion": "asdfasdfadsfasdfa",
       "KeyWord": "smrtt",
-      "Allergens": [ "jabuka" ]
+      "Allergens": [
+        "jabuka"
+      ]
     },
     "Room": 111,
     "IsCanceled": false,
@@ -128,7 +148,10 @@
         "TimesADay": 2,
         "Instructions": "AfterMeal",
         "ExpirationDate": "2023-05-31T00:00:00",
-        "HourlyRates": [ 5, 10 ]
+        "HourlyRates": [
+          5,
+          10
+        ]
       }
     ]
   },
@@ -147,10 +170,14 @@
     },
     "PatientEmail": "cvetko.novak@gmail.com",
     "Anamnesis": {
-      "Symptoms": [ "sdfsdfsafsafsa" ],
+      "Symptoms": [
+        "sdfsdfsafsafsa"
+      ],
       "Opinion": "sdfasdfasfas",
       "KeyWord": "dgfdsfasf",
-      "Allergens": [ "dfsafasdfasdf" ]
+      "Allergens": [
+        "dfsafasdfasdf"
+      ]
     },
     "Room": 111,
     "IsCanceled": true,
@@ -172,10 +199,14 @@
     },
     "PatientEmail": "vukasin.buca@gmail.com",
     "Anamnesis": {
-      "Symptoms": [ "sdfsdfsafsafsa" ],
+      "Symptoms": [
+        "sdfsdfsafsafsa"
+      ],
       "Opinion": "sdfasdfasfas",
       "KeyWord": "dgfdsfasf",
-      "Allergens": [ "dfsafasdfasdf" ]
+      "Allergens": [
+        "dfsafasdfasdf"
+      ]
     },
     "Room": 112,
     "IsCanceled": true,
@@ -197,10 +228,14 @@
     },
     "PatientEmail": "sreten.pejovic@gmail.com",
     "Anamnesis": {
-      "Symptoms": [ "sdfsdfsafsafsa" ],
+      "Symptoms": [
+        "sdfsdfsafsafsa"
+      ],
       "Opinion": "sdfasdfasfas",
       "KeyWord": "dgfdsfasf",
-      "Allergens": [ "dfsafasdfasdf" ]
+      "Allergens": [
+        "dfsafasdfasdf"
+      ]
     },
     "Room": 111,
     "IsCanceled": false,
@@ -211,7 +246,10 @@
         "TimesADay": 2,
         "Instructions": "NotImportant",
         "ExpirationDate": "2023-06-02T00:00:00",
-        "HourlyRates": [ 14, 23 ]
+        "HourlyRates": [
+          14,
+          23
+        ]
       }
     ]
   }

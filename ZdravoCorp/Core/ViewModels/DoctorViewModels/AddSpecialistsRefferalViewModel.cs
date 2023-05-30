@@ -148,6 +148,11 @@ public class AddSpecialistsRefferalViewModel : ViewModelBase
             MessageBox.Show("Invalid data for performing", "Error", MessageBoxButton.OK);
             return;
         }
+        if(CheckIfRefferalExists())
+        {
+            MessageBox.Show("Specialist refferal already exists!", "Error", MessageBoxButton.OK);
+            return;
+        }
         if (IsDoctorEnabled)
         {
             foreach(var doctor in _doctorService.GetAll())
@@ -170,8 +175,7 @@ public class AddSpecialistsRefferalViewModel : ViewModelBase
         var appointmentDto = new AppointmentDTO(_appointment.Id, _appointment.Time.Start, _appointment.Doctor,
         _appointment.PatientEmail, null);
         _scheduleService.CancelAppointmentByDoctor(appointmentDto);
-        CloseWindow(false);
-        _performAppointmentViewModel.ShowDEquipmentSpentDialog();
+        CloseWindow(true);
 
     }
 
@@ -179,5 +183,22 @@ public class AddSpecialistsRefferalViewModel : ViewModelBase
     {
         return (!IsDoctorEnabled && !IsSpecialisationsEnabled) || (IsDoctorEnabled && SelectedDoctor == null) 
             || (IsSpecialisationsEnabled && SelectedSpecialisation == null);
+    }
+    private bool CheckIfRefferalExists()
+    {
+        List<string> doctorMails = new List<string>();
+        foreach(Doctor doctor in _doctorService.GetAll())
+        {
+            if (doctor.FullName.Equals(SelectedDoctor) || doctor.Specialization.ToString().Equals(SelectedSpecialisation))
+            {
+                doctorMails.Add(doctor.Email);
+            }
+            
+        }
+        foreach(SpecialistsRefferal refferal in _specialistsRefferalService.GetAll())
+        {
+            if (_appointment.PatientEmail.Equals(refferal.PatientMail) && doctorMails.Contains(refferal.DoctorMail)) return true;
+        }
+        return false;
     }
 }
