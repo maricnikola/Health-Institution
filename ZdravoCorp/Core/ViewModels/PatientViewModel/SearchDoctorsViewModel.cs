@@ -105,7 +105,6 @@ public class SearchDoctorsViewModel : ViewModelBase
         Doctors = f3;
     }
 
-
     private ObservableCollection<DrViewModel> UpdateTableFromFirstNameSearch()
     {
         if (_firstNameSearchText != "")
@@ -128,7 +127,7 @@ public class SearchDoctorsViewModel : ViewModelBase
 
     private IEnumerable<DrViewModel> SearchByFirstName(string inputText)
     {
-        return _allDoctors.Where(item => item.DoctorName.ToLower().Contains(inputText.ToLower()));
+        return _allDoctors.Where(item => item.DoctorsName.ToLower().Contains(inputText.ToLower()));
     }
     private IEnumerable<DrViewModel> SearchByLastName(string inputText)
     {
