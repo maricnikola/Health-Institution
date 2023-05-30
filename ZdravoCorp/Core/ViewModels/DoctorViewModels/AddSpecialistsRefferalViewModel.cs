@@ -168,7 +168,7 @@ public class AddSpecialistsRefferalViewModel : ViewModelBase
             foreach(var doctor in _doctorService.GetAll())
             {
                 if (doctor.Email.Equals(_doctor.Email)) continue;
-                if(doctor.Specialization.Equals(_doctor.Specialization))
+                if(doctor.Specialization.ToString().Equals(SelectedSpecialisation))
                     _specialistsRefferalService.AddRefferal(new SpecialistsRefferal(IDGenerator.GetId(),_patient.Email,doctor.Email));
             }
         }
