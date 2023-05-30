@@ -40,10 +40,9 @@ public class CreatePrescriptionsViewModel : ViewModelBase
     private IPatientService _patientService;
     private INotificationService _notificationService;
     private Anamnesis _anamnesis;
-    private int _roomId;
     private List<int> _hourlyRates = new List<int>();
     public CreatePrescriptionsViewModel(Appointment appointment,IScheduleService scheduleService,
-        IInventoryService inventoryService,IRoomService roomService,int roomId,Anamnesis anamnesis)
+        IInventoryService inventoryService,IRoomService roomService,Anamnesis anamnesis)
     {
         _medicamentService = Injector.Container.Resolve<IMedicamentService>();
         _patientService = Injector.Container.Resolve<IPatientService>();
@@ -58,7 +57,6 @@ public class CreatePrescriptionsViewModel : ViewModelBase
         //PossibleMedicaments = new[] { "paracetamol", "probiotik", "antibiotik", "brufen" };
         _inventoryService = inventoryService;
         _roomService = roomService;
-        _roomId = roomId;
         _appointment = appointment;
         _scheduleService = scheduleService;
         Add = new DelegateCommand(o => AddPrescription());
@@ -231,7 +229,8 @@ public class CreatePrescriptionsViewModel : ViewModelBase
             return;
         }
         CloseWindow();
-        _scheduleService.ChangePerformingAppointment(_appointment.Id,_anamnesis, _roomId,_prescriptions);
+        _scheduleService.ChangePerformingAppointment(_appointment.Id,_anamnesis,_prescriptions, (int)_appointment.Room);
+
         var patient = _patientService.GetByEmail(_appointment.PatientEmail);
         _notificationService.CreateNotificationsFromPrescriptions(_prescriptions,patient.NotificationTime,patient.Email);
         ShowDEquipmentSpentDialog();
@@ -239,7 +238,7 @@ public class CreatePrescriptionsViewModel : ViewModelBase
     public void ShowDEquipmentSpentDialog()
     {
         var window = new DEquipmentSpentView
-        { DataContext = new DEquipmentSpentViewModel(_inventoryService, _roomService, _roomId) };
+        { DataContext = new DEquipmentSpentViewModel(_inventoryService, _roomService, (int)_appointment.Room) };
         window.Show();
     }
     private void CloseWindow()

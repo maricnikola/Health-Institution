@@ -11,6 +11,7 @@ using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Services.DoctorServices;
+using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.View;
 using ZdravoCorp.View.PatientView;
@@ -29,14 +30,16 @@ public class SearchDoctorsViewModel : ViewModelBase
     private string _firstNameSearchText = "";
     private string _lastNameSearchText = "";
     private string _selectedSpecialization = "None";
+    private readonly IRoomService _roomService;
 
     public HashSet<string> PossibleSpecializations { get; }
     public DrViewModel SelectedDoctor { get; set; }
 
     public ICommand CreateAppointmentWithSelectedDoctorCommand { get; set; }
 
-    public SearchDoctorsViewModel(IDoctorService doctorService, IScheduleService scheduleService, Patient patient)
+    public SearchDoctorsViewModel(IDoctorService doctorService, IScheduleService scheduleService, Patient patient,IRoomService roomService)
     {
+        _roomService = roomService;
         _doctorService = doctorService;
         _scheduleService = scheduleService;
         _patient = patient;
@@ -154,7 +157,7 @@ public class SearchDoctorsViewModel : ViewModelBase
             {
                 DataContext = new MakeAppointmentViewModel(_scheduleService,
                     new ObservableCollection<AppointmentViewModel>(),
-                    _doctorService, _patient, SelectedDoctor.Email)
+                    _doctorService, _patient, SelectedDoctor.Email,_roomService)
             };
             //var window = new MakeAppointmentView(_doctorRepository, _scheduleService, Appointments, _patient);
             window.Show();
