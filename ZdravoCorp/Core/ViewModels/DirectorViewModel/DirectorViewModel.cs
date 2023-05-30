@@ -68,12 +68,12 @@ public class DirectorViewModel : ViewModelBase
 
     public void DynamicEquipmentView()
     {
-        CurrentView = new DEquipmentPaneViewModel(_inventoryService, _equipmentService, _orderService);
+        CurrentView = new DynamicEquipmentPaneViewModel(_inventoryService, _equipmentService, _orderService);
     }
 
     public void MoveDynamicEquipmentView()
     {
-        CurrentView = new MoveDEquipmentViewModel(_inventoryService, _roomService);
+        CurrentView = new MoveDynamicEquipmentViewModel(_inventoryService, _roomService);
     }
 
     public void MoveEquipmentView()

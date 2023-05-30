@@ -9,7 +9,7 @@ using ZdravoCorp.Core.Services.InventoryServices;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
-public class DEquipmentTransferWindowViewModel : ViewModelBase, IDataErrorInfo
+public class DynamicEquipmentTransferWindowViewModel : ViewModelBase, IDataErrorInfo
 
 {
     private readonly IInventoryService _inventoryService;
@@ -19,7 +19,7 @@ public class DEquipmentTransferWindowViewModel : ViewModelBase, IDataErrorInfo
     private ObservableCollection<SourceRoomViewModel> _rooms;
 
 
-    public DEquipmentTransferWindowViewModel(int inventoryItemId, int roomId, int quantity,
+    public DynamicEquipmentTransferWindowViewModel(int inventoryItemId, int roomId, int quantity,
         IInventoryService inventoryService)
     {
         _rooms = new ObservableCollection<SourceRoomViewModel>();

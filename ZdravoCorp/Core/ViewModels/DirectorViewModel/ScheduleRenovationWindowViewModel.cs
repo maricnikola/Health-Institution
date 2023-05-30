@@ -174,7 +174,6 @@ public class ScheduleRenovationWindowViewModel : ViewModelBase
 
                     IsJoinRoomAvailable = false;
                     return false;
-
                 }
                 else
                 {
@@ -182,7 +181,6 @@ public class ScheduleRenovationWindowViewModel : ViewModelBase
                     return true;
                 }
             }
-            
         }
         IsRoomAvailable = false;
         return false;
