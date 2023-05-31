@@ -9,6 +9,7 @@ using Autofac;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Survays;
 using ZdravoCorp.Core.Models.Users;
+using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.ServayServices;
 using ZdravoCorp.Core.Utilities;
 
@@ -17,6 +18,7 @@ namespace ZdravoCorp.Core.ViewModels.PatientViewModel;
 public class DoctorSurvayViewModel : ViewModelBase
 {
     private ISurvayService _survayService;
+    private IDoctorService _doctorService;
     private Doctor? _doctor;
     private string _patientEmail;
     private string _selectedGrade;
@@ -25,10 +27,11 @@ public class DoctorSurvayViewModel : ViewModelBase
     private string _comment = "";
 
     public ICommand SubmitSurvayCommand { get; set; }
-    public DoctorSurvayViewModel(Doctor? doctor, string patientEmail)
+    public DoctorSurvayViewModel(IDoctorService doctorService,string doctorEmail, string patientEmail)
     {
         _survayService = Injector.Container.Resolve<ISurvayService>();
-        _doctor = doctor;
+        _doctorService = doctorService;
+        _doctor = doctorService.GetByEmail(doctorEmail);
         _patientEmail = patientEmail;
         PossibleGrades = new HashSet<string> { "1", "2", "3", "4", "5" };
         _selectedGrade = "5";
@@ -84,9 +87,8 @@ public class DoctorSurvayViewModel : ViewModelBase
             int.Parse(SelectedGrade), YesChecked, Comment);
         _survayService.AddDoctorSuvay(survay);
         MessageBox.Show("Survay created successfully", "Success", MessageBoxButton.OK);
-
+        var doctorsAvgGrade = _survayService.FindAverageGradeForDoctor(_doctor.Email);
+        _doctorService.UpdateGrade(_doctor.Email,doctorsAvgGrade);
     }
-
-
 
 }

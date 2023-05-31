@@ -17,9 +17,14 @@ public class SurvayService : ISurvayService
         _doctorSurvayRepository = doctorSurvayRepository;
     }
 
+    public List<DoctorSurvay>? GetAllDoctorSurvays()
+    {
+        return _doctorSurvayRepository.GetAll() as List<DoctorSurvay>;
+    }
+
     public DoctorSurvay? FindExistingDoctorSurvay(string doctorEmail, string patientEmail)
     {
-        return _doctorSurvayRepository.GetAll().FirstOrDefault(survay => survay.DoctorEmail == doctorEmail && survay.PatientEmail == patientEmail);
+        return GetAllDoctorSurvays().FirstOrDefault(survay => survay.DoctorEmail == doctorEmail && survay.PatientEmail == patientEmail);
     }
 
     public void AddDoctorSuvay(DoctorSurvayDTO doctorSurvay)
@@ -33,5 +38,21 @@ public class SurvayService : ISurvayService
         else 
             _doctorSurvayRepository.Insert(new DoctorSurvay(doctorSurvay));
 
+    }
+
+    public List<DoctorSurvay> FindSurvaysForDoctor(string doctorEmail)
+    {
+        return GetAllDoctorSurvays().Where(survay => survay.DoctorEmail == doctorEmail).ToList();
+    }
+
+    public double FindAverageGradeForDoctor(string doctorEmail)
+    {
+        var doctorsSturvays = FindSurvaysForDoctor(doctorEmail);
+        double count = doctorsSturvays.Count;
+        if (count == 0)
+            return 5;
+        double sum = doctorsSturvays.Sum(survay => survay.Grade);
+        double avg = sum / count;
+        return avg;
     }
 }

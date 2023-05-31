@@ -52,6 +52,12 @@ public class DoctorRepository : ISerializable, IDoctorRepository
         return _doctors.FirstOrDefault(doctor => doctor.Email == email);
     }
 
+    public void UpdateGrade(string email, double grade)
+    {
+        GetByEmail(email).Grade = grade;
+        Serializer.Save(this);
+    }
+
     public List<Doctor> GetAll()
     {
         return _doctors;

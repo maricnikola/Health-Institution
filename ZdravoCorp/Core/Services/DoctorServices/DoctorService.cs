@@ -52,4 +52,9 @@ public class DoctorService : IDoctorService
         var suitableDoctors = _doctorRepository.GetAll().Where(doctor => doctor.Specialization == specializationType);
         return suitableDoctors.ToList();
     }
+
+    public void UpdateGrade(string email, double grade)
+    {
+        _doctorRepository.UpdateGrade(email, grade);
+    }
 }
