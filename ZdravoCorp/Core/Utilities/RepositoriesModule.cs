@@ -11,6 +11,7 @@ using ZdravoCorp.Core.Repositories.RenovationRepo;
 using ZdravoCorp.Core.Repositories.RoomRepo;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.SpecialistsRefferalsRepo;
+using ZdravoCorp.Core.Repositories.SurvaysRepo;
 using ZdravoCorp.Core.Repositories.TransfersRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
 
@@ -38,5 +39,7 @@ public class RepositoriesModule : Autofac.Module
         builder.RegisterType<DirectorRepository>().As<IDirectorRepository>().SingleInstance();
         builder.RegisterType<PatientRepository>().As<IPatientRepository>().SingleInstance();
         builder.RegisterType<NotificationRepository>().As<INotificationRepository>().SingleInstance();
+        builder.RegisterType<DoctorSurvayRepository>().As<IDoctorSurvayRepository>().SingleInstance();
+
     }
 }

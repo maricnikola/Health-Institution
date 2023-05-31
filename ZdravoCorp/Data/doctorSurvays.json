@@ -1,0 +1,18 @@
+[
+  {
+    "Id": 676,
+    "DoctorEmail": "savo.oroz@gmail.com",
+    "PatientEmail": "sreten.pejovic@gmail.com",
+    "Grade": 3,
+    "Recommendation": true,
+    "Comment": "Nije los Savo al pravo ime mu je Savelja"
+  },
+  {
+    "Id": 677,
+    "DoctorEmail": "vrabac@gmail.com",
+    "PatientEmail": "cvetko.novak@gmail.com",
+    "Grade": 2,
+    "Recommendation": false,
+    "Comment": "Mirko me je seksualno zlostavljao"
+  }
+]
