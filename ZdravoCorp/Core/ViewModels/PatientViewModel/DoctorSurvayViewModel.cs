@@ -33,8 +33,7 @@ public class DoctorSurvayViewModel : ViewModelBase
         _doctor = doctorService.GetByEmail(doctorEmail);
         _patientEmail = patientEmail;
         PossibleGrades = new HashSet<string> { "1", "2", "3", "4", "5" };
-        _selectedGrade = "5";
-        _yesChecked = true;
+        FillInputFields();
 
         SubmitSurvayCommand = new DelegateCommand(o => SubmitSurvayComm());
     }
@@ -69,6 +68,28 @@ public class DoctorSurvayViewModel : ViewModelBase
             _comment = value;
             OnPropertyChanged();
         }
+    }
+
+    private void FillInputFields()
+    {
+        var survay = _survayService.FindExistingDoctorSurvay(_doctor.Email,_patientEmail);
+        if (survay == null)
+            FillInputFieldsDefault();
+        else
+            FillInputFieldsWithSurvay(survay);
+    }
+
+    private void FillInputFieldsDefault()
+    {
+        _selectedGrade = "5";
+        _yesChecked = true;
+    }
+
+    private void FillInputFieldsWithSurvay(DoctorSurvay survay)
+    {
+        _selectedGrade = survay.Grade.ToString();
+        _yesChecked = survay.Recommendation;
+        _comment = survay.Comment;
     }
 
     private void SubmitSurvayComm()
