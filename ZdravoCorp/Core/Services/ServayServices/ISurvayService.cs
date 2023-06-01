@@ -10,10 +10,14 @@ namespace ZdravoCorp.Core.Services.ServayServices;
 
 public interface ISurvayService
 {
-    public List<DoctorSurvay>? GetAllDoctorSurvays();
+    public IEnumerable<DoctorSurvay>? GetAllDoctorSurvays();
+    public IEnumerable<HospitalSurvay>? GetAllHospitalSurvays();
     public DoctorSurvay? FindExistingDoctorSurvay(string doctorEmail, string patientEmail);
     public void AddDoctorSuvay(DoctorSurvayDTO doctorSurvay);
+    public void AddHospitalSurvay(HospitalSurvayDTO hospitalSurvay);
     public List<DoctorSurvay> FindSurvaysForDoctor(string doctorEmail);
     public double FindAverageGradeForDoctor(string doctorEmail);
+    public HospitalSurvay? FindHospitalSurvayForPatient(string patientEmail);
+
 
 }

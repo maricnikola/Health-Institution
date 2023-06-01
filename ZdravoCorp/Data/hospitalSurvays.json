@@ -1,0 +1,18 @@
+[
+  {
+    "PatientEmail": "sreten.pejovic@gmail.com",
+    "ServiceGrade": 2,
+    "HygieneGrade": 3,
+    "OverallGrade": 3,
+    "Recommendation": false,
+    "Comment": "Nista specijalno"
+  },
+  {
+    "PatientEmail": "cvetko.novak@gmail.com",
+    "ServiceGrade": 4,
+    "HygieneGrade": 4,
+    "OverallGrade": 4,
+    "Recommendation": true,
+    "Comment": "Zakleo se bumbar u cvet i u med"
+  }
+]

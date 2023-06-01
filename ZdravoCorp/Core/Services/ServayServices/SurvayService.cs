@@ -11,15 +11,22 @@ namespace ZdravoCorp.Core.Services.ServayServices;
 public class SurvayService : ISurvayService
 {
     private readonly IDoctorSurvayRepository _doctorSurvayRepository;
+    private readonly IHospitalSurvayRepository _hospitalSurvayRepository;
 
-    public SurvayService(IDoctorSurvayRepository doctorSurvayRepository)
+    public SurvayService(IDoctorSurvayRepository doctorSurvayRepository, IHospitalSurvayRepository hospitalSurvayRepository)
     {
         _doctorSurvayRepository = doctorSurvayRepository;
+        _hospitalSurvayRepository = hospitalSurvayRepository;
     }
 
-    public List<DoctorSurvay>? GetAllDoctorSurvays()
+    public IEnumerable<DoctorSurvay>? GetAllDoctorSurvays()
     {
         return _doctorSurvayRepository.GetAll() as List<DoctorSurvay>;
+    }
+
+    public IEnumerable<HospitalSurvay>? GetAllHospitalSurvays()
+    {
+        return _hospitalSurvayRepository.GetAll() as List<HospitalSurvay>;
     }
 
     public DoctorSurvay? FindExistingDoctorSurvay(string doctorEmail, string patientEmail)
@@ -40,6 +47,18 @@ public class SurvayService : ISurvayService
 
     }
 
+    public void AddHospitalSurvay(HospitalSurvayDTO hospitalSurvay)
+    {
+        var survay = FindHospitalSurvayForPatient(hospitalSurvay.PatientEmail);
+        if (survay != null)
+        {
+            _hospitalSurvayRepository.Delete(survay);
+            _hospitalSurvayRepository.Insert(new HospitalSurvay(hospitalSurvay));
+        }
+        else
+            _hospitalSurvayRepository.Insert(new HospitalSurvay(hospitalSurvay));
+    }
+
     public List<DoctorSurvay> FindSurvaysForDoctor(string doctorEmail)
     {
         return GetAllDoctorSurvays().Where(survay => survay.DoctorEmail == doctorEmail).ToList();
@@ -54,5 +73,10 @@ public class SurvayService : ISurvayService
         double sum = doctorsSturvays.Sum(survay => survay.Grade);
         double avg = sum / count;
         return avg;
+    }
+
+    public HospitalSurvay? FindHospitalSurvayForPatient(string patientEmail)
+    {
+        return GetAllHospitalSurvays()!.FirstOrDefault(survay => survay.PatientEmail == patientEmail);
     }
 }

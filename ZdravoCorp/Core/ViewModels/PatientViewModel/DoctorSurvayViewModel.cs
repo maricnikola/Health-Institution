@@ -23,7 +23,6 @@ public class DoctorSurvayViewModel : ViewModelBase
     private string _patientEmail;
     private string _selectedGrade;
     private bool _yesChecked;
-    private bool _noChecked;
     private string _comment = "";
 
     public ICommand SubmitSurvayCommand { get; set; }
@@ -59,15 +58,6 @@ public class DoctorSurvayViewModel : ViewModelBase
         set
         {
             _yesChecked = value;
-            OnPropertyChanged();
-        }
-    }
-    public bool NoChecked
-    {
-        get => _noChecked;
-        set
-        {
-            _noChecked = value;
             OnPropertyChanged();
         }
     }

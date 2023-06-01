@@ -40,6 +40,7 @@ public class RepositoriesModule : Autofac.Module
         builder.RegisterType<PatientRepository>().As<IPatientRepository>().SingleInstance();
         builder.RegisterType<NotificationRepository>().As<INotificationRepository>().SingleInstance();
         builder.RegisterType<DoctorSurvayRepository>().As<IDoctorSurvayRepository>().SingleInstance();
+        builder.RegisterType<HospitalSurvayRepository>().As<IHospitalSurvayRepository>().SingleInstance();
 
     }
 }

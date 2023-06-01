@@ -25,6 +25,9 @@
         <DataTemplate DataType="{x:Type viewModels:AllNotificationsViewModel}">
             <patientV:AllNotificationsView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:CreateHospitalSurvayViewModel}">
+            <patientV:CreateHospitalSurvayView />
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -48,6 +51,8 @@
                          Style="{DynamicResource ToggleTheme}" Command="{Binding LoadDoctorsCommand}" />
             <RadioButton Content="Notifications" FontSize="13" Height="50" Foreground="WhiteSmoke"
                          Style="{DynamicResource ToggleTheme}" Command="{Binding LoadNotificationsCommand}" />
+            <RadioButton Content="Hospital survay" FontSize="13" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding LoadHospitalSurvayCommand}" />
         </StackPanel>
         <ContentControl Grid.RowSpan="2" Background="#29262e" Content="{Binding Path=CurrentView}" Grid.Row="0"
                         Grid.Column="1" Margin="10" />
