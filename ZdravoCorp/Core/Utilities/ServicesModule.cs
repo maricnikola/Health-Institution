@@ -14,6 +14,7 @@ using ZdravoCorp.Core.Services.PatientServices;
 using ZdravoCorp.Core.Services.RenovationServices;
 using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
+using ZdravoCorp.Core.Services.ServayServices;
 using ZdravoCorp.Core.Services.SpecialistsRefferalServices;
 using ZdravoCorp.Core.Services.TransferServices;
 using ZdravoCorp.Core.Services.UserServices;
@@ -42,6 +43,7 @@ public class ServicesModule : Autofac.Module
         builder.RegisterType<RenovationService>().As<IRenovationService>().SingleInstance();
         builder.RegisterType<ManageRenovationService>().As<IManageRenovationService>().SingleInstance();
         builder.RegisterType<NotificationService>().As<INotificationService>().SingleInstance();
+        builder.RegisterType<SurvayService>().As<ISurvayService>().SingleInstance();
 
 
     }

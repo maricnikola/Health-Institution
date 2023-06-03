@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ZdravoCorp.Core.Models.Notifications;
 using ZdravoCorp.Core.Models.Rooms;
 using ZdravoCorp.Core.Models.Users;
 
@@ -13,4 +14,6 @@ public interface IDoctorService
     public void Delete(string email);
     public List<Doctor> GetAllWithCertainSpecialization(Doctor.SpecializationType specialization);
     public List<Doctor> GetAllSpecialized(Doctor.SpecializationType specializationType);
+    public void UpdateGrade(string email, double grade);
+
 }

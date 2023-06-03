@@ -5,4 +5,5 @@ namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
 public interface IDoctorRepository : IUserRepository<Doctor>
 {
+    void UpdateGrade(string email, double grade);
 }

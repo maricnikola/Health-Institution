@@ -13,6 +13,7 @@ using ZdravoCorp.Core.Services.NotificationServices;
 using ZdravoCorp.Core.Services.PatientServices;
 using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
+using ZdravoCorp.Core.Services.ServayServices;
 using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.Core.Utilities.CronJobs;
 
@@ -25,6 +26,7 @@ public class PatientViewModel : ViewModelBase
     private readonly IMedicalRecordService _medicalRecordService;
     private readonly IPatientService _patientService;
     private readonly INotificationService _notificationService;
+    private readonly ISurvayService _survayService;
 
     private readonly Patient _patient;
     private readonly IScheduleService _scheduleService;
@@ -38,6 +40,7 @@ public class PatientViewModel : ViewModelBase
         _patientService = Injector.Container.Resolve<IPatientService>();
         _roomService = Injector.Container.Resolve<IRoomService>();
         _notificationService = Injector.Container.Resolve<INotificationService>();
+        _survayService = Injector.Container.Resolve<ISurvayService>();
 
         _patient = _patientService.GetByEmail(user.Email);
         LoadAppointmentsCommand = new DelegateCommand(o => LoadAppointments());
@@ -45,6 +48,8 @@ public class PatientViewModel : ViewModelBase
         LoadOldAppointmentsCommand = new DelegateCommand(o => LoadOldAppointments());
         LoadDoctorsCommand = new DelegateCommand(o => LoadDoctors());
         LoadNotificationsCommand = new DelegateCommand(o => LoadNotifications());
+        LoadHospitalSurvayCommand = new DelegateCommand(o => LoadHospitalSurvay());
+
         _currentView = new AppointmentTableViewModel(_scheduleService, _doctorService, _patient,_roomService);
         JobScheduler.LoadUsersNotifications(user.Email);
 
@@ -55,6 +60,7 @@ public class PatientViewModel : ViewModelBase
     public ICommand LoadOldAppointmentsCommand { get; set; }
     public ICommand LoadDoctorsCommand { get; set; }
     public ICommand LoadNotificationsCommand { get; set; }
+    public ICommand LoadHospitalSurvayCommand { get; set; }
 
 
     public object CurrentView
@@ -91,6 +97,11 @@ public class PatientViewModel : ViewModelBase
     private void LoadNotifications()
     {
         CurrentView = new AllNotificationsViewModel(_notificationService,_patientService,_patient.Email);
+    }
+
+    private void LoadHospitalSurvay()
+    {
+        CurrentView = new CreateHospitalSurvayViewModel(_survayService, _patient.Email);
     }
 
 }

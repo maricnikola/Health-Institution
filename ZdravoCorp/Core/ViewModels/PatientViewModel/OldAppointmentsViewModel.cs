@@ -51,11 +51,14 @@ public class OldAppointmentsViewModel : ViewModelBase
 
         _appointments = _allAppointments;
         ViewAnamnesisCommand = new DelegateCommand(o => ViewAnamnesisComm());
+        GradeDoctorCommand = new DelegateCommand(o => GradeDoctorComm());
+
     }
 
     public AppointmentViewModel SelectedAppointment { get; set; }
 
     public ICommand ViewAnamnesisCommand { get; set; }
+    public ICommand GradeDoctorCommand { get; set; }
 
     public string SearchBox
     {
@@ -151,22 +154,37 @@ public class OldAppointmentsViewModel : ViewModelBase
 
     public void ViewAnamnesisComm()
     {
-        if (SelectedAppointment != null)
-        {
-            Appointment? selectedAppointment = null;
-            foreach (var appointment in CompleteAppointments.Where(appointment =>
-                         appointment.Id == SelectedAppointment.Id)) selectedAppointment = appointment;
-
-            var window = new FullAnamnesisView
-            {
-                DataContext = new FullAnamnesisViewModel(selectedAppointment.Anamnesis)
-            };
-            window.Show();
-        }
-        else
+        if (SelectedAppointment == null)
         {
             MessageBox.Show("None selected", "Error", MessageBoxButton.OK);
+            return;
         }
+        Appointment? selectedAppointment = null;
+        foreach (var appointment in CompleteAppointments.Where(appointment =>
+                     appointment.Id == SelectedAppointment.Id)) selectedAppointment = appointment;
+
+        var window = new FullAnamnesisView
+        {
+            DataContext = new FullAnamnesisViewModel(selectedAppointment.Anamnesis)
+        };
+        window.Show();
+        
+    }
+
+    public void GradeDoctorComm()
+    {
+        if (SelectedAppointment == null)
+        {
+            MessageBox.Show("None selected", "Error", MessageBoxButton.OK);
+            return;
+        }
+
+        var window = new DoctorServayView
+        {
+            DataContext = new DoctorSurvayViewModel(_doctorService, SelectedAppointment.DoctorEmail,
+                _patient.Email)
+        };
+        window.Show();
     }
 
     public void LoadComboBoxCollecitons()

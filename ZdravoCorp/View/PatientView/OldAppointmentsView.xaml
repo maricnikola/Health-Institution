@@ -32,5 +32,6 @@
                   HorizontalAlignment="Left" Margin="603,39,0,0" VerticalAlignment="Top" Width="136" Height="32" />
         <Label Content="Search Specialization" HorizontalAlignment="Left" Margin="603,10,0,0" VerticalAlignment="Top"
                Foreground="#FFEEE4E4" FontSize="14" />
+        <Button Command="{Binding GradeDoctorCommand}" Content="Grade Doctor" HorizontalAlignment="Left" Margin="100,88,0,0" VerticalAlignment="Top" Width="118" Height="28" FontSize="16"/>
     </Grid>
 </UserControl>
