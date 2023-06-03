@@ -21,6 +21,7 @@ public class CreateHospitalSurvayViewModel : ViewModelBase
     private string _hygieneGrade;
     private string _overallGrade;
     private bool _yesChecked;
+    private bool _noChecked;
     public ICommand CreateHospitalSurvayCommand { get; set; }
 
     public CreateHospitalSurvayViewModel(ISurvayService survayService, string patientEmail)
@@ -79,6 +80,15 @@ public class CreateHospitalSurvayViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
+    public bool NoChecked
+    {
+        get => _noChecked;
+        set
+        {
+            _noChecked = value;
+            OnPropertyChanged();
+        }
+    }
 
     private void FillInputFields()
     {
@@ -103,6 +113,7 @@ public class CreateHospitalSurvayViewModel : ViewModelBase
         _hygieneGrade = survay.HygieneGrade.ToString();
         _overallGrade = survay.OverallGrade.ToString();
         _yesChecked = survay.Recommendation;
+        _noChecked = !_yesChecked;
         _comment = survay.Comment;
     }
 
