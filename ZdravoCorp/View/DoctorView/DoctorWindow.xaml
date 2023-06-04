@@ -32,6 +32,8 @@
                          Style="{DynamicResource ToggleTheme}" Command="{Binding LoadAppointmentCommand}" />
             <RadioButton Content="Patients" Height="50" Foreground="WhiteSmoke" Style="{DynamicResource ToggleTheme}"
                          Command="{Binding LoadPatientsCommand}" />
+            <RadioButton Content="Chat" Height="50" Foreground="WhiteSmoke" Style="{DynamicResource ToggleTheme}"
+                         Command="{Binding LoadChatCommand}" />
 
         </StackPanel>
         <ContentControl Grid.RowSpan="2" Background="#29262e" Content="{Binding Path=CurrentView}" Grid.Row="0"

@@ -16,6 +16,7 @@ using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Services.ServayServices;
 using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.Core.Utilities.CronJobs;
+using ZdravoCorp.View.PatientView;
 
 namespace ZdravoCorp.Core.ViewModels.PatientViewModel;
 
@@ -49,6 +50,7 @@ public class PatientViewModel : ViewModelBase
         LoadDoctorsCommand = new DelegateCommand(o => LoadDoctors());
         LoadNotificationsCommand = new DelegateCommand(o => LoadNotifications());
         LoadHospitalSurvayCommand = new DelegateCommand(o => LoadHospitalSurvay());
+        LoadChatCommand = new DelegateCommand(o => LoadChat());
 
         _currentView = new AppointmentTableViewModel(_scheduleService, _doctorService, _patient,_roomService);
         JobScheduler.LoadUsersNotifications(user.Email);
@@ -61,7 +63,7 @@ public class PatientViewModel : ViewModelBase
     public ICommand LoadDoctorsCommand { get; set; }
     public ICommand LoadNotificationsCommand { get; set; }
     public ICommand LoadHospitalSurvayCommand { get; set; }
-
+    public ICommand LoadChatCommand { get; set; }
 
     public object CurrentView
     {
@@ -102,6 +104,15 @@ public class PatientViewModel : ViewModelBase
     private void LoadHospitalSurvay()
     {
         CurrentView = new CreateHospitalSurvayViewModel(_survayService, _patient.Email);
+    }
+
+    private void LoadChat()
+    {
+        var window = new Chat()
+        {
+            DataContext = new ChatViewModel()
+        };
+        window.Show();
     }
 
 }
