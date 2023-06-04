@@ -70,5 +70,11 @@
     "Email": "cvetko.novak@gmail.com",
     "Password": "1",
     "UserState": "NotBlocked"
+  },
+  {
+    "Type": "Nurse",
+    "Email": "mira@gmail.com",
+    "Password": "1",
+    "UserState": "NotBlocked"
   }
 ]

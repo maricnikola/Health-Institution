@@ -46,10 +46,12 @@ public class DoctorViewModel : ViewModelBase
         LoadPatientsCommand = new DelegateCommand(o => LoadPatinets());
         _currentView = new AppointmentShowViewModel(_user, _scheduleService, _doctorService, _patientService,
             _medicalRecordService, _inventoryService, _roomService);
+        LoadChatCommand = new DelegateCommand(o => LoadChat());
     }
 
     public ICommand LoadAppointmentCommand { get; private set; }
     public ICommand LoadPatientsCommand { get; private set; }
+    public ICommand LoadChatCommand { get; private set; }
 
 
     public object CurrentView
@@ -72,5 +74,10 @@ public class DoctorViewModel : ViewModelBase
     {
         CurrentView = new PatientTableViewModel(_user, _scheduleService, _doctorService, _patientService,
             _medicalRecordService);
+    }
+
+    public void LoadChat()
+    {
+        CurrentView = new ChatViewModel(_doctor.DiscordToken);
     }
 }

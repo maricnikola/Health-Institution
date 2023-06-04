@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:nurse="clr-namespace:ZdravoCorp.Core.ViewModels.NurseViewModel"
         xmlns:local="clr-namespace:ZdravoCorp.View.NurseView"
+        xmlns:viewModels="clr-namespace:ZdravoCorp.Core.ViewModels"
+        xmlns:view="clr-namespace:ZdravoCorp.View"
         mc:Ignorable="d"
         Title="NurseWindow" Height="600" Width="920"
         Background="#29262e">
@@ -16,6 +18,9 @@
 
         <DataTemplate DataType="{x:Type nurse:UrgentAppointmentViewModel}">
             <local:UrgentAppointmentView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:ChatViewModel}">
+            <view:ChatView/>
         </DataTemplate>
 
     </Window.Resources>
@@ -37,7 +42,9 @@
                          Style="{DynamicResource ToggleTheme}" Command="{Binding NewPatientReceptionCommand}" />
             <RadioButton Content="Urgent Appointment" Height="50" Foreground="WhiteSmoke"
                          Style="{DynamicResource ToggleTheme}" Command="{Binding UrgentAppointmentReservationCommand}" />
-
+            <RadioButton Content="Chat" Height="50" Foreground="WhiteSmoke" Style="{DynamicResource ToggleTheme}"
+                         Command="{Binding LoadChatCommand}" />
+    
         </StackPanel>
         <ContentControl Grid.RowSpan="2" Background="#29262e" Content="{Binding Path=CurrentView}" Grid.Row="0"
                         Grid.Column="1" Margin="10,10,10,10" />

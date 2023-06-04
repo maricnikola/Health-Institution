@@ -110,7 +110,7 @@ public class PatientViewModel : ViewModelBase
     {
         var window = new Chat()
         {
-            DataContext = new ChatViewModel()
+            DataContext = new ChatViewModel("MTExNDY2MDk3Nzc0NTYwODc1NA.GIlj5N.LKExMp_ybGHcuiXVX8i3ANIfbgWOKKnq8NeN9c")
         };
         window.Show();
     }

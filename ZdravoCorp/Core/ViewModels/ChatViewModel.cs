@@ -19,7 +19,7 @@ public class ChatViewModel : ViewModelBase
     private ObservableCollection<MessageViewModel> _messages;
     private string _inputText;
 
-    public ChatViewModel()
+    public ChatViewModel(string clientToken)
     {
         var config = new DiscordSocketConfig
         {
@@ -35,7 +35,7 @@ public class ChatViewModel : ViewModelBase
 
 
         // Connect and start the Discord bot
-        _discordClient.LoginAsync(TokenType.Bot, "MTExNDkwMTgyNTUyMzU0ODIzMA.Gr750P.7_4fejNLE_yrtCKRSCuIzvYRG-bBGC7Q45Ai7A").Wait();
+        _discordClient.LoginAsync(TokenType.Bot, clientToken).Wait();
         _discordClient.StartAsync().Wait();
 
         SendCommand = new DelegateCommand(o=>SendMessage());
@@ -56,11 +56,24 @@ public class ChatViewModel : ViewModelBase
         });
     }
     
-
     private async void InitializeAsync()
     {
-        await Task.Delay(2000); // Introduce a delay of 2 seconds (adjust as needed)
-        await LoadPreviousMessagesAsync();
+        var counter = 0;
+        while (counter < 6)
+        {
+            try
+            {
+                await Task.Delay(10000); // Introduce a delay of 2 seconds (adjust as needed)
+                await LoadPreviousMessagesAsync();
+                break;
+            }
+            catch
+            {
+                counter++;
+                continue;
+            }
+        }
+        
     }
 
     private async Task LoadPreviousMessagesAsync()

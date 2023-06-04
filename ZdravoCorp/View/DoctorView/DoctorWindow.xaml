@@ -5,6 +5,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:doctor="clr-namespace:ZdravoCorp.Core.ViewModels.DoctorViewModels"
         xmlns:doctor1="clr-namespace:ZdravoCorp.View.DoctorView"
+        xmlns:viewModels="clr-namespace:ZdravoCorp.Core.ViewModels"
+        xmlns:view="clr-namespace:ZdravoCorp.View"
         mc:Ignorable="d"
         Title="DoctorWindow" Height="600" Width="920"
         Background="#29262e">
@@ -14,6 +16,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type doctor:PatientTableViewModel}">
             <doctor1:PatientsTableView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:ChatViewModel}">
+            <view:ChatView/>
         </DataTemplate>
     </Window.Resources>
     <Grid>
