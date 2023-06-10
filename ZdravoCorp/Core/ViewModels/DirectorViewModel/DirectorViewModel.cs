@@ -41,7 +41,8 @@ public class DirectorViewModel : ViewModelBase
         ViewDynamicEquipmentCommand = new DelegateCommand(o => DynamicEquipmentView());
         MoveDynamicEquipmentCommand = new DelegateCommand(o => MoveDynamicEquipmentView());
         AnnualRequestsCommand = new DelegateCommand(o => AnnualRequestsView());
-        AnalyticsCommand = new DelegateCommand(o => AnalyticsView());
+        HospitalAnalyticsCommand = new DelegateCommand(o => HospitalAnalyticsView());
+        DoctorAnalyticsCommand = new DelegateCommand(o => DoctorAnalyticsView());
         RenovationCommand = new DelegateCommand(o => RenovationView());
         _currentView = new EquipmentPaneViewModel(_inventoryService);
     }
@@ -51,7 +52,8 @@ public class DirectorViewModel : ViewModelBase
     public ICommand MoveDynamicEquipmentCommand { get; private set; }
     public ICommand MoveEquipmentCommand { get; private set; }
     public ICommand RenovationCommand { get; private set; }
-    public ICommand AnalyticsCommand { get; private set; }
+    public ICommand HospitalAnalyticsCommand { get; private set; }
+    public ICommand DoctorAnalyticsCommand { get; private set; }
     public ICommand AnnualRequestsCommand { get; private set; }
 
 
@@ -91,11 +93,15 @@ public class DirectorViewModel : ViewModelBase
     
     public void AnnualRequestsView()
     {
-        CurrentView = new RenovationsViewModel(_roomService, _renovationService);
+        CurrentView = new AnnualRequestsViewModel();
     }
     
-    public void AnalyticsView()
+    public void HospitalAnalyticsView()
     {
-        CurrentView = new RenovationsViewModel(_roomService, _renovationService);
+        CurrentView = new HospitalAnalyticsViewModel();
+    }  
+    public void DoctorAnalyticsView()
+    {
+        CurrentView = new DoctorAnalyticsViewModel();
     }
 }

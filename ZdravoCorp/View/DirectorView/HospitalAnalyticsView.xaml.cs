@@ -2,9 +2,9 @@
 
 namespace ZdravoCorp.View.DirectorView;
 
-public partial class AnalyticsView : UserControl
+public partial class HospitalAnalyticsView : UserControl
 {
-    public AnalyticsView()
+    public HospitalAnalyticsView()
     {
         InitializeComponent();
     }
