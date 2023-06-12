@@ -33,7 +33,7 @@ public class ServicesModule : Autofac.Module
         builder.RegisterType<SpecialistsRefferalService>().As<ISpecialistsRefferalService>().SingleInstance();
         builder.RegisterType<HospitalRefferalService>().As<IHospitalRefferalService>().SingleInstance();
         builder.RegisterType<MedicamentService>().As<IMedicamentService>().SingleInstance();
-        // builder.RegisterType<NurseService>().As<INurseRepository>();
+        builder.RegisterType<NurseService>().As<INurseService>().SingleInstance();
         builder.RegisterType<OrderService>().As<IOrderService>().SingleInstance();
         builder.RegisterType<RoomService>().As<IRoomService>().SingleInstance();
         builder.RegisterType<ScheduleService>().As<IScheduleService>().SingleInstance();
@@ -43,7 +43,7 @@ public class ServicesModule : Autofac.Module
         builder.RegisterType<RenovationService>().As<IRenovationService>().SingleInstance();
         builder.RegisterType<ManageRenovationService>().As<IManageRenovationService>().SingleInstance();
         builder.RegisterType<NotificationService>().As<INotificationService>().SingleInstance();
-        builder.RegisterType<SurvayService>().As<ISurvayService>().SingleInstance();
+        builder.RegisterType<SurveyService>().As<ISurveyService>().SingleInstance();
 
 
     }

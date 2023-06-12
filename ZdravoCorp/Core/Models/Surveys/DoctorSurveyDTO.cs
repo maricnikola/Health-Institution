@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace ZdravoCorp.Core.Models.Survays;
 
-public class HospitalSurvayDTO
+public class DoctorSurveyDTO
 {
+    public int Id { get; set; }
+    public string DoctorEmail { get; set; }
     public string PatientEmail { get; set; }
-    public int ServiceGrade { get; set; }
-    public int HygieneGrade { get; set; }
-    public int OverallGrade { get; set; }
+    public int Grade { get; set; }
     public bool Recommendation { get; set; }
     public string Comment { get; set; }
 
-    public HospitalSurvayDTO(string patientEmail, int serviceGrade, int hygieneGrade, int overallGrade, bool recommendation, string comment)
+    public DoctorSurveyDTO(int id,string doctorEmail, string patientEmail, int grade, bool recommendation, string comment)
     {
+        Id = id;
+        DoctorEmail = doctorEmail;
         PatientEmail = patientEmail;
-        ServiceGrade = serviceGrade;
-        HygieneGrade = hygieneGrade;
-        OverallGrade = overallGrade;
+        Grade = grade;
         Recommendation = recommendation;
         Comment = comment;
     }

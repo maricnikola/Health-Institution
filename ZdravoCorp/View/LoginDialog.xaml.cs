@@ -97,7 +97,7 @@ public partial class LoginDialog : Window, INotifyPropertyChanged
             case User.UserType.Nurse:
                 //Start nurse view
                 Application.Current.MainWindow = new NurseWindow
-                    { DataContext = new NurseViewModel() };
+                    { DataContext = new NurseViewModel(user) };
                 break;
             case User.UserType.Doctor:
                 //Start doctor view

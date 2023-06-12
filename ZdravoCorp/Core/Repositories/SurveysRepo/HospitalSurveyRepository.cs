@@ -9,14 +9,14 @@ using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.SurvaysRepo;
 
-public class HospitalSurvayRepository : ISerializable, IHospitalSurvayRepository
+public class HospitalSurveyRepository : ISerializable, IHospitalSurveyRepository
 {
-    private readonly string _fileName = @".\..\..\..\Data\hospitalSurvays.json";
-    private List<HospitalSurvay>? _survays;
+    private readonly string _fileName = @".\..\..\..\Data\hospitalSurveys.json";
+    private List<HospitalSurvey>? _survays;
 
-    public HospitalSurvayRepository()
+    public HospitalSurveyRepository()
     {
-        _survays = new List<HospitalSurvay>();
+        _survays = new List<HospitalSurvey>();
         Serializer.Load(this);
     }
     public string FileName()
@@ -31,27 +31,27 @@ public class HospitalSurvayRepository : ISerializable, IHospitalSurvayRepository
 
     public void Import(JToken token)
     {
-        _survays = token.ToObject<List<HospitalSurvay>>();
+        _survays = token.ToObject<List<HospitalSurvey>>();
     }
 
-    public IEnumerable<HospitalSurvay> GetAll()
+    public IEnumerable<HospitalSurvey> GetAll()
     {
         return _survays;
     }
 
-    public void Insert(HospitalSurvay survay)
+    public void Insert(HospitalSurvey survay)
     {
         _survays.Add(survay);
         Serializer.Save(this);
     }
 
-    public void Delete(HospitalSurvay survay)
+    public void Delete(HospitalSurvey survay)
     {
         _survays.Remove(survay);
         Serializer.Save(this);
     }
 
-    public HospitalSurvay GetById(int id)
+    public HospitalSurvey GetById(int id)
     {
         throw new NotImplementedException();
     }

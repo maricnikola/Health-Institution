@@ -7,7 +7,7 @@ using ZdravoCorp.Core.Models.Survays;
 
 namespace ZdravoCorp.Core.Repositories.SurvaysRepo;
 
-public interface IDoctorSurvayRepository : IRepository<DoctorSurvay>
+public interface IDoctorSurveyRepository : IRepository<DoctorSurvey>
 {
 
 }
