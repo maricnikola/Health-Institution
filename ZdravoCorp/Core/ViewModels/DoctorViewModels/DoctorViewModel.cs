@@ -10,6 +10,7 @@ using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Services.SpecialistsRefferalServices;
 using ZdravoCorp.Core.Utilities;
+using ZdravoCorp.View.DoctorView;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -47,12 +48,13 @@ public class DoctorViewModel : ViewModelBase
         _currentView = new AppointmentShowViewModel(_user, _scheduleService, _doctorService, _patientService,
             _medicalRecordService, _inventoryService, _roomService);
         LoadChatCommand = new DelegateCommand(o => LoadChat());
+        AddAnnualLeaveCommand = new DelegateCommand(o => AddAnnualLeave());
     }
 
     public ICommand LoadAppointmentCommand { get; private set; }
     public ICommand LoadPatientsCommand { get; private set; }
     public ICommand LoadChatCommand { get; private set; }
-
+    public ICommand AddAnnualLeaveCommand { get; private set; }
 
     public object CurrentView
     {
@@ -79,5 +81,10 @@ public class DoctorViewModel : ViewModelBase
     public void LoadChat()
     {
         CurrentView = new ChatViewModel(_doctor.DiscordToken);
+    }
+
+    public void AddAnnualLeave()
+    {
+        CurrentView = new DoctorAnnualLeaveView();
     }
 }
