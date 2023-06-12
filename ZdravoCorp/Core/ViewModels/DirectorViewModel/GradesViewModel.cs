@@ -1,15 +1,24 @@
-﻿namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
+﻿using System;
+using System.Linq;
+
+namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
 public class GradesViewModel : ViewModelBase
 {
-    public GradesViewModel(int oneStar, int twoStar, int threeStar, int fourStar, int fiveStar, string overall, string type)
+    public GradesViewModel(int[] grades, string type)
     {
-        OneStar = oneStar;
-        TwoStar = twoStar;
-        ThreeStar = threeStar;
-        FourStar = fourStar;
-        FiveStar = fiveStar;
-        Overall = overall;
+        OneStar = grades[0];
+        TwoStar = grades[1];
+        ThreeStar = grades[2];
+        FourStar = grades[3];
+        FiveStar = grades[4];
+        var count = grades.Sum();
+        double sum=0;
+        for (var i = 0; i < 5; i++)
+        {
+            sum += grades[i] * (i + 1);
+        }
+        Overall = String.Format("{0:0.00}", (sum / count));
         Type = type;
     }
     public string Type { get; set; }

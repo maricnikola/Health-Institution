@@ -31,9 +31,8 @@
                           IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,0" Name="RoomsTable"
                           SelectedItem="{Binding SelectedSurvey, Mode=TwoWay}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Width="50" x:Name="Name1" Binding="{Binding Id}" />
                         <DataGridTextColumn Header="User" Width="150" Binding="{Binding User}" />
-                        <DataGridTextColumn Header="Recommendation" Binding="{Binding IsUnderRenovation}" />
+                        <DataGridTextColumn Header="Recommendation" Binding="{Binding Recommendation}" />
 
 
                     </DataGrid.Columns>
@@ -79,7 +78,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Content="View Survey" Height="40" Padding="10" Width="120" Margin="100,0"></Button>
+            <Button Content="View Survey" Height="40" Padding="10" Width="120" Margin="100,0" Command="{Binding ViewSurveyCommand}"></Button>
             <Grid Grid.Column="1">
                 <DataGrid ItemsSource="{Binding Comments, UpdateSourceTrigger=PropertyChanged}"
                           SelectionMode="Single"
@@ -88,8 +87,20 @@
                           RowHeight="{x:Static sys:Double.NaN}"
                           IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,0" Name="Comments" >
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="User" Width="100" x:Name="Name" Binding="{Binding User}" />
-                        <DataGridTextColumn Header="Comment" Width="150" Binding="{Binding Text}" />
+                        <DataGridTextColumn Header="User"  x:Name="Name" Binding="{Binding User}" >
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>                            
+                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Comment" Width="300" Binding="{Binding Text}" ><DataGridTextColumn.ElementStyle>
+                            <Style>                            
+                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

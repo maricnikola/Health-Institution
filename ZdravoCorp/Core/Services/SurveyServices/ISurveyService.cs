@@ -13,11 +13,15 @@ public interface ISurveyService
     public IEnumerable<DoctorSurvey>? GetAllDoctorSurveys();
     public IEnumerable<HospitalSurvey>? GetAllHospitalSurveys();
     public DoctorSurvey? FindExistingDoctorSurvey(string doctorEmail, string patientEmail);
-    public void AddDoctorSuvay(DoctorSurveyDTO doctorSurvey);
+    public void AddDoctorSurvey(DoctorSurveyDTO doctorSurvey);
     public void AddHospitalSurvey(HospitalSurveyDTO hospitalSurvey);
     public List<DoctorSurvey> FindSurveysForDoctor(string doctorEmail);
     public double FindAverageGradeForDoctor(string doctorEmail);
     public HospitalSurvey? FindHospitalSurveyForPatient(string patientEmail);
+    public int[] GetHospitalServiceGrades();
+    public int[] GetHospitalHygieneGrades();
+    public int[] GetHospitalOverallGrades();
+    
 
 
 }

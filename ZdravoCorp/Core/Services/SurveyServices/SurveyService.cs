@@ -34,7 +34,7 @@ public class SurveyService : ISurveyService
         return GetAllDoctorSurveys().FirstOrDefault(survey => survey.DoctorEmail == doctorEmail && survey.PatientEmail == patientEmail);
     }
 
-    public void AddDoctorSuvay(DoctorSurveyDTO doctorSurvey)
+    public void AddDoctorSurvey(DoctorSurveyDTO doctorSurvey)
     {
         var survey = FindExistingDoctorSurvey(doctorSurvey.DoctorEmail, doctorSurvey.PatientEmail);
         if (survey != null)
@@ -78,5 +78,38 @@ public class SurveyService : ISurveyService
     public HospitalSurvey? FindHospitalSurveyForPatient(string patientEmail)
     {
         return GetAllHospitalSurveys()!.FirstOrDefault(survey => survey.PatientEmail == patientEmail);
+    }
+
+    public int[] GetHospitalServiceGrades()
+    {
+        int[] grades = { 0, 0, 0, 0, 0 };
+        foreach (var survey in _hospitalSurveyRepository.GetAll())
+        {
+            grades[survey.ServiceGrade - 1]++;
+        }
+
+        return grades;
+    }
+
+    public int[] GetHospitalHygieneGrades()
+    {
+        int[] grades = { 0, 0, 0, 0, 0 };
+        foreach (var survey in _hospitalSurveyRepository.GetAll())
+        {
+            grades[survey.HygieneGrade - 1]++;
+        }
+
+        return grades;
+    }
+
+    public int[] GetHospitalOverallGrades()
+    {
+        int[] grades = { 0, 0, 0, 0, 0 };
+        foreach (var survey in _hospitalSurveyRepository.GetAll())
+        {
+            grades[survey.OverallGrade - 1]++;
+        }
+
+        return grades;
     }
 }

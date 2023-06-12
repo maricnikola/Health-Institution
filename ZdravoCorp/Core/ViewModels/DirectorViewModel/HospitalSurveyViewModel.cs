@@ -2,17 +2,16 @@
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
-public class SurveyViewModel : ViewModelBase
+public class HospitalSurveyViewModel : ViewModelBase
 {
     private readonly HospitalSurvey _survey;
 
 
-    public SurveyViewModel(HospitalSurvey survey)
+    public HospitalSurveyViewModel(HospitalSurvey survey)
     {
         _survey = survey;
     }
-
-    public string? Id => "id";
+    
     public string User => _survey.PatientEmail;
     public string Recommendation => _survey.Recommendation.ToString();
 }

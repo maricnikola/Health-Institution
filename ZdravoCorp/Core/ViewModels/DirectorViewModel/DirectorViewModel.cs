@@ -12,6 +12,7 @@ using ZdravoCorp.Core.Services.InventoryServices;
 using ZdravoCorp.Core.Services.OrderServices;
 using ZdravoCorp.Core.Services.RenovationServices;
 using ZdravoCorp.Core.Services.RoomServices;
+using ZdravoCorp.Core.Services.ServayServices;
 using ZdravoCorp.Core.Services.TransferServices;
 using ZdravoCorp.Core.Utilities;
 
@@ -27,6 +28,7 @@ public class DirectorViewModel : ViewModelBase
     private readonly IRoomService _roomService;
     private readonly ITransferService _transferService;
     private readonly IRenovationService _renovationService;
+    private readonly ISurveyService _surveyService;
 
     public DirectorViewModel()
     {
@@ -36,6 +38,7 @@ public class DirectorViewModel : ViewModelBase
         _roomService = Injector.Container.Resolve<IRoomService>();
         _transferService = Injector.Container.Resolve<ITransferService>();
         _renovationService = Injector.Container.Resolve<IRenovationService>();
+        _surveyService = Injector.Container.Resolve<ISurveyService>();
         ViewEquipmentCommand = new DelegateCommand(o => EquipmentView());
         MoveEquipmentCommand = new DelegateCommand(o => MoveEquipmentView());
         ViewDynamicEquipmentCommand = new DelegateCommand(o => DynamicEquipmentView());
@@ -98,7 +101,7 @@ public class DirectorViewModel : ViewModelBase
     
     public void HospitalAnalyticsView()
     {
-        CurrentView = new HospitalAnalyticsViewModel();
+        CurrentView = new HospitalAnalyticsViewModel(_surveyService);
     }  
     public void DoctorAnalyticsView()
     {

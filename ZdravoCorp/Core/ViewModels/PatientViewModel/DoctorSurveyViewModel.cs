@@ -107,7 +107,7 @@ public class DoctorSurveyViewModel : ViewModelBase
     {
         var survey = new DoctorSurveyDTO(IDGenerator.GetId(), _doctor.Email, _patientEmail,
             int.Parse(SelectedGrade), YesChecked, Comment);
-        _surveyService.AddDoctorSuvay(survey);
+        _surveyService.AddDoctorSurvey(survey);
         MessageBox.Show("Survey created successfully", "Success", MessageBoxButton.OK);
         var doctorsAvgGrade = _surveyService.FindAverageGradeForDoctor(_doctor.Email);
         _doctorService.UpdateGrade(_doctor.Email,doctorsAvgGrade);
