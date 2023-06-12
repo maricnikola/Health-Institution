@@ -27,7 +27,7 @@ public class PatientViewModel : ViewModelBase
     private readonly IMedicalRecordService _medicalRecordService;
     private readonly IPatientService _patientService;
     private readonly INotificationService _notificationService;
-    private readonly ISurvayService _survayService;
+    private readonly ISurveyService _survayService;
 
     private readonly Patient _patient;
     private readonly IScheduleService _scheduleService;
@@ -41,7 +41,7 @@ public class PatientViewModel : ViewModelBase
         _patientService = Injector.Container.Resolve<IPatientService>();
         _roomService = Injector.Container.Resolve<IRoomService>();
         _notificationService = Injector.Container.Resolve<INotificationService>();
-        _survayService = Injector.Container.Resolve<ISurvayService>();
+        _survayService = Injector.Container.Resolve<ISurveyService>();
 
         _patient = _patientService.GetByEmail(user.Email);
         LoadAppointmentsCommand = new DelegateCommand(o => LoadAppointments());
@@ -103,7 +103,7 @@ public class PatientViewModel : ViewModelBase
 
     private void LoadHospitalSurvay()
     {
-        CurrentView = new CreateHospitalSurvayViewModel(_survayService, _patient.Email);
+        CurrentView = new CreateHospitalSurveyViewModel(_survayService, _patient.Email);
     }
 
     private void LoadChat()

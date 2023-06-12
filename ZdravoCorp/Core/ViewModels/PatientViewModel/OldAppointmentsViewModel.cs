@@ -181,7 +181,7 @@ public class OldAppointmentsViewModel : ViewModelBase
 
         var window = new DoctorServayView
         {
-            DataContext = new DoctorSurvayViewModel(_doctorService, SelectedAppointment.DoctorEmail,
+            DataContext = new DoctorSurveyViewModel(_doctorService, SelectedAppointment.DoctorEmail,
                 _patient.Email)
         };
         window.Show();

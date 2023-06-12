@@ -8,58 +8,58 @@ using ZdravoCorp.Core.Repositories.SurvaysRepo;
 
 namespace ZdravoCorp.Core.Services.ServayServices;
 
-public class SurvayService : ISurvayService
+public class SurveyService : ISurveyService
 {
-    private readonly IDoctorSurvayRepository _doctorSurvayRepository;
-    private readonly IHospitalSurvayRepository _hospitalSurvayRepository;
+    private readonly IDoctorSurveyRepository _doctorSurvayRepository;
+    private readonly IHospitalSurveyRepository _hospitalSurvayRepository;
 
-    public SurvayService(IDoctorSurvayRepository doctorSurvayRepository, IHospitalSurvayRepository hospitalSurvayRepository)
+    public SurveyService(IDoctorSurveyRepository doctorSurvayRepository, IHospitalSurveyRepository hospitalSurvayRepository)
     {
         _doctorSurvayRepository = doctorSurvayRepository;
         _hospitalSurvayRepository = hospitalSurvayRepository;
     }
 
-    public IEnumerable<DoctorSurvay>? GetAllDoctorSurvays()
+    public IEnumerable<DoctorSurvey>? GetAllDoctorSurvays()
     {
-        return _doctorSurvayRepository.GetAll() as List<DoctorSurvay>;
+        return _doctorSurvayRepository.GetAll() as List<DoctorSurvey>;
     }
 
-    public IEnumerable<HospitalSurvay>? GetAllHospitalSurvays()
+    public IEnumerable<HospitalSurvey>? GetAllHospitalSurvays()
     {
-        return _hospitalSurvayRepository.GetAll() as List<HospitalSurvay>;
+        return _hospitalSurvayRepository.GetAll() as List<HospitalSurvey>;
     }
 
-    public DoctorSurvay? FindExistingDoctorSurvay(string doctorEmail, string patientEmail)
+    public DoctorSurvey? FindExistingDoctorSurvay(string doctorEmail, string patientEmail)
     {
         return GetAllDoctorSurvays().FirstOrDefault(survay => survay.DoctorEmail == doctorEmail && survay.PatientEmail == patientEmail);
     }
 
-    public void AddDoctorSuvay(DoctorSurvayDTO doctorSurvay)
+    public void AddDoctorSuvay(DoctorSurveyDTO doctorSurvay)
     {
         var survay = FindExistingDoctorSurvay(doctorSurvay.DoctorEmail, doctorSurvay.PatientEmail);
         if (survay != null)
         {
             _doctorSurvayRepository.Delete(survay);
-            _doctorSurvayRepository.Insert(new DoctorSurvay(doctorSurvay));
+            _doctorSurvayRepository.Insert(new DoctorSurvey(doctorSurvay));
         }
         else 
-            _doctorSurvayRepository.Insert(new DoctorSurvay(doctorSurvay));
+            _doctorSurvayRepository.Insert(new DoctorSurvey(doctorSurvay));
 
     }
 
-    public void AddHospitalSurvay(HospitalSurvayDTO hospitalSurvay)
+    public void AddHospitalSurvay(HospitalSurveyDTO hospitalSurvay)
     {
         var survay = FindHospitalSurvayForPatient(hospitalSurvay.PatientEmail);
         if (survay != null)
         {
             _hospitalSurvayRepository.Delete(survay);
-            _hospitalSurvayRepository.Insert(new HospitalSurvay(hospitalSurvay));
+            _hospitalSurvayRepository.Insert(new HospitalSurvey(hospitalSurvay));
         }
         else
-            _hospitalSurvayRepository.Insert(new HospitalSurvay(hospitalSurvay));
+            _hospitalSurvayRepository.Insert(new HospitalSurvey(hospitalSurvay));
     }
 
-    public List<DoctorSurvay> FindSurvaysForDoctor(string doctorEmail)
+    public List<DoctorSurvey> FindSurvaysForDoctor(string doctorEmail)
     {
         return GetAllDoctorSurvays().Where(survay => survay.DoctorEmail == doctorEmail).ToList();
     }
@@ -75,7 +75,7 @@ public class SurvayService : ISurvayService
         return avg;
     }
 
-    public HospitalSurvay? FindHospitalSurvayForPatient(string patientEmail)
+    public HospitalSurvey? FindHospitalSurvayForPatient(string patientEmail)
     {
         return GetAllHospitalSurvays()!.FirstOrDefault(survay => survay.PatientEmail == patientEmail);
     }

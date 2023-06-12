@@ -25,7 +25,7 @@
         <DataTemplate DataType="{x:Type viewModels:AllNotificationsViewModel}">
             <patientV:AllNotificationsView />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:CreateHospitalSurvayViewModel}">
+        <DataTemplate DataType="{x:Type viewModels:CreateHospitalSurveyViewModel}">
             <patientV:CreateHospitalSurvayView />
         </DataTemplate>
     </Window.Resources>

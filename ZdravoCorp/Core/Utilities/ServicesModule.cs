@@ -43,7 +43,7 @@ public class ServicesModule : Autofac.Module
         builder.RegisterType<RenovationService>().As<IRenovationService>().SingleInstance();
         builder.RegisterType<ManageRenovationService>().As<IManageRenovationService>().SingleInstance();
         builder.RegisterType<NotificationService>().As<INotificationService>().SingleInstance();
-        builder.RegisterType<SurvayService>().As<ISurvayService>().SingleInstance();
+        builder.RegisterType<SurveyService>().As<ISurveyService>().SingleInstance();
 
 
     }

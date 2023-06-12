@@ -286,7 +286,7 @@ public class ScheduleService : IScheduleService
 
         return availablePairs;
     }
-
+//adadadada
     public List<Tuple<TimeSlot, Doctor>> GetNearesThreeSlotsByTimePriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate,
         IDoctorService doctorService)
     {
@@ -297,14 +297,7 @@ public class ScheduleService : IScheduleService
             var finedSlots = new List<TimeSlot>();
             for (var i = 0; i < 3; i++)
             {
-                var availableTimeSlot =
-                    FindAvailableTimeslotsForOneDoctor(sameSpecDoctor.Email, wantedTime, lastDate, finedSlots);
-                if (availableTimeSlot == null)
-                    break;
-                finedSlots.Add(availableTimeSlot);
-                nearestThreeSlots.Add(new Tuple<TimeSlot, Doctor>(availableTimeSlot, sameSpecDoctor));
-                if (nearestThreeSlots.Count == 3)
-                    return nearestThreeSlots;
+                return GetFindSLots(wantedTime, lastDate, sameSpecDoctor, finedSlots, nearestThreeSlots);
             }
         }
 
@@ -314,14 +307,7 @@ public class ScheduleService : IScheduleService
             var finedSlots = new List<TimeSlot>();
             for (var i = 0; i < 3; i++)
             {
-                var availableTimeSlot =
-                    FindAvailableTimeslotsForOneDoctor(doctor.Email, wantedTime, lastDate, finedSlots);
-                if (availableTimeSlot == null)
-                    break;
-                finedSlots.Add(availableTimeSlot);
-                nearestThreeSlots.Add(new Tuple<TimeSlot, Doctor>(availableTimeSlot, anyDoctor));
-                if (nearestThreeSlots.Count == 3)
-                    return nearestThreeSlots;
+                return GetFindSLots(wantedTime, lastDate, anyDoctor, finedSlots, nearestThreeSlots);
             }
         }
 
@@ -329,6 +315,19 @@ public class ScheduleService : IScheduleService
         var slotsLeftToFind = GetNearestSlotsByDoctorPriority(howManyLeftToFind, doctor.Email, wantedTime, lastDate);
         nearestThreeSlots.AddRange(slotsLeftToFind.Select(slot => new Tuple<TimeSlot, Doctor>(slot, doctor)));
 
+        return nearestThreeSlots;
+    }
+
+    private List<Tuple<TimeSlot, Doctor>> GetFindSLots(TimeSlot wantedTime, DateTime lastDate, Doctor sameSpecDoctor, List<TimeSlot> finedSlots,
+        List<Tuple<TimeSlot, Doctor>> nearestThreeSlots)
+    {
+        var availableTimeSlot =
+            FindAvailableTimeslotsForOneDoctor(sameSpecDoctor.Email, wantedTime, lastDate, finedSlots);
+        if (availableTimeSlot == null)
+            return nearestThreeSlots; // break;
+        finedSlots.Add(availableTimeSlot);
+        nearestThreeSlots.Add(new Tuple<TimeSlot, Doctor>(availableTimeSlot, sameSpecDoctor));
+        if (nearestThreeSlots.Count != 3) return nearestThreeSlots;
         return nearestThreeSlots;
     }
 

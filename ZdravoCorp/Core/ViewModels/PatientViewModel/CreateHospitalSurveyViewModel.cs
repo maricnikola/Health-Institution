@@ -12,9 +12,9 @@ using ZdravoCorp.Core.Services.ServayServices;
 
 namespace ZdravoCorp.Core.ViewModels.PatientViewModel;
 
-public class CreateHospitalSurvayViewModel : ViewModelBase
+public class CreateHospitalSurveyViewModel : ViewModelBase
 {
-    private ISurvayService _survayService;
+    private ISurveyService _survayService;
     private string _patientEmail;
     private string _comment = "";
     private string _serviceGrade;
@@ -24,7 +24,7 @@ public class CreateHospitalSurvayViewModel : ViewModelBase
     private bool _noChecked;
     public ICommand CreateHospitalSurvayCommand { get; set; }
 
-    public CreateHospitalSurvayViewModel(ISurvayService survayService, string patientEmail)
+    public CreateHospitalSurveyViewModel(ISurveyService survayService, string patientEmail)
     {
         _survayService = survayService;
         _patientEmail = patientEmail;
@@ -107,7 +107,7 @@ public class CreateHospitalSurvayViewModel : ViewModelBase
         _yesChecked = true;
     }
 
-    private void FillInputFieldsWithSurvay(HospitalSurvay survay)
+    private void FillInputFieldsWithSurvay(HospitalSurvey survay)
     {
         _serviceGrade = survay.ServiceGrade.ToString();
         _hygieneGrade = survay.HygieneGrade.ToString();
@@ -120,7 +120,7 @@ public class CreateHospitalSurvayViewModel : ViewModelBase
     public void CreateHospitalSurvay()
     {
         var survay =
-            new HospitalSurvayDTO(_patientEmail, int.Parse(ServiceGrade), int.Parse(HygieneGrade),
+            new HospitalSurveyDTO(_patientEmail, int.Parse(ServiceGrade), int.Parse(HygieneGrade),
                 int.Parse(OverallGrade), YesChecked, Comment);
         _survayService.AddHospitalSurvay(survay);
         MessageBox.Show("Survay added successfully", "Success", MessageBoxButton.OK);

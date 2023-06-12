@@ -121,21 +121,6 @@ public class ChatViewModel : ViewModelBase
 
     public ICommand SendCommand { get; }
 
-    //private void OnMessageReceived(SocketMessage message)
-    //{
-    //    // Add the received message to the chat window
-    //    App.Current.Dispatcher.Invoke(() =>
-    //    {
-    //        var newMessage = new MessageViewModel
-    //        {
-    //            Sender = message.Author.Username,
-    //            Content = message.Content
-    //        };
-
-    //        Messages.Add(newMessage);
-    //    });
-    //}
-
     private void SendMessage()
     {
         _discordClient.GetGuild(1114665077916835952)
@@ -143,10 +128,5 @@ public class ChatViewModel : ViewModelBase
             .SendMessageAsync(InputText);
 
         InputText = "";
-    }
-    public class MessageViewModel
-    {
-        public string Sender { get; set; }
-        public string Content { get; set; }
     }
 }
