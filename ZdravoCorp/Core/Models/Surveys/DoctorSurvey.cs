@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace ZdravoCorp.Core.Models.Survays;
+namespace ZdravoCorp.Core.Models.Surveys;
 
 public class DoctorSurvey
 {
@@ -27,13 +27,13 @@ public class DoctorSurvey
         Comment = comment;
     }
 
-    public DoctorSurvey(DoctorSurveyDTO doctorSurvayDto)
+    public DoctorSurvey(DoctorSurveyDTO doctorSurveyDto)
     {
-        Id = doctorSurvayDto.Id;
-        DoctorEmail = doctorSurvayDto.DoctorEmail;
-        PatientEmail = doctorSurvayDto.PatientEmail;
-        Grade = doctorSurvayDto.Grade;
-        Recommendation = doctorSurvayDto.Recommendation;
-        Comment = doctorSurvayDto.Comment;
+        Id = doctorSurveyDto.Id;
+        DoctorEmail = doctorSurveyDto.DoctorEmail;
+        PatientEmail = doctorSurveyDto.PatientEmail;
+        Grade = doctorSurveyDto.Grade;
+        Recommendation = doctorSurveyDto.Recommendation;
+        Comment = doctorSurveyDto.Comment;
     }
 }

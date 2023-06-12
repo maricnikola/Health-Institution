@@ -1,11 +1,11 @@
-﻿using ZdravoCorp.Core.Models.Survays;
+﻿using ZdravoCorp.Core.Models.Surveys;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
 public class CommentViewModel : ViewModelBase
 {
-    private HospitalSurvay _survey;
-    public CommentViewModel(HospitalSurvay survey)
+    private HospitalSurvey _survey;
+    public CommentViewModel(HospitalSurvey survey)
     {
         _survey = survey;
     }

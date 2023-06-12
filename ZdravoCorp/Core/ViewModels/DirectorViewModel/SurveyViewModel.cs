@@ -1,13 +1,13 @@
-﻿using ZdravoCorp.Core.Models.Survays;
+﻿using ZdravoCorp.Core.Models.Surveys;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
 public class SurveyViewModel : ViewModelBase
 {
-    private readonly HospitalSurvay _survey;
+    private readonly HospitalSurvey _survey;
 
 
-    public SurveyViewModel(HospitalSurvay survey)
+    public SurveyViewModel(HospitalSurvey survey)
     {
         _survey = survey;
     }
