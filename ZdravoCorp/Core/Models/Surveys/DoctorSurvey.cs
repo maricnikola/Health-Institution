@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace ZdravoCorp.Core.Models.Survays;
 
-public class DoctorSurvay
+public class DoctorSurvey
 {
     public int Id { get; set; }
     public string DoctorEmail { get; set; }
@@ -17,7 +17,7 @@ public class DoctorSurvay
     public string Comment { get; set; }
 
     [JsonConstructor]
-    public DoctorSurvay(int id,string doctorEmail, string patientEmail, int grade, bool recommendation, string comment)
+    public DoctorSurvey(int id,string doctorEmail, string patientEmail, int grade, bool recommendation, string comment)
     {
         Id = id;
         DoctorEmail = doctorEmail;
@@ -27,7 +27,7 @@ public class DoctorSurvay
         Comment = comment;
     }
 
-    public DoctorSurvay(DoctorSurvayDTO doctorSurvayDto)
+    public DoctorSurvey(DoctorSurveyDTO doctorSurvayDto)
     {
         Id = doctorSurvayDto.Id;
         DoctorEmail = doctorSurvayDto.DoctorEmail;

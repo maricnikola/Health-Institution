@@ -15,9 +15,9 @@ using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.ViewModels.PatientViewModel;
 
-public class DoctorSurvayViewModel : ViewModelBase
+public class DoctorSurveyViewModel : ViewModelBase
 {
-    private ISurvayService _survayService;
+    private ISurveyService _survayService;
     private IDoctorService _doctorService;
     private Doctor? _doctor;
     private string _patientEmail;
@@ -27,9 +27,9 @@ public class DoctorSurvayViewModel : ViewModelBase
     private string _comment = "";
 
     public ICommand SubmitSurvayCommand { get; set; }
-    public DoctorSurvayViewModel(IDoctorService doctorService,string doctorEmail, string patientEmail)
+    public DoctorSurveyViewModel(IDoctorService doctorService,string doctorEmail, string patientEmail)
     {
-        _survayService = Injector.Container.Resolve<ISurvayService>();
+        _survayService = Injector.Container.Resolve<ISurveyService>();
         _doctorService = doctorService;
         _doctor = doctorService.GetByEmail(doctorEmail);
         _patientEmail = patientEmail;
@@ -95,7 +95,7 @@ public class DoctorSurvayViewModel : ViewModelBase
         _yesChecked = true;
     }
 
-    private void FillInputFieldsWithSurvay(DoctorSurvay survay)
+    private void FillInputFieldsWithSurvay(DoctorSurvey survay)
     {
         _selectedGrade = survay.Grade.ToString();
         _yesChecked = survay.Recommendation;
@@ -105,7 +105,7 @@ public class DoctorSurvayViewModel : ViewModelBase
 
     private void SubmitSurvayComm()
     {
-        var survay = new DoctorSurvayDTO(IDGenerator.GetId(), _doctor.Email, _patientEmail,
+        var survay = new DoctorSurveyDTO(IDGenerator.GetId(), _doctor.Email, _patientEmail,
             int.Parse(SelectedGrade), YesChecked, Comment);
         _survayService.AddDoctorSuvay(survay);
         MessageBox.Show("Survay created successfully", "Success", MessageBoxButton.OK);

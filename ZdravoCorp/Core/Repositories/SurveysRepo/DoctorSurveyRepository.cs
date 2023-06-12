@@ -10,14 +10,14 @@ using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Repositories.SurvaysRepo;
 
-public class DoctorSurvayRepository : ISerializable, IDoctorSurvayRepository
+public class DoctorSurveyRepository : ISerializable, IDoctorSurveyRepository
 {
-    private readonly string _fileName = @".\..\..\..\Data\doctorSurvays.json";
-    private List<DoctorSurvay>? _survays;
+    private readonly string _fileName = @".\..\..\..\Data\doctorSurveys.json";
+    private List<DoctorSurvey>? _survays;
 
-    public DoctorSurvayRepository()
+    public DoctorSurveyRepository()
     {
-        _survays = new List<DoctorSurvay>();
+        _survays = new List<DoctorSurvey>();
         Serializer.Load(this);
     }
 
@@ -33,27 +33,27 @@ public class DoctorSurvayRepository : ISerializable, IDoctorSurvayRepository
 
     public void Import(JToken token)
     {
-        _survays = token.ToObject<List<DoctorSurvay>>();
+        _survays = token.ToObject<List<DoctorSurvey>>();
     }
 
-    public IEnumerable<DoctorSurvay> GetAll()
+    public IEnumerable<DoctorSurvey> GetAll()
     {
         return _survays;
     }
 
-    public void Insert(DoctorSurvay survay)
+    public void Insert(DoctorSurvey survay)
     {
         _survays.Add(survay);
         Serializer.Save(this);
     }
 
-    public void Delete(DoctorSurvay survay)
+    public void Delete(DoctorSurvey survay)
     {
         _survays.Remove(survay);
         Serializer.Save(this);
     }
 
-    public DoctorSurvay GetById(int id)
+    public DoctorSurvey GetById(int id)
     {
         return _survays.FirstOrDefault(survay=> survay.Id == id);
     }

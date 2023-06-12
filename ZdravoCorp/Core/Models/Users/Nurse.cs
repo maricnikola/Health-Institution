@@ -6,16 +6,19 @@ namespace ZdravoCorp.Core.Models.Users;
 public class Nurse
 {
     [JsonConstructor]
-    public Nurse(string email, string firstName, string lastName)
+    public Nurse(string email, string firstName, string lastName, string discordToken)
     {
         Email = email;
         FirstName = firstName;
         LastName = lastName;
+        DiscordToken = discordToken;
     }
 
     public string Email { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
+    public string DiscordToken { get; set; }
+
 
     [JsonIgnore] public string FullName => string.Format("Nurse {0} {1}", FirstName, LastName);
 
@@ -24,6 +27,13 @@ public class Nurse
         Email=nurseDto.Email;
         FirstName=nurseDto.FirstName;
         LastName=nurseDto.LastName;
+    }
+
+    public Nurse(string email, string firstName, string lastName)
+    {
+        Email = email;
+        FirstName = firstName;
+        LastName = lastName;
     }
 
     protected bool Equals(Nurse other)

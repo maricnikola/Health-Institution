@@ -19,16 +19,18 @@ public class Doctor
     public string LastName { get; set; }
     public SpecializationType Specialization { get; set; }
     public double Grade { get; set; }
+    public string DiscordToken { get; set; }
 
 
     [JsonConstructor]
-    public Doctor(string email, string firstName, string lastName, SpecializationType specialization, double grade)
+    public Doctor(string email, string firstName, string lastName, SpecializationType specialization, double grade, string discordToken)
     {
         Email = email;
         FirstName = firstName;
         LastName = lastName;
         Specialization = specialization;
         Grade = grade;
+        DiscordToken = discordToken;
     }
 
     public Doctor(DoctorDTO doctorDto)
