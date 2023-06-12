@@ -1,1 +1,40 @@
-[{"Id":471,"Room":{"Id":150,"Type":3,"IsUnderRenovation":false},"Slot":{"Start":"2023-05-26T00:00:00","End":"2023-05-26T00:14:00"},"Split":{"Id":470,"Type":3,"IsUnderRenovation":false},"Join":null,"Status":2},{"Id":472,"Room":{"Id":150,"Type":3,"IsUnderRenovation":false},"Slot":{"Start":"2023-05-26T00:32:00","End":"2023-05-26T00:35:00"},"Split":null,"Join":{"Id":114,"Type":2,"IsUnderRenovation":false},"Status":2},{"Id":474,"Room":{"Id":111,"Type":2,"IsUnderRenovation":false},"Slot":{"Start":"2023-05-25T23:56:00","End":"2023-05-25T23:59:00"},"Split":{"Id":473,"Type":2,"IsUnderRenovation":false},"Join":null,"Status":3},{"Id":647,"Room":{"Id":102,"Type":1,"IsUnderRenovation":false},"Slot":{"Start":"2023-05-30T20:00:00","End":"2023-06-05T00:00:00"},"Split":null,"Join":null,"Status":2},{"Id":649,"Room":{"Id":114,"Type":2,"IsUnderRenovation":false},"Slot":{"Start":"2023-06-08T00:00:00","End":"2023-06-10T00:00:00"},"Split":{"Id":648,"Type":2,"IsUnderRenovation":false},"Join":null,"Status":2}]
+[
+  {
+    "Id": 471,
+    "Room": {
+      "Id": 150,
+      "Type": 3,
+      "IsUnderRenovation": false
+    },
+    "Slot": {
+      "Start": "2023-05-26T00:00:00",
+      "End": "2023-05-26T00:14:00"
+    },
+    "Split": {
+      "Id": 470,
+      "Type": 3,
+      "IsUnderRenovation": false
+    },
+    "Join": null,
+    "Status": 2
+  },
+  {
+    "Id": 472,
+    "Room": {
+      "Id": 150,
+      "Type": 3,
+      "IsUnderRenovation": false
+    },
+    "Slot": {
+      "Start": "2023-05-26T00:32:00",
+      "End": "2023-05-26T00:35:00"
+    },
+    "Split": null,
+    "Join": {
+      "Id": 114,
+      "Type": 2,
+      "IsUnderRenovation": false
+    },
+    "Status": 2
+  }
+]

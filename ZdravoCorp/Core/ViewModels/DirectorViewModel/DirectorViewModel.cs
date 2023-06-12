@@ -12,6 +12,7 @@ using ZdravoCorp.Core.Services.InventoryServices;
 using ZdravoCorp.Core.Services.OrderServices;
 using ZdravoCorp.Core.Services.RenovationServices;
 using ZdravoCorp.Core.Services.RoomServices;
+using ZdravoCorp.Core.Services.ServayServices;
 using ZdravoCorp.Core.Services.TransferServices;
 using ZdravoCorp.Core.Utilities;
 
@@ -27,6 +28,7 @@ public class DirectorViewModel : ViewModelBase
     private readonly IRoomService _roomService;
     private readonly ITransferService _transferService;
     private readonly IRenovationService _renovationService;
+    private readonly ISurveyService _surveyService;
 
     public DirectorViewModel()
     {
@@ -36,10 +38,14 @@ public class DirectorViewModel : ViewModelBase
         _roomService = Injector.Container.Resolve<IRoomService>();
         _transferService = Injector.Container.Resolve<ITransferService>();
         _renovationService = Injector.Container.Resolve<IRenovationService>();
+        _surveyService = Injector.Container.Resolve<ISurveyService>();
         ViewEquipmentCommand = new DelegateCommand(o => EquipmentView());
         MoveEquipmentCommand = new DelegateCommand(o => MoveEquipmentView());
         ViewDynamicEquipmentCommand = new DelegateCommand(o => DynamicEquipmentView());
         MoveDynamicEquipmentCommand = new DelegateCommand(o => MoveDynamicEquipmentView());
+        AnnualRequestsCommand = new DelegateCommand(o => AnnualRequestsView());
+        HospitalAnalyticsCommand = new DelegateCommand(o => HospitalAnalyticsView());
+        DoctorAnalyticsCommand = new DelegateCommand(o => DoctorAnalyticsView());
         RenovationCommand = new DelegateCommand(o => RenovationView());
         _currentView = new EquipmentPaneViewModel(_inventoryService);
     }
@@ -49,6 +55,9 @@ public class DirectorViewModel : ViewModelBase
     public ICommand MoveDynamicEquipmentCommand { get; private set; }
     public ICommand MoveEquipmentCommand { get; private set; }
     public ICommand RenovationCommand { get; private set; }
+    public ICommand HospitalAnalyticsCommand { get; private set; }
+    public ICommand DoctorAnalyticsCommand { get; private set; }
+    public ICommand AnnualRequestsCommand { get; private set; }
 
 
     public object CurrentView
@@ -83,5 +92,19 @@ public class DirectorViewModel : ViewModelBase
     public void RenovationView()
     {
         CurrentView = new RenovationsViewModel(_roomService, _renovationService);
+    }
+    
+    public void AnnualRequestsView()
+    {
+        CurrentView = new AnnualRequestsViewModel();
+    }
+    
+    public void HospitalAnalyticsView()
+    {
+        CurrentView = new HospitalAnalyticsViewModel(_surveyService);
+    }  
+    public void DoctorAnalyticsView()
+    {
+        CurrentView = new DoctorAnalyticsViewModel();
     }
 }

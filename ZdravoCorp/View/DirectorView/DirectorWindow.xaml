@@ -23,6 +23,12 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type director:RenovationsViewModel}">
             <directorView:RenovationView />
+        </DataTemplate>        
+        <DataTemplate DataType="{x:Type director:AnnualRequestsViewModel}">
+            <directorView:AnnualRequestsView />
+        </DataTemplate>        
+        <DataTemplate DataType="{x:Type director:HospitalAnalyticsViewModel}">
+            <directorView:HospitalAnalyticsView />
         </DataTemplate>
 
     </Window.Resources>
@@ -46,8 +52,13 @@
                          Style="{DynamicResource ToggleTheme}" Command="{Binding MoveEquipmentCommand}" />
             <RadioButton Content="Move Dynamic Equipment" Height="50" Foreground="WhiteSmoke"
                          Style="{DynamicResource ToggleTheme}" Command="{Binding MoveDynamicEquipmentCommand}" />
-            <RadioButton Content="Room Renovation" Height="50" Foreground="WhiteSmoke"
-                         Style="{DynamicResource ToggleTheme}" Command="{Binding RenovationCommand}" />
+            <RadioButton Content="Annual Leave" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding AnnualRequestsCommand}" />
+            <RadioButton Content="Hospital Analytics" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding HospitalAnalyticsCommand}" />            
+            <RadioButton Content="Doctor Analytics" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding DoctorAnalyticsCommand}" />            
+            
 
         </StackPanel>
         <ContentControl Grid.RowSpan="2" Background="#29262e" Content="{Binding Path=CurrentView}" Grid.Row="0"
