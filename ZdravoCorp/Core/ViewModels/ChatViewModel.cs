@@ -23,18 +23,15 @@ public class ChatViewModel : ViewModelBase
     {
         var config = new DiscordSocketConfig
         {
-            // Other configurations
             GatewayIntents = GatewayIntents.Guilds | GatewayIntents.GuildMessages | GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent
         };
         _discordClient = new DiscordSocketClient(config);
         _messages = new ObservableCollection<MessageViewModel>();
 
-        // Configure Discord bot events
         //_discordClient.MessageReceived += OnMessageReceived;
         _discordClient.MessageReceived += async (message) => await OnMessageReceived(message);
 
 
-        // Connect and start the Discord bot
         _discordClient.LoginAsync(TokenType.Bot, clientToken).Wait();
         _discordClient.StartAsync().Wait();
 
@@ -59,21 +56,23 @@ public class ChatViewModel : ViewModelBase
     private async void InitializeAsync()
     {
         var counter = 0;
-        while (counter < 6)
+        while (counter < 20)
         {
             try
             {
-                await Task.Delay(10000); // Introduce a delay of 2 seconds (adjust as needed)
+                await Task.Delay(1000); 
                 await LoadPreviousMessagesAsync();
                 break;
             }
             catch
             {
                 counter++;
-                continue;
             }
         }
-        
+        if (counter==21)
+            MessageBox.Show("connection with discord server failed, check your connection", "Error", MessageBoxButton.OK);
+
+
     }
 
     private async Task LoadPreviousMessagesAsync()
@@ -83,14 +82,11 @@ public class ChatViewModel : ViewModelBase
 
     private async Task LoadPreviousMessages()
     {
-        // Get the Discord guild and channel objects based on your guild and channel IDs
         var channel = _discordClient.GetGuild(1114665077916835952).GetTextChannel(1114665079158341764);
         //var channel1 = guild.GetTextChannel(1114665079158341764);
 
-        // Fetch the previous messages from the channel
         var messages = await channel.GetMessagesAsync().FlattenAsync();
 
-        // Convert the Discord messages to MessageViewModels and add them to the Messages collection
         foreach (var message in messages)
         {
             var messageViewModel = new MessageViewModel
@@ -142,14 +138,10 @@ public class ChatViewModel : ViewModelBase
 
     private void SendMessage()
     {
-        //LoadPreviousMessagesAsync();
-
-        // Send the message to the Discord channel
         _discordClient.GetGuild(1114665077916835952)
             .GetTextChannel(1114665079158341764)
             .SendMessageAsync(InputText);
 
-        // Clear the input field
         InputText = "";
     }
     public class MessageViewModel
