@@ -21,7 +21,10 @@ public interface ISurveyService
     public int[] GetHospitalServiceGrades();
     public int[] GetHospitalHygieneGrades();
     public int[] GetHospitalOverallGrades();
-    
+    public int[] GetGradesForDoctor(string doctorEmail);
+    public Dictionary<string, double> GetAllDoctorsWithGrades();
+   
+
 
 
 }

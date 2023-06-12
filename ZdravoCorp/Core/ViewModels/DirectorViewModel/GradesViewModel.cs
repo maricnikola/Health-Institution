@@ -19,6 +19,8 @@ public class GradesViewModel : ViewModelBase
             sum += grades[i] * (i + 1);
         }
         Overall = String.Format("{0:0.00}", (sum / count));
+        if (Overall == "NaN")
+            Overall = "0.00";
         Type = type;
     }
     public string Type { get; set; }
