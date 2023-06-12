@@ -39,22 +39,12 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
-                                <Grid Margin="0,25,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="Service:" Foreground="WhiteSmoke" VerticalAlignment="Center"></Label>
-                        <Label Grid.Row="1" Content="Hygiene:" Foreground="WhiteSmoke" VerticalAlignment="Center"></Label>
-                        <Label Grid.Row="2" Content="Overall:" Foreground="WhiteSmoke" VerticalAlignment="Center"></Label>
-                    </Grid>
-                    <Grid Grid.Column="1" Margin="5">
+            <Grid Grid.Column="1" Margin="5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Background="DimGray" Margin="75,0,0,0">
                             <TextBlock Text="1☆" Foreground="WhiteSmoke" FontSize="20" Margin="15,0"></TextBlock>
                             <TextBlock Text="2☆" Foreground="WhiteSmoke" FontSize="20" Margin="15,0"></TextBlock>
                             <TextBlock Text="3☆" Foreground="WhiteSmoke" FontSize="20" Margin="15,0"></TextBlock>
@@ -62,19 +52,23 @@
                             <TextBlock Text="5☆" Foreground="WhiteSmoke" FontSize="20" Margin="15,0"></TextBlock>
                             <TextBlock Text="☆" Foreground="WhiteSmoke" FontSize="20" Margin="15,0"></TextBlock>
                         </StackPanel>
-                        <DataGrid Grid.Row="1" Background="Transparent" HorizontalContentAlignment="Center" Margin="0,0,0,0" BorderThickness="0" HeadersVisibility="None">
+                        <DataGrid Grid.Row="1" Background="Transparent" HorizontalContentAlignment="Center" Margin="0,25,0,0"
+                                  BorderThickness="0" HeadersVisibility="None" ItemsSource="{Binding Grades}" RowBackground="Transparent"
+                                  RowHeight="60" IsReadOnly="True" IsHitTestVisible="False" AutoGenerateColumns="False" Foreground="WhiteSmoke" GridLinesVisibility="None" FontSize="18">
                                                 <DataGrid.Resources>
                                                     <Style TargetType="DataGridCell">
                                                         <Setter Property="TextBlock.TextAlignment" Value="Center" />
                                                     </Style>
                                                 </DataGrid.Resources>
                                                 <DataGrid.Columns>
-                                                    <DataGridTextColumn Header="1☆" Width="57" ></DataGridTextColumn>
-                                                    <DataGridTextColumn Header="1☆" Width="57"></DataGridTextColumn>
-                                                    <DataGridTextColumn Header="1☆" Width="57"></DataGridTextColumn>
-                                                    <DataGridTextColumn Header="1☆" Width="57"></DataGridTextColumn>
-                                                    <DataGridTextColumn Header="1☆" Width="57"></DataGridTextColumn>
-                                                    <DataGridTextColumn Header="1☆" Width="57"></DataGridTextColumn>
+                                                    
+                                                    <DataGridTextColumn Binding="{Binding Type}" Width="75" ></DataGridTextColumn>
+                                                    <DataGridTextColumn Binding="{Binding OneStar}" Width="57" ></DataGridTextColumn>
+                                                    <DataGridTextColumn Binding="{Binding TwoStar}" Width="57" ></DataGridTextColumn>
+                                                    <DataGridTextColumn Binding="{Binding ThreeStar}" Width="57" ></DataGridTextColumn>
+                                                    <DataGridTextColumn Binding="{Binding FourStar}" Width="57" ></DataGridTextColumn>
+                                                    <DataGridTextColumn Binding="{Binding FiveStar}" Width="57" ></DataGridTextColumn>
+                                                    <DataGridTextColumn Binding="{Binding Overall}" Width="57" ></DataGridTextColumn>
                                                 </DataGrid.Columns>
                         </DataGrid>
                     </Grid>
@@ -95,7 +89,7 @@
                           IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,0" Name="Comments" >
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="User" Width="100" x:Name="Name" Binding="{Binding User}" />
-                        <DataGridTextColumn Header="Comment" Width="150" Binding="{Binding Comment}" />
+                        <DataGridTextColumn Header="Comment" Width="150" Binding="{Binding Text}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
