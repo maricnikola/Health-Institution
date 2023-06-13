@@ -1,4 +1,5 @@
-﻿using ZdravoCorp.Core.Models.Rooms;
+﻿using System;
+using ZdravoCorp.Core.Models.Rooms;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
@@ -19,6 +20,6 @@ public class RoomViewModel : ViewModelBase
 
     public override string ToString()
     {
-        return $"{nameof(Id)}: {Id}, {nameof(Type)}: {Type}, {nameof(IsUnderRenovation)}: {IsUnderRenovation}";
+        return String.Format("{0,-5} | {1, -15} | {2, 10}", Id, Type, IsUnderRenovation);
     }
 }

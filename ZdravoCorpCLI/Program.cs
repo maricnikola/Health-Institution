@@ -9,7 +9,9 @@ using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Models.Appointments;
+using ZdravoCorp.Core.Utilities.CronJobs;
 using ZdravoCorp.Core.ViewModels;
+using ZdravoCorpCLI;
 
 
 public class Program
@@ -28,8 +30,12 @@ public class Program
 
     static void Main()
     {
+        var idg = new IDGenerator();
         Injector.Configure();
-        _scheduleService = Injector.Container.Resolve<IScheduleService>();
+        var scheduler = new JobScheduler();
+        var complexRenovations = new ComplexRenovations();
+        complexRenovations.Run();
+        /*_scheduleService = Injector.Container.Resolve<IScheduleService>();
         _doctorService = Injector.Container.Resolve<IDoctorService>();
 
 
@@ -169,5 +175,6 @@ public class Program
         {
             Console.WriteLine("An error occurred: " + e.Message);
         }
+    */
     }
 }
