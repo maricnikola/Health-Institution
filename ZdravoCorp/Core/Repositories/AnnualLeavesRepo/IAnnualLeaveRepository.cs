@@ -8,11 +8,8 @@ using ZdravoCorp.Core.Models.HospitalRefferals;
 
 namespace ZdravoCorp.Core.Repositories.AnnualLeavesRepo;
 
-public interface IAnnualLeaveRepository
+public interface IAnnualLeaveRepository : IRepository<AnnualLeave>
 {
-    public void Insert(AnnualLeave newAnnualLeave);
-    public void SaveChanges();
-    public List<AnnualLeave> GetAll();
-    public void Delete(AnnualLeave entity);
-    public AnnualLeave GetById(int id);
+    public void UpdateStatus(int id, AnnualLeave.Status status);
+
 }

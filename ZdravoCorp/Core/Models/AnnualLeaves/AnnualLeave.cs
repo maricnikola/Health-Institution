@@ -24,6 +24,7 @@ public class AnnualLeave
         DoctorMail = doctorMail;
         RequestStatus = status;
     }
+    
     public enum Status{
         Approved,
         Denied, 

@@ -30,14 +30,23 @@ public class AnnualLeaveService: IAnnualLeaveService
         return _annualLeaveRepository.GetById(id);
     }
 
-    public void AddAnnualLeave(AnnualLeave annualLeave)
+    public void AddAnnualLeave(AnnualLeaveDTO annualLeave)
     {
-        _annualLeaveRepository.Insert(annualLeave);
+        _annualLeaveRepository.Insert(new AnnualLeave(annualLeave.Reason, annualLeave.Time, annualLeave.Id, annualLeave.DoctorMail, annualLeave.RequestStatus));
     }
 
     public void Delete(int id)
     {
         _annualLeaveRepository.Delete(GetById(id));
     }
-    
+
+    public void Approve(int id)
+    {
+        _annualLeaveRepository.UpdateStatus(id, AnnualLeave.Status.Approved);
+    }
+
+    public void Deny(int id)
+    {
+        _annualLeaveRepository.UpdateStatus(id, AnnualLeave.Status.Denied);
+    }
 }

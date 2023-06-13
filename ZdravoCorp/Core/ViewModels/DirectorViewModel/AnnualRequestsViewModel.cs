@@ -11,7 +11,7 @@ public class AnnualRequestsViewModel : ViewModelBase
     private IAnnualLeaveService _annualLeaveService;
     private ObservableCollection<AnnualLeaveRequest> _requests;
     
-    public AnnualLeaveRequest SelectedRequest { get; set; }
+    public AnnualLeaveRequest? SelectedRequest { get; set; }
     
     public ICommand ApproveAnnualRequestCommand { get; set; }
     public ICommand DenyAnnualRequestCommand { get; set; }
