@@ -161,12 +161,16 @@ public class ScheduleRenovationWindowViewModel : ViewModelBase
     {
         if (SelectedStartDate != null && SelectedEndDate != null)
         {
-            if (GenerateTimeSpan() && _scheduleService.CheckRoomAvailability(SelectedRoom, _renovationTimeSlot))
+            if (GenerateTimeSpan() && _scheduleService.CheckRoomAvailability(SelectedRoom, _renovationTimeSlot) && !_renovationService.IsRenovationScheduled(SelectedRoom, _renovationTimeSlot))
             {
                 IsRoomAvailable = true;
+                if (IsSplitChecked && SplitRoomType == "")
+                {
+                    return false;
+                }
                 if (IsJoinChecked)
                 {
-                    if (JoinRoomId != 0 && !_roomService.GetById(JoinRoomId).IsUnderRenovation&&_scheduleService.CheckRoomAvailability(JoinRoomId, _renovationTimeSlot))
+                    if (JoinRoomId != 0 && !_roomService.GetById(JoinRoomId).IsUnderRenovation&&_scheduleService.CheckRoomAvailability(JoinRoomId, _renovationTimeSlot) && !_renovationService.IsRenovationScheduled(JoinRoomId, _renovationTimeSlot))
                     {
                         IsJoinRoomAvailable = true;
                         return true;

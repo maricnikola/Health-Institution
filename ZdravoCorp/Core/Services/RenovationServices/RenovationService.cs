@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ZdravoCorp.Core.Models.Renovation;
 using ZdravoCorp.Core.Repositories.RenovationRepo;
 using ZdravoCorp.Core.Services.RoomServices;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Services.RenovationServices;
 
@@ -55,6 +57,16 @@ public class RenovationService : IRenovationService
         DataChanged?.Invoke(this, new EventArgs());
     }
 
+    public bool IsRenovationScheduled(int roomId, TimeSlot slot)
+    {
+        foreach (var renovation in _renovationRepository.GetAll().Where(ren => ren.Room.Id == roomId || (ren.Join != null &&  ren.Join.Id == roomId)))
+        {
+            if (renovation.Status!= Renovation.RenovationStatus.Finished&&  renovation.Slot.Overlap(slot))
+                return true;
+        }
+
+        return false;
+    }
 
 
     public event EventHandler? DataChanged;
