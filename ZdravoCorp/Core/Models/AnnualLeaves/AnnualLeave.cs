@@ -14,14 +14,19 @@ public class AnnualLeave
     public TimeSlot Time { get; set; }
     public int Id { get; set; }
     public string DoctorMail { get; set; }
-    public bool Status { get; set; }
+    public Status RequestStatus { get; set; }
 
-    public AnnualLeave(string reason, TimeSlot time, int id, string doctorMail, bool status)
+    public AnnualLeave(string reason, TimeSlot time, int id, string doctorMail, Status status)
     {
         Reason = reason;
         Time = time;
         Id = id;
         DoctorMail = doctorMail;
-        Status = status;
+        RequestStatus = status;
+    }
+    public enum Status{
+        Approved,
+        Denied, 
+        Pending
     }
 }

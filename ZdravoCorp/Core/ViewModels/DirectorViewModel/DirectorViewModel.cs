@@ -7,6 +7,7 @@ using ZdravoCorp.Core.Repositories.InventoryRepo;
 using ZdravoCorp.Core.Repositories.OrderRepo;
 using ZdravoCorp.Core.Repositories.RoomRepo;
 using ZdravoCorp.Core.Repositories.TransfersRepo;
+using ZdravoCorp.Core.Services.AnnualLeaveServices;
 using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.EquipmentServices;
 using ZdravoCorp.Core.Services.InventoryServices;
@@ -31,6 +32,7 @@ public class DirectorViewModel : ViewModelBase
     private readonly IRenovationService _renovationService;
     private readonly ISurveyService _surveyService;
     private readonly IDoctorService _doctorService;
+    private readonly IAnnualLeaveService _annualLeaveService;
     
 
     public DirectorViewModel()
@@ -43,6 +45,7 @@ public class DirectorViewModel : ViewModelBase
         _renovationService = Injector.Container.Resolve<IRenovationService>();
         _surveyService = Injector.Container.Resolve<ISurveyService>();
         _doctorService = Injector.Container.Resolve<IDoctorService>();
+        _annualLeaveService = Injector.Container.Resolve<IAnnualLeaveService>();
         ViewEquipmentCommand = new DelegateCommand(o => EquipmentView());
         MoveEquipmentCommand = new DelegateCommand(o => MoveEquipmentView());
         ViewDynamicEquipmentCommand = new DelegateCommand(o => DynamicEquipmentView());
@@ -51,6 +54,7 @@ public class DirectorViewModel : ViewModelBase
         HospitalAnalyticsCommand = new DelegateCommand(o => HospitalAnalyticsView());
         DoctorAnalyticsCommand = new DelegateCommand(o => DoctorAnalyticsView());
         RenovationCommand = new DelegateCommand(o => RenovationView());
+        
         _currentView = new EquipmentPaneViewModel(_inventoryService);
     }
 
@@ -100,7 +104,7 @@ public class DirectorViewModel : ViewModelBase
     
     public void AnnualRequestsView()
     {
-        CurrentView = new AnnualRequestsViewModel();
+        CurrentView = new AnnualRequestsViewModel(_annualLeaveService);
     }
     
     public void HospitalAnalyticsView()
