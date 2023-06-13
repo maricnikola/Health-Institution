@@ -13,8 +13,9 @@ public interface IAnnualLeaveService
 {
     public List<AnnualLeave>? GetAll();
     public AnnualLeave? GetById(int id);
-    public void AddAnnualLeave(AnnualLeaveDTO annualLeave);
+    public AnnualLeaveDTO AddAnnualLeave(AnnualLeaveDTO annualLeave);
     public void Delete(int id);
     public void Approve(int id);
     public void Deny(int id);
+    public bool CheckAnnualLeaveData(string reason, TimeSlot time);
 }

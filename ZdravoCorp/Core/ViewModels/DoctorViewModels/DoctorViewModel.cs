@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Users;
+using ZdravoCorp.Core.Services.AnnualLeaveServices;
 using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.InventoryServices;
 using ZdravoCorp.Core.Services.MedicalRecordServices;
@@ -25,6 +26,7 @@ public class DoctorViewModel : ViewModelBase
     private readonly IRoomService _roomService;
     private readonly IScheduleService _scheduleService;
     private readonly ISpecialistsRefferalService _specialistsRefferalService;
+    private readonly IAnnualLeaveService _annualLeaveService;
     private readonly User _user;
 
     public DoctorViewModel(User user)
@@ -37,6 +39,7 @@ public class DoctorViewModel : ViewModelBase
         _scheduleService = Injector.Container.Resolve<IScheduleService>();
         _specialistsRefferalService = Injector.Container.Resolve<ISpecialistsRefferalService>();
         _doctor = _doctorService.GetByEmail(user.Email);
+        _annualLeaveService = Injector.Container.Resolve<IAnnualLeaveService>();
         
         var appointments = _scheduleService.GetDoctorAppointments(_doctor.Email);
         _user = user;
@@ -85,6 +88,6 @@ public class DoctorViewModel : ViewModelBase
 
     public void AddAnnualLeave()
     {
-        CurrentView = new DoctorAnnualLeaveView();
+        CurrentView = new DoctorAnnualLeaveView() { DataContext =new  DoctorAnnualLeaveViewModel(_annualLeaveService,_user.Email)};
     }
 }

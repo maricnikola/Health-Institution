@@ -18,4 +18,12 @@ public class AnnualLeaveDTO
         DoctorMail = annualLeave.DoctorMail;
         RequestStatus = annualLeave.RequestStatus;
     }
+    public AnnualLeaveDTO(string reason, TimeSlot time,string doctorMail)
+    {
+        Reason = reason;
+        Time = time;
+        RequestStatus = AnnualLeave.Status.Pending;
+        Id = IDGenerator.GetId();
+        DoctorMail = doctorMail;
+    }
 }
