@@ -2,7 +2,7 @@
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
-public class AnnualLeaveRequest : ViewModelBase
+public class AnnualLeaveRequestViewModel : ViewModelBase
 {
     private AnnualLeave _annualLeave;
 
@@ -11,8 +11,9 @@ public class AnnualLeaveRequest : ViewModelBase
     public string EndTime => _annualLeave.Time.End.ToString();
     public string Doctor => _annualLeave.DoctorMail;
     public string Status => _annualLeave.RequestStatus.ToString();
+    public int Id => _annualLeave.Id;
 
-    public AnnualLeaveRequest(AnnualLeave annualLeave)
+    public AnnualLeaveRequestViewModel(AnnualLeave annualLeave)
     {
         _annualLeave = annualLeave;
     }

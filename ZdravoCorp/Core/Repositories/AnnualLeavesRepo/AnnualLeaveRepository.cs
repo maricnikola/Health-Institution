@@ -44,7 +44,7 @@ public class AnnualLeaveRepository : ISerializable, IAnnualLeaveRepository
         Serializer.Save(this);
     }
 
-    public List<AnnualLeave> GetAll()
+    public IEnumerable<AnnualLeave> GetAll()
     {
         return _annualLeave;
     }
@@ -58,5 +58,11 @@ public class AnnualLeaveRepository : ISerializable, IAnnualLeaveRepository
     public AnnualLeave GetById(int id)
     {
         return _annualLeave.FirstOrDefault(annualLeave => annualLeave.Id == id);
+    }
+    
+    public void UpdateStatus(int id, AnnualLeave.Status status)
+    {
+        GetById(id).RequestStatus = status;
+        Serializer.Save(this);
     }
 }

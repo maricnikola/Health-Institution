@@ -9,18 +9,18 @@ namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 public class AnnualRequestsViewModel : ViewModelBase
 {
     private IAnnualLeaveService _annualLeaveService;
-    private ObservableCollection<AnnualLeaveRequest> _requests;
+    private ObservableCollection<AnnualLeaveRequestViewModel> _requests;
     
-    public AnnualLeaveRequest SelectedRequest { get; set; }
+    public AnnualLeaveRequestViewModel? SelectedRequest { get; set; }
     
     public ICommand ApproveAnnualRequestCommand { get; set; }
     public ICommand DenyAnnualRequestCommand { get; set; }
-    public IEnumerable<AnnualLeaveRequest> Requests
+    public IEnumerable<AnnualLeaveRequestViewModel> Requests
     {
         get => _requests;
         set
         {
-            _requests = new ObservableCollection<AnnualLeaveRequest>(value);
+            _requests = new ObservableCollection<AnnualLeaveRequestViewModel>(value);
             OnPropertyChanged();
         }
     }
@@ -39,7 +39,7 @@ public class AnnualRequestsViewModel : ViewModelBase
 
     private void DenyRequest()
     {
-        
+        _annualLeaveService.Deny(SelectedRequest.Id);
     }
 
     private bool CanDeny()
