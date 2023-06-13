@@ -77,7 +77,7 @@ public class HospitalAnalyticsViewModel : ViewModelBase
         foreach (var survey in _surveyService.GetAllHospitalSurveys()!)
         {
             _surveys.Add(new HospitalSurveyViewModel(survey));
-            _comments.Add(new CommentViewModel(survey));
+            _comments.Add(new CommentViewModel(survey.PatientEmail, survey.Comment));
         }
         _grades.Add(new GradesViewModel(_surveyService.GetHospitalServiceGrades(), "Service:"));
         _grades.Add(new GradesViewModel(_surveyService.GetHospitalHygieneGrades(), "Hygiene:"));

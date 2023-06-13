@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ZdravoCorp.Core.Models.Surveys;
 using ZdravoCorp.Core.Repositories.SurveysRepo;
+using ZdravoCorp.Core.Services.DoctorServices;
 
 namespace ZdravoCorp.Core.Services.ServayServices;
 
@@ -12,11 +13,13 @@ public class SurveyService : ISurveyService
 {
     private readonly IDoctorSurveyRepository _doctorSurveyRepository;
     private readonly IHospitalSurveyRepository _hospitalSurveyRepository;
+    private readonly IDoctorService _doctorService;
 
-    public SurveyService(IDoctorSurveyRepository doctorSurveyRepository, IHospitalSurveyRepository hospitalSurveyRepository)
+    public SurveyService(IDoctorSurveyRepository doctorSurveyRepository, IHospitalSurveyRepository hospitalSurveyRepository, IDoctorService doctorService)
     {
         _doctorSurveyRepository = doctorSurveyRepository;
         _hospitalSurveyRepository = hospitalSurveyRepository;
+        _doctorService = doctorService;
     }
 
     public IEnumerable<DoctorSurvey>? GetAllDoctorSurveys()
@@ -66,11 +69,11 @@ public class SurveyService : ISurveyService
 
     public double FindAverageGradeForDoctor(string doctorEmail)
     {
-        var doctorsSturvays = FindSurveysForDoctor(doctorEmail);
-        double count = doctorsSturvays.Count;
+        var doctorSurveys = FindSurveysForDoctor(doctorEmail);
+        double count = doctorSurveys.Count;
         if (count == 0)
-            return 5;
-        double sum = doctorsSturvays.Sum(survey => survey.Grade);
+            return 0;
+        double sum = doctorSurveys.Sum(survey => survey.Grade);
         double avg = sum / count;
         return avg;
     }
@@ -108,6 +111,30 @@ public class SurveyService : ISurveyService
         foreach (var survey in _hospitalSurveyRepository.GetAll())
         {
             grades[survey.OverallGrade - 1]++;
+        }
+
+        return grades;
+    }
+
+    public int[] GetGradesForDoctor(string doctorEmail)
+    {
+        int[] grades = { 0, 0, 0, 0, 0 };
+        foreach (var survey in FindSurveysForDoctor(doctorEmail))
+        {
+            grades[survey.Grade - 1]++;
+        }
+
+        return grades;
+    }
+
+    public Dictionary<string, double> GetAllDoctorsWithGrades()
+    {
+        Dictionary<string, double> grades = new Dictionary<string, double>();
+        foreach (var doctor in _doctorService.GetAll()!)
+        {
+            var grade = FindAverageGradeForDoctor(doctor.Email);
+            if (grade > 0)
+                grades[doctor.FullName] = grade;
         }
 
         return grades;

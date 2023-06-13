@@ -4,12 +4,11 @@ namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
 public class CommentViewModel : ViewModelBase
 {
-    private HospitalSurvey _survey;
-    public CommentViewModel(HospitalSurvey survey)
+    public CommentViewModel(string user, string text)
     {
-        _survey = survey;
+        User = user;
+        Text = text;
     }
-
-    public string User => _survey.PatientEmail;
-    public string Text => _survey.Comment;
+    public string User { get; }
+    public string Text { get; }
 }

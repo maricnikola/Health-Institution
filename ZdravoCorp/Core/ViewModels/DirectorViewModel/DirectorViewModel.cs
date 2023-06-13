@@ -7,6 +7,7 @@ using ZdravoCorp.Core.Repositories.InventoryRepo;
 using ZdravoCorp.Core.Repositories.OrderRepo;
 using ZdravoCorp.Core.Repositories.RoomRepo;
 using ZdravoCorp.Core.Repositories.TransfersRepo;
+using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.EquipmentServices;
 using ZdravoCorp.Core.Services.InventoryServices;
 using ZdravoCorp.Core.Services.OrderServices;
@@ -29,6 +30,8 @@ public class DirectorViewModel : ViewModelBase
     private readonly ITransferService _transferService;
     private readonly IRenovationService _renovationService;
     private readonly ISurveyService _surveyService;
+    private readonly IDoctorService _doctorService;
+    
 
     public DirectorViewModel()
     {
@@ -39,6 +42,7 @@ public class DirectorViewModel : ViewModelBase
         _transferService = Injector.Container.Resolve<ITransferService>();
         _renovationService = Injector.Container.Resolve<IRenovationService>();
         _surveyService = Injector.Container.Resolve<ISurveyService>();
+        _doctorService = Injector.Container.Resolve<IDoctorService>();
         ViewEquipmentCommand = new DelegateCommand(o => EquipmentView());
         MoveEquipmentCommand = new DelegateCommand(o => MoveEquipmentView());
         ViewDynamicEquipmentCommand = new DelegateCommand(o => DynamicEquipmentView());
@@ -105,6 +109,6 @@ public class DirectorViewModel : ViewModelBase
     }  
     public void DoctorAnalyticsView()
     {
-        CurrentView = new DoctorAnalyticsViewModel();
+        CurrentView = new DoctorAnalyticsViewModel(_surveyService, _doctorService);
     }
 }

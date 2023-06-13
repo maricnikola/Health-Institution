@@ -17,28 +17,32 @@
             <RowDefinition Height="*" />
 
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Margin="10">
-            <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="450"/>
+        </Grid.ColumnDefinitions>
+        <Grid Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Foreground="WhiteSmoke" Margin="10,0,0,0">Surveys:</Label>
                 <DataGrid Grid.Row="1" ItemsSource="{Binding Surveys, UpdateSourceTrigger=PropertyChanged}"
                           SelectionMode="Single"
-                          Height="150"
-                          Width="305"
-                          IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,0" Name="RoomsTable"
+                          IsReadOnly="True" AutoGenerateColumns="False" Margin="10,0" Name="RoomsTable"
                           SelectedItem="{Binding SelectedSurvey, Mode=TwoWay}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="User" Width="150" Binding="{Binding User}" />
-                        <DataGridTextColumn Header="Recommendation" Binding="{Binding Recommendation}" />
+                        <DataGridTextColumn Header="Recommendation" Width="*" Binding="{Binding Recommendation}" />
 
 
                     </DataGrid.Columns>
                 </DataGrid>
+            <Button Grid.Row="2" Content="View Survey" Height="40" Padding="10" Width="120" Margin="100,5" Command="{Binding ViewSurveyCommand}"></Button>
+
             </Grid>
-            <Grid Grid.Column="1" Margin="5">
+            <Grid Grid.Column="1" Margin="10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
@@ -71,15 +75,8 @@
                                                 </DataGrid.Columns>
                         </DataGrid>
                     </Grid>
-            
-        </StackPanel>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button Content="View Survey" Height="40" Padding="10" Width="120" Margin="100,0" Command="{Binding ViewSurveyCommand}"></Button>
-            <Grid Grid.Column="1">
+        
+            <Grid Grid.Row="1"  Grid.ColumnSpan="2">
                 <DataGrid ItemsSource="{Binding Comments, UpdateSourceTrigger=PropertyChanged}"
                           SelectionMode="Single"
                           Height="180"
@@ -95,7 +92,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Comment" Width="300" Binding="{Binding Text}" ><DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn Header="Comment" Width="*" Binding="{Binding Text}" ><DataGridTextColumn.ElementStyle>
                             <Style>                            
                                 <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
                                 <Setter Property="TextBlock.TextAlignment" Value="Center"/>
@@ -105,5 +102,4 @@
                 </DataGrid>
             </Grid>
         </Grid>
-    </Grid>
 </UserControl>
