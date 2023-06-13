@@ -18,8 +18,8 @@ public class ScheduleRepository : ISerializable, IScheduleRepository
 {
     private readonly CounterDictionary _counterDictionary;
 
-    private readonly string _fileNameAppointments = @".\..\..\..\Data\appointments.json";
-    private string _fileNameOperations = @".\..\..\..\Data\operations.json";
+    private readonly string _fileNameAppointments = @".\..\..\..\..\Data\appointments.json";
+    private string _fileNameOperations = @".\..\..\..\..\Data\operations.json";
 
     public ScheduleRepository()
     {

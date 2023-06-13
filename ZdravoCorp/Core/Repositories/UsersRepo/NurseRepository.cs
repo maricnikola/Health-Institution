@@ -8,7 +8,7 @@ namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
 public class NurseRepository : ISerializable, INurseRepository
 {
-    private readonly string _fileName = @".\..\..\..\Data\nurses.json";
+    private readonly string _fileName = @".\..\..\..\..\Data\nurses.json";
     private List<Nurse?> _nurses;
 
 

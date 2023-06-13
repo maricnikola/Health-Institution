@@ -72,7 +72,6 @@ public class ChatViewModel : ViewModelBase
         if (counter==21)
             MessageBox.Show("connection with discord server failed, check your connection", "Error", MessageBoxButton.OK);
 
-
     }
 
     private async Task LoadPreviousMessagesAsync()

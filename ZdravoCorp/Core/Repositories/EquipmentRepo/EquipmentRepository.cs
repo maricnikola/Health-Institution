@@ -8,7 +8,7 @@ namespace ZdravoCorp.Core.Repositories.EquipmentRepo;
 
 public class EquipmentRepository : ISerializable, IEquipmentRepository
 {
-    private readonly string _fileName = @".\..\..\..\Data\equipment.json";
+    private readonly string _fileName = @".\..\..\..\..\Data\equipment.json";
     private List<Equipment>? _equipment;
 
     public EquipmentRepository()

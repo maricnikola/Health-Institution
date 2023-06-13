@@ -8,7 +8,7 @@ namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
 public class UserRepository : ISerializable, IUserRepository<User>
 {
-    private readonly string _fileName = @".\..\..\..\Data\users.json";
+    private readonly string _fileName = @".\..\..\..\..\Data\users.json";
     private List<User> _users;
 
 

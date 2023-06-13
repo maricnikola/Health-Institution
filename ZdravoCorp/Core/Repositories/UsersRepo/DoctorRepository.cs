@@ -10,7 +10,7 @@ namespace ZdravoCorp.Core.Repositories.UsersRepo;
 
 public class DoctorRepository : ISerializable, IDoctorRepository
 {
-    private readonly string _fileName = @".\..\..\..\Data\doctors.json";
+    private readonly string _fileName = @".\..\..\..\..\Data\doctors.json";
 
 
     public DoctorRepository()

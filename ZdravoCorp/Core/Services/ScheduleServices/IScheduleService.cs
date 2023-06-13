@@ -38,9 +38,9 @@ public interface IScheduleService
     bool IsForShow(Appointment appointment, DateTime date);
     HashSet<TimeSlot> FindOccupiedTimeSlotsForDoctor(string doctorsMail, List<TimeSlot> timeLimitation);
     TimeSlot? FindFirstEmptyTimeSlotForDoctor(HashSet<TimeSlot> doctorsTimeSlots, List<TimeSlot> allDays,
-        string doctorsMail);
-    TimeSlot? FindAvailableTimeslotsForOneDoctor(string doctorsMail, TimeSlot wantedTime, DateTime lastDate,
-        List<TimeSlot>? alreadyUsed = null);
+        string doctorsMail, bool isExtended);
+    TimeSlot? FindAvailableTimeslotForOneDoctor(string doctorsMail, TimeSlot wantedTime, DateTime lastDate,
+        List<TimeSlot>? alreadyUsed = null, bool isExtended=false);
 
     List<Appointment> FindAppointmentsByDoctorPriority(Doctor doctor, TimeSlot wantedTime, DateTime lastDate,
         string patientMail);
