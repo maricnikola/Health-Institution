@@ -32,8 +32,8 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Doctor" Width="100" Binding="{Binding Doctor}" />
 
-                <DataGridTextColumn Header="Start" Binding="{Binding StartDate}" />
-                <DataGridTextColumn Header="End" Binding="{Binding EndDate}" />
+                <DataGridTextColumn Header="Start" Binding="{Binding StartTime}" />
+                <DataGridTextColumn Header="End" Binding="{Binding EndTime}" />
                 <DataGridTextColumn Header="Reason" Width="*" Binding="{Binding Reason}" />
                 <DataGridTextColumn Header="Status" Width="*" Binding="{Binding Status}" />
 

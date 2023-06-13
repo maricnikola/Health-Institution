@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using ZdravoCorp.Core.Repositories.RenovationRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.Services.AnnualLeaveServices;
 using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.EquipmentServices;
 using ZdravoCorp.Core.Services.HospitalRefferalServices;
@@ -44,6 +45,8 @@ public class ServicesModule : Autofac.Module
         builder.RegisterType<ManageRenovationService>().As<IManageRenovationService>().SingleInstance();
         builder.RegisterType<NotificationService>().As<INotificationService>().SingleInstance();
         builder.RegisterType<SurveyService>().As<ISurveyService>().SingleInstance();
+        builder.RegisterType<AnnualLeaveService>().As<IAnnualLeaveService>().SingleInstance();
+        
 
 
     }
