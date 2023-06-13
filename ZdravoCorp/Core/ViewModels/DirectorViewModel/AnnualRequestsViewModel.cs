@@ -2,5 +2,8 @@
 
 public class AnnualRequestsViewModel : ViewModelBase
 {
-    
+    public AnnualRequestsViewModel()
+    {
+        
+    }
 }
