@@ -17,4 +17,5 @@ public interface IAnnualLeaveService
     public void Delete(int id);
     public void Approve(int id);
     public void Deny(int id);
+    public event EventHandler DataChanged;
 }
