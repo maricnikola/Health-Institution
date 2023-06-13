@@ -12,7 +12,7 @@ namespace ZdravoCorp.Core.Repositories.NotificationRepo;
 
 public class NotificationRepository : ISerializable, INotificationRepository
 {
-    private readonly string _fileName = @".\..\..\..\Data\notifications.json";
+    private readonly string _fileName = @".\..\..\..\..\Data\notifications.json";
     private List<Notification>? _notifications;
 
     public NotificationRepository()

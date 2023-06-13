@@ -13,7 +13,7 @@ namespace ZdravoCorp.Core.Repositories.InventoryRepo;
 public class InventoryRepository : ISerializable, IInventoryRepository
 {
     private readonly IEquipmentRepository _equipmentRepository;
-    private readonly string _fileName = @".\..\..\..\Data\inventory.json";
+    private readonly string _fileName = @".\..\..\..\..\Data\inventory.json";
     private readonly IRoomRepository _roomRepository;
     private List<InventoryItem>? _inventory;
 

@@ -9,7 +9,7 @@ namespace ZdravoCorp.Core.Repositories.SpecialistsRefferalsRepo;
 
 public class SpecialistsRefferalRepository: ISerializable, ISpecialistsRefferalRepository
 {
-    private readonly string _fileName = @".\..\..\..\Data\specialistsRefferal.json";
+    private readonly string _fileName = @".\..\..\..\..\Data\specialistsRefferal.json";
     private List<SpecialistsRefferal>? _specialistsRefferals;
 
     public SpecialistsRefferalRepository()

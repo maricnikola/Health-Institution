@@ -8,7 +8,7 @@ namespace ZdravoCorp.Core.Repositories.RoomRepo;
 
 public class RoomRepository : ISerializable, IRoomRepository
 {
-    private readonly string _fileName = @".\..\..\..\Data\rooms.json";
+    private readonly string _fileName = @".\..\..\..\..\Data\rooms.json";
 
 
     public RoomRepository()

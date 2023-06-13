@@ -12,7 +12,7 @@ namespace ZdravoCorp.Core.Repositories.SurvaysRepo;
 
 public class DoctorSurveyRepository : ISerializable, IDoctorSurveyRepository
 {
-    private readonly string _fileName = @".\..\..\..\Data\doctorSurveys.json";
+    private readonly string _fileName = @".\..\..\..\..\Data\doctorSurveys.json";
     private List<DoctorSurvey>? _survays;
 
     public DoctorSurveyRepository()

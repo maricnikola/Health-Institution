@@ -1,0 +1,80 @@
+[
+  {
+    "Type": "Director",
+    "Email": "1",
+    "Password": "1",
+    "UserState": "NotBlocked"
+  },
+  {
+    "Type": "Doctor",
+    "Email": "savo.oroz@gmail.com",
+    "Password": "1",
+    "Userstate": "NotBlocked"
+  },
+  {
+    "Type": "Doctor",
+    "Email": "vrabac@gmail.com",
+    "Password": "1",
+    "userstate": "NotBlocked"
+  },
+  {
+    "Type": "Doctor",
+    "Email": "guzina@gmail.com",
+    "Password": "1",
+    "userstate": "NotBlocked"
+  },
+  {
+    "Type": "Doctor",
+    "Email": "saran@gmail.com",
+    "Password": "1",
+    "userstate": "NotBlocked"
+  },
+  {
+    "Type": "Nurse",
+    "Email": "eva.ras@gmail.com",
+    "Password": "eva44",
+    "UserState": "NotBlocked"
+  },
+  {
+    "Type": "Patient",
+    "Email": "sreten.pejovic@gmail.com",
+    "Password": "1",
+    "UserState": "NotBlocked"
+  },
+  {
+    "Type": "Patient",
+    "Email": "marko.stojanovic@gmail.com",
+    "Password": "koks33",
+    "UserState": "NotBlocked"
+  },
+  {
+    "Type": "Patient",
+    "Email": "nikola.trajkovic@gmail.com",
+    "Password": "1",
+    "UserState": "NotBlocked"
+  },
+  {
+    "Type": "Patient",
+    "Email": "rade.pejanovic@gmail.com",
+    "Password": "1",
+    "UserState": "NotBlocked"
+  },
+  {
+    "Type": "Patient",
+    "Email": "vukasin.buca@gmail.com",
+    "Password": "1",
+    "UserState": "NotBlocked"
+  },
+  {
+    "Type": "Patient",
+    "Email": "cvetko.novak@gmail.com",
+    "Password": "1",
+    "UserState": "NotBlocked"
+  },
+  {
+    "Type": "Nurse",
+    "Email": "mira@gmail.com",
+    "Password": "1",
+    "UserState": "NotBlocked"
+  }
+]

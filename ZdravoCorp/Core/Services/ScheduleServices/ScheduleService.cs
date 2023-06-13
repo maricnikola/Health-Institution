@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -190,7 +191,7 @@ public class ScheduleService : IScheduleService
         return doctorsTimeSlots;
     }
 
-    public TimeSlot? FindFirstEmptyTimeSlotForDoctor(HashSet<TimeSlot> doctorsTimeSlots, List<TimeSlot> allDays, string doctorsMail)
+    public TimeSlot? FindFirstEmptyTimeSlotForDoctor(HashSet<TimeSlot> doctorsTimeSlots, List<TimeSlot> allDays, string doctorsMail,bool isExtended)
     {
         foreach (var day in allDays)
         {
@@ -200,31 +201,62 @@ public class ScheduleService : IScheduleService
                     continue;
                 day.Start = TimeSlot.GiveFirstDevisibleBy15(DateTime.Now);
             }
-
+            if (isExtended)
+            {
+                if (GetSlotForAppointmentWhenExtended(doctorsTimeSlots, doctorsMail, day, out var slotForAppointment)) return slotForAppointment;
+            }
             while (day.Start != day.End)
             {
-                var slotForAppointment = new TimeSlot(day.Start, day.Start.AddMinutes(15));
-                if (!doctorsTimeSlots.Contains(slotForAppointment))
-                {
-                    if (IsDoctorAvailable(slotForAppointment, doctorsMail)) return slotForAppointment;
-                    day.Start = day.Start.AddMinutes(15);
-                    continue;
-                }
+                var slotForAppointmentNext = new TimeSlot(day.Start, day.Start.AddMinutes(15));
+                if (CheckIsSlotAvailable(doctorsTimeSlots, doctorsMail, out var slotForAppointment, slotForAppointmentNext)) return slotForAppointment;
                 day.Start = day.Start.AddMinutes(15);
             }
         }
         return null;
     }
 
-    public TimeSlot? FindAvailableTimeslotsForOneDoctor(string doctorsMail, TimeSlot wantedTime, DateTime lastDate,
-        List<TimeSlot>? alreadyUsed = null)
+    private bool GetSlotForAppointmentWhenExtended(HashSet<TimeSlot> doctorsTimeSlots, string doctorsMail, TimeSlot day,
+        out TimeSlot? slotForAppointment)
+    {
+        var oldEnd = day.End.AddHours(-2);
+        var oldStart = oldEnd.AddMinutes(-15);
+
+        while (oldEnd != day.End || oldStart != day.Start)
+        {
+            var slotForAppointmentBefore = new TimeSlot(oldStart, oldStart.AddMinutes(15));
+            var slotForAppointmentAfter = new TimeSlot(oldEnd, oldEnd.AddMinutes(15));
+
+            if (CheckIsSlotAvailable(doctorsTimeSlots, doctorsMail, out slotForAppointment, slotForAppointmentBefore)) return true;
+
+            if (CheckIsSlotAvailable(doctorsTimeSlots, doctorsMail, out slotForAppointment, slotForAppointmentAfter)) return true;
+
+            oldEnd = oldEnd.AddMinutes(15);
+            oldStart = oldStart.AddMinutes(-15);
+        }
+
+        slotForAppointment = null;
+        return false;
+    }
+
+    private bool CheckIsSlotAvailable(HashSet<TimeSlot> doctorsTimeSlots, string doctorsMail, out TimeSlot slotForAppointment,
+        TimeSlot slotForAppointmentToCheck)
+    {
+        slotForAppointment = null;
+        if (doctorsTimeSlots.Contains(slotForAppointmentToCheck) ||
+            !IsDoctorAvailable(slotForAppointmentToCheck, doctorsMail)) return false;
+        slotForAppointment = slotForAppointmentToCheck;
+        return true;
+    }
+
+    public TimeSlot? FindAvailableTimeslotForOneDoctor(string doctorsMail, TimeSlot wantedTime, DateTime lastDate,
+        List<TimeSlot>? alreadyUsed = null, bool isExtended=false)
     {
         if (alreadyUsed == null) alreadyUsed = new List<TimeSlot>();
         var wantedTimeCopy = new TimeSlot(wantedTime.Start, wantedTime.End);
-        var allDays = wantedTimeCopy.GiveSameTimeUntileSomeDay(lastDate);
+        var allDays = wantedTimeCopy.GiveSameTimeUntilSomeDay(lastDate);
         var doctorsTimeSlots = FindOccupiedTimeSlotsForDoctor(doctorsMail, allDays);
         foreach (var used in alreadyUsed) doctorsTimeSlots.Add(used);
-        var availableTimeSlot = FindFirstEmptyTimeSlotForDoctor(doctorsTimeSlots, allDays, doctorsMail);
+        var availableTimeSlot = FindFirstEmptyTimeSlotForDoctor(doctorsTimeSlots, allDays, doctorsMail,isExtended);
         return availableTimeSlot;
     }
 
@@ -247,7 +279,7 @@ public class ScheduleService : IScheduleService
         DateTime lastDate)
     {
         var availableTimeSlots = new List<TimeSlot>();
-        var availableTimeSlot = FindAvailableTimeslotsForOneDoctor(doctorMail, wantedTime, lastDate);
+        var availableTimeSlot = FindAvailableTimeslotForOneDoctor(doctorMail, wantedTime, lastDate);
         if (availableTimeSlot == null)
             availableTimeSlots = GetNearestSlotsByDoctorPriority(3, doctorMail, wantedTime, lastDate);
         else
@@ -263,13 +295,14 @@ public class ScheduleService : IScheduleService
         while (nearestThreeSlots.Count != howMany)
         {
             var availableTimeSlot =
-                FindAvailableTimeslotsForOneDoctor(doctorsMail, wantedTime, lastDate, nearestThreeSlots);
+                FindAvailableTimeslotForOneDoctor(doctorsMail, wantedTime, lastDate, nearestThreeSlots, true);
             if (availableTimeSlot == null)
             {
                 lastDate = lastDate.AddDays(1);
                 continue;
             }
             nearestThreeSlots.Add(availableTimeSlot);
+            nearestThreeSlots.Sort();
         }
         return nearestThreeSlots;
     }
@@ -278,7 +311,7 @@ public class ScheduleService : IScheduleService
         IDoctorService doctorService)
     {
         var availablePairs = new List<Tuple<TimeSlot, Doctor>>();
-        var availableTimeSlot = FindAvailableTimeslotsForOneDoctor(doctor.Email, wantedTime, lastDate);
+        var availableTimeSlot = FindAvailableTimeslotForOneDoctor(doctor.Email, wantedTime, lastDate);
         if (availableTimeSlot == null)
             availablePairs = GetNearesThreeSlotsByTimePriority(doctor, wantedTime, lastDate, doctorService);
         else
@@ -294,21 +327,12 @@ public class ScheduleService : IScheduleService
 
         foreach (var sameSpecDoctor in doctorService.GetAllWithCertainSpecialization(doctor.Specialization))
         {
-            var finedSlots = new List<TimeSlot>();
-            for (var i = 0; i < 3; i++)
-            {
-                return GetFindSLots(wantedTime, lastDate, sameSpecDoctor, finedSlots, nearestThreeSlots);
-            }
+            if (FindThreeSlotsForDoctor(wantedTime, lastDate, sameSpecDoctor, nearestThreeSlots, out var tuples)) return tuples;
         }
 
-        foreach (var anyDoctor in doctorService.GetAll())
+        foreach (var anyDoctor in doctorService.GetAll().Where(anyDoctor => anyDoctor.Specialization != doctor.Specialization))
         {
-            if (anyDoctor.Specialization == doctor.Specialization) continue;
-            var finedSlots = new List<TimeSlot>();
-            for (var i = 0; i < 3; i++)
-            {
-                return GetFindSLots(wantedTime, lastDate, anyDoctor, finedSlots, nearestThreeSlots);
-            }
+            if (FindThreeSlotsForDoctor(wantedTime, lastDate, anyDoctor, nearestThreeSlots, out var tuples)) return tuples;
         }
 
         var howManyLeftToFind = 3 - nearestThreeSlots.Count;
@@ -318,17 +342,25 @@ public class ScheduleService : IScheduleService
         return nearestThreeSlots;
     }
 
-    private List<Tuple<TimeSlot, Doctor>> GetFindSLots(TimeSlot wantedTime, DateTime lastDate, Doctor sameSpecDoctor, List<TimeSlot> finedSlots,
-        List<Tuple<TimeSlot, Doctor>> nearestThreeSlots)
+    private bool FindThreeSlotsForDoctor(TimeSlot wantedTime, DateTime lastDate, Doctor sameSpecDoctor,
+        List<Tuple<TimeSlot, Doctor>> nearestThreeSlots, out List<Tuple<TimeSlot, Doctor>> tuples)
     {
-        var availableTimeSlot =
-            FindAvailableTimeslotsForOneDoctor(sameSpecDoctor.Email, wantedTime, lastDate, finedSlots);
-        if (availableTimeSlot == null)
-            return nearestThreeSlots; // break;
-        finedSlots.Add(availableTimeSlot);
-        nearestThreeSlots.Add(new Tuple<TimeSlot, Doctor>(availableTimeSlot, sameSpecDoctor));
-        if (nearestThreeSlots.Count != 3) return nearestThreeSlots;
-        return nearestThreeSlots;
+        var foundSlots = new List<TimeSlot>();
+        for (var i = 0; i < 3; i++)
+        {
+            var availableTimeSlot =
+                FindAvailableTimeslotForOneDoctor(sameSpecDoctor.Email, wantedTime, lastDate, foundSlots);
+            if (availableTimeSlot == null)
+                break;
+            foundSlots.Add(availableTimeSlot);
+            nearestThreeSlots.Add(new Tuple<TimeSlot, Doctor>(availableTimeSlot, sameSpecDoctor));
+            if (nearestThreeSlots.Count != 3) continue;
+            tuples = nearestThreeSlots;
+            return true;
+        }
+
+        tuples = null;
+        return false;
     }
 
 

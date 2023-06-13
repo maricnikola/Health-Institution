@@ -11,7 +11,7 @@ namespace ZdravoCorp.Core.Repositories.SurvaysRepo;
 
 public class HospitalSurveyRepository : ISerializable, IHospitalSurveyRepository
 {
-    private readonly string _fileName = @".\..\..\..\Data\hospitalSurveys.json";
+    private readonly string _fileName = @".\..\..\..\..\Data\hospitalSurveys.json";
     private List<HospitalSurvey>? _survays;
 
     public HospitalSurveyRepository()

@@ -9,7 +9,7 @@ namespace ZdravoCorp.Core.Repositories.OrderRepo;
 
 public class OrderRepository : ISerializable, IOrderRepository
 {
-    private readonly string _fileName = @".\..\..\..\Data\orders.json";
+    private readonly string _fileName = @".\..\..\..\..\Data\orders.json";
     private List<Order>? _orders;
     
 

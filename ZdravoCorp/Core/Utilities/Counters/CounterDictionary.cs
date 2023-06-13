@@ -8,7 +8,7 @@ namespace ZdravoCorp.Core.Utilities.Counters;
 
 public class CounterDictionary
 {
-    private readonly string _fileName = @".\..\..\..\Data\counters.json";
+    private readonly string _fileName = @".\..\..\..\..\Data\counters.json";
 
     private readonly JsonSerializerOptions _serializerOptions = new()
     {
