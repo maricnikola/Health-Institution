@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +15,6 @@ public abstract class CommandBase : ICommand
     {
         return true;
     }
-
     public abstract void Execute(object? parameter);
 
     protected void OnCanExecutedChanged()
@@ -24,3 +23,4 @@ public abstract class CommandBase : ICommand
     }
 
 }
+

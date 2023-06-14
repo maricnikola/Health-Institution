@@ -51,7 +51,7 @@ public class ChatViewModel : ViewModelBase
     private async void InitializeAsync()
     {
         var counter = 0;
-        while (counter < 20)
+        while (counter <= 20)
         {
             try
             {
