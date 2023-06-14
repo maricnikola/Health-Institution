@@ -22,10 +22,18 @@ public class SendMessageCommand : CommandBase
 
     public override void Execute(object? parameter)
     {
-        _client.GetGuild(1114665077916835952)
-            .GetTextChannel(1114665079158341764)
-            .SendMessageAsync(_chatViewModel.InputText);
-        _chatViewModel.InputText = "";
+        try
+        {
+            _client.GetGuild(1114665077916835952)
+                .GetTextChannel(1114665079158341764)
+                .SendMessageAsync(_chatViewModel.InputText);
+            _chatViewModel.InputText = "";
+        }
+        catch (Exception e)
+        {
+            return;
+        }
+        
     }
 
     public event EventHandler? CanExecuteChanged;

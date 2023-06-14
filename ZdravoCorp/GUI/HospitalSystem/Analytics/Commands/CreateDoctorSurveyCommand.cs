@@ -32,7 +32,6 @@ public class CreateDoctorSurveyCommand : CommandBase
     {
         return true;
     }
-
     public override void Execute(object? parameter)
     {
         var survey = new DoctorSurveyDTO(IDGenerator.GetId(), _doctorEmail, _patientEmail,
