@@ -14,7 +14,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Label Content="Appointments to cancel: " Foreground="WhiteSmoke" Margin="10,0"></Label>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding AppointmentsToCancel, UpdateSourceTrigger=PropertyChanged}"
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Appointments, UpdateSourceTrigger=PropertyChanged}"
                   SelectionMode="Single"
                   IsReadOnly="True" AutoGenerateColumns="False" Margin="10" BorderThickness="0"
                    GridLinesVisibility="None"

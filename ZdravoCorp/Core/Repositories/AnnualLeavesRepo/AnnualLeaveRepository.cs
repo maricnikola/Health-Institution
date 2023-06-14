@@ -9,7 +9,7 @@ namespace ZdravoCorp.Core.Repositories.AnnualLeavesRepo;
 
 public class AnnualLeaveRepository : ISerializable, IAnnualLeaveRepository
 {
-    private readonly string _fileName = @".\..\..\..\Data\annualLeave.json";
+    private readonly string _fileName = @".\..\..\..\..\Data\annualLeave.json";
     private List<AnnualLeave>? _annualLeave;
 
     public AnnualLeaveRepository()
