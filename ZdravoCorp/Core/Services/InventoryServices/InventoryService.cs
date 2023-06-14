@@ -156,14 +156,14 @@ public class InventoryService : IInventoryService
             }
         }
 
-        foreach (var id in removeIds)
-        {
-            Delete(id);
-        }
-
         foreach (var item in newItems)
         {
             AddInventoryItem(item);
+        }
+        
+        foreach (var id in removeIds)
+        {
+            Delete(id);
         }
     }
 }

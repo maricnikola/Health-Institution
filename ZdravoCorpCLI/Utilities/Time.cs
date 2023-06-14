@@ -27,8 +27,14 @@ public static class Time
                     WriteError("Invalid start time. Please enter a valid time in the format HH:mm.");
                     continue;
                 }
+                var startDate = new DateTime(date.Year, date.Month, date.Day, startTime.Hours, startTime.Minutes, 0);
+                if (startDate <= DateTime.Now)
+                {
+                    WriteError($"Invalid start time. Please enter a valid after current time!");
+                    continue;
+                }
 
-                return new DateTime(date.Year, date.Month, date.Day, startTime.Hours, startTime.Minutes, 0);
+                return startDate;
             }
         } while (true);
     }
@@ -49,8 +55,8 @@ public static class Time
             while (true)
             {
                 Console.Write("Enter the end time (HH:mm): ");
-                var startTimeInput = Console.ReadLine();
-                if (!TimeSpan.TryParseExact(startTimeInput, "hh\\:mm", CultureInfo.CurrentCulture,
+                var endTimeInput = Console.ReadLine();
+                if (!TimeSpan.TryParseExact(endTimeInput, "hh\\:mm", CultureInfo.CurrentCulture,
                         out TimeSpan startTime))
                 {
                     WriteError("Invalid end time. Please enter a valid time in the format HH:mm.");

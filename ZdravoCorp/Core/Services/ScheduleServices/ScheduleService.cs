@@ -420,5 +420,15 @@ public class ScheduleService : IScheduleService
         return true;
     }
 
+    public bool HasAppointmentsAfter(int roomId, DateTime start)
+    {
+        foreach (var appointment in _scheduleRepository.GetAllAppointments().Where(a=>a.Room == roomId))
+        {
+            if (appointment.Time.Start > start)
+                return true;
+        }
 
+        return false;
+    }
+    
 }
