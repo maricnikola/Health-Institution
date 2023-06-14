@@ -4,7 +4,7 @@ using Discord.WebSocket;
 
 namespace ZdravoCorp.GUI.Main;
 
-public class SendMessageCommand : ICommand
+public class SendMessageCommand : CommandBase
 {
     private ChatViewModel _chatViewModel;
     private DiscordSocketClient _client;
@@ -15,12 +15,12 @@ public class SendMessageCommand : ICommand
         _client = client;
     }
 
-    public bool CanExecute(object? parameter)
+    public override bool CanExecute(object? parameter)
     {
         return _chatViewModel.InputText != "";
     }
 
-    public void Execute(object? parameter)
+    public override void Execute(object? parameter)
     {
         _client.GetGuild(1114665077916835952)
             .GetTextChannel(1114665079158341764)
