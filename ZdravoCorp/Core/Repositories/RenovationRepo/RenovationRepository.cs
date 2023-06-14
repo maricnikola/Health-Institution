@@ -8,7 +8,7 @@ namespace ZdravoCorp.Core.Repositories.RenovationRepo;
 
 public class RenovationRepository : IRenovationRepository, ISerializable
 {
-    private readonly string _fileName = @".\..\..\..\Data\renovations.json";
+    private readonly string _fileName = @".\..\..\..\..\Data\renovations.json";
     private List<Renovation>? _renovations;
 
 

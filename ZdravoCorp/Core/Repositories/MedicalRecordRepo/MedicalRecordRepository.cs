@@ -8,7 +8,7 @@ namespace ZdravoCorp.Core.Repositories.MedicalRecordRepo;
 
 public class MedicalRecordRepository : ISerializable, IMedicalRecordRepository
 {
-    private readonly string _filename = @".\..\..\..\Data\medicalRecords.json";
+    private readonly string _filename = @".\..\..\..\..\Data\medicalRecords.json";
 
     public MedicalRecordRepository()
     {

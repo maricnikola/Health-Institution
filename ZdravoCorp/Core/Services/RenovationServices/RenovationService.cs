@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ZdravoCorp.Core.Models.Renovation;
 using ZdravoCorp.Core.Repositories.RenovationRepo;
 using ZdravoCorp.Core.Services.RoomServices;
+using ZdravoCorp.Core.Utilities;
 
 namespace ZdravoCorp.Core.Services.RenovationServices;
 
@@ -15,6 +17,7 @@ public class RenovationService : IRenovationService
     {
         _renovationRepository = renovationRepository;
     }
+
     public List<Renovation>? GetAll()
     {
         return _renovationRepository.GetAll() as List<Renovation>;
@@ -33,8 +36,8 @@ public class RenovationService : IRenovationService
 
     public void UpdateStatus(int id, Renovation.RenovationStatus status)
     {
-       _renovationRepository.UpdateStatus(id, status);
-       DataChanged?.Invoke(this, new EventArgs());
+        _renovationRepository.UpdateStatus(id, status);
+        DataChanged?.Invoke(this, new EventArgs());
     }
 
     public void Update(int id, RenovationDTO renovationDto)
@@ -44,6 +47,7 @@ public class RenovationService : IRenovationService
         {
             throw new KeyNotFoundException();
         }
+
         _renovationRepository.Delete(oldRenovation);
         _renovationRepository.Insert(new Renovation(renovationDto));
         DataChanged?.Invoke(this, new EventArgs());
@@ -55,6 +59,29 @@ public class RenovationService : IRenovationService
         DataChanged?.Invoke(this, new EventArgs());
     }
 
+    public bool IsRenovationScheduled(int roomId, TimeSlot slot)
+    {
+        foreach (var renovation in _renovationRepository.GetAll()
+                     .Where(ren => ren.Room.Id == roomId || (ren.Join != null && ren.Join.Id == roomId)))
+        {
+            if (renovation.Status != Renovation.RenovationStatus.Finished && renovation.Slot.Overlap(slot))
+                return true;
+        }
+
+        return false;
+    }
+
+    public bool HasRenovationsAfter(int roomId, DateTime start)
+    {
+        foreach (var renovation in _renovationRepository.GetAll()
+                     .Where(ren => ren.Room.Id == roomId || (ren.Join != null && ren.Join.Id == roomId)))
+        {
+            if (renovation.Status != Renovation.RenovationStatus.Finished && renovation.Slot.Start > start)
+                return true;
+        }
+
+        return false;
+    }
 
 
     public event EventHandler? DataChanged;

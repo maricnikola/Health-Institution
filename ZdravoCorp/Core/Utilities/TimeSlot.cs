@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ZdravoCorp.Core.Utilities;
 
-public class TimeSlot : IEquatable<TimeSlot> //will be some functions for time
+public class TimeSlot : IEquatable<TimeSlot>,IComparable<TimeSlot>
 {
     public TimeSlot(DateTime start, DateTime end)
     {
@@ -43,7 +43,7 @@ public class TimeSlot : IEquatable<TimeSlot> //will be some functions for time
         return slots.Any(IsInsideSingleSlot);
     }
 
-    public List<TimeSlot> GiveSameTimeUntileSomeDay(DateTime lastDate)
+    public List<TimeSlot> GiveSameTimeUntilSomeDay(DateTime lastDate)
     {
         var allSlots = new List<TimeSlot>();
         var current = this;
@@ -61,11 +61,18 @@ public class TimeSlot : IEquatable<TimeSlot> //will be some functions for time
         var adjustedStart = Start.Add(-1 * amount);
         var adjustedEnd = End.Add(amount);
 
-        if (adjustedStart.Date < Start.Date) adjustedStart = Start;
+        //if (adjustedStart.Date < Start.Date) adjustedStart = Start;
 
-        if (adjustedEnd.Date > End.Date) adjustedEnd = End.Date.AddDays(1).AddSeconds(-1);
+        //if (adjustedEnd.Date > End.Date) adjustedEnd = End.Date.AddDays(1).AddMinutes(-15);
 
         return new TimeSlot(adjustedStart, adjustedEnd);
+    }
+
+    public int CompareTo(TimeSlot? other)
+    {
+        if (this.Start < other!.Start)
+            return -1;
+        return this.Start > other!.Start ? 1 : 0;
     }
 
     public override bool Equals(object? o)
@@ -97,7 +104,7 @@ public class TimeSlot : IEquatable<TimeSlot> //will be some functions for time
         return interval.TotalMinutes < 15 && notPassed;
     }
 
-    public static DateTime GiveFirstDevisibleBy15(DateTime time) //this should be somewhere else
+    public static DateTime GiveFirstDevisibleBy15(DateTime time)
     {
         var minutes = time.Minute;
         var minutesToAdd = minutes switch
@@ -108,7 +115,9 @@ public class TimeSlot : IEquatable<TimeSlot> //will be some functions for time
             < 60 => 60 - minutes,
             _ => 0
         };
-        return time.AddMinutes(minutesToAdd);
+        var adjustedTime = time.AddMinutes(minutesToAdd);
+        adjustedTime = adjustedTime.AddSeconds(-adjustedTime.Second);
+        return adjustedTime;
     }
 
     public bool IsBefore()

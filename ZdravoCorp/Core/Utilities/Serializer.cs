@@ -10,9 +10,11 @@ namespace ZdravoCorp.Core.Utilities;
 public static class Serializer
 {
     private static readonly JsonSerializer _serializer;
+    private static object _writeLock;
 
     static Serializer()
     {
+        _writeLock = new object();
         _serializer = new JsonSerializer();
         _serializer.Converters.Add(new StringEnumConverter());
     }
@@ -27,7 +29,11 @@ public static class Serializer
         }
 
         var data = JsonConvert.SerializeObject(enumerable);
-        File.WriteAllText(repository.FileName(), data);
+        lock (_writeLock)
+        {
+            File.WriteAllText(repository.FileName(), data);
+        }
+        
     }
 
     public static void Load(ISerializable repository)

@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using Newtonsoft.Json;
 using ZdravoCorp.Core.Exceptions;
 using JsonException = System.Text.Json.JsonException;
@@ -9,8 +11,7 @@ namespace ZdravoCorp.Core.Utilities;
 public class IDGenerator
 {
     private static int _currentId;
-    private static readonly string _fileName = @".\..\..\..\Data\idg.json";
-
+    private static readonly string _fileName = @".\..\..\..\..\Data\idg.json";
     public IDGenerator()
     {
         _currentId = LoadFromFile();
@@ -44,6 +45,10 @@ public class IDGenerator
     }
 
     public static int GetId()
+    {
+       return BitConverter.ToInt32(Guid.NewGuid().ToByteArray(), 0);
+    }
+    public static int GetRoomId()
     {
         _currentId++;
         SaveToFile();

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Services.AnnualLeaveServices;
+using ZdravoCorp.Core.Services.NotificationServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.View.DirectorView;
 
@@ -12,6 +13,7 @@ public class AnnualRequestsViewModel : ViewModelBase
 {
     private IAnnualLeaveService _annualLeaveService;
     private IScheduleService _scheduleService;
+    private INotificationService _notificationService;
     private ObservableCollection<AnnualLeaveRequestViewModel> _requests;
     
     public AnnualLeaveRequestViewModel? SelectedRequest { get; set; }
@@ -28,10 +30,11 @@ public class AnnualRequestsViewModel : ViewModelBase
         }
     }
     
-    public AnnualRequestsViewModel(IAnnualLeaveService annualLeaveService, IScheduleService scheduleService)
+    public AnnualRequestsViewModel(IAnnualLeaveService annualLeaveService, IScheduleService scheduleService, INotificationService notificationService)
     {
         _annualLeaveService = annualLeaveService;
         _scheduleService = scheduleService;
+        _notificationService = notificationService;
         _requests = new ObservableCollection<AnnualLeaveRequestViewModel>();
         ApproveAnnualRequestCommand = new DelegateCommand(o => ApproveRequest(), o => CanApprove());
         DenyAnnualRequestCommand = new DelegateCommand(o => DenyRequest(), o => CanDeny());
@@ -41,6 +44,7 @@ public class AnnualRequestsViewModel : ViewModelBase
 
     private void PopulateTable()
     {
+        _requests = new ObservableCollection<AnnualLeaveRequestViewModel>();
         foreach (var request in _annualLeaveService.GetAll())
         {
             _requests.Add(new AnnualLeaveRequestViewModel(request));
@@ -48,7 +52,7 @@ public class AnnualRequestsViewModel : ViewModelBase
     }
     private void ApproveRequest()
     {
-        var vm = new ApproveAnnualRequestViewModel(_scheduleService, _annualLeaveService,_annualLeaveService.GetById(SelectedRequest.Id));
+        var vm = new ApproveAnnualRequestViewModel(_scheduleService, _annualLeaveService,_annualLeaveService.GetById(SelectedRequest.Id), _notificationService);
         var window = new ApproveAnnualRequestView() { DataContext = vm };
         vm.OnRequestClose += (s, e) => window.Close();
         window.Show();
@@ -61,10 +65,10 @@ public class AnnualRequestsViewModel : ViewModelBase
 
     private bool CanDeny()
     {
-        return SelectedRequest != null && SelectedRequest.Status == "Denied";
+        return SelectedRequest != null && SelectedRequest.Status == "Pending";
     }
     private bool CanApprove()
     {
-        return SelectedRequest != null && SelectedRequest.Status == "Approved";
+        return SelectedRequest != null && SelectedRequest.Status == "Pending";
     }
 }

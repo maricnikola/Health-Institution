@@ -1,4 +1,5 @@
-﻿using ZdravoCorp.Core.Models.Renovation;
+﻿using System;
+using ZdravoCorp.Core.Models.Renovation;
 
 namespace ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
@@ -35,5 +36,9 @@ public class RenovationViewModel : ViewModelBase
         }
     }
     public string Status => _renovation.Status.ToString();
-    
+
+    public override string ToString()
+    {
+        return String.Format("{0, -5} | {1, -25} | {2, -25} | {3, -25} | {4, -25} | {5, -15}", Room, Start, Until, Split, Join, Status);
+    }
 }

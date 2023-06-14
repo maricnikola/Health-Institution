@@ -1,0 +1,314 @@
+[
+  {
+    "Id": 1628831650,
+    "Quantity": 2,
+    "EquipmentId": 5,
+    "RoomId": 101
+  },
+  {
+    "Id": -1960740387,
+    "Quantity": 2,
+    "EquipmentId": 4,
+    "RoomId": 101
+  },
+  {
+    "Id": -1863063987,
+    "Quantity": 5,
+    "EquipmentId": 12,
+    "RoomId": 101
+  },
+  {
+    "Id": 1941939357,
+    "Quantity": 20,
+    "EquipmentId": 14,
+    "RoomId": 101
+  },
+  {
+    "Id": 1204886747,
+    "Quantity": 2,
+    "EquipmentId": 26,
+    "RoomId": 101
+  },
+  {
+    "Id": 1022270145,
+    "Quantity": 2,
+    "EquipmentId": 25,
+    "RoomId": 101
+  },
+  {
+    "Id": -1606494893,
+    "Quantity": 1,
+    "EquipmentId": 5,
+    "RoomId": 102
+  },
+  {
+    "Id": -2100320665,
+    "Quantity": 3,
+    "EquipmentId": 4,
+    "RoomId": 102
+  },
+  {
+    "Id": -1015811944,
+    "Quantity": 3,
+    "EquipmentId": 12,
+    "RoomId": 102
+  },
+  {
+    "Id": -2090426408,
+    "Quantity": 30,
+    "EquipmentId": 14,
+    "RoomId": 102
+  },
+  {
+    "Id": 532995597,
+    "Quantity": 7,
+    "EquipmentId": 26,
+    "RoomId": 102
+  },
+  {
+    "Id": -423178487,
+    "Quantity": 0,
+    "EquipmentId": 25,
+    "RoomId": 102
+  },
+  {
+    "Id": -1251680078,
+    "Quantity": 0,
+    "EquipmentId": 13,
+    "RoomId": 111
+  },
+  {
+    "Id": -1800853057,
+    "Quantity": 1,
+    "EquipmentId": 2,
+    "RoomId": 111
+  },
+  {
+    "Id": -2042699399,
+    "Quantity": 1,
+    "EquipmentId": 3,
+    "RoomId": 111
+  },
+  {
+    "Id": 398507134,
+    "Quantity": 1,
+    "EquipmentId": 4,
+    "RoomId": 111
+  },
+  {
+    "Id": 833188381,
+    "Quantity": 3,
+    "EquipmentId": 21,
+    "RoomId": 111
+  },
+  {
+    "Id": 2055546084,
+    "Quantity": 10,
+    "EquipmentId": 22,
+    "RoomId": 111
+  },
+  {
+    "Id": -487785976,
+    "Quantity": 10,
+    "EquipmentId": 12,
+    "RoomId": 111
+  },
+  {
+    "Id": -292466602,
+    "Quantity": 1,
+    "EquipmentId": 1,
+    "RoomId": 112
+  },
+  {
+    "Id": -623815893,
+    "Quantity": 2,
+    "EquipmentId": 3,
+    "RoomId": 112
+  },
+  {
+    "Id": -314866613,
+    "Quantity": 2,
+    "EquipmentId": 4,
+    "RoomId": 112
+  },
+  {
+    "Id": 1761382123,
+    "Quantity": 3,
+    "EquipmentId": 21,
+    "RoomId": 112
+  },
+  {
+    "Id": 855325050,
+    "Quantity": 109,
+    "EquipmentId": 22,
+    "RoomId": 112
+  },
+  {
+    "Id": -1375461821,
+    "Quantity": 1,
+    "EquipmentId": 1,
+    "RoomId": 113
+  },
+  {
+    "Id": -245409405,
+    "Quantity": 2,
+    "EquipmentId": 2,
+    "RoomId": 114
+  },
+  {
+    "Id": 490312788,
+    "Quantity": 1,
+    "EquipmentId": 2,
+    "RoomId": 150
+  },
+  {
+    "Id": -2100695250,
+    "Quantity": 1,
+    "EquipmentId": 2,
+    "RoomId": 150
+  },
+  {
+    "Id": 1107966489,
+    "Quantity": 2,
+    "EquipmentId": 4,
+    "RoomId": 150
+  },
+  {
+    "Id": -754406757,
+    "Quantity": 1,
+    "EquipmentId": 28,
+    "RoomId": 150
+  },
+  {
+    "Id": -1225327597,
+    "Quantity": 2,
+    "EquipmentId": 2,
+    "RoomId": 151
+  },
+  {
+    "Id": 1757049592,
+    "Quantity": 4,
+    "EquipmentId": 2,
+    "RoomId": 151
+  },
+  {
+    "Id": 270103431,
+    "Quantity": 0,
+    "EquipmentId": 4,
+    "RoomId": 151
+  },
+  {
+    "Id": 1750762404,
+    "Quantity": 1,
+    "EquipmentId": 28,
+    "RoomId": 152
+  },
+  {
+    "Id": 2098376156,
+    "Quantity": 4,
+    "EquipmentId": 1,
+    "RoomId": 153
+  },
+  {
+    "Id": 1679802671,
+    "Quantity": 2,
+    "EquipmentId": 2,
+    "RoomId": 153
+  },
+  {
+    "Id": 22477227,
+    "Quantity": 20,
+    "EquipmentId": 1,
+    "RoomId": 999
+  },
+  {
+    "Id": 889376328,
+    "Quantity": 6,
+    "EquipmentId": 6,
+    "RoomId": 999
+  },
+  {
+    "Id": -2022198965,
+    "Quantity": 9,
+    "EquipmentId": 12,
+    "RoomId": 999
+  },
+  {
+    "Id": 1075114261,
+    "Quantity": 1,
+    "EquipmentId": 14,
+    "RoomId": 999
+  },
+  {
+    "Id": -644488332,
+    "Quantity": 39,
+    "EquipmentId": 21,
+    "RoomId": 999
+  },
+  {
+    "Id": -731753472,
+    "Quantity": 2000,
+    "EquipmentId": 22,
+    "RoomId": 999
+  },
+  {
+    "Id": 520869478,
+    "Quantity": 20,
+    "EquipmentId": 24,
+    "RoomId": 999
+  },
+  {
+    "Id": 723298802,
+    "Quantity": 0,
+    "EquipmentId": 26,
+    "RoomId": 999
+  },
+  {
+    "Id": 1694036383,
+    "Quantity": 200,
+    "EquipmentId": 23,
+    "RoomId": 999
+  },
+  {
+    "Id": -750446202,
+    "Quantity": 1,
+    "EquipmentId": 28,
+    "RoomId": 999
+  },
+  {
+    "Id": -1107953861,
+    "Quantity": 1,
+    "EquipmentId": 25,
+    "RoomId": 999
+  },
+  {
+    "Id": 360968964,
+    "Quantity": 4,
+    "EquipmentId": 27,
+    "RoomId": 999
+  },
+  {
+    "Id": 1713898491,
+    "Quantity": 11,
+    "EquipmentId": 13,
+    "RoomId": 999
+  },
+  {
+    "Id": 1048139682,
+    "Quantity": 22,
+    "EquipmentId": 2,
+    "RoomId": 999
+  },
+  {
+    "Id": -1722955148,
+    "Quantity": 72,
+    "EquipmentId": 3,
+    "RoomId": 999
+  },
+  {
+    "Id": 705966006,
+    "Quantity": 2,
+    "EquipmentId": 4,
+    "RoomId": 999
+  }
+]
