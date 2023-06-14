@@ -1,24 +1,14 @@
 ﻿using Autofac;
-using ZdravoCorp.Core.Repositories.RenovationRepo;
-using ZdravoCorp.Core.Repositories.UsersRepo;
-using ZdravoCorp.Core.Services.AnnualLeaveServices;
-using ZdravoCorp.Core.Services.DoctorServices;
-using ZdravoCorp.Core.Services.EquipmentServices;
-using ZdravoCorp.Core.Services.HospitalRefferalServices;
-using ZdravoCorp.Core.Services.InventoryServices;
-using ZdravoCorp.Core.Services.MedicalRecordServices;
-using ZdravoCorp.Core.Services.MedicamentServices;
-using ZdravoCorp.Core.Services.NotificationServices;
-using ZdravoCorp.Core.Services.NurseServices;
-using ZdravoCorp.Core.Services.OrderServices;
-using ZdravoCorp.Core.Services.PatientServices;
-using ZdravoCorp.Core.Services.RenovationServices;
-using ZdravoCorp.Core.Services.RoomServices;
-using ZdravoCorp.Core.Services.ScheduleServices;
-using ZdravoCorp.Core.Services.ServayServices;
-using ZdravoCorp.Core.Services.SpecialistsRefferalServices;
-using ZdravoCorp.Core.Services.TransferServices;
-using ZdravoCorp.Core.Services.UserServices;
+using ZdravoCorp.Core.HospitalAssets.Rooms.Services;
+using ZdravoCorp.Core.HospitalAssets.Rooms.Services.Services;
+using ZdravoCorp.Core.HospitalSystem.Analytics.Services;
+using ZdravoCorp.Core.HospitalSystem.AnnualLeaves.Services;
+using ZdravoCorp.Core.HospitalSystem.Notifications.Services;
+using ZdravoCorp.Core.HospitalSystem.Users.Services;
+using ZdravoCorp.Core.PatientFiles.MedicalRecords.Services;
+using ZdravoCorp.Core.PatientFiles.Presriptions.Services;
+using ZdravoCorp.Core.PatientFiles.Refferals.Services;
+using ZdravoCorp.Core.Scheduling.Services;
 
 namespace ZdravoCorp.Core.Utilities;
 

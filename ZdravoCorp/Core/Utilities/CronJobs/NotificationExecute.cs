@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Quartz;
-using ZdravoCorp.Core.Models.Notifications;
-using ZdravoCorp.Core.Services.NotificationServices;
+using ZdravoCorp.Core.HospitalSystem.Notifications.Models;
+using ZdravoCorp.Core.HospitalSystem.Notifications.Services;
 
 namespace ZdravoCorp.Core.Utilities.CronJobs;
 

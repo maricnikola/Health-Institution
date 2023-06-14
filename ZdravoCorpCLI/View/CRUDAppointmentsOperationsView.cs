@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZdravoCorp.Core.Services.DoctorServices;
-using ZdravoCorp.Core.Services.PatientServices;
-using ZdravoCorp.Core.Services.ScheduleServices;
+using ZdravoCorp.Core.HospitalSystem.Users.Services;
+using ZdravoCorp.Core.Scheduling.Services;
 using ZdravoCorp.Core.Utilities;
 using ZdravoCorpCLI.Utilities;
 

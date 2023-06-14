@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Quartz;
-using ZdravoCorp.Core.Models.Renovation;
-using ZdravoCorp.Core.Services.RenovationServices;
+using ZdravoCorp.Core.HospitalAssets.Rooms.Models;
+using ZdravoCorp.Core.HospitalAssets.Rooms.Services;
 
 namespace ZdravoCorp.Core.Utilities.CronJobs;
 

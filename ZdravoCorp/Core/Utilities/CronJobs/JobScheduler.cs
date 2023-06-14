@@ -3,18 +3,12 @@ using System.Collections.Specialized;
 using Autofac;
 using Quartz;
 using Quartz.Impl;
-using ZdravoCorp.Core.Models.Notifications;
-using ZdravoCorp.Core.Models.Orders;
-using ZdravoCorp.Core.Models.Renovation;
-using ZdravoCorp.Core.Models.Transfers;
-using ZdravoCorp.Core.Repositories.InventoryRepo;
-using ZdravoCorp.Core.Repositories.OrderRepo;
-using ZdravoCorp.Core.Repositories.TransfersRepo;
-using ZdravoCorp.Core.Services.InventoryServices;
-using ZdravoCorp.Core.Services.NotificationServices;
-using ZdravoCorp.Core.Services.OrderServices;
-using ZdravoCorp.Core.Services.RenovationServices;
-using ZdravoCorp.Core.Services.TransferServices;
+using ZdravoCorp.Core.HospitalAssets.Equipment.Models;
+using ZdravoCorp.Core.HospitalAssets.Rooms.Models;
+using ZdravoCorp.Core.HospitalAssets.Rooms.Services;
+using ZdravoCorp.Core.HospitalAssets.Rooms.Services.Services;
+using ZdravoCorp.Core.HospitalSystem.Notifications.Models;
+using ZdravoCorp.Core.HospitalSystem.Notifications.Services;
 
 namespace ZdravoCorp.Core.Utilities.CronJobs;
 
