@@ -46,7 +46,6 @@ public class AppointmentRecommendationView
         {
             _doctorList.Add(doctor.FullName);
         }
-
     }
 
     public void Run()
@@ -103,7 +102,7 @@ public class AppointmentRecommendationView
         int doctorIndex;
         do
         {
-            Console.Write("Enter the number corresponding to the desired doctor: ");
+            Console.Write("Enter the number of the the desired doctor: ");
             var doctorInput = Console.ReadLine();
             if (!int.TryParse(doctorInput, out doctorIndex) || doctorIndex < 1 || doctorIndex > _allDoctors.Count)
             {
@@ -233,8 +232,7 @@ public class AppointmentRecommendationView
             appointments[appointmentIndex].Time.Start, appointments[appointmentIndex].Doctor,
             appointments[appointmentIndex].PatientEmail, appointments[appointmentIndex].Anamnesis);
         _scheduleService.AddAppointment(appointmentDto);
-        Console.WriteLine("Appontment created successfully");
-
+        Console.WriteLine("\nAppontment created successfully!\n");
     }
     private static int GetAppointmentIndex(List<Appointment> appointments)
     {
@@ -256,6 +254,5 @@ public class AppointmentRecommendationView
 
         return appointmentIndex - 1;
     }
-
 
 }
