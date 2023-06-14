@@ -39,6 +39,8 @@
                          Command="{Binding LoadPatientsCommand}" />
             <RadioButton Content="Chat" Height="50" Foreground="WhiteSmoke" Style="{DynamicResource ToggleTheme}"
                          Command="{Binding LoadChatCommand}" />
+            <RadioButton Content="Annual Leave"  Height="50" Foreground="WhiteSmoke" Style="{DynamicResource ToggleTheme}"
+                        Command="{Binding AddAnnualLeaveCommand}" />
 
         </StackPanel>
         <ContentControl Grid.RowSpan="2" Background="#29262e" Content="{Binding Path=CurrentView}" Grid.Row="0"

@@ -55,6 +55,8 @@
                          Style="{DynamicResource ToggleTheme}" Command="{Binding MoveEquipmentCommand}" />
             <RadioButton Content="Move Dynamic Equipment" Height="50" Foreground="WhiteSmoke"
                          Style="{DynamicResource ToggleTheme}" Command="{Binding MoveDynamicEquipmentCommand}" />
+            <RadioButton Content="Renovations" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding RenovationCommand}" />
             <RadioButton Content="Annual Leave" Height="50" Foreground="WhiteSmoke"
                          Style="{DynamicResource ToggleTheme}" Command="{Binding AnnualRequestsCommand}" />
             <RadioButton Content="Hospital Analytics" Height="50" Foreground="WhiteSmoke"

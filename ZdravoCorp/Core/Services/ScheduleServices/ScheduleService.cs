@@ -75,6 +75,11 @@ public class ScheduleService : IScheduleService
         return _scheduleRepository.GetAllAppointments().Where(appointment => appointment.Doctor.Email == doctorsMail).ToList();
     }
 
+    public List<Appointment> GetDoctorAppointmentsInTimeSlot(string doctorsMail, TimeSlot slot)
+    {
+        return _scheduleRepository.GetAllAppointments().Where(appointment => appointment.Doctor.Email == doctorsMail && appointment.Time.Overlap(slot)).ToList();
+    }
+
     public List<Operation> GetDoctorOperations(string doctorsMail)
     {
         return _scheduleRepository.GetAllOperations().Where(operation => operation.Doctor.Email == doctorsMail).ToList();

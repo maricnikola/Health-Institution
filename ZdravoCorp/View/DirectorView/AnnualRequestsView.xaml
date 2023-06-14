@@ -12,53 +12,30 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <StackPanel Margin="0,20, 0, 0" HorizontalAlignment="Center" Orientation="Horizontal">
-            <TextBox Text="{Binding Path = SearchBox , Mode = OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                     Width="180" Height="40" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="5" />
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Label HorizontalAlignment="Center" Foreground="LightGray" Margin="0,0,0,5" Content="Equipment Type" />
-                <ComboBox Grid.Row="1" SelectedItem="{Binding Path=SelectedEquipmentType}"
-                          ItemsSource="{Binding Path=EquipmentTypes}" Text="Equipment Type" Width="100"
-                          Margin="10,0,10, 10" />
-            </Grid>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Label HorizontalAlignment="Center" Foreground="LightGray" Margin="0,0,0,5" Content="Room Type" />
-                <ComboBox Grid.Row="1" SelectedItem="{Binding Path=SelectedRoomType}"
-                          ItemsSource="{Binding Path=RoomTypes}" Text="Room Type" Width="100" Margin="10,0,10, 10" />
-            </Grid>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Label HorizontalAlignment="Center" Foreground="LightGray" Margin="0,0,0,5" Content="Quantity" />
-                <ComboBox Grid.Row="1" SelectedItem="{Binding Path=SelectedQuantity}"
-                          ItemsSource="{Binding Path=Quantities}" Text="Quantity" Width="100"
-                          Margin="10,0,10, 10" />
-            </Grid>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
 
-            <CheckBox IsChecked="{Binding Path=IsWarehouseChecked, UpdateSourceTrigger=PropertyChanged}"
-                      Content="StockRoom" Foreground="White" Margin="10,32,10, 10" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,20, 0, 0" HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button Content="Approve" Height="30" Width="100" Margin="0, 0, 20, 0"
+                    Command="{Binding ApproveAnnualRequestCommand}" />
+            <Button Content="Deny" Height="30" Width="100" Margin="20, 0, 20, 0"
+                    Command="{Binding DenyAnnualRequestCommand}" />
+
         </StackPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Inventory, UpdateSourceTrigger=PropertyChanged}"
+        <Label Grid.Row="1" Foreground="WhiteSmoke" Margin="10,0,0,0">Annual leave requests:</Label>
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Requests, UpdateSourceTrigger=PropertyChanged}"
                   SelectionMode="Single"
-                  IsReadOnly="True" AutoGenerateColumns="False" Margin="30" Name="EquipmentV">
+                  IsReadOnly="True" AutoGenerateColumns="False" Margin="20,0,20,20" Name="Requests"
+                  SelectedItem="{Binding SelectedRequest, Mode=TwoWay}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Width="100" x:Name="Name" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Room" Binding="{Binding Room}" />
-                <DataGridTextColumn Header="Type" Binding="{Binding Type}" />
-                <DataGridTextColumn Header="RoomType" Binding="{Binding RoomType}" />
-                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" />
+                <DataGridTextColumn Header="Doctor" Width="100" Binding="{Binding Doctor}" />
+
+                <DataGridTextColumn Header="Start" Binding="{Binding StartTime}" />
+                <DataGridTextColumn Header="End" Binding="{Binding EndTime}" />
+                <DataGridTextColumn Header="Reason" Width="*" Binding="{Binding Reason}" />
+                <DataGridTextColumn Header="Status" Width="*" Binding="{Binding Status}" />
 
             </DataGrid.Columns>
         </DataGrid>
