@@ -52,12 +52,29 @@ public class AppointmentRecommendationView
     public void Run()
     {
         Console.WriteLine("Get recommentded appointments");
-        InputUsername();
-        ChooseDoctor();
-        ChooseLastDate();
-        ChooseTimes();
-        ChoosePriority();
-        RecommendAppointemtns();
+        var option = "";
+        do
+        {
+            Console.WriteLine(" 1. Recommend\n 2. Exit");
+            Console.Write("Enter option number: ");
+            option = Console.ReadLine();
+        } while (option != "1" && option != "2");
+
+        switch (option)
+        {
+            case "1":
+                InputUsername();
+                ChooseDoctor();
+                ChooseLastDate();
+                ChooseTimes();
+                ChoosePriority();
+                RecommendAppointemtns();
+                break;
+            case "2":
+                Environment.Exit(0);
+                break;
+        }
+
     }
 
     private void InputUsername()
@@ -170,17 +187,17 @@ public class AppointmentRecommendationView
         {
             var wantedTimeSlot = new TimeSlot(_startTime, _endTime);
             var lastDate = new DateTime(_lastDate.Year, _lastDate.Month, _lastDate.Day, 23, 59, 0);
-            Console.WriteLine("{0,-25} | {1, -25} | {2, -25}", "DATE", "DOCTOR", "PATIENT");
+            Console.WriteLine("# | " + "{0,-25} | {1, -25} | {2, -25}", "DATE", "DOCTOR", "PATIENT");
             Console.WriteLine(new string('-', 105));
-            List<Appointment> fittingAppointments = new List<Appointment>();
+            List<Appointment> fittingAppointments;
             if (_priority == "Doctor")
             {
                 fittingAppointments =
                     _scheduleService?.FindAppointmentsByDoctorPriority(_chosenDoctor, wantedTimeSlot, lastDate,
                         _patientEmail);
-                foreach (var appointmentForPrint in fittingAppointments)
+                for (int i = 0; i < fittingAppointments!.Count; i++)
                 {
-                    Console.WriteLine(new AppointmentViewModel(appointmentForPrint) + "\n");
+                    Console.WriteLine($"{i + 1} | " + new AppointmentViewModel(fittingAppointments[i]) + "\n");
                 }
             }
             else
@@ -188,9 +205,9 @@ public class AppointmentRecommendationView
                 fittingAppointments =
                     _scheduleService?.FindAppointmentsByTimePriority(_chosenDoctor, wantedTimeSlot, lastDate,
                         _patientEmail, _doctorService);
-                foreach (var appointmentForPrint in fittingAppointments)
+                for (int i = 0; i < fittingAppointments!.Count; i++)
                 {
-                    Console.WriteLine(new AppointmentViewModel(appointmentForPrint) + "\n");
+                    Console.WriteLine($"{i + 1} | " + new AppointmentViewModel(fittingAppointments[i]) + "\n");
                 }
             }
             MakeAppointment(fittingAppointments);
