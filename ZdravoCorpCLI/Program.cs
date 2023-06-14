@@ -164,6 +164,16 @@ public class Program
                     Console.WriteLine(appointmentForPrint.Date + " - " + appointmentForPrint.DoctorEmail + " - "+ appointmentForPrint.PatientMail + "\n");
                 }
             }
+            else
+            {
+                var fittingAppointments =
+                    _scheduleService?.FindAppointmentsByTimePriority(_chosenDoctor, wantedTimeSlot, lastDate,
+                        "sreten.pejovic@gmail.com", _doctorService);
+                foreach (var appointmentForPrint in fittingAppointments.Select(singleAppointment => new AppointmentViewModel(singleAppointment)))
+                {
+                    Console.WriteLine(appointmentForPrint.Date + " - " + appointmentForPrint.DoctorEmail + " - " + appointmentForPrint.PatientMail + "\n");
+                }
+            }
         }
         catch (Exception e)
         {
