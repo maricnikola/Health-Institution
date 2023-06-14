@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Quartz;
-using ZdravoCorp.Core.Models.Transfers;
-using ZdravoCorp.Core.Repositories.InventoryRepo;
-using ZdravoCorp.Core.Repositories.TransfersRepo;
-using ZdravoCorp.Core.Services.InventoryServices;
-using ZdravoCorp.Core.Services.TransferServices;
+using ZdravoCorp.Core.HospitalAssets.Equipment.Models;
+using ZdravoCorp.Core.HospitalAssets.Rooms.Services.Services;
 
 namespace ZdravoCorp.Core.Utilities.CronJobs;
 

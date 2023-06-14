@@ -1,12 +1,10 @@
 ﻿using Autofac;
-using ZdravoCorp.Core.Models.Renovation;
-using ZdravoCorp.Core.Models.Rooms;
-using ZdravoCorp.Core.Services.RenovationServices;
-using ZdravoCorp.Core.Services.RoomServices;
-using ZdravoCorp.Core.Services.ScheduleServices;
+using ZdravoCorp.Core.HospitalAssets.Rooms.Models;
+using ZdravoCorp.Core.HospitalAssets.Rooms.Services;
+using ZdravoCorp.Core.Scheduling.Services;
 using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.Core.Utilities.CronJobs;
-using ZdravoCorp.Core.ViewModels.DirectorViewModel;
+using ZdravoCorp.GUI.HospitalAssets.Rooms.ViewModels;
 using ZdravoCorpCLI.Utilities;
 
 namespace ZdravoCorpCLI.View;

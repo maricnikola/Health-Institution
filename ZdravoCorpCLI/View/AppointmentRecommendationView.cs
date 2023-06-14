@@ -6,12 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
-using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.Services.DoctorServices;
-using ZdravoCorp.Core.Services.PatientServices;
-using ZdravoCorp.Core.Services.ScheduleServices;
+using ZdravoCorp.Core.HospitalSystem.Users.Models;
+using ZdravoCorp.Core.HospitalSystem.Users.Services;
+using ZdravoCorp.Core.Scheduling.Services;
 using ZdravoCorp.Core.Utilities;
-using ZdravoCorp.Core.ViewModels;
+using ZdravoCorp.GUI.Scheduling.ViewModels;
 using ZdravoCorpCLI.Utilities;
 
 namespace ZdravoCorpCLI.View;

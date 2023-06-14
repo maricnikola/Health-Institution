@@ -1,20 +1,15 @@
 ﻿using Autofac;
-using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.Repositories.AnnualLeavesRepo;
-using ZdravoCorp.Core.Repositories.EquipmentRepo;
-using ZdravoCorp.Core.Repositories.HospitalRefferalsRepo;
-using ZdravoCorp.Core.Repositories.InventoryRepo;
-using ZdravoCorp.Core.Repositories.MedicalRecordRepo;
-using ZdravoCorp.Core.Repositories.MedicamentsRepo;
-using ZdravoCorp.Core.Repositories.NotificationRepo;
-using ZdravoCorp.Core.Repositories.OrderRepo;
-using ZdravoCorp.Core.Repositories.RenovationRepo;
-using ZdravoCorp.Core.Repositories.RoomRepo;
-using ZdravoCorp.Core.Repositories.ScheduleRepo;
-using ZdravoCorp.Core.Repositories.SpecialistsRefferalsRepo;
-using ZdravoCorp.Core.Repositories.SurveysRepo;
-using ZdravoCorp.Core.Repositories.TransfersRepo;
-using ZdravoCorp.Core.Repositories.UsersRepo;
+using ZdravoCorp.Core.HospitalAssets.Equipment.Repositories;
+using ZdravoCorp.Core.HospitalAssets.Rooms.Repositories;
+using ZdravoCorp.Core.HospitalSystem.Analytics.Repositories;
+using ZdravoCorp.Core.HospitalSystem.AnnualLeaves.Repositories;
+using ZdravoCorp.Core.HospitalSystem.Notifications.Repositories;
+using ZdravoCorp.Core.HospitalSystem.Users.Models;
+using ZdravoCorp.Core.HospitalSystem.Users.Repositories;
+using ZdravoCorp.Core.PatientFiles.MedicalRecords.Repositories;
+using ZdravoCorp.Core.PatientFiles.Presriptions.Repositories;
+using ZdravoCorp.Core.PatientFiles.Refferals.Repositories;
+using ZdravoCorp.Core.Scheduling.Repositories;
 
 namespace ZdravoCorp.Core.Utilities;
 

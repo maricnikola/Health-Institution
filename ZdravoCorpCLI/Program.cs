@@ -5,12 +5,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Autofac;
 using ZdravoCorp.Core.Utilities;
-using ZdravoCorp.Core.Services.ScheduleServices;
-using ZdravoCorp.Core.Models.Users;
-using ZdravoCorp.Core.Services.DoctorServices;
-using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Utilities.CronJobs;
-using ZdravoCorp.Core.ViewModels;
 using ZdravoCorpCLI.View;
 
 public class Program
