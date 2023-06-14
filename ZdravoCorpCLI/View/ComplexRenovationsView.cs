@@ -86,7 +86,7 @@ public class ComplexRenovationsView
                     break;
                 case 2:
                     var splitRoomType = GetSplitRoomType();
-                    split = new Room(IDGenerator.GetId(), splitRoomType, false);
+                    split = new Room(RoomIDGenerator.GetId(), splitRoomType, false);
                     break;
                 case 3:
                     while (true)
