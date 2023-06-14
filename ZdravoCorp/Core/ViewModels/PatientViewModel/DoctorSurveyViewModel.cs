@@ -26,7 +26,7 @@ public class DoctorSurveyViewModel : ViewModelBase
     private bool _noChecked;
     private string _comment = "";
 
-    public ICommand SubmitSurvayCommand { get; set; }
+    public ICommand SubmitSurveyCommand { get; set; }
     public DoctorSurveyViewModel(IDoctorService doctorService,string doctorEmail, string patientEmail)
     {
         _survayService = Injector.Container.Resolve<ISurveyService>();
@@ -36,7 +36,9 @@ public class DoctorSurveyViewModel : ViewModelBase
         PossibleGrades = new HashSet<string> { "1", "2", "3", "4", "5" };
         FillInputFields();
 
-        SubmitSurvayCommand = new DelegateCommand(o => SubmitSurvayComm());
+        SubmitSurveyCommand =
+            new CreateDoctorSurveyCommand(this, _survayService, _doctorService, doctorEmail, _patientEmail);
+        //SubmitSurveyCommand = new DelegateCommand(o => SubmitSurveyComm());
     }
 
     public string DoctorName => _doctor.FullName;
@@ -103,11 +105,11 @@ public class DoctorSurveyViewModel : ViewModelBase
         _comment = survay.Comment;
     }
 
-    private void SubmitSurvayComm()
+    private void SubmitSurveyComm()
     {
-        var survay = new DoctorSurveyDTO(IDGenerator.GetId(), _doctor.Email, _patientEmail,
+        var survey = new DoctorSurveyDTO(IDGenerator.GetId(), _doctor.Email, _patientEmail,
             int.Parse(SelectedGrade), YesChecked, Comment);
-        _survayService.AddDoctorSuvay(survay);
+        _survayService.AddDoctorSuvay(survey);
         MessageBox.Show("Survay created successfully", "Success", MessageBoxButton.OK);
         var doctorsAvgGrade = _survayService.FindAverageGradeForDoctor(_doctor.Email);
         _doctorService.UpdateGrade(_doctor.Email,doctorsAvgGrade);

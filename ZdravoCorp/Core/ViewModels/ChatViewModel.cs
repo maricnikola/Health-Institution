@@ -35,7 +35,8 @@ public class ChatViewModel : ViewModelBase
         _discordClient.LoginAsync(TokenType.Bot, clientToken).Wait();
         _discordClient.StartAsync().Wait();
 
-        SendCommand = new DelegateCommand(o=>SendMessage());
+        SendCommand = new SendMessageCommand(this, _discordClient);
+        //SendCommand = new DelegateCommand(o=>SendMessage());
         InitializeAsync();
     }
 
@@ -125,7 +126,6 @@ public class ChatViewModel : ViewModelBase
         _discordClient.GetGuild(1114665077916835952)
             .GetTextChannel(1114665079158341764)
             .SendMessageAsync(InputText);
-
         InputText = "";
     }
 }

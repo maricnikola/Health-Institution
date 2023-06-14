@@ -22,7 +22,7 @@ public class CreateHospitalSurveyViewModel : ViewModelBase
     private string _overallGrade;
     private bool _yesChecked;
     private bool _noChecked;
-    public ICommand CreateHospitalSurvayCommand { get; set; }
+    public ICommand CreateHospitalSurveyComm { get; set; }
 
     public CreateHospitalSurveyViewModel(ISurveyService survayService, string patientEmail)
     {
@@ -30,7 +30,8 @@ public class CreateHospitalSurveyViewModel : ViewModelBase
         _patientEmail = patientEmail;
         PossibleGrades = new HashSet<string> { "1", "2", "3", "4", "5" };
         FillInputFields();
-        CreateHospitalSurvayCommand = new DelegateCommand(o => CreateHospitalSurvay());
+        CreateHospitalSurveyComm = new CreateHospitalSurveyCommad(this, _survayService, _patientEmail);
+        //CreateHospitalSurvayCommand = new DelegateCommand(o => CreateHospitalSurvay());
     }
 
     public HashSet<string> PossibleGrades { get; set; }
