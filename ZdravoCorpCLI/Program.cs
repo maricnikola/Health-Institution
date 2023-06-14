@@ -20,7 +20,6 @@ public class Program
         var idg = new IDGenerator();
         Injector.Configure();
         var scheduler = new JobScheduler();
-
         Console.WriteLine("-----Bonus functionalities-----\n");
         var option = "";
         do
