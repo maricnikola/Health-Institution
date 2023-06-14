@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using Newtonsoft.Json;
 using ZdravoCorp.Core.Exceptions;
 using JsonException = System.Text.Json.JsonException;
@@ -9,8 +10,19 @@ namespace ZdravoCorp.Core.Utilities;
 public class IDGenerator
 {
     private static int _currentId;
-    private static readonly string _fileName = @".\..\..\..\Data\idg.json";
+    static string solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+    //static string dataFolderPath = Path.Combine(solutionDirectory, "ZdravoCorp") + Path.DirectorySeparatorChar + "Data";
 
+    //static string dataFolderPath = Path.Combine(solutionDirectory,"ZdravoCorp", "Data");
+
+    //static string appDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+    //static string dataFolderPath = Path.Combine(appDirectory, "Data");
+
+    //private static readonly string _fileName = dataFolderPath + Path.DirectorySeparatorChar + "idg.json";
+    //private static readonly string _fileName = @"C:\Users\Aleksa\Desktop\usi-2023-group-3-team-11\ZdravoCorp\Data\idg.json";
+    //private static readonly string _fileName = Path.Combine(dataFolderPath, "idg.json");
+
+    private static readonly string _fileName = @".\..\..\..\..\Data\idg.json";
     public IDGenerator()
     {
         _currentId = LoadFromFile();

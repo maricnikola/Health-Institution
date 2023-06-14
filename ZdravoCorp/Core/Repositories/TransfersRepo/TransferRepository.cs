@@ -9,7 +9,7 @@ namespace ZdravoCorp.Core.Repositories.TransfersRepo;
 
 public class TransferRepository : ISerializable, ITransferRepository
 {
-    private readonly string _fileName = @".\..\..\..\Data\transfers.json";
+    private readonly string _fileName = @".\..\..\..\..\Data\transfers.json";
     private List<Transfer>? _transfers;
 
 

@@ -10,7 +10,7 @@ namespace ZdravoCorp.Core.Repositories.MedicamentsRepo;
 
 public class MedicamentRepository : ISerializable,IMedicamentRepository
 {
-    private readonly string _fileName = @".\..\..\..\Data\medicaments.json";
+    private readonly string _fileName = @".\..\..\..\..\Data\medicaments.json";
     private List<Medicament>? _medicaments;
 
     public MedicamentRepository()

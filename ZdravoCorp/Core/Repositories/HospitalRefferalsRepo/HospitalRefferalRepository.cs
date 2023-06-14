@@ -12,7 +12,7 @@ namespace ZdravoCorp.Core.Repositories.HospitalRefferalsRepo;
 
 public class HospitalRefferalRepository: ISerializable, IHospitalRefferalRepository
 {
-    private readonly string _fileName = @".\..\..\..\Data\hospitalRefferal.json";
+    private readonly string _fileName = @".\..\..\..\..\Data\hospitalRefferal.json";
     private List<HospitalRefferal>? _hospitalRefferals;
 
     public HospitalRefferalRepository()
