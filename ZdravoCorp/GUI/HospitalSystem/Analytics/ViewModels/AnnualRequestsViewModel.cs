@@ -50,6 +50,8 @@ public class AnnualRequestsViewModel : ViewModelBase
         {
             _requests.Add(new AnnualLeaveRequestViewModel(request));
         }
+
+        Requests = _requests;
     }
     private void ApproveRequest()
     {
