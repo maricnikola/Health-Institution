@@ -88,6 +88,6 @@ public class DoctorViewModel : ViewModelBase
 
     public void AddAnnualLeave()
     {
-        CurrentView = new DoctorAnnualLeaveView() { DataContext =new  DoctorAnnualLeaveViewModel(_annualLeaveService,_user.Email)};
+        CurrentView = new DoctorAnnualLeaveView() { DataContext =new  DoctorAnnualLeaveViewModel(_annualLeaveService,_scheduleService,_user.Email)};
     }
 }

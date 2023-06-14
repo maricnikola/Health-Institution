@@ -18,4 +18,6 @@ public interface IAnnualLeaveService
     public void Approve(int id);
     public void Deny(int id);
     public bool CheckAnnualLeaveData(string reason, TimeSlot time);
+    public bool CheckAnnualLeaveForDeny(AnnualLeave annualLeave);
+    public bool DenyByDoctor(int id);
 }

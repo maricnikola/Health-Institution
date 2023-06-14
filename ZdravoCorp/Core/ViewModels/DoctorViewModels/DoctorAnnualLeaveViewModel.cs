@@ -8,7 +8,9 @@ using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.AnnualLeaves;
+using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Services.AnnualLeaveServices;
+using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.Core.ViewModels.DirectorViewModel;
 
@@ -17,17 +19,25 @@ namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 public class DoctorAnnualLeaveViewModel : ViewModelBase
 {
     public ICommand CreateAnnualLeaveCommand { get; private set; }
+	public ICommand CancelCommand { get; private set; }
 	private IAnnualLeaveService _annualLeaveService;
-	public ObservableCollection<AnnualLeaveRequestViewModel> AnnualLeaves;
+	private IScheduleService _scheduleService;
+	public ObservableCollection<AnnualLeaveRequestViewModel> AnnualLeaves { get; }
+	public AnnualLeaveRequestViewModel SelectedAnnualLeave { get; set; }
 	private string _doctorMail;
-    public DoctorAnnualLeaveViewModel(IAnnualLeaveService annualLeaveService,string doctorMail)
+    public DoctorAnnualLeaveViewModel(IAnnualLeaveService annualLeaveService,IScheduleService scheduleService,string doctorMail)
     {
+		AnnualLeaves = new ObservableCollection<AnnualLeaveRequestViewModel>();
+		_scheduleService = scheduleService;
+		_doctorMail= doctorMail;
 		_annualLeaveService = annualLeaveService;
 		foreach(AnnualLeave annualLeave in _annualLeaveService.GetAll())
 		{
+			if (annualLeave.RequestStatus.Equals(AnnualLeave.Status.Denied)) continue;
 			AnnualLeaves.Add(new AnnualLeaveRequestViewModel(annualLeave));
 		}
 		CreateAnnualLeaveCommand = new DelegateCommand(o => CreateAnnualLeaveRequest());
+		CancelCommand = new DelegateCommand(o => CancelAnnualLeave());
 
     }
 	private DateTime _startDate =  DateTime.Now + TimeSpan.FromHours(1);
@@ -57,33 +67,70 @@ public class DoctorAnnualLeaveViewModel : ViewModelBase
 		}
 	}
 
-	private string _reason;
-	public string Reason
+	private string _reasonInput;
+	public string ReasonInput
 	{
 		get
 		{
-			return _reason;
+			return _reasonInput;
 		}
 		set
 		{
-			_reason = value;
-			OnPropertyChanged(nameof(Reason));
+			_reasonInput = value;
+			OnPropertyChanged(nameof(ReasonInput));
 		}
 	}
 
 	public void CreateAnnualLeaveRequest()
 	{
-		string reason = Reason;
-		DateTime startDate = StartDate;
-		DateTime endDate = EndDate;
-		TimeSlot time = new TimeSlot(startDate, endDate);
-		AnnualLeaveDTO annualLeave = new AnnualLeaveDTO(reason, time, _doctorMail);
-		AnnualLeaveDTO addedAnnualLeave =  _annualLeaveService.AddAnnualLeave(annualLeave);
-		if(addedAnnualLeave == null)
+		try
+		{
+			string reason = ReasonInput;
+            DateTime startDate = StartDate;
+            DateTime endDate = EndDate;
+            TimeSlot time = new TimeSlot(startDate, endDate);
+            AnnualLeaveDTO annualLeave = new AnnualLeaveDTO(reason, time, _doctorMail);
+			if (ShowMessageBox(annualLeave, !_scheduleService.IsDoctorAvailable(annualLeave.Time, _doctorMail))) return;
+            AnnualLeaveDTO addedAnnualLeave = _annualLeaveService.AddAnnualLeave(annualLeave);
+
+			if (ShowMessageBox(addedAnnualLeave,addedAnnualLeave==null)) return;
+
+            AnnualLeave annualLeaveModel = new AnnualLeave(annualLeave.Reason, annualLeave.Time, annualLeave.Id, annualLeave.DoctorMail, annualLeave.RequestStatus);
+
+            AnnualLeaves.Add(new AnnualLeaveRequestViewModel(annualLeaveModel));
+        }
+		catch (Exception)
 		{
             MessageBox.Show("Invalid data for Annual leave request!", "Error", MessageBoxButton.OK);
-			return;
+            return;
+		}
+		
+    }
+	
+	public bool ShowMessageBox(AnnualLeaveDTO addedAnnualLeave,bool condition)
+	{
+        if (condition)
+        {
+            MessageBox.Show("Invalid data for Annual leave request!", "Error", MessageBoxButton.OK);
+            return true;
         }
-		AnnualLeaves.Add(new AnnualLeaveRequestViewModel(new AnnualLeave(annualLeave.Reason,annualLeave.Time,annualLeave.Id,annualLeave.DoctorMail,annualLeave.RequestStatus)));
+
+		return false;
+	}
+	public void CancelAnnualLeave()
+	{
+		if(SelectedAnnualLeave == null)
+		{
+            MessageBox.Show("None selected!", "Error", MessageBoxButton.OK);
+            return;
+        }
+		bool deny = _annualLeaveService.DenyByDoctor(SelectedAnnualLeave.Id);
+		if (!deny)
+		{
+            MessageBox.Show("you can't deny!", "Error", MessageBoxButton.OK);
+            return;
+        }
+		AnnualLeave annualLeave = _annualLeaveService.GetById(SelectedAnnualLeave.Id);
+		AnnualLeaves.Remove(SelectedAnnualLeave);
 	}
 }

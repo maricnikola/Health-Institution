@@ -54,7 +54,8 @@ public class AnnualLeaveService: IAnnualLeaveService
     public bool CheckAnnualLeaveData(string reason,TimeSlot time)
     {
         if (time.Start > time.End) return false;
-        bool hasOverlap = _annualLeaveRepository.GetAll().Any(annualLeave => time.Overlap(annualLeave.Time));
+        bool hasOverlap = _annualLeaveRepository.GetAll().Any(annualLeave => time.Overlap(annualLeave.Time) &&
+        annualLeave.RequestStatus != AnnualLeave.Status.Denied);
         if (reason.Length < 5 || hasOverlap) return false;
         DateTime now = DateTime.Now;
         TimeSpan dateDifference = time.Start.Subtract(now);
@@ -62,5 +63,17 @@ public class AnnualLeaveService: IAnnualLeaveService
         if (days < 2) return false;
         return true;
     }
-    
+    public bool CheckAnnualLeaveForDeny(AnnualLeave annualLeave)
+    {
+        if (annualLeave.RequestStatus.Equals(AnnualLeave.Status.Denied) ||
+            annualLeave.RequestStatus.Equals(AnnualLeave.Status.Approved)) return false;
+        return true;
+    }
+    public bool DenyByDoctor(int id)
+    {
+        AnnualLeave annualLeave = GetById(id);
+        if (!CheckAnnualLeaveForDeny(annualLeave)) return false;
+        _annualLeaveRepository.UpdateStatus(id, AnnualLeave.Status.Denied);
+        return true;
+    }
 }
