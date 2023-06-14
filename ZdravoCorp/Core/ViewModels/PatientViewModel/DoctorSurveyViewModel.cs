@@ -36,7 +36,9 @@ public class DoctorSurveyViewModel : ViewModelBase
         PossibleGrades = new HashSet<string> { "1", "2", "3", "4", "5" };
         FillInputFields();
 
-        SubmitSurveyCommand = new DelegateCommand(o => SubmitSurveyComm());
+        SubmitSurveyCommand =
+            new CreateDoctorSurveyCommand(this, _surveyService, _doctorService, doctorEmail, _patientEmail);
+        //SubmitSurveyCommand = new DelegateCommand(o => SubmitSurveyComm());
     }
 
     public string DoctorName => _doctor.FullName;

@@ -19,7 +19,7 @@
         <RadioButton IsChecked="{Binding NoChecked, UpdateSourceTrigger=PropertyChanged}" Content="No" HorizontalAlignment="Left" Margin="569,240,0,0" VerticalAlignment="Top" GroupName="Group" Foreground="#FFF3E7E7" FontSize="14"/>
         <Label Content="Leave a comment" HorizontalAlignment="Left" Margin="131,278,0,0" VerticalAlignment="Top" FontSize="14" Foreground="#FFF1E9E9"/>
         <TextBox Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="131,312,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="476" Height="55"/>
-        <Button Command="{Binding CreateHospitalSurvayCommand}" Content="Submit" HorizontalAlignment="Center" Margin="0,390,0,0" VerticalAlignment="Top" FontSize="14" Height="25" Width="138"/>
+        <Button Command="{Binding CreateHospitalSurveyComm}" Content="Submit" HorizontalAlignment="Center" Margin="0,390,0,0" VerticalAlignment="Top" FontSize="14" Height="25" Width="138"/>
 
     </Grid>
 </UserControl>

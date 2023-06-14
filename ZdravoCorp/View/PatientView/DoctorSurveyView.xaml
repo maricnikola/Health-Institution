@@ -19,7 +19,7 @@
         <Label Content="Would you recommend doctor to a friend" HorizontalAlignment="Left" Margin="17,201,0,0" VerticalAlignment="Top" FontSize="14"/>
         <Label Content="Leave a comment" HorizontalAlignment="Left" Margin="17,250,0,0" VerticalAlignment="Top" FontSize="14"/>
         <TextBox Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="17,284,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="358" Foreground="Black" Background="#FFF6F6F6" Height="83"/>
-        <Button Command="{Binding SubmitSurvayCommand}" Content="Submit" HorizontalAlignment="Left" Margin="151,383,0,0" VerticalAlignment="Top" FontSize="14" Height="32" Width="109"/>
+        <Button Command="{Binding SubmitSurveyCommand}" Content="Submit" HorizontalAlignment="Left" Margin="151,383,0,0" VerticalAlignment="Top" FontSize="14" Height="32" Width="109"/>
 
     </Grid>
 </Window>

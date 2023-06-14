@@ -49,8 +49,7 @@ public class PatientViewModel : ViewModelBase
         LoadOldAppointmentsCommand = new DelegateCommand(o => LoadOldAppointments());
         LoadDoctorsCommand = new DelegateCommand(o => LoadDoctors());
         LoadNotificationsCommand = new DelegateCommand(o => LoadNotifications());
-        LoadHospitalSurveyCommand = new DelegateCommand(o => LoadHospitalSurvey());
-        LoadChatCommand = new DelegateCommand(o => LoadChat());
+        LoadHospitalSurvayCommand = new DelegateCommand(o => LoadHospitalSurvey());
 
         _currentView = new AppointmentTableViewModel(_scheduleService, _doctorService, _patient,_roomService);
         JobScheduler.LoadUsersNotifications(user.Email);
@@ -62,8 +61,7 @@ public class PatientViewModel : ViewModelBase
     public ICommand LoadOldAppointmentsCommand { get; set; }
     public ICommand LoadDoctorsCommand { get; set; }
     public ICommand LoadNotificationsCommand { get; set; }
-    public ICommand LoadHospitalSurveyCommand { get; set; }
-    public ICommand LoadChatCommand { get; set; }
+    public ICommand LoadHospitalSurvayCommand { get; set; }
 
     public object CurrentView
     {
@@ -106,13 +104,5 @@ public class PatientViewModel : ViewModelBase
         CurrentView = new CreateHospitalSurveyViewModel(_surveyService, _patient.Email);
     }
 
-    private void LoadChat()
-    {
-        var window = new Chat()
-        {
-            DataContext = new ChatViewModel("MTExNDY2MDk3Nzc0NTYwODc1NA.GIlj5N.LKExMp_ybGHcuiXVX8i3ANIfbgWOKKnq8NeN9c")
-        };
-        window.Show();
-    }
 
 }
