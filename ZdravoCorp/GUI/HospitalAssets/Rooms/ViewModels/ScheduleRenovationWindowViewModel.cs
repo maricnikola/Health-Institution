@@ -139,7 +139,7 @@ public class ScheduleRenovationWindowViewModel : ViewModelBase
         if (IsSplitChecked)
         {
             if (Enum.TryParse<RoomType>(SelectedRoomType, out var type))
-                split = new Room(IDGenerator.GetRoomId(), type,false);
+                split = new Room(RoomIDGenerator.GetId(), type,false);
         }
 
         if (IsJoinChecked)

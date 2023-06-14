@@ -333,7 +333,6 @@
       <Folder Include="Core\PatientFiles\" />
       <Folder Include="GUI\HospitalAssets\Equipment\Commands\" />
       <Folder Include="GUI\HospitalAssets\Rooms\Commands\" />
-      <Folder Include="GUI\HospitalSystem\AnnualLeaves\Commands\" />
       <Folder Include="GUI\HospitalSystem\Notifications\Commands\" />
       <Folder Include="GUI\HospitalSystem\Users\Commands\" />
       <Folder Include="GUI\PatientFiles\MedicalRecords\Commands\" />

@@ -1,4 +1,3 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,4 +21,6 @@ public abstract class CommandBase : ICommand
         CanExecuteChanged?.Invoke(this, new EventArgs());
     }
 
+    
 }
+
