@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
-using ZdravoCorp.Core.Models.Survays;
+using ZdravoCorp.Core.Models.Surveys;
 using ZdravoCorp.Core.Services.ServayServices;
 
 namespace ZdravoCorp.Core.ViewModels.PatientViewModel;
 
 public class CreateHospitalSurveyViewModel : ViewModelBase
 {
-    private ISurveyService _survayService;
+    private ISurveyService _surveyService;
     private string _patientEmail;
     private string _comment = "";
     private string _serviceGrade;
@@ -24,13 +24,13 @@ public class CreateHospitalSurveyViewModel : ViewModelBase
     private bool _noChecked;
     public ICommand CreateHospitalSurveyComm { get; set; }
 
-    public CreateHospitalSurveyViewModel(ISurveyService survayService, string patientEmail)
+    public CreateHospitalSurveyViewModel(ISurveyService surveyService, string patientEmail)
     {
-        _survayService = survayService;
+        _surveyService = surveyService;
         _patientEmail = patientEmail;
         PossibleGrades = new HashSet<string> { "1", "2", "3", "4", "5" };
         FillInputFields();
-        CreateHospitalSurveyComm = new CreateHospitalSurveyCommad(this, _survayService, _patientEmail);
+        CreateHospitalSurveyComm = new CreateHospitalSurveyCommad(this, _surveyService, _patientEmail);
         //CreateHospitalSurvayCommand = new DelegateCommand(o => CreateHospitalSurvay());
     }
 
@@ -93,11 +93,11 @@ public class CreateHospitalSurveyViewModel : ViewModelBase
 
     private void FillInputFields()
     {
-        var survay = _survayService.FindHospitalSurvayForPatient(_patientEmail);
-        if (survay == null)
+        var survey = _surveyService.FindHospitalSurveyForPatient(_patientEmail);
+        if (survey == null)
             FillInputFieldsDefault();
         else
-            FillInputFieldsWithSurvay(survay);
+            FillInputFieldsWithSurvey(survey);
     }
 
     private void FillInputFieldsDefault()
@@ -108,23 +108,23 @@ public class CreateHospitalSurveyViewModel : ViewModelBase
         _yesChecked = true;
     }
 
-    private void FillInputFieldsWithSurvay(HospitalSurvey survay)
+    private void FillInputFieldsWithSurvey(HospitalSurvey survey)
     {
-        _serviceGrade = survay.ServiceGrade.ToString();
-        _hygieneGrade = survay.HygieneGrade.ToString();
-        _overallGrade = survay.OverallGrade.ToString();
-        _yesChecked = survay.Recommendation;
+        _serviceGrade = survey.ServiceGrade.ToString();
+        _hygieneGrade = survey.HygieneGrade.ToString();
+        _overallGrade = survey.OverallGrade.ToString();
+        _yesChecked = survey.Recommendation;
         _noChecked = !_yesChecked;
-        _comment = survay.Comment;
+        _comment = survey.Comment;
     }
 
-    public void CreateHospitalSurvay()
+    public void CreateHospitalSurvey()
     {
-        var survay =
+        var survey =
             new HospitalSurveyDTO(_patientEmail, int.Parse(ServiceGrade), int.Parse(HygieneGrade),
                 int.Parse(OverallGrade), YesChecked, Comment);
-        _survayService.AddHospitalSurvay(survay);
-        MessageBox.Show("Survay added successfully", "Success", MessageBoxButton.OK);
+        _surveyService.AddHospitalSurvey(survey);
+        MessageBox.Show("Survey added successfully", "Success", MessageBoxButton.OK);
     }
 
 }

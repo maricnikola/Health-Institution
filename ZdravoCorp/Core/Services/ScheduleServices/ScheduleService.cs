@@ -76,6 +76,11 @@ public class ScheduleService : IScheduleService
         return _scheduleRepository.GetAllAppointments().Where(appointment => appointment.Doctor.Email == doctorsMail).ToList();
     }
 
+    public List<Appointment> GetDoctorAppointmentsInTimeSlot(string doctorsMail, TimeSlot slot)
+    {
+        return _scheduleRepository.GetAllAppointments().Where(appointment => appointment.Doctor.Email == doctorsMail && appointment.Time.Overlap(slot)).ToList();
+    }
+
     public List<Operation> GetDoctorOperations(string doctorsMail)
     {
         return _scheduleRepository.GetAllOperations().Where(operation => operation.Doctor.Email == doctorsMail).ToList();
@@ -415,5 +420,15 @@ public class ScheduleService : IScheduleService
         return true;
     }
 
+    public bool HasAppointmentsAfter(int roomId, DateTime start)
+    {
+        foreach (var appointment in _scheduleRepository.GetAllAppointments().Where(a=>a.Room == roomId))
+        {
+            if (appointment.Time.Start > start)
+                return true;
+        }
 
+        return false;
+    }
+    
 }

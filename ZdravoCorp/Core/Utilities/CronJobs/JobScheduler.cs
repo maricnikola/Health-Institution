@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using Autofac;
 using Quartz;
 using Quartz.Impl;
@@ -36,7 +37,8 @@ public class JobScheduler
         _renovationService = Injector.Container.Resolve<IRenovationService>();
         _manageRenovationService = Injector.Container.Resolve<IManageRenovationService>();
         _notificationService = Injector.Container.Resolve<INotificationService>();
-        _builder = new StdSchedulerFactory();
+        var properties = new NameValueCollection { {"quartz.threadPool.threadCount", "1"} };
+        _builder = new StdSchedulerFactory(properties);
         _scheduler = StdSchedulerFactory.GetDefaultScheduler().Result;
         _scheduler.Start();
         LoadScheduledTasks();
@@ -121,7 +123,7 @@ public class JobScheduler
 
     public static void RenovationTaskScheduler(RenovationDTO renovation)
     {
-        if (renovation.Status != Renovation.RenovationStatus.InProgress)
+        if (renovation.Status != Renovation.RenovationStatus.InProgress && renovation.Slot.End > DateTime.Now)
         {
             var startJob = JobBuilder.Create<StartRenovationTask>()
                 .WithIdentity("RenovationStart" + renovation.Id, "Renovations").Build();

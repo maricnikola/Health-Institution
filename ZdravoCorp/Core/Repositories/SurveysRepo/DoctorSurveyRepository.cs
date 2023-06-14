@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using ZdravoCorp.Core.Models.Notifications;
-using ZdravoCorp.Core.Models.Survays;
+using ZdravoCorp.Core.Models.Surveys;
 using ZdravoCorp.Core.Utilities;
 
-namespace ZdravoCorp.Core.Repositories.SurvaysRepo;
+namespace ZdravoCorp.Core.Repositories.SurveysRepo;
 
 public class DoctorSurveyRepository : ISerializable, IDoctorSurveyRepository
 {
-    private readonly string _fileName = @".\..\..\..\..\Data\doctorSurveys.json";
-    private List<DoctorSurvey>? _survays;
+    private readonly string _fileName = @".\..\..\..\Data\doctorSurveys.json";
+    private List<DoctorSurvey>? _surveys;
 
     public DoctorSurveyRepository()
     {
-        _survays = new List<DoctorSurvey>();
+        _surveys = new List<DoctorSurvey>();
         Serializer.Load(this);
     }
 
@@ -28,33 +28,33 @@ public class DoctorSurveyRepository : ISerializable, IDoctorSurveyRepository
 
     public IEnumerable<object>? GetList()
     {
-        return _survays;
+        return _surveys;
     }
 
     public void Import(JToken token)
     {
-        _survays = token.ToObject<List<DoctorSurvey>>();
+        _surveys = token.ToObject<List<DoctorSurvey>>();
     }
 
     public IEnumerable<DoctorSurvey> GetAll()
     {
-        return _survays;
+        return _surveys;
     }
 
-    public void Insert(DoctorSurvey survay)
+    public void Insert(DoctorSurvey survey)
     {
-        _survays.Add(survay);
+        _surveys.Add(survey);
         Serializer.Save(this);
     }
 
-    public void Delete(DoctorSurvey survay)
+    public void Delete(DoctorSurvey survey)
     {
-        _survays.Remove(survay);
+        _surveys.Remove(survey);
         Serializer.Save(this);
     }
 
     public DoctorSurvey GetById(int id)
     {
-        return _survays.FirstOrDefault(survay=> survay.Id == id);
+        return _surveys.FirstOrDefault(survey=> survey.Id == id);
     }
 }

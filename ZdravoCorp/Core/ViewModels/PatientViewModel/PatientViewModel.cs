@@ -27,7 +27,7 @@ public class PatientViewModel : ViewModelBase
     private readonly IMedicalRecordService _medicalRecordService;
     private readonly IPatientService _patientService;
     private readonly INotificationService _notificationService;
-    private readonly ISurveyService _survayService;
+    private readonly ISurveyService _surveyService;
 
     private readonly Patient _patient;
     private readonly IScheduleService _scheduleService;
@@ -41,7 +41,7 @@ public class PatientViewModel : ViewModelBase
         _patientService = Injector.Container.Resolve<IPatientService>();
         _roomService = Injector.Container.Resolve<IRoomService>();
         _notificationService = Injector.Container.Resolve<INotificationService>();
-        _survayService = Injector.Container.Resolve<ISurveyService>();
+        _surveyService = Injector.Container.Resolve<ISurveyService>();
 
         _patient = _patientService.GetByEmail(user.Email);
         LoadAppointmentsCommand = new DelegateCommand(o => LoadAppointments());
@@ -49,7 +49,7 @@ public class PatientViewModel : ViewModelBase
         LoadOldAppointmentsCommand = new DelegateCommand(o => LoadOldAppointments());
         LoadDoctorsCommand = new DelegateCommand(o => LoadDoctors());
         LoadNotificationsCommand = new DelegateCommand(o => LoadNotifications());
-        LoadHospitalSurvayCommand = new DelegateCommand(o => LoadHospitalSurvay());
+        LoadHospitalSurvayCommand = new DelegateCommand(o => LoadHospitalSurvey());
 
         _currentView = new AppointmentTableViewModel(_scheduleService, _doctorService, _patient,_roomService);
         JobScheduler.LoadUsersNotifications(user.Email);
@@ -99,9 +99,9 @@ public class PatientViewModel : ViewModelBase
         CurrentView = new AllNotificationsViewModel(_notificationService,_patientService,_patient.Email);
     }
 
-    private void LoadHospitalSurvay()
+    private void LoadHospitalSurvey()
     {
-        CurrentView = new CreateHospitalSurveyViewModel(_survayService, _patient.Email);
+        CurrentView = new CreateHospitalSurveyViewModel(_surveyService, _patient.Email);
     }
 
 

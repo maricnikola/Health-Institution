@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using Autofac;
 using ZdravoCorp.Core.Commands;
-using ZdravoCorp.Core.Models.Survays;
+using ZdravoCorp.Core.Models.Surveys;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.ServayServices;
@@ -17,7 +17,7 @@ namespace ZdravoCorp.Core.ViewModels.PatientViewModel;
 
 public class DoctorSurveyViewModel : ViewModelBase
 {
-    private ISurveyService _survayService;
+    private ISurveyService _surveyService;
     private IDoctorService _doctorService;
     private Doctor? _doctor;
     private string _patientEmail;
@@ -29,7 +29,7 @@ public class DoctorSurveyViewModel : ViewModelBase
     public ICommand SubmitSurveyCommand { get; set; }
     public DoctorSurveyViewModel(IDoctorService doctorService,string doctorEmail, string patientEmail)
     {
-        _survayService = Injector.Container.Resolve<ISurveyService>();
+        _surveyService = Injector.Container.Resolve<ISurveyService>();
         _doctorService = doctorService;
         _doctor = doctorService.GetByEmail(doctorEmail);
         _patientEmail = patientEmail;
@@ -37,7 +37,7 @@ public class DoctorSurveyViewModel : ViewModelBase
         FillInputFields();
 
         SubmitSurveyCommand =
-            new CreateDoctorSurveyCommand(this, _survayService, _doctorService, doctorEmail, _patientEmail);
+            new CreateDoctorSurveyCommand(this, _surveyService, _doctorService, doctorEmail, _patientEmail);
         //SubmitSurveyCommand = new DelegateCommand(o => SubmitSurveyComm());
     }
 
@@ -84,11 +84,11 @@ public class DoctorSurveyViewModel : ViewModelBase
 
     private void FillInputFields()
     {
-        var survay = _survayService.FindExistingDoctorSurvay(_doctor.Email,_patientEmail);
-        if (survay == null)
+        var survey = _surveyService.FindExistingDoctorSurvey(_doctor.Email,_patientEmail);
+        if (survey == null)
             FillInputFieldsDefault();
         else
-            FillInputFieldsWithSurvay(survay);
+            FillInputFieldsWithSurvey(survey);
     }
 
     private void FillInputFieldsDefault()
@@ -97,21 +97,21 @@ public class DoctorSurveyViewModel : ViewModelBase
         _yesChecked = true;
     }
 
-    private void FillInputFieldsWithSurvay(DoctorSurvey survay)
+    private void FillInputFieldsWithSurvey(DoctorSurvey survey)
     {
-        _selectedGrade = survay.Grade.ToString();
-        _yesChecked = survay.Recommendation;
+        _selectedGrade = survey.Grade.ToString();
+        _yesChecked = survey.Recommendation;
         _noChecked = !_yesChecked;
-        _comment = survay.Comment;
+        _comment = survey.Comment;
     }
 
     private void SubmitSurveyComm()
     {
         var survey = new DoctorSurveyDTO(IDGenerator.GetId(), _doctor.Email, _patientEmail,
             int.Parse(SelectedGrade), YesChecked, Comment);
-        _survayService.AddDoctorSuvay(survey);
-        MessageBox.Show("Survay created successfully", "Success", MessageBoxButton.OK);
-        var doctorsAvgGrade = _survayService.FindAverageGradeForDoctor(_doctor.Email);
+        _surveyService.AddDoctorSurvey(survey);
+        MessageBox.Show("Survey created successfully", "Success", MessageBoxButton.OK);
+        var doctorsAvgGrade = _surveyService.FindAverageGradeForDoctor(_doctor.Email);
         _doctorService.UpdateGrade(_doctor.Email,doctorsAvgGrade);
     }
 

@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Users;
+using ZdravoCorp.Core.Services.AnnualLeaveServices;
 using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.InventoryServices;
 using ZdravoCorp.Core.Services.MedicalRecordServices;
@@ -10,6 +11,7 @@ using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
 using ZdravoCorp.Core.Services.SpecialistsRefferalServices;
 using ZdravoCorp.Core.Utilities;
+using ZdravoCorp.View.DoctorView;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -24,6 +26,7 @@ public class DoctorViewModel : ViewModelBase
     private readonly IRoomService _roomService;
     private readonly IScheduleService _scheduleService;
     private readonly ISpecialistsRefferalService _specialistsRefferalService;
+    private readonly IAnnualLeaveService _annualLeaveService;
     private readonly User _user;
 
     public DoctorViewModel(User user)
@@ -36,6 +39,7 @@ public class DoctorViewModel : ViewModelBase
         _scheduleService = Injector.Container.Resolve<IScheduleService>();
         _specialistsRefferalService = Injector.Container.Resolve<ISpecialistsRefferalService>();
         _doctor = _doctorService.GetByEmail(user.Email);
+        _annualLeaveService = Injector.Container.Resolve<IAnnualLeaveService>();
         
         var appointments = _scheduleService.GetDoctorAppointments(_doctor.Email);
         _user = user;
@@ -47,12 +51,15 @@ public class DoctorViewModel : ViewModelBase
         _currentView = new AppointmentShowViewModel(_user, _scheduleService, _doctorService, _patientService,
             _medicalRecordService, _inventoryService, _roomService);
         LoadChatCommand = new DelegateCommand(o => LoadChat());
+        AddAnnualLeaveCommand = new DelegateCommand(o => AddAnnualLeave());
+        LoadHospitalizedPatients = new DelegateCommand(o => LoadHospitalize());
     }
 
     public ICommand LoadAppointmentCommand { get; private set; }
     public ICommand LoadPatientsCommand { get; private set; }
     public ICommand LoadChatCommand { get; private set; }
-
+    public ICommand AddAnnualLeaveCommand { get; private set; }
+    public ICommand LoadHospitalizedPatients { get; private set; }
 
     public object CurrentView
     {
@@ -79,5 +86,14 @@ public class DoctorViewModel : ViewModelBase
     public void LoadChat()
     {
         CurrentView = new ChatViewModel(_doctor.DiscordToken);
+    }
+
+    public void AddAnnualLeave()
+    {
+        CurrentView = new DoctorAnnualLeaveView() { DataContext =new  DoctorAnnualLeaveViewModel(_annualLeaveService,_scheduleService,_user.Email)};
+    }
+    public void LoadHospitalize()
+    {
+        CurrentView = new HospitalizedPatientsView() { DataContext = new HospitalizedPatientsViewModel() };
     }
 }

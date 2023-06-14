@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using ZdravoCorp.Core.Models.Users;
+using ZdravoCorp.Core.Repositories.AnnualLeavesRepo;
 using ZdravoCorp.Core.Repositories.EquipmentRepo;
 using ZdravoCorp.Core.Repositories.HospitalRefferalsRepo;
 using ZdravoCorp.Core.Repositories.InventoryRepo;
@@ -11,7 +12,7 @@ using ZdravoCorp.Core.Repositories.RenovationRepo;
 using ZdravoCorp.Core.Repositories.RoomRepo;
 using ZdravoCorp.Core.Repositories.ScheduleRepo;
 using ZdravoCorp.Core.Repositories.SpecialistsRefferalsRepo;
-using ZdravoCorp.Core.Repositories.SurvaysRepo;
+using ZdravoCorp.Core.Repositories.SurveysRepo;
 using ZdravoCorp.Core.Repositories.TransfersRepo;
 using ZdravoCorp.Core.Repositories.UsersRepo;
 
@@ -41,6 +42,8 @@ public class RepositoriesModule : Autofac.Module
         builder.RegisterType<NotificationRepository>().As<INotificationRepository>().SingleInstance();
         builder.RegisterType<DoctorSurveyRepository>().As<IDoctorSurveyRepository>().SingleInstance();
         builder.RegisterType<HospitalSurveyRepository>().As<IHospitalSurveyRepository>().SingleInstance();
+        builder.RegisterType<AnnualLeaveRepository>().As<IAnnualLeaveRepository>().SingleInstance();
+        
 
     }
 }

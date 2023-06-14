@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using ZdravoCorp.Core.Models.Survays;
+using ZdravoCorp.Core.Models.Surveys;
 using ZdravoCorp.Core.Utilities;
 
-namespace ZdravoCorp.Core.Repositories.SurvaysRepo;
+namespace ZdravoCorp.Core.Repositories.SurveysRepo;
 
 public class HospitalSurveyRepository : ISerializable, IHospitalSurveyRepository
 {
-    private readonly string _fileName = @".\..\..\..\..\Data\hospitalSurveys.json";
-    private List<HospitalSurvey>? _survays;
+    private readonly string _fileName = @".\..\..\..\Data\hospitalSurveys.json";
+    private List<HospitalSurvey>? _surveys;
 
     public HospitalSurveyRepository()
     {
-        _survays = new List<HospitalSurvey>();
+        _surveys = new List<HospitalSurvey>();
         Serializer.Load(this);
     }
     public string FileName()
@@ -26,28 +26,28 @@ public class HospitalSurveyRepository : ISerializable, IHospitalSurveyRepository
 
     public IEnumerable<object>? GetList()
     {
-        return _survays;
+        return _surveys;
     }
 
     public void Import(JToken token)
     {
-        _survays = token.ToObject<List<HospitalSurvey>>();
+        _surveys = token.ToObject<List<HospitalSurvey>>();
     }
 
     public IEnumerable<HospitalSurvey> GetAll()
     {
-        return _survays;
+        return _surveys;
     }
 
-    public void Insert(HospitalSurvey survay)
+    public void Insert(HospitalSurvey survey)
     {
-        _survays.Add(survay);
+        _surveys.Add(survey);
         Serializer.Save(this);
     }
 
-    public void Delete(HospitalSurvey survay)
+    public void Delete(HospitalSurvey survey)
     {
-        _survays.Remove(survay);
+        _surveys.Remove(survey);
         Serializer.Save(this);
     }
 

@@ -27,4 +27,10 @@ public class AppointmentViewModel : ViewModelBase
     public string Anamnesis { get; set; }
     public string PatientMail => _appointment.PatientEmail;
     public string Specialization => _appointment.Doctor.Specialization.ToString();
+
+    public override string ToString()
+    {
+        return $"{Date,-25} | {DoctorName,-25} | {PatientMail,-25}";
+        //return String.Format("{0,-10} | {1, -15} | {2, 10}", Date, DoctorName, PatientMail, Id);
+    }
 }

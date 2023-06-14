@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.HospitalRefferals;
 using ZdravoCorp.Core.Models.SpecialistsRefferals;
+using ZdravoCorp.Core.Models.Therapies;
 using ZdravoCorp.Core.Repositories.HospitalRefferalsRepo;
 using ZdravoCorp.Core.Utilities;
 
@@ -43,5 +44,36 @@ public class HospitalRefferalService : IHospitalRefferalService
     {
         return _hospitalRefferalRepository.GetAll().Any(refferal =>
                 patientEmail.Equals(refferal.PatientMail) && time.Overlap(refferal.Time));
+    }
+    public void AddNewTherapy(Therapy therapy,int id)
+    {
+        var hospitalRefferal = GetById(id);
+        foreach(Therapy therapInvalid in hospitalRefferal.InitialTherapy)
+        {
+            therapInvalid.Status = false;
+        }
+        hospitalRefferal.InitialTherapy.Add(therapy);
+        _hospitalRefferalRepository.SaveChanges();
+
+    }
+    public bool CheckNewEndDate(DateTime endDate,int id)
+    {
+        var hospitalRefferal = GetById(id);
+        var now = DateTime.Now;
+        if (now.Date > endDate.Date || hospitalRefferal.Time.Start.Date > endDate.Date) return false;
+        return true;
+    }
+    public bool UpdateEndDate(int id,DateTime endDate)
+    {
+        var hospitalRefferal = GetById(id);
+        if (!CheckNewEndDate(endDate, id)) return false;
+        hospitalRefferal.Time.End = endDate;
+        _hospitalRefferalRepository.SaveChanges();
+        return true;
+    }
+    public void UpdateControlAppointment(int id,bool status)
+    {
+        var hospitalRefferal = GetById(id);
+        _hospitalRefferalRepository.UpdateControlAppointment(hospitalRefferal,status);
     }
 }

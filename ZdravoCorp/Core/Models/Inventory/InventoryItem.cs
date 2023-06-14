@@ -41,7 +41,7 @@ public class InventoryItem
     [JsonIgnore] public Room? Room { get; set; }
     [JsonIgnore] public Equipment? Equipment { get; set; }
 
-    public int EquipmentId { get; }
+    public int EquipmentId { get; set; }
     public int RoomId { get; set; }
 
     public void UpdateRoom(Room room)
@@ -74,6 +74,8 @@ public class InventoryItem
         Equipment = inventoryItemDto.Equipment;
         Quantity = inventoryItemDto.Quantity;
         Room = inventoryItemDto.Room;
-        
+        EquipmentId = inventoryItemDto.Equipment.Id;
+        RoomId = inventoryItemDto.Room.Id;
+
     }
 }

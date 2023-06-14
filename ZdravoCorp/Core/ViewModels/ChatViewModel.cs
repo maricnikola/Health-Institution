@@ -61,7 +61,7 @@ public class ChatViewModel : ViewModelBase
         {
             try
             {
-                await Task.Delay(1000); 
+                await Task.Delay(1000);
                 await LoadPreviousMessagesAsync();
                 break;
             }

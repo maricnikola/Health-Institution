@@ -14,4 +14,6 @@ public interface IHospitalRefferalRepository
     public List<HospitalRefferal> GetAll();
     public void Delete(HospitalRefferal entity);
     public HospitalRefferal GetById(int id);
+    public void UpdateControlAppointment(HospitalRefferal entity,bool status);
+
 }

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using ZdravoCorp.Core.Models.Survays;
+using ZdravoCorp.Core.Models.Surveys;
 using ZdravoCorp.Core.Services.ServayServices;
 using ZdravoCorp.Core.ViewModels.PatientViewModel;
 
@@ -36,7 +36,7 @@ public class CreateHospitalSurveyCommad : ICommand
                 int.Parse(_createHospitalSurveyViewModel.HygieneGrade),
                 int.Parse(_createHospitalSurveyViewModel.OverallGrade), _createHospitalSurveyViewModel.YesChecked,
                 _createHospitalSurveyViewModel.Comment);
-        _surveyService.AddHospitalSurvay(survey);
+        _surveyService.AddHospitalSurvey(survey);
         MessageBox.Show("Survay added successfully", "Success", MessageBoxButton.OK);
     }
 

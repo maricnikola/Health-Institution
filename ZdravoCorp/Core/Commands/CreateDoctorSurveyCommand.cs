@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml.Linq;
-using ZdravoCorp.Core.Models.Survays;
+using ZdravoCorp.Core.Models.Surveys;
 using ZdravoCorp.Core.Models.Users;
 using ZdravoCorp.Core.Services.DoctorServices;
 using ZdravoCorp.Core.Services.ServayServices;
@@ -41,7 +41,7 @@ public class CreateDoctorSurveyCommand : ICommand
     {
         var survey = new DoctorSurveyDTO(IDGenerator.GetId(), _doctorEmail, _patientEmail,
             int.Parse(_doctorSurveyViewModel.SelectedGrade),_doctorSurveyViewModel.YesChecked, _doctorSurveyViewModel.Comment);
-        _surveyService.AddDoctorSuvay(survey);
+        _surveyService.AddDoctorSurvey(survey);
         MessageBox.Show("Survay created successfully", "Success", MessageBoxButton.OK);
         var doctorsAvgGrade = _surveyService.FindAverageGradeForDoctor(_doctorEmail);
         _doctorService.UpdateGrade(_doctorEmail, doctorsAvgGrade);

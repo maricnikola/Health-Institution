@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Label Content="Hospital Survay" HorizontalAlignment="Center" Margin="0,34,0,0" VerticalAlignment="Top" Foreground="#FFF8F3F3" FontSize="22"/>
+        <Label Content="Hospital Survey" HorizontalAlignment="Center" Margin="0,34,0,0" VerticalAlignment="Top" Foreground="#FFF8F3F3" FontSize="22"/>
         <Label Content="Hygiene grade (1 to 5) : " HorizontalAlignment="Left" Margin="131,132,0,0" VerticalAlignment="Top" Foreground="#FFF4F1F1" FontSize="14"/>
         <Label Content="Service grade (1 to 5) : " HorizontalAlignment="Left" Margin="131,85,0,0" VerticalAlignment="Top" Foreground="#FFF4F1F1" FontSize="14"/>
         <Label Content="Overall grade (1 to 5) : " HorizontalAlignment="Left" Margin="131,185,0,0" VerticalAlignment="Top" Foreground="#FFF4F1F1" FontSize="14"/>
