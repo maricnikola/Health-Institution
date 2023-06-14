@@ -35,7 +35,7 @@ public class ComplexRenovationsView
             Console.WriteLine(" 1. View Renovations\n 2. New Renovation\n 3. Exit");
             Console.Write("Enter option number: ");
             option = Console.ReadLine();
-        } while (option != "1" && option != "2" && option != "3");
+        
 
         switch (option)
         {
@@ -48,8 +48,10 @@ public class ComplexRenovationsView
             case "3":
                 Environment.Exit(0);
                 break;
+            default:
+                continue;
         }
-
+        } while (true);
     }
     public void ViewRenovations()
     {
@@ -58,9 +60,7 @@ public class ComplexRenovationsView
        {
            Console.WriteLine(new RenovationViewModel(renovation));
        }
-       Console.WriteLine("Press enter to go back!");
-       while (Console.ReadKey().Key != ConsoleKey.Enter){}
-       Run();
+       GoBack();
     }
     public void NewRenovation()
     {
@@ -68,7 +68,7 @@ public class ComplexRenovationsView
         {
             var room = GetRoomForRenovation(_roomService.GetAll());
             if (room == null)
-                return;
+                Run();
             var startDate = Time.GetStartDateTime("renovation");
             var endDate = Time.GetEndDateTime(startDate, "renovation");
             var timeslot = new TimeSlot(startDate, endDate);
@@ -93,10 +93,18 @@ public class ComplexRenovationsView
                 case 3:
                     while (true)
                     {
-                        join = GetRoomForRenovation(_roomService.GetAllExcept(room.Id));
-                        if (!ValidateRoomInTimeSlot(room, timeslot))
+                        if (!ValidateRoomWithJoin(room, timeslot.Start))
                         {
-                            WriteError("Room has scheduled appointments or renovations in selected timeslot!");
+                            WriteError("Room has scheduled appointments or renovations after selected timeslot and can't be joined!");
+                            GoBack();
+                            return;
+                        }
+                        join = GetRoomForRenovation(_roomService.GetAllExcept(room.Id));
+                        if (join == null)
+                            return;
+                        if (!ValidateRoomInTimeSlot(join, timeslot))
+                        {
+                            WriteError("Join room has scheduled appointments or renovations in selected timeslot!");
                             GoBack();
                             continue;
                         }
@@ -109,7 +117,9 @@ public class ComplexRenovationsView
             Console.WriteLine("Renovation scheduled successfully!");
             GoBack();
             Run();
+            return;
         }
+        
     }
 
     private void BeginRenovation(RenovationDTO renovationDto)
@@ -123,10 +133,21 @@ public class ComplexRenovationsView
         if (_scheduleService.CheckRoomAvailability(room.Id, timeSlot) &&
             !_renovationService.IsRenovationScheduled(room.Id, timeSlot))
         {
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
+    }
+
+    private bool ValidateRoomWithJoin(Room room, DateTime date)
+    {
+        if (_scheduleService.HasAppointmentsAfter(room.Id, date) ||
+            _renovationService.HasRenovationsAfter(room.Id, date))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     private int GetRenovationType()

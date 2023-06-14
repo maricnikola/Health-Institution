@@ -170,6 +170,12 @@ public class ScheduleRenovationWindowViewModel : ViewModelBase
                 }
                 if (IsJoinChecked)
                 {
+                    if (_scheduleService.HasAppointmentsAfter(SelectedRoom, _renovationTimeSlot.Start) ||
+                        _renovationService.HasRenovationsAfter(SelectedRoom, _renovationTimeSlot.Start))
+                    {
+                        IsRoomAvailable = false;
+                        return false;
+                    }
                     if (JoinRoomId != 0 && !_roomService.GetById(JoinRoomId).IsUnderRenovation&&_scheduleService.CheckRoomAvailability(JoinRoomId, _renovationTimeSlot) && !_renovationService.IsRenovationScheduled(JoinRoomId, _renovationTimeSlot))
                     {
                         IsJoinRoomAvailable = true;

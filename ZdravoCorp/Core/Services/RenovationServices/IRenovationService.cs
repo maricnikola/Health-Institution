@@ -16,6 +16,7 @@ public interface IRenovationService
 
     public void Delete(int id);
     public bool IsRenovationScheduled(int roomId, TimeSlot slot);
+    public bool HasRenovationsAfter(int roomId, DateTime start);
     
     public event EventHandler DataChanged;
 }
