@@ -28,8 +28,7 @@ public class DoctorAnnualLeaveViewModel : ViewModelBase
 		_annualLeaveService = annualLeaveService;
 		ShowAnnualLeaves();
 		SubmitAnnualLeaveCommand = new CreateAnnualLeaveCommand(this, _annualLeaveService, _scheduleService,_doctorMail);
-		//CreateAnnualLeaveCommand = new DelegateCommand(o => CreateAnnualLeaveRequest());
-		//CancelCommand = new DelegateCommand(o => CancelAnnualLeave());
+
 		SubmitCancelCommand = new CancelAnnualLeaveCommand(this, _annualLeaveService);
 
     }
@@ -101,56 +100,4 @@ public class DoctorAnnualLeaveViewModel : ViewModelBase
 		EndDate = DateTime.Now + TimeSpan.FromHours(1);
 		ReasonInput = "";
     }
-    //public void CreateAnnualLeaveRequest()
-    //{
-    //	try
-    //	{
-    //		string reason = ReasonInput;
-    //           DateTime startDate = StartDate;
-    //           DateTime endDate = EndDate;
-    //           TimeSlot time = new TimeSlot(startDate, endDate);
-    //           AnnualLeaveDTO annualLeave = new AnnualLeaveDTO(reason, time, _doctorMail);
-    //		if (ShowMessageBox(annualLeave, !_scheduleService.IsDoctorAvailable(annualLeave.Time, _doctorMail))) return;
-    //           AnnualLeaveDTO addedAnnualLeave = _annualLeaveService.AddAnnualLeave(annualLeave);
-
-    //		if (ShowMessageBox(addedAnnualLeave,addedAnnualLeave==null)) return;
-
-    //           AnnualLeave annualLeaveModel = new AnnualLeave(annualLeave.Reason, annualLeave.Time, annualLeave.Id, annualLeave.DoctorMail, annualLeave.RequestStatus);
-
-    //           AnnualLeaves.Add(new AnnualLeaveRequestViewModel(annualLeaveModel));
-    //       }
-    //	catch (Exception)
-    //	{
-    //           MessageBox.Show("Invalid data for Annual leave request!", "Error", MessageBoxButton.OK);
-    //           return;
-    //	}
-
-    //   }
-
- //   public bool ShowMessageBox(AnnualLeaveDTO addedAnnualLeave,bool condition)
-	//{
- //       if (condition)
- //       {
- //           MessageBox.Show("Invalid data for Annual leave request!", "Error", MessageBoxButton.OK);
- //           return true;
- //       }
-
-	//	return false;
-	//}
-	//public void CancelAnnualLeave()
-	//{
-	//	if(SelectedAnnualLeave == null)
-	//	{
- //           MessageBox.Show("None selected!", "Error", MessageBoxButton.OK);
- //           return;
- //       }
-	//	bool deny = _annualLeaveService.DenyByDoctor(SelectedAnnualLeave.Id);
-	//	if (!deny)
-	//	{
- //           MessageBox.Show("you can't deny!", "Error", MessageBoxButton.OK);
- //           return;
- //       }
-	//	AnnualLeave annualLeave = _annualLeaveService.GetById(SelectedAnnualLeave.Id);
-	//	AnnualLeaves.Remove(SelectedAnnualLeave);
-	//}
 }
