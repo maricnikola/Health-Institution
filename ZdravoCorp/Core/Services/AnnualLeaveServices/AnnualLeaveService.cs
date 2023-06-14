@@ -45,6 +45,7 @@ public class AnnualLeaveService: IAnnualLeaveService
     public void Approve(int id)
     {
         _annualLeaveRepository.UpdateStatus(id, AnnualLeave.Status.Approved);
+        DataChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void Deny(int id)
@@ -76,4 +77,7 @@ public class AnnualLeaveService: IAnnualLeaveService
         _annualLeaveRepository.UpdateStatus(id, AnnualLeave.Status.Denied);
         return true;
     }
+    
+
+    public event EventHandler? DataChanged;
 }
