@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Autofac;
+﻿using Autofac;
 using ZdravoCorp.Core.Models.Renovation;
 using ZdravoCorp.Core.Models.Rooms;
 using ZdravoCorp.Core.Services.RenovationServices;
@@ -10,16 +9,16 @@ using ZdravoCorp.Core.Utilities.CronJobs;
 using ZdravoCorp.Core.ViewModels.DirectorViewModel;
 using ZdravoCorpCLI.Utilities;
 
-namespace ZdravoCorpCLI;
+namespace ZdravoCorpCLI.View;
 
-public class ComplexRenovations
+public class ComplexRenovationsView
 {
     private IRoomService _roomService;
     private IRenovationService _renovationService;
     private IScheduleService _scheduleService;
 
 
-    public ComplexRenovations()
+    public ComplexRenovationsView()
     {
         _roomService = Injector.Container.Resolve<IRoomService>();
         _renovationService = Injector.Container.Resolve<IRenovationService>();
@@ -47,7 +46,8 @@ public class ComplexRenovations
                 NewRenovation();
                 break;
             case "3":
-                return;
+                Environment.Exit(0);
+                break;
         }
 
     }
@@ -75,6 +75,7 @@ public class ComplexRenovations
             if (!ValidateRoomInTimeSlot(room, timeslot))
             {
                 WriteError("Room has scheduled appointments or renovations in selected timeslot!");
+                GoBack();
                 continue;
             }
 
@@ -96,18 +97,17 @@ public class ComplexRenovations
                         if (!ValidateRoomInTimeSlot(room, timeslot))
                         {
                             WriteError("Room has scheduled appointments or renovations in selected timeslot!");
+                            GoBack();
                             continue;
                         }
                         break;
                     }
                     break;
             }
-
             BeginRenovation(new RenovationDTO(IDGenerator.GetId(), room, timeslot,
                 Renovation.RenovationStatus.Pending, split, join));
             Console.WriteLine("Renovation scheduled successfully!");
-            Console.WriteLine("Press enter to go back!");
-            while (Console.ReadKey().Key != ConsoleKey.Enter){}
+            GoBack();
             Run();
         }
     }
@@ -174,7 +174,7 @@ public class ComplexRenovations
                 Console.WriteLine(new RoomViewModel(room));
             }
 
-            Console.Write("Enter room ID: ");
+            Console.Write("Enter room ID or 'x' to exit: ");
             option = Console.ReadLine();
             if (option?.ToLower() == "x")
                 return null;
@@ -191,6 +191,11 @@ public class ComplexRenovations
         }
     }
 
+    private void GoBack()
+    {
+        Console.WriteLine("Press enter to go back!");
+        while (Console.ReadKey().Key != ConsoleKey.Enter){}
+    }
 
     private void WriteError(string error)
     {

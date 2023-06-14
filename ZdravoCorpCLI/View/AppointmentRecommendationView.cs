@@ -14,9 +14,9 @@ using ZdravoCorp.Core.Utilities;
 using ZdravoCorp.Core.ViewModels;
 using ZdravoCorpCLI.Utilities;
 
-namespace ZdravoCorpCLI;
+namespace ZdravoCorpCLI.View;
 
-public class AppointmentRecommendation
+public class AppointmentRecommendationView
 {
     private IScheduleService? _scheduleService;
     private IDoctorService? _doctorService;
@@ -30,7 +30,7 @@ public class AppointmentRecommendation
     private string _priority;
     private string _patientEmail;
 
-    public AppointmentRecommendation()
+    public AppointmentRecommendationView()
     {
         _scheduleService = Injector.Container.Resolve<IScheduleService>();
         _doctorService = Injector.Container.Resolve<IDoctorService>();
@@ -71,7 +71,7 @@ public class AppointmentRecommendation
                 Time.WriteError("Invalid email! Try again");
                 continue;
             }
-            _patientEmail=email;
+            _patientEmail = email;
             break;
         }
 
@@ -121,11 +121,11 @@ public class AppointmentRecommendation
                     Time.WriteError("Invalid time. Please enter a valid time in the format HH:mm.");
                     continue;
                 }
-                if (i==0)
+                if (i == 0)
                     _startTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, time.Hours,
                         time.Minutes, 0);
                 else
-                { 
+                {
                     _endTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, time.Hours,
                         time.Minutes, 0);
                     if (_endTime < _startTime)
@@ -150,7 +150,7 @@ public class AppointmentRecommendation
             var priorityInput = Console.ReadLine();
             if (int.TryParse(priorityInput, out priorityIndex) && (priorityIndex == 1 || priorityIndex == 2))
             {
-                _priority = (priorityIndex == 1) ? "Doctor" : "Time";
+                _priority = priorityIndex == 1 ? "Doctor" : "Time";
             }
             else
             {
@@ -166,7 +166,7 @@ public class AppointmentRecommendation
             var wantedTimeSlot = new TimeSlot(_startTime, _endTime);
             var lastDate = new DateTime(_lastDate.Year, _lastDate.Month, _lastDate.Day, 23, 59, 0);
             Console.WriteLine("{0,-25} | {1, -25} | {2, -25}", "DATE", "DOCTOR", "PATIENT");
-            Console.WriteLine(new string('-',105));
+            Console.WriteLine(new string('-', 105));
             if (_priority == "Doctor")
             {
                 var fittingAppointments =
