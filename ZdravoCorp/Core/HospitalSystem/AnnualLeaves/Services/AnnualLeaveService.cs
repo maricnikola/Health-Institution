@@ -26,11 +26,10 @@ public class AnnualLeaveService: IAnnualLeaveService
         return _annualLeaveRepository.GetById(id);
     }
 
-    public AnnualLeaveDTO AddAnnualLeave(AnnualLeaveDTO annualLeave)
+    public void AddAnnualLeave(AnnualLeaveDTO annualLeave)
     {
-        if (!CheckAnnualLeaveData(annualLeave.Reason, annualLeave.Time)) return null;
         _annualLeaveRepository.Insert(new AnnualLeave(annualLeave.Reason, annualLeave.Time, annualLeave.Id, annualLeave.DoctorMail, annualLeave.RequestStatus));
-        return annualLeave;
+        
     }
 
     public void Delete(int id)
@@ -67,12 +66,11 @@ public class AnnualLeaveService: IAnnualLeaveService
             annualLeave.RequestStatus.Equals(AnnualLeave.Status.Approved)) return false;
         return true;
     }
-    public bool DenyByDoctor(int id)
+    public void DenyByDoctor(int id)
     {
         AnnualLeave annualLeave = GetById(id);
-        if (!CheckAnnualLeaveForDeny(annualLeave)) return false;
-        _annualLeaveRepository.UpdateStatus(id, AnnualLeave.Status.Denied);
-        return true;
+        
+        _annualLeaveRepository.Delete(annualLeave);
     }
     
 
