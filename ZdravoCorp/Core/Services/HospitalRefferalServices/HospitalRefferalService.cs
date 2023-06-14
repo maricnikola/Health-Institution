@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.HospitalRefferals;
 using ZdravoCorp.Core.Models.SpecialistsRefferals;
+using ZdravoCorp.Core.Models.Therapies;
 using ZdravoCorp.Core.Repositories.HospitalRefferalsRepo;
 using ZdravoCorp.Core.Utilities;
 
@@ -43,5 +44,16 @@ public class HospitalRefferalService : IHospitalRefferalService
     {
         return _hospitalRefferalRepository.GetAll().Any(refferal =>
                 patientEmail.Equals(refferal.PatientMail) && time.Overlap(refferal.Time));
+    }
+    public void AddNewTherapy(Therapy therapy,int id)
+    {
+        var hospitalRefferal = GetById(id);
+        foreach(Therapy therapInvalid in hospitalRefferal.InitialTherapy)
+        {
+            therapInvalid.Status = false;
+        }
+        hospitalRefferal.InitialTherapy.Add(therapy);
+        _hospitalRefferalRepository.SaveChanges();
+
     }
 }

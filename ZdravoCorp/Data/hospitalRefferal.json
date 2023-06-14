@@ -1,13 +1,22 @@
 [
   {
-    "Id": 575,
-    "PatientMail": "vukasin.buca@gmail.com",
+    "Id": 750,
+    "PatientMail": "cvetko.novak@gmail.com",
     "Time": {
-      "Start": "2023-05-28T23:00:00",
-      "End": "2023-06-02T23:00:00"
+      "Start": "2023-06-14T13:45:00",
+      "End": "2023-06-24T13:45:00"
     },
-    "InitialTherapy": "asdafafaasf",
-    "AdditionalTests": "aaaaaa",
+    "InitialTherapy": [
+      {
+        "Description": "asdfasdfadsf",
+        "Status": false
+      },
+      {
+        "Description": "asdfasdfaa",
+        "Status": true
+      }
+    ],
+    "AdditionalTests": "asdfa",
     "RoomId": 150
   }
 ]

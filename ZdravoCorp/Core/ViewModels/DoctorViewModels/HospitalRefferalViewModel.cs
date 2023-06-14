@@ -13,7 +13,7 @@ public class HospitalRefferalViewModel :ViewModelBase
     public string PatientMail => _hospitalRefferal.PatientMail;
     public string StartTime => _hospitalRefferal.Time.Start.ToString();
     public string EndTime => _hospitalRefferal.Time.End.ToString();
-
+    public int Id => _hospitalRefferal.Id;
     public HospitalRefferalViewModel(HospitalRefferal hospitalRefferal)
     {
         _hospitalRefferal = hospitalRefferal;

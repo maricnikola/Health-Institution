@@ -1,11 +1,14 @@
 ﻿using Autofac;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
 using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.Appointments;
 using ZdravoCorp.Core.Models.HospitalRefferals;
+using ZdravoCorp.Core.Models.Therapies;
 using ZdravoCorp.Core.Services.HospitalRefferalServices;
 using ZdravoCorp.Core.Services.RoomServices;
 using ZdravoCorp.Core.Services.ScheduleServices;
@@ -109,13 +112,16 @@ public class AddHospitalRefferalViewModel: ViewModelBase
                 return;
             }
             TimeSlot time = new TimeSlot(_appointment.Time.End, _appointment.Time.End.AddDays(duration));
-            string initialTherapy = InitialTherapy;
-            if(initialTherapy.Length < 5)
+            string  therapyDescription = InitialTherapy;
+            if(therapyDescription.Length < 5)
             {
                 MessageBox.Show("Invalid data for hospital refferal", "Error", MessageBoxButton.OK);
                 return;
             }
             string additionTests = AdditionTests;
+            List<Therapy> initialTherapy = new List<Therapy>();
+            Therapy therapy = new Therapy(therapyDescription, true);
+            initialTherapy.Add(therapy);
             _hospitalRefferalService.AddRefferal(new HospitalRefferal(IDGenerator.GetId(),_appointment.PatientEmail,time, initialTherapy, additionTests,_roomId));
             CloseWindow(false);
             _performAppointmentViewModel.ShowDEquipmentSpentDialog();
