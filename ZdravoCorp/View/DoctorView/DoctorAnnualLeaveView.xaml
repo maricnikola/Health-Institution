@@ -6,7 +6,66 @@
              xmlns:local="clr-namespace:ZdravoCorp.View.DoctorView"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+    <Grid Margin="20 0 0 0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Request for annual leave" FontSize="20" Foreground="WhiteSmoke" HorizontalAlignment="Center" />
+        <Grid Grid.Column="0" Margin="0 50 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="0" Grid.Column="0" Margin="0 20 0 0">
+                <Label Content="Start date: " Foreground="WhiteSmoke"/>
+            </Grid>
+            <Grid Grid.Row="0" Grid.Column="1" Margin="50 20 0 0 ">
+                <DatePicker Width="200" SelectedDate="{Binding StartDate , UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="0" Margin="0 20 0 0" >
+                <Label Content="End date: " Foreground="WhiteSmoke"/>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="1" Margin="50 20 0 0 ">
+                <DatePicker Width="200" SelectedDate="{Binding EndDate , UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+            <Grid Grid.Row="2" Grid.Column="0" Margin="0 30 0 0">
+                <Label Content="Reason: " Foreground="WhiteSmoke"/>
+            </Grid>
+            <Grid Grid.Row="2" Grid.Column="1" Margin="50 20 0 0">
+                <TextBox Height="50" Text="{Binding ReasonInput, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+            <Grid Grid.Row="3" Grid.Column="1" Margin="0 50 0 0">
+                <Button Content="Create" Command="{Binding CreateAnnualLeaveCommand}" Padding="7" Width="100" Margin="0 0 30 0"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="1"  Margin="20 50 50 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="300"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <DataGrid SelectionMode="Single" Grid.Row="0"
+                      ItemsSource="{Binding AnnualLeaves, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedAnnualLeave, UpdateSourceTrigger=PropertyChanged}"
+                       IsReadOnly="True" AutoGenerateColumns="False" Width="500" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Reason" Width="130" x:Name="name" Binding="{Binding Reason}" />
+                    <DataGridTextColumn Header="Status" Width="50"  Binding="{Binding Status}" />
+                    <DataGridTextColumn Header="Start date" Width="120" Binding="{Binding StartTime}" />
+                    <DataGridTextColumn Header="End date"  Width="120" Binding="{Binding EndTime}" />
+
+                </DataGrid.Columns>
+            </DataGrid>
+            <Grid Grid.Row="1" Margin="0 30 120 0">
+                <Button Command="{Binding CancelCommand}" Padding="4" Content="Cancel" Width="100"/>
+            </Grid>
+        </Grid>
+       
     </Grid>
 </UserControl>

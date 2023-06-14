@@ -35,6 +35,7 @@ public class DirectorViewModel : ViewModelBase
     private readonly IDoctorService _doctorService;
     private readonly IAnnualLeaveService _annualLeaveService;
     private readonly IScheduleService _scheduleService;
+
     
 
     public DirectorViewModel()
@@ -49,6 +50,7 @@ public class DirectorViewModel : ViewModelBase
         _doctorService = Injector.Container.Resolve<IDoctorService>();
         _annualLeaveService = Injector.Container.Resolve<IAnnualLeaveService>();
         _scheduleService = Injector.Container.Resolve<IScheduleService>();
+
         ViewEquipmentCommand = new DelegateCommand(o => EquipmentView());
         MoveEquipmentCommand = new DelegateCommand(o => MoveEquipmentView());
         ViewDynamicEquipmentCommand = new DelegateCommand(o => DynamicEquipmentView());
