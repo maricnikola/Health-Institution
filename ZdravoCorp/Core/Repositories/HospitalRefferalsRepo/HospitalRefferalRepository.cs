@@ -62,4 +62,9 @@ public class HospitalRefferalRepository: ISerializable, IHospitalRefferalReposit
     {
         return _hospitalRefferals.FirstOrDefault(refferal => refferal.Id == id);
     }
+    public void UpdateControlAppointment(HospitalRefferal entity,bool status)
+    {
+        entity.ControlAppointment = status;
+        Serializer.Save(this);
+    }
 }

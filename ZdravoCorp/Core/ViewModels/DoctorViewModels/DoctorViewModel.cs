@@ -52,12 +52,14 @@ public class DoctorViewModel : ViewModelBase
             _medicalRecordService, _inventoryService, _roomService);
         LoadChatCommand = new DelegateCommand(o => LoadChat());
         AddAnnualLeaveCommand = new DelegateCommand(o => AddAnnualLeave());
+        LoadHospitalizedPatients = new DelegateCommand(o => LoadHospitalize());
     }
 
     public ICommand LoadAppointmentCommand { get; private set; }
     public ICommand LoadPatientsCommand { get; private set; }
     public ICommand LoadChatCommand { get; private set; }
     public ICommand AddAnnualLeaveCommand { get; private set; }
+    public ICommand LoadHospitalizedPatients { get; private set; }
 
     public object CurrentView
     {
@@ -89,5 +91,9 @@ public class DoctorViewModel : ViewModelBase
     public void AddAnnualLeave()
     {
         CurrentView = new DoctorAnnualLeaveView() { DataContext =new  DoctorAnnualLeaveViewModel(_annualLeaveService,_scheduleService,_user.Email)};
+    }
+    public void LoadHospitalize()
+    {
+        CurrentView = new HospitalizedPatientsView() { DataContext = new HospitalizedPatientsViewModel() };
     }
 }
