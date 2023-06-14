@@ -18,15 +18,15 @@
                   SelectionMode="Single"
                   IsReadOnly="True" AutoGenerateColumns="False" Margin="10" BorderThickness="0"
                    GridLinesVisibility="None"
-                  Height="*">
+                  >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Patient" Width="100" Binding="{Binding Patient}" />
                 <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="2" HorizontalAlignment="Center" Margin="10" Orientation="Horizontal">
-            <Button Padding="5" Margin="20,0" Content="Cancel" Command="{Binding CancelRequest}" />
-            <Button Padding="5" Margin="20,0" Content="Confirm" Command="{Binding ApproveRequest}" />
+            <Button Padding="5" Margin="20,0" Content="Cancel" Command="{Binding Cancel}" />
+            <Button Padding="5" Margin="20,0" Content="Confirm" Command="{Binding Confirm}" />
         </StackPanel>
     </Grid>
 </Window>
