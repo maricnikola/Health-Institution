@@ -69,7 +69,8 @@ public static class Time
             
         } while (true);
     }
-    private static void WriteError(string error)
+
+    public static void WriteError(string error)
     {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine(error);
