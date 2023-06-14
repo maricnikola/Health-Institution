@@ -27,7 +27,7 @@ public class Program
             Console.WriteLine(" 1. Complex renovations\n 2. Recommend appointment\n 3. Exit");
             Console.Write("Enter option number: ");
             option = Console.ReadLine();
-        } while (option != "1" && option != "2" && option != "3");
+        } while (option != "1" && option != "2" && option != "3" && option!= "4");
 
         switch (option)
         {
@@ -43,6 +43,11 @@ public class Program
                 break;
             case "3":
                 return;
+            case "4":
+                Console.Clear();
+                var CRUDOptions = new CRUDAppointmentsOperationsView();
+                CRUDOptions.Run();
+                break;
         }
     }
 }
