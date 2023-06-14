@@ -6,22 +6,25 @@
         xmlns:local="clr-namespace:ZdravoCorp.View.DirectorView"
         mc:Ignorable="d"
         Background="#29262e"
-        Title="ApproveAnnualRequestView" Height="Auto" SizeToContent="Height" Width="400">
+        Title="ApproveAnnualRequestView" Height="250"  Width="400">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding AppointmentsToCancel, UpdateSourceTrigger=PropertyChanged}"
+        <Label Content="Appointments to cancel: " Foreground="WhiteSmoke" Margin="10,0"></Label>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding AppointmentsToCancel, UpdateSourceTrigger=PropertyChanged}"
                   SelectionMode="Single"
                   IsReadOnly="True" AutoGenerateColumns="False" Margin="10" BorderThickness="0"
-                  HeadersVisibility="None" GridLinesVisibility="None">
+                   GridLinesVisibility="None"
+                  Height="*">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Patient" Width="100" Binding="{Binding Patient}" />
                 <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="10" Orientation="Horizontal">
+        <StackPanel Grid.Row="2" HorizontalAlignment="Center" Margin="10" Orientation="Horizontal">
             <Button Padding="5" Margin="20,0" Content="Cancel" Command="{Binding CancelRequest}" />
             <Button Padding="5" Margin="20,0" Content="Confirm" Command="{Binding ApproveRequest}" />
         </StackPanel>

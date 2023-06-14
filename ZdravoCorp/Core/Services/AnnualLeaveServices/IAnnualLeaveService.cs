@@ -20,4 +20,5 @@ public interface IAnnualLeaveService
     public bool CheckAnnualLeaveData(string reason, TimeSlot time);
     public bool CheckAnnualLeaveForDeny(AnnualLeave annualLeave);
     public bool DenyByDoctor(int id);
+    public event EventHandler DataChanged;
 }

@@ -23,6 +23,7 @@ public interface IScheduleService
     List<Operation> GetPatientOperations(string patientMail);
     List<Appointment> GetPatientsOldAppointments(string patientMail);
     List<Appointment> GetDoctorAppointments(string doctorsMail);
+    List<Appointment> GetDoctorAppointmentsInTimeSlot(string doctorsMail, TimeSlot slot);
     List<Operation> GetDoctorOperations(string doctorsMail);
     bool IsDoctorAvailable(TimeSlot timeslot, string doctorsMail);
     bool IsPatientAvailable(TimeSlot timeslot, string patientMail);
