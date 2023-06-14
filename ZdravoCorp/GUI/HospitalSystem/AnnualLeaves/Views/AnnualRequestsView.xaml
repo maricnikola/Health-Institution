@@ -4,7 +4,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:ZdravoCorp.GUI.HospitalSystem.Analytics.ViewModels"
-             d:DataContext="{d:DesignInstance Type=viewModels:AnnualRequestsViewModel}"
+             xmlns:viewModels1="clr-namespace:ZdravoCorp.GUI.HospitalSystem.AnnualLeaves.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewModels1:AnnualRequestsViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="700"
              Background="#29262e">

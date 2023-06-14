@@ -10,6 +10,7 @@
         xmlns:director1="clr-namespace:ZdravoCorp.GUI.HospitalSystem.Analytics.ViewModels"
         xmlns:views2="clr-namespace:ZdravoCorp.GUI.HospitalSystem.AnnualLeaves.Views"
         xmlns:views3="clr-namespace:ZdravoCorp.GUI.HospitalSystem.Analytics.Views"
+        xmlns:director11="clr-namespace:ZdravoCorp.GUI.HospitalSystem.AnnualLeaves.ViewModels"
         mc:Ignorable="d"
         Title="DirectorWindow" Height="600" Width="1020"
         Background="#29262e">
@@ -29,7 +30,7 @@
         <DataTemplate DataType="{x:Type viewModels:RenovationsViewModel}">
             <views1:RenovationView />
         </DataTemplate>        
-        <DataTemplate DataType="{x:Type director1:AnnualRequestsViewModel}">
+        <DataTemplate DataType="{x:Type director11:AnnualRequestsViewModel}">
             <views2:AnnualRequestsView />
         </DataTemplate>        
         <DataTemplate DataType="{x:Type director1:HospitalAnalyticsViewModel}">

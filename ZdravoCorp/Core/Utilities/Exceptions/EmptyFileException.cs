@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace ZdravoCorp.Core.Exceptions;
+namespace ZdravoCorp.Core.Utilities.Exceptions;
 
 public class EmptyFileException : Exception
 {

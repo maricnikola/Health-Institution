@@ -14,6 +14,7 @@ public partial class App : Application
         //Disable shutdown when the dialog closes
         Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
         var idg = new IDGenerator();
+        var roomIdg = new RoomIDGenerator();
         Injector.Configure();
         var scheduler = new JobScheduler();
 

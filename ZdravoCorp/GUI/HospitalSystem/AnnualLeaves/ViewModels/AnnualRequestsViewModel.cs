@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Input;
 using ZdravoCorp.Core.HospitalSystem.AnnualLeaves.Services;
 using ZdravoCorp.Core.HospitalSystem.Notifications.Services;
 using ZdravoCorp.Core.Scheduling.Services;
-using ZdravoCorp.GUI.HospitalSystem.AnnualLeaves.ViewModels;
+using ZdravoCorp.GUI.HospitalSystem.Analytics.ViewModels;
+using ZdravoCorp.GUI.HospitalSystem.AnnualLeaves.Commands;
 using ZdravoCorp.GUI.HospitalSystem.AnnualLeaves.Views;
 using ZdravoCorp.GUI.Main;
 
-namespace ZdravoCorp.GUI.HospitalSystem.Analytics.ViewModels;
+namespace ZdravoCorp.GUI.HospitalSystem.AnnualLeaves.ViewModels;
 
 public class AnnualRequestsViewModel : ViewModelBase
 {
@@ -17,8 +20,10 @@ public class AnnualRequestsViewModel : ViewModelBase
     private INotificationService _notificationService;
     private ObservableCollection<AnnualLeaveRequestViewModel> _requests;
     
+
     public AnnualLeaveRequestViewModel? SelectedRequest { get; set; }
-    
+  
+
     public ICommand ApproveAnnualRequestCommand { get; set; }
     public ICommand DenyAnnualRequestCommand { get; set; }
     public IEnumerable<AnnualLeaveRequestViewModel> Requests
@@ -60,7 +65,7 @@ public class AnnualRequestsViewModel : ViewModelBase
         vm.OnRequestClose += (s, e) => window.Close();
         window.Show();
     }
-
+    
     private void DenyRequest()
     {
         _annualLeaveService.Deny(SelectedRequest.Id);
