@@ -133,10 +133,10 @@ public class ComplexRenovationsView
         if (_scheduleService.CheckRoomAvailability(room.Id, timeSlot) &&
             !_renovationService.IsRenovationScheduled(room.Id, timeSlot))
         {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     private bool ValidateRoomWithJoin(Room room, DateTime date)
