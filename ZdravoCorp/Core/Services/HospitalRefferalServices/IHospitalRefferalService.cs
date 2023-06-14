@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,5 +19,11 @@ public interface IHospitalRefferalService
     public void Delete(int id);
     public bool IsPatientOnHospitalTreatment(string patientEmail,TimeSlot time);
     public void AddNewTherapy(Therapy therapy, int id);
+    public bool CheckNewEndDate(DateTime endDate, int id);
+
+    public bool UpdateEndDate(int id, DateTime endDate);
+    public void UpdateControlAppointment(int id,bool status);
+
+
 
 }

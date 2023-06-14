@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZdravoCorp.View.DoctorView"
         mc:Ignorable="d"
-        Title="ChangeHospitalTreatmentView" Height="450" Width="800"
+        Title="Change hospital treatment" Height="450" Width="800"
           Background="#29262e">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -25,11 +25,20 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Row="0" Grid.Column="0" Margin="0 20 0 0">
-                <Label Content="Change end of hospital treatment: " Foreground="WhiteSmoke"/>
+            <Grid Grid.Row="0" Grid.Column="0" Margin="0 0 0 0">
+                <Label VerticalAlignment="Center" Content="Change end of hospital treatment: " Foreground="WhiteSmoke"/>
             </Grid>
             <Grid Grid.Row="0" Grid.Column="1" Margin="20 20 0 0 ">
-                <DatePicker Width="200" SelectedDate="{Binding NewEndDate , UpdateSourceTrigger=PropertyChanged}"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="0 20 0 20">
+                    <DatePicker Width="200" SelectedDate="{Binding NewEndDate , UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+                <Grid Grid.Row="1" Margin="0 20 0 0">
+                    <Button Margin="0 0 50 0" Command="{Binding ChangeEndDateCommand}" Width="100" Padding="7"  Content="Change"/>
+                </Grid>
             </Grid>
             <Grid Grid.Row="2" Grid.Column="0" Margin="0 70 0 0">
                 <Label Content="New therapy " Foreground="WhiteSmoke"/>
@@ -55,9 +64,7 @@
                   
                 </DataGrid.Columns>
             </DataGrid>
-            <Grid Grid.Row="1" Margin="0 30 120 0">
-                <Button Command="{Binding CancelCommand}" Padding="4" Content="Cancel" Width="100"/>
-            </Grid>
+            
         </Grid>
     </Grid>
 </Window>

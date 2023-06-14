@@ -3,8 +3,8 @@
     "Id": 750,
     "PatientMail": "cvetko.novak@gmail.com",
     "Time": {
-      "Start": "2023-06-14T13:45:00",
-      "End": "2023-06-24T13:45:00"
+      "Start": "2023-06-13T13:45:00",
+      "End": "2023-06-14T00:00:00"
     },
     "InitialTherapy": [
       {
@@ -13,10 +13,15 @@
       },
       {
         "Description": "asdfasdfaa",
+        "Status": false
+      },
+      {
+        "Description": "asdfad",
         "Status": true
       }
     ],
     "AdditionalTests": "asdfa",
-    "RoomId": 150
+    "RoomId": 150,
+    "ControlAppointment": false
   }
 ]

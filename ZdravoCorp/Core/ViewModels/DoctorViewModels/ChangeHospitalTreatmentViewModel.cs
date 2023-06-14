@@ -10,6 +10,7 @@ using ZdravoCorp.Core.Commands;
 using ZdravoCorp.Core.Models.HospitalRefferals;
 using ZdravoCorp.Core.Models.Therapies;
 using ZdravoCorp.Core.Services.HospitalRefferalServices;
+using ZdravoCorp.View.DoctorView;
 
 namespace ZdravoCorp.Core.ViewModels.DoctorViewModels;
 
@@ -19,9 +20,13 @@ public class ChangeHospitalTreatmentViewModel: ViewModelBase
     private IHospitalRefferalService _hospitalRefferalService;
 	private HospitalRefferal _hospitalRefferal;
 	public ObservableCollection<TherapyViewModel> Therapies { get; }
+	private HospitalizedPatientsViewModel _hospitalizedPatientsViewModel;
     public ICommand AddNewTherapyCommand { get; private set; }
-    public ChangeHospitalTreatmentViewModel(IHospitalRefferalService hospitalRefferalService,int id)
+	public ICommand ChangeEndDateCommand { get; private set; }
+    public ChangeHospitalTreatmentViewModel(IHospitalRefferalService hospitalRefferalService,int id,
+		HospitalizedPatientsViewModel hospitalizedPatientsViewModel)
     {
+		_hospitalizedPatientsViewModel = hospitalizedPatientsViewModel;
 		Therapies = new ObservableCollection<TherapyViewModel>();
         _hospitalRefferalService = hospitalRefferalService;
 		_hospitalRefferal = _hospitalRefferalService.GetById(id);
@@ -29,7 +34,9 @@ public class ChangeHospitalTreatmentViewModel: ViewModelBase
 		{
 			Therapies.Add(new TherapyViewModel(therapy));
 		}
+		_newEndDate = _hospitalRefferal.Time.End;
 		AddNewTherapyCommand = new DelegateCommand(o => AddNewTherapy());
+		ChangeEndDateCommand = new DelegateCommand(o => ChangeEndDate()); 
 
     }
 
@@ -64,7 +71,12 @@ public class ChangeHospitalTreatmentViewModel: ViewModelBase
 		try
 		{
 			var therapyDescription = NewTherapy;
-			Therapy therapy = new Therapy(therapyDescription, true);
+			if (therapyDescription.Length < 4)
+			{
+                MessageBox.Show("Invalid data for therapy", "Error", MessageBoxButton.OK);
+				return;
+            }
+            Therapy therapy = new Therapy(therapyDescription, true);
 			_hospitalRefferalService.AddNewTherapy(therapy, _hospitalRefferal.Id);
 			Therapies.Clear();
             foreach (Therapy therapyUpdate in _hospitalRefferal.InitialTherapy)
@@ -77,4 +89,29 @@ public class ChangeHospitalTreatmentViewModel: ViewModelBase
             MessageBox.Show("Invalid data for therapy", "Error", MessageBoxButton.OK);
         }
     }
+    private void CloseWindow()
+    {
+        var activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+        activeWindow?.Close();
+    }
+    public void ChangeEndDate()
+	{
+		var EndDate = NewEndDate;
+		var now = DateTime.Now;
+		if (!_hospitalRefferalService.UpdateEndDate(_hospitalRefferal.Id, EndDate))
+		{
+            MessageBox.Show("Invalid date for changes", "Error", MessageBoxButton.OK);
+			return;
+        }
+		_hospitalizedPatientsViewModel.ShowHospitalizedPatients();
+        CloseWindow();
+		if(EndDate.Date == now.Date)
+			OpenControlAppointment();
+		
+    }
+	public void OpenControlAppointment()
+	{
+		var dialog = new ControlAppointmentView() { DataContext = new ControlAppointmentViewModel(_hospitalRefferalService, _hospitalRefferal,_hospitalizedPatientsViewModel) };
+		dialog.Show();
+	}
 }

@@ -14,6 +14,7 @@ public class HospitalRefferalViewModel :ViewModelBase
     public string StartTime => _hospitalRefferal.Time.Start.ToString();
     public string EndTime => _hospitalRefferal.Time.End.ToString();
     public int Id => _hospitalRefferal.Id;
+    public string ControlAppointment => _hospitalRefferal.ControlAppointment ? "Zakazana" : "Nije zakazana"; 
     public HospitalRefferalViewModel(HospitalRefferal hospitalRefferal)
     {
         _hospitalRefferal = hospitalRefferal;

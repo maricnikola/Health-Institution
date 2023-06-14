@@ -15,9 +15,10 @@
                       SelectionMode="Single"
                       IsReadOnly="True" AutoGenerateColumns="False" Width="600" Height="325">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Patient" Width="200" x:Name="name" Binding="{Binding PatientMail}" />
-                        <DataGridTextColumn Header="Start Date" Width="200" Binding="{Binding StartTime}" />
-                        <DataGridTextColumn Header="End Date" Width="200" Binding="{Binding EndTime}" />
+                        <DataGridTextColumn Header="Patient" Width="160" x:Name="name" Binding="{Binding PatientMail}" />
+                        <DataGridTextColumn Header="Start Date" Width="160" Binding="{Binding StartTime}" />
+                        <DataGridTextColumn Header="End Date" Width="160" Binding="{Binding EndTime}" />
+                        <DataGridTextColumn Header="Control in 10 days" Width="200" Binding="{Binding ControlAppointment}" />
 
                     </DataGrid.Columns>
                 </DataGrid>

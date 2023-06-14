@@ -17,6 +17,7 @@ public class HospitalRefferal
     public List<Therapy> InitialTherapy { get; set; }
     public string? AdditionalTests { get; set; }
     public int RoomId { get; set; }
+    public bool ControlAppointment { get; set; }
 
     [JsonConstructor]
     public HospitalRefferal(int id, string patientMail, TimeSlot time, List<Therapy> initialTherapy,string additionalTests, int roomId)
@@ -26,6 +27,7 @@ public class HospitalRefferal
         Time = time;
         InitialTherapy = initialTherapy;
         AdditionalTests = additionalTests;
-        RoomId = roomId;    
+        RoomId = roomId;
+        ControlAppointment = false;
     }
 }

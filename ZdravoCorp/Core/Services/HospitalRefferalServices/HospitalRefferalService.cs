@@ -56,4 +56,24 @@ public class HospitalRefferalService : IHospitalRefferalService
         _hospitalRefferalRepository.SaveChanges();
 
     }
+    public bool CheckNewEndDate(DateTime endDate,int id)
+    {
+        var hospitalRefferal = GetById(id);
+        var now = DateTime.Now;
+        if (now.Date > endDate.Date || hospitalRefferal.Time.Start.Date > endDate.Date) return false;
+        return true;
+    }
+    public bool UpdateEndDate(int id,DateTime endDate)
+    {
+        var hospitalRefferal = GetById(id);
+        if (!CheckNewEndDate(endDate, id)) return false;
+        hospitalRefferal.Time.End = endDate;
+        _hospitalRefferalRepository.SaveChanges();
+        return true;
+    }
+    public void UpdateControlAppointment(int id,bool status)
+    {
+        var hospitalRefferal = GetById(id);
+        _hospitalRefferalRepository.UpdateControlAppointment(hospitalRefferal,status);
+    }
 }

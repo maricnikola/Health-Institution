@@ -26,18 +26,23 @@ public class HospitalizedPatientsViewModel: ViewModelBase
     {
         _hospitalRefferalService = Injector.Container.Resolve<IHospitalRefferalService>();
         HospitalRefferals = new ObservableCollection<HospitalRefferalViewModel>();
-        foreach(HospitalRefferal hospitalRefferal in _hospitalRefferalService.GetAll())
-        {
-            HospitalRefferals.Add(new HospitalRefferalViewModel(hospitalRefferal));
-        }
+        ShowHospitalizedPatients();
         ChangeTherapyCommand = new DelegateCommand(o => OpenChangeDialog());
     }
-
+    public void ShowHospitalizedPatients()
+    {
+        HospitalRefferals.Clear();
+        foreach (HospitalRefferal hospitalRefferal in _hospitalRefferalService.GetAll())
+        {
+            if(hospitalRefferal.Time.End.Date > DateTime.Now.Date)
+                HospitalRefferals.Add(new HospitalRefferalViewModel(hospitalRefferal));
+        }
+    }
     public void OpenChangeDialog()
     {
         if(SelectedHospitalRefferal != null)
         {
-            var dialog = new ChangeHospitalTreatmentView() { DataContext = new ChangeHospitalTreatmentViewModel(_hospitalRefferalService,SelectedHospitalRefferal.Id) };
+            var dialog = new ChangeHospitalTreatmentView() { DataContext = new ChangeHospitalTreatmentViewModel(_hospitalRefferalService,SelectedHospitalRefferal.Id,this) };
             dialog.Show();
         }
         else
