@@ -22,6 +22,5 @@ public abstract class CommandBase : ICommand
         CanExecuteChanged?.Invoke(this, new EventArgs());
     }
 
-    
 }
 
