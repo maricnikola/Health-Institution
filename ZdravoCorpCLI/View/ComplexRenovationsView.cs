@@ -68,7 +68,7 @@ public class ComplexRenovationsView
         {
             var room = GetRoomForRenovation(_roomService.GetAll());
             if (room == null)
-                Run();
+                return;
             var startDate = Time.GetStartDateTime("renovation");
             var endDate = Time.GetEndDateTime(startDate, "renovation");
             var timeslot = new TimeSlot(startDate, endDate);

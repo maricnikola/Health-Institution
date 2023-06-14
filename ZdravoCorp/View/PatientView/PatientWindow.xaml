@@ -53,9 +53,7 @@
                          Style="{DynamicResource ToggleTheme}" Command="{Binding LoadNotificationsCommand}" />
             <RadioButton Content="Hospital survay" FontSize="13" Height="50" Foreground="WhiteSmoke"
                          Style="{DynamicResource ToggleTheme}" Command="{Binding LoadHospitalSurvayCommand}" />
-            <RadioButton Content="Chat" FontSize="13" Height="50" Foreground="WhiteSmoke"
-                         Style="{DynamicResource ToggleTheme}" Command="{Binding LoadChatCommand}" />
-
+            
         </StackPanel>
         <ContentControl Grid.RowSpan="2" Background="#29262e" Content="{Binding Path=CurrentView}" Grid.Row="0"
                         Grid.Column="1" Margin="10" />
