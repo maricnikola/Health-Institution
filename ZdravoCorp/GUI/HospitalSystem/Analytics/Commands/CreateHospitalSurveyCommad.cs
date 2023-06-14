@@ -4,10 +4,11 @@ using System.Windows.Input;
 using ZdravoCorp.Core.HospitalSystem.Analytics.Models;
 using ZdravoCorp.Core.HospitalSystem.Analytics.Services;
 using ZdravoCorp.GUI.HospitalSystem.Analytics.ViewModels;
+using ZdravoCorp.GUI.Main;
 
 namespace ZdravoCorp.GUI.HospitalSystem.Analytics.Commands;
 
-public class CreateHospitalSurveyCommad : ICommand
+public class CreateHospitalSurveyCommad : CommandBase
 {
     private CreateHospitalSurveyViewModel _createHospitalSurveyViewModel;
     private ISurveyService _surveyService;
@@ -19,12 +20,12 @@ public class CreateHospitalSurveyCommad : ICommand
         _patientEmail = patientEmail;
         _surveyService = service;
     }
-    public bool CanExecute(object? parameter)
+    public override bool CanExecute(object? parameter)
     {
         return true;
     }
 
-    public void Execute(object? parameter)
+    public override void Execute(object? parameter)
     {
         var survey =
             new HospitalSurveyDTO(_patientEmail, int.Parse(_createHospitalSurveyViewModel.ServiceGrade),
@@ -32,7 +33,7 @@ public class CreateHospitalSurveyCommad : ICommand
                 int.Parse(_createHospitalSurveyViewModel.OverallGrade), _createHospitalSurveyViewModel.YesChecked,
                 _createHospitalSurveyViewModel.Comment);
         _surveyService.AddHospitalSurvey(survey);
-        MessageBox.Show("Survay added successfully", "Success", MessageBoxButton.OK);
+
     }
 
     public event EventHandler? CanExecuteChanged;
