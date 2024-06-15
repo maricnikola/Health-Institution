@@ -1,0 +1,59 @@
+[
+  {
+    "Id": -1441091811,
+    "Room": {
+      "Id": 150,
+      "Type": 3,
+      "IsUnderRenovation": false
+    },
+    "Slot": {
+      "Start": "2023-05-26T00:00:00",
+      "End": "2023-05-26T00:14:00"
+    },
+    "Split": {
+      "Id": 470,
+      "Type": 3,
+      "IsUnderRenovation": false
+    },
+    "Join": null,
+    "Status": 2
+  },
+  {
+    "Id": -1333986826,
+    "Room": {
+      "Id": 150,
+      "Type": 3,
+      "IsUnderRenovation": false
+    },
+    "Slot": {
+      "Start": "2023-05-26T00:32:00",
+      "End": "2023-05-26T00:35:00"
+    },
+    "Split": null,
+    "Join": {
+      "Id": 114,
+      "Type": 2,
+      "IsUnderRenovation": false
+    },
+    "Status": 2
+  },
+  {
+    "Id": -1597335381,
+    "Room": {
+      "Id": 888,
+      "Type": 4,
+      "IsUnderRenovation": false
+    },
+    "Slot": {
+      "Start": "2023-06-14T13:00:00",
+      "End": "2023-06-14T13:15:00"
+    },
+    "Split": {
+      "Id": 224,
+      "Type": 4,
+      "IsUnderRenovation": false
+    },
+    "Join": null,
+    "Status": 2
+  }
+]

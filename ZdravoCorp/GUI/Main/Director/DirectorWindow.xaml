@@ -1,0 +1,80 @@
+﻿<Window x:Class="ZdravoCorp.GUI.Main.Director.DirectorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:director="clr-namespace:ZdravoCorp.GUI.HospitalAssets.Equipment.ViewModels"
+        xmlns:views="clr-namespace:ZdravoCorp.GUI.HospitalAssets.Equipment.Views"
+        xmlns:viewModels="clr-namespace:ZdravoCorp.GUI.HospitalAssets.Rooms.ViewModels"
+        xmlns:views1="clr-namespace:ZdravoCorp.GUI.HospitalAssets.Rooms.Views"
+        xmlns:director1="clr-namespace:ZdravoCorp.GUI.HospitalSystem.Analytics.ViewModels"
+        xmlns:views2="clr-namespace:ZdravoCorp.GUI.HospitalSystem.AnnualLeaves.Views"
+        xmlns:views3="clr-namespace:ZdravoCorp.GUI.HospitalSystem.Analytics.Views"
+        xmlns:director11="clr-namespace:ZdravoCorp.GUI.HospitalSystem.AnnualLeaves.ViewModels"
+        mc:Ignorable="d"
+        Title="DirectorWindow" Height="600" Width="1020"
+        Background="#29262e">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type director:EquipmentPaneViewModel}">
+            <views:EquipmentView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type director:DynamicEquipmentPaneViewModel}">
+            <views:DynamicOrderView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type director:MoveEquipmentViewModel}">
+            <views:MoveEquipmentView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type director:MoveDynamicEquipmentViewModel}">
+            <views:DynamicEquipmentMoveView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:RenovationsViewModel}">
+            <views1:RenovationView />
+        </DataTemplate>        
+        <DataTemplate DataType="{x:Type director11:AnnualRequestsViewModel}">
+            <views2:AnnualRequestsView />
+        </DataTemplate>        
+        <DataTemplate DataType="{x:Type director1:HospitalAnalyticsViewModel}">
+            <views3:HospitalAnalyticsView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type director1:DoctorAnalyticsViewModel}">
+            <views3:DoctorAnalyticsView />
+        </DataTemplate>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Director" Foreground="White" FontSize="24" VerticalAlignment="Center"
+                   HorizontalAlignment="Left" Margin="20, 0, 0, 0" />
+        <StackPanel Grid.Column="0" Grid.Row="1">
+            <RadioButton Content="View Equipment" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding ViewEquipmentCommand}" />
+            <RadioButton Content="Order Equipment" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding ViewDynamicEquipmentCommand}" />
+            <RadioButton Content="Move Equipment" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding MoveEquipmentCommand}" />
+            <RadioButton Content="Move Dynamic Equipment" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding MoveDynamicEquipmentCommand}" />
+            <RadioButton Content="Renovations" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding RenovationCommand}" />
+            <RadioButton Content="Annual Leave" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding AnnualRequestsCommand}" />
+            <RadioButton Content="Hospital Analytics" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding HospitalAnalyticsCommand}" />            
+            <RadioButton Content="Doctor Analytics" Height="50" Foreground="WhiteSmoke"
+                         Style="{DynamicResource ToggleTheme}" Command="{Binding DoctorAnalyticsCommand}" />            
+            
+
+        </StackPanel>
+        <ContentControl Grid.RowSpan="2" Background="#29262e" Content="{Binding Path=CurrentView}" Grid.Row="0"
+                        Grid.Column="1" Margin="10" />
+    </Grid>
+
+
+</Window>
